@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Organizations</title>
+</head>
+
+<body>
+
+<h2>Organizations List</h2>
+
+
+<table border="1">
+
+    <tr>
+        <th>Name</th>
+        <th>Domain</th>
+        <th>Email</th>
+        <th>Plan</th>
+        <th>Status</th>
+        <th>Logo</th>
+        <th>Action</th>
+    </tr>
+
+
+    {% for organization in organizations %}
+
+    <tr>
+
+        <td>
+            {{ organization.name }}
+        </td>
+
+        <td>
+            {{ organization.domain }}
+        </td>
+
+        <td>
+            {{ organization.contact_email }}
+        </td>
+
+        <td>
+            {{ organization.plan }}
+        </td>
+
+        <td>
+            {{ organization.status }}
+        </td>
+
+        <td>
+
+            {% if organization.logo %}
+                <img 
+                    src="{{ organization.logo.url }}"
+                    width="80"
+                >
+            {% else %}
+                No Logo
+            {% endif %}
+
+        </td>
+
+        <td>
+    <a href="{% url 'organization_detail' organization.id %}">
+        View
+    </a>
+</td>
+
+    </tr>
+
+    
+
+
+    {% empty %}
+
+    <tr>
+
+        <td colspan="6">
+            No organizations found.
+        </td>
+
+    </tr>
+
+    {% endfor %}
+
+
+</table>
+
+
+</body>
+
+</html>

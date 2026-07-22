@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Update Organization</title>
+</head>
+
+<body>
+
+
+<h2>
+    Update {{ organization.name }}
+</h2>
+
+
+<form method="post" enctype="multipart/form-data">
+
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">
+        Update
+    </button>
+
+</form>
+
+
+</body>
+
+</html>

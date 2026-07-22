@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Delete Organization</title>
+</head>
+
+
+<body>
+
+
+<h2>
+    Delete Organization
+</h2>
+
+
+<p>
+    Are you sure you want to delete:
+</p>
+
+
+<h3>
+    {{ organization.name }}
+</h3>
+
+
+<form method="post">
+
+    {% csrf_token %}
+
+    <button type="submit">
+        Confirm Delete
+    </button>
+
+
+</form>
+
+
+<a href="{% url 'organization_detail' organization.id %}">
+    Cancel
+</a>
+
+
+</body>
+
+</html>
