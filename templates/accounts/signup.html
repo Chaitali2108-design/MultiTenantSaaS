@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Organization Signup</title>
+</head>
+
+<body>
+
+<h2>
+    Create Organization Account
+</h2>
+
+
+<form method="post" enctype="multipart/form-data">
+
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">
+        Register
+    </button>
+
+</form>
+
+
+</body>
+
+</html>

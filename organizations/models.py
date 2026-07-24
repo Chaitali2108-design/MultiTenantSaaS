@@ -1,5 +1,7 @@
 from django.db import models
 
+from organizations.utils import PLAN_LIMITS
+
 
 class Organization(models.Model):
     """
@@ -44,6 +46,19 @@ class Organization(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+
+        from .utils import PLAN_LIMITS
+
+        limits = PLAN_LIMITS.get(self.plan)
+
+        if limits:
+            self.max_users = limits["max_users"]
+            self.max_projects = limits["max_projects"]
+            self.storage_limit_gb = limits["storage_limit_gb"]
+
+        super().save(*args, **kwargs)
 
     class Meta:
         ordering = ["name"]

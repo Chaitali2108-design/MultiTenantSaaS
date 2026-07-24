@@ -12,6 +12,11 @@ urlpatterns = [
         "organizations/",
         include("organizations.urls"),
     ),
+
+    path(
+        "accounts/",
+        include("accounts.urls"),
+),
 ]
 
 

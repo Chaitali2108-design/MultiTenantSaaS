@@ -7,6 +7,7 @@ from .models import Organization
 from django.shortcuts import get_object_or_404
 
 from .utils import apply_plan_limits
+from django.contrib.auth.decorators import login_required
 
 
 def register_organization(request):
@@ -45,7 +46,7 @@ def register_organization(request):
 
 
 
-
+@login_required
 def organization_list(request):
 
     organizations = Organization.objects.all()
@@ -63,7 +64,7 @@ def organization_list(request):
 
 
 
-
+@login_required
 def organization_detail(request, id):
 
     organization = get_object_or_404(
@@ -81,7 +82,7 @@ def organization_detail(request, id):
         context,
     )
 
-
+@login_required
 def organization_update(request, id):
 
     organization = get_object_or_404(
@@ -134,7 +135,7 @@ def organization_update(request, id):
         context,
     )
 
-
+@login_required
 def organization_delete(request, id):
 
     organization = get_object_or_404(
@@ -167,6 +168,7 @@ def organization_delete(request, id):
         context,
     )
 
+@login_required
 def organization_toggle_status(request, id):
 
     organization = get_object_or_404(
