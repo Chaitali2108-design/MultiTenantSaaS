@@ -1,0 +1,13 @@
+<h2>Create Project</h2>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <input type="text" name="name" placeholder="Project Name" required>
+    <br><br>
+
+    <textarea name="description" placeholder="Description"></textarea>
+    <br><br>
+
+    <button type="submit">Create Project</button>
+</form>

@@ -1,0 +1,13 @@
+<h1>📋 Tasks</h1>
+
+<a href="/projects/tasks/create/">➕ Create Task</a>
+
+<hr>
+
+{% for task in tasks %}
+    <p>
+        <b>{{ task.title }}</b> - {{ task.status }}
+    </p>
+{% empty %}
+    <p>No tasks found</p>
+{% endfor %}

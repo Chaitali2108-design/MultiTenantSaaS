@@ -1,0 +1,13 @@
+<h1>📁 Projects</h1>
+
+<a href="/projects/create/">➕ Create Project</a>
+
+<hr>
+
+{% for project in projects %}
+    <p>
+        <b>{{ project.name }}</b>
+    </p>
+{% empty %}
+    <p>No projects found</p>
+{% endfor %}
