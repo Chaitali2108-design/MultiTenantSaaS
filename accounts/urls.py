@@ -12,6 +12,7 @@ from .views import (
     role_delete,
     user_list,
     assign_user_role,
+    update_profile,
 )
 
 
@@ -123,6 +124,12 @@ path(
     "users/<int:pk>/assign-role/",
     assign_user_role,
     name="assign_user_role",
+),
+
+path(
+    "profile/edit/",
+    update_profile,
+    name="update_profile",
 ),
 
 

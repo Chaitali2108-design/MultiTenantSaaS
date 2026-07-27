@@ -120,3 +120,15 @@ class UserRoleForm(forms.ModelForm):
             self.fields["role"].queryset = Role.objects.filter(
                 organization=organization
             )
+
+class UserProfileForm(forms.ModelForm):
+
+    class Meta:
+
+        model = User
+
+        fields = [
+            "first_name",
+            "last_name",
+            "email",
+        ]

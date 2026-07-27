@@ -14,6 +14,7 @@ from .forms import UserRoleForm
 from .models import User
 from django.shortcuts import get_object_or_404
 from .permissions import require_permission
+from .forms import UserProfileForm
 
 
 
@@ -332,5 +333,42 @@ def assign_user_role(request, pk):
         {
             "form": form,
             "user": user,
+        },
+    )
+
+@login_required
+def update_profile(request):
+
+    if request.method == "POST":
+
+        form = UserProfileForm(
+            request.POST,
+            instance=request.user,
+        )
+
+        if form.is_valid():
+
+            form.save()
+
+            messages.success(
+                request,
+                "Profile updated successfully."
+            )
+
+            return redirect(
+                "profile"
+            )
+
+    else:
+
+        form = UserProfileForm(
+            instance=request.user,
+        )
+
+    return render(
+        request,
+        "accounts/profile_update.html",
+        {
+            "form": form,
         },
     )
