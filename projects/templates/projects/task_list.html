@@ -1,13 +1,9 @@
-<h1>📋 Tasks</h1>
+<h1>Tasks</h1>
 
-<a href="/projects/tasks/create/">➕ Create Task</a>
-
-<hr>
+<a href="/projects/tasks/create/">Create Task</a>
 
 {% for task in tasks %}
-    <p>
-        <b>{{ task.title }}</b> - {{ task.status }}
-    </p>
+    <p>{{ task.title }}</p>
 {% empty %}
-    <p>No tasks found</p>
+    <p>No tasks</p>
 {% endfor %}
