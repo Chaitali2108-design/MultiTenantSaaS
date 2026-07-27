@@ -6,6 +6,12 @@ from .views import (
     login_view,
     profile,
     logout_view,
+    role_list,
+    role_create,
+    role_update,
+    role_delete,
+    user_list,
+    assign_user_role,
 )
 
 
@@ -83,6 +89,40 @@ path(
         template_name="accounts/password_change_done.html"
     ),
     name="password_change_done",
+),
+
+path(
+    "roles/",
+    role_list,
+    name="role_list",
+),
+path(
+    "roles/create/",
+    role_create,
+    name="role_create",
+),
+path(
+    "roles/<int:pk>/edit/",
+     role_update,
+    name="role_update",
+),
+
+path(
+    "roles/<int:pk>/delete/",
+    role_delete,
+    name="role_delete",
+),
+
+path(
+    "users/",
+    user_list,
+    name="user_list",
+),
+
+path(
+    "users/<int:pk>/assign-role/",
+    assign_user_role,
+    name="assign_user_role",
 ),
 
 

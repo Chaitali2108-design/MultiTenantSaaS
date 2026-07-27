@@ -2,8 +2,9 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.db import transaction
 
-from .models import User
+from .models import Role, User
 from organizations.models import Organization
+
 
 
 class OrganizationOwnerSignupForm(UserCreationForm):
@@ -63,9 +64,59 @@ class OrganizationOwnerSignupForm(UserCreationForm):
         user = super().save(commit=False)
 
         user.organization = organization
-        user.role = "OWNER"
+        owner_role = Role.objects.get(
+            organization=organization,
+            name="Owner"
+        )
+        user.role = owner_role
 
         if commit:
             user.save()
 
         return user
+
+
+
+class RoleForm(forms.ModelForm):
+    class Meta:
+        model = Role
+        fields = [
+            "name",
+            "description",
+        ]
+
+        widgets = {
+            "name": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Role Name",
+                }
+            ),
+            "description": forms.Textarea(
+                attrs={
+                    "class": "form-control",
+                    "rows": 4,
+                    "placeholder": "Description",
+                }
+            ),
+        }
+
+
+
+
+class UserRoleForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+
+        fields = [
+            "role",
+        ]
+
+    def __init__(self, *args, organization=None, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if organization:
+            self.fields["role"].queryset = Role.objects.filter(
+                organization=organization
+            )

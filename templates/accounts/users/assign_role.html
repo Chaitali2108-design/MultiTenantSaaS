@@ -1,0 +1,23 @@
+<h2>Assign Role</h2>
+
+<p>
+    <strong>User:</strong> {{ user.username }}
+</p>
+
+<form method="POST">
+
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">
+        Save
+    </button>
+
+</form>
+
+<br>
+
+<a href="{% url 'user_list' %}">
+    Back to Users
+</a>
