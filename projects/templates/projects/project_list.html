@@ -1,0 +1,9 @@
+<h1>Projects</h1>
+
+<a href="/projects/create/">Create Project</a>
+
+{% for project in projects %}
+    <p>{{ project.name }}</p>
+{% empty %}
+    <p>No projects</p>
+{% endfor %}

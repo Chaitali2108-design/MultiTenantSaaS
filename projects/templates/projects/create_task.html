@@ -1,0 +1,19 @@
+<h1>Create Task</h1>
+
+{% if error %}
+<p style="color:red">{{ error }}</p>
+{% endif %}
+
+<form method="POST">
+    {% csrf_token %}
+    <input type="text" name="title" placeholder="Task Title"><br><br>
+
+    <select name="project">
+        {% for project in projects %}
+            <option value="{{ project.id }}">{{ project.name }}</option>
+        {% endfor %}
+    </select>
+
+    <br><br>
+    <button type="submit">Create Task</button>
+</form>
