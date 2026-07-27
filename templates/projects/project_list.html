@@ -5,8 +5,52 @@ Projects
 {% endblock %}
 
 {% block content %}
+
 <div class="container mt-4">
+
     <h2>Project List</h2>
-    <p>All projects will be displayed here.</p>
+
+    {% if projects %}
+
+        <table border="1">
+
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Created By</th>
+                <th>Organization</th>
+            </tr>
+
+            {% for project in projects %}
+
+            <tr>
+                <td>
+                    {{ project.name }}
+                </td>
+
+                <td>
+                    {{ project.description }}
+                </td>
+
+                <td>
+                    {{ project.created_by.username }}
+                </td>
+
+                <td>
+                    {{ project.organization.name }}
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    {% else %}
+
+        <p>No projects available.</p>
+
+    {% endif %}
+
 </div>
+
 {% endblock %}

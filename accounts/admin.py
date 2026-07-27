@@ -1,12 +1,12 @@
 from django.contrib import admin
-from .models import User
-from .models import Role
-from .models import PermissionGroup, Permission
+from django.contrib.auth.admin import UserAdmin
 
-class CustomUserAdmin(admin.ModelAdmin):
-    list_display = ('username', 'email', 'organization', 'is_staff')
-    list_filter = ('organization', 'is_staff')
-    search_fields = ('username', 'email')
+from .models import (
+    User,
+    Role,
+    PermissionGroup,
+    Permission,
+)
 
 
 @admin.register(User)
