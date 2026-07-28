@@ -12,11 +12,15 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
+        migrations.AddField(
             model_name='user',
             name='role',
-            field=models.CharField(blank=True, max_length=20, null=True),
+            field=models.CharField(
+            max_length=20,
+            blank=True,
+            null=True,
         ),
+    ),
         migrations.CreateModel(
             name='Role',
             fields=[
