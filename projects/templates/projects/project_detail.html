@@ -1,0 +1,262 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<h1>{{ project.name }}</h1>
+
+
+<a href="/projects/">
+    ← Back to Projects
+</a>
+
+
+<br><br>
+
+
+<p>
+    <b>Description:</b>
+    {{ project.description }}
+</p>
+
+
+<p>
+    <b>Organization:</b>
+    {{ project.organization }}
+</p>
+
+
+<p>
+    <b>Created By:</b>
+    {{ project.created_by }}
+</p>
+
+
+
+<hr>
+
+
+<h2>
+    Project Progress
+</h2>
+
+
+<h3>
+    {{ project.progress }}%
+</h3>
+
+
+
+<div style="
+    background:#ddd;
+    width:400px;
+    height:25px;
+    border-radius:10px;
+">
+
+
+    <div style="
+        width:{{ project.progress }}%;
+        height:25px;
+        border-radius:10px;
+
+        {% if project.progress < 40 %}
+            background:red;
+        {% elif project.progress < 80 %}
+            background:orange;
+        {% else %}
+            background:green;
+        {% endif %}
+
+        text-align:center;
+        color:white;
+    ">
+
+        {{ project.progress }}%
+
+    </div>
+
+
+</div>
+
+
+
+<hr>
+
+
+
+
+<h2>Create Task</h2>
+
+
+<form method="POST">
+
+
+    {% csrf_token %}
+
+
+    <input 
+        type="text" 
+        name="title" 
+        placeholder="Enter task title"
+        required
+    >
+
+
+    <button type="submit">
+
+        Create Task
+
+    </button>
+
+
+</form>
+
+
+
+<hr>
+
+
+
+<h2>Tasks</h2>
+
+
+
+<table border="1" cellpadding="10" cellspacing="0">
+
+
+<tr>
+
+    <th>Title</th>
+
+    <th>Status</th>
+
+    <th>Priority</th>
+
+    <th>Task Progress</th>
+
+</tr>
+
+
+
+
+{% for task in tasks %}
+
+
+
+<tr>
+
+
+    <td>
+
+        {{ task.title }}
+
+    </td>
+
+
+
+    <td>
+
+        {{ task.status }}
+
+    </td>
+
+
+
+    <td>
+
+        {{ task.priority }}
+
+    </td>
+
+
+
+    <td style="width:250px;">
+
+
+
+        {{ task.progress }}%
+
+
+
+        <div style="
+            background:#ddd;
+            height:20px;
+            border-radius:10px;
+            margin-top:5px;
+        ">
+
+
+            <div style="
+
+                width:{{ task.progress }}%;
+
+                height:20px;
+
+                border-radius:10px;
+
+
+                {% if task.progress == 0 %}
+
+                    background:red;
+
+                {% elif task.progress == 50 %}
+
+                    background:orange;
+
+                {% else %}
+
+                    background:green;
+
+                {% endif %}
+
+
+                text-align:center;
+
+                color:white;
+
+                font-size:12px;
+
+            ">
+
+
+            </div>
+
+
+        </div>
+
+
+    </td>
+
+
+
+</tr>
+
+
+
+{% empty %}
+
+
+
+<tr>
+
+    <td colspan="4">
+
+        No tasks available
+
+    </td>
+
+
+</tr>
+
+
+
+{% endfor %}
+
+
+
+</table>
+
+
+
+{% endblock %}

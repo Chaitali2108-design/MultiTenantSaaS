@@ -1,0 +1,32 @@
+<h1>Task List</h1>
+
+<a href="/projects/tasks/create/">Create Task</a>
+
+<table border="1" cellpadding="10">
+    <tr>
+        <th>Title</th>
+        <th>Project</th>
+        <th>Status</th>
+        <th>Priority</th>
+        <th>Action</th>
+    </tr>
+
+    {% for task in tasks %}
+    <tr>
+        <td>{{ task.title }}</td>
+        <td>{{ task.project.name }}</td>
+        <td>{{ task.status }}</td>
+        <td>{{ task.priority }}</td>
+
+        <td>
+            <a href="/projects/tasks/update/{{ task.id }}/">
+                Change Status
+            </a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="5">No tasks</td>
+    </tr>
+    {% endfor %}
+</table>

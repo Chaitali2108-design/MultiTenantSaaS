@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Task Details</h2>
+
+<div style="background:#f5f5f5; padding:20px; border-radius:10px;">
+
+    <h3>{{ task.title }}</h3>
+
+    <p>
+        <b>Status:</b> {{ task.status }}
+    </p>
+
+    <p>
+        <b>Project:</b> {{ task.project.name }}
+    </p>
+
+    <p>
+        <b>Assigned To:</b> {{ task.assigned_to.username }}
+    </p>
+
+</div>
+
+
+<a href="/projects/kanban/">
+    Back to Kanban
+</a>
+
+
+{% endblock %}

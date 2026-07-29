@@ -6,14 +6,18 @@
 
 <form method="POST">
     {% csrf_token %}
-    <input type="text" name="title" placeholder="Task Title"><br><br>
 
-    <select name="project">
+    <input type="text" name="title" placeholder="Task Title" required>
+    <br><br>
+
+    <select name="project" required>
+        <option value="">Select Project</option>   <!-- ✅ IMPORTANT -->
         {% for project in projects %}
             <option value="{{ project.id }}">{{ project.name }}</option>
         {% endfor %}
     </select>
 
     <br><br>
+
     <button type="submit">Create Task</button>
 </form>

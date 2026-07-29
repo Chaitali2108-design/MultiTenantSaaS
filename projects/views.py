@@ -1,91 +1,172 @@
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Project, Task
 
 
-# ================= PROJECT LIST =================
-@login_required
+# PROJECT LIST
 def project_list(request):
     projects = Project.objects.filter(
         organization=request.user.organization
     )
-    return render(request, 'projects/project_list.html', {
+
+    return render(request, 'projects/project01_list.html', {
         'projects': projects
     })
 
 
-# ================= TASK LIST =================
-@login_required
+# CREATE PROJECT
+def create_project(request):
+    if request.method == 'POST':
+
+        Project.objects.create(
+            name=request.POST.get('name'),
+            description=request.POST.get('description'),
+            organization=request.user.organization,
+            created_by=request.user
+        )
+
+        return redirect('/projects/')
+
+    return render(request, 'projects/create_project.html')
+
+
+# TASK LIST
 def task_list(request):
     tasks = Task.objects.filter(
-        organization=request.user.organization,
-        assigned_to=request.user
+        organization=request.user.organization
     )
+
     return render(request, 'projects/task_list.html', {
         'tasks': tasks
     })
 
 
-# ================= CREATE PROJECT =================
-from accounts.models import User
+# KANBAN BOARD
+def kanban_board(request):
 
-@login_required
-def create_project(request):
+    tasks = Task.objects.filter(
+        organization=request.user.organization
+    )
 
-    user = User.objects.get(id=request.user.id)  # fresh from DB
+    return render(request, 'projects/member2/kanbanboard.html', {
 
-    if user.organization is None:
-        return render(request, 'projects/create_project.html', {
-            'error': 'Organization not assigned'
-        })
+        'todo': tasks.filter(status='todo'),
 
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        description = request.POST.get('description')
+        'progress': tasks.filter(status='progress'),
 
-        Project.objects.create(
-            name=name,
-            description=description,
-            organization=user.organization,
-            created_by=user
-        )
-
-        return redirect('project_list')
-
-    return render(request, 'projects/create_project.html')
+        'done': tasks.filter(status='done'),
+    })
 
 
-# ================= CREATE TASK =================
-@login_required
+# TASK DETAIL PAGE
+# CARD CLICK ONLY OPENS THIS PAGE
+def task_detail(request, task_id):
+
+    task = get_object_or_404(
+        Task,
+        id=task_id,
+        organization=request.user.organization
+    )
+
+    return render(request, 'projects/task_detail.html', {
+        'task': task
+    })
+
+
+# MOVE TASK STATUS
+# ONLY BUTTON CLICK SHOULD CALL THIS
+def update_task_status(request, task_id):
+
+    task = get_object_or_404(
+        Task,
+        id=task_id,
+        organization=request.user.organization
+    )
+
+    if request.method == "POST":
+
+        if task.status == "todo":
+            task.status = "progress"
+
+        elif task.status == "progress":
+            task.status = "done"
+
+        task.save()
+
+    return redirect('/projects/kanban/')
+
+
+# CREATE TASK
 def create_task(request):
 
     if request.user.organization is None:
+
         return render(request, 'projects/create_task.html', {
-            'error': '⚠️ Please assign organization in admin first'
+            'error': 'Assign organization first'
         })
 
-    if request.method == 'POST':
-        title = request.POST.get('title')
-        project_id = request.POST.get('project')
-
-        project = Project.objects.get(
-            id=project_id,
-            organization=request.user.organization
-        )
-
-        Task.objects.create(
-            title=title,
-            project=project,
-            organization=request.user.organization,
-            assigned_to=request.user
-        )
-
-        return redirect('task_list')
 
     projects = Project.objects.filter(
         organization=request.user.organization
     )
 
+
+    if request.method == 'POST':
+
+        project = get_object_or_404(
+            Project,
+            id=request.POST.get('project'),
+            organization=request.user.organization
+        )
+
+
+        Task.objects.create(
+            title=request.POST.get('title'),
+            project=project,
+            organization=request.user.organization,
+            assigned_to=request.user
+        )
+
+
+        return redirect('/projects/tasks/')
+
+
     return render(request, 'projects/create_task.html', {
         'projects': projects
+    })
+
+
+# PROJECT DETAIL
+def project_detail(request, project_id):
+
+    project = get_object_or_404(
+        Project,
+        id=project_id,
+        organization=request.user.organization
+    )
+
+
+    if request.method == "POST":
+
+        Task.objects.create(
+            title=request.POST.get('title'),
+            project=project,
+            organization=request.user.organization,
+            assigned_to=request.user
+        )
+
+
+        return redirect(f'/projects/{project.id}/')
+
+
+    tasks = Task.objects.filter(
+        project=project,
+        organization=request.user.organization
+    )
+
+
+    return render(request, 'projects/project_detail.html', {
+
+        'project': project,
+
+        'tasks': tasks
     })

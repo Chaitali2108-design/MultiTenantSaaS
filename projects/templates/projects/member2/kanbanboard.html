@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Kanban Board</h2>
+
+<div style="display:flex; gap:20px;">
+
+    <!-- TO DO -->
+    <div style="width:33%; background:#f2f2f2; padding:15px; border-radius:10px;">
+
+        <h3>To Do</h3>
+
+        {% for task in todo %}
+
+        <div style="background:white; padding:15px; margin:10px 0; border-radius:8px;">
+
+            <!-- CARD CLICK ONLY OPENS DETAILS -->
+            <a href="{% url 'task_detail' task.id %}"
+               style="text-decoration:none; color:black;">
+
+                <h4>{{ task.title }}</h4>
+
+                <p>Status: {{ task.status }}</p>
+
+            </a>
+
+            <!-- MOVE BUTTON -->
+            <form method="POST"
+                  action="/projects/tasks/update/{{ task.id }}/">
+
+                {% csrf_token %}
+
+                <button type="submit">
+                    Move to Progress
+                </button>
+
+            </form>
+
+        </div>
+
+        {% empty %}
+
+        <p>No tasks</p>
+
+        {% endfor %}
+
+    </div>
+
+    <!-- IN PROGRESS -->
+    <div style="width:33%; background:#f2f2f2; padding:15px; border-radius:10px;">
+
+        <h3>In Progress</h3>
+
+        {% for task in progress %}
+
+        <div style="background:white; padding:15px; margin:10px 0; border-radius:8px;">
+
+            <!-- CARD CLICK ONLY OPENS DETAILS -->
+            <a href="{% url 'task_detail' task.id %}"
+               style="text-decoration:none; color:black;">
+
+                <h4>{{ task.title }}</h4>
+
+                <p>Status: {{ task.status }}</p>
+
+            </a>
+
+            <!-- MOVE BUTTON -->
+            <form method="POST"
+                  action="/projects/tasks/update/{{ task.id }}/">
+
+                {% csrf_token %}
+
+                <button type="submit">
+                    Move to Done
+                </button>
+
+            </form>
+
+        </div>
+
+        {% empty %}
+
+        <p>No tasks</p>
+
+        {% endfor %}
+
+    </div>
+
+    <!-- DONE -->
+    <div style="width:33%; background:#f2f2f2; padding:15px; border-radius:10px;">
+
+        <h3>Done</h3>
+
+        {% for task in done %}
+
+        <div style="background:white; padding:15px; margin:10px 0; border-radius:8px;">
+
+            <!-- CARD CLICK ONLY OPENS DETAILS -->
+            <a href="{% url 'task_detail' task.id %}"
+               style="text-decoration:none; color:black;">
+
+                <h4>{{ task.title }}</h4>
+
+                <p>Status: {{ task.status }}</p>
+
+            </a>
+
+            <p>
+                Completed
+            </p>
+
+        </div>
+
+        {% empty %}
+
+        <p>No tasks</p>
+
+        {% endfor %}
+
+    </div>
+</div>
+{% endblock %}
