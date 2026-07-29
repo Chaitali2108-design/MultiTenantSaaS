@@ -4,6 +4,7 @@ from django.db import transaction
 
 from .models import Role, User
 from organizations.models import Organization
+from .models import UserProfile
 
 
 
@@ -131,4 +132,27 @@ class UserProfileForm(forms.ModelForm):
             "first_name",
             "last_name",
             "email",
+        ]
+
+class ProfilePictureForm(forms.ModelForm):
+
+    class Meta:
+
+        model = UserProfile
+
+        fields = [
+            "profile_picture",
+        ]
+
+class AccountSettingsForm(forms.ModelForm):
+
+    class Meta:
+
+        model = UserProfile
+
+        fields = [
+            "timezone",
+            "language",
+            "theme",
+            "email_notifications",
         ]

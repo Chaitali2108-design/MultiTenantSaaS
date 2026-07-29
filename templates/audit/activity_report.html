@@ -1,0 +1,308 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<div class="min-h-screen bg-[#140F1F] text-white py-10 px-6">
+
+    <div class="max-w-7xl mx-auto">
+
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-10">
+
+            <div>
+
+                <h1 class="text-4xl font-bold">
+                    Activity Reports
+                </h1>
+
+                <p class="text-gray-400 mt-2">
+                    Monitor users, projects, authentication, and system activities.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- Statistics Cards -->
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+
+            <div class="bg-[#1E1630] border border-purple-800/40 rounded-2xl p-6 shadow-lg hover:scale-[1.02] transition">
+
+                <p class="text-gray-400 text-sm">
+                    Total Users
+                </p>
+
+                <h2 class="text-4xl font-bold mt-3 text-purple-300">
+                    {{ total_users }}
+                </h2>
+
+            </div>
+
+            <div class="bg-[#1E1630] border border-blue-800/40 rounded-2xl p-6 shadow-lg hover:scale-[1.02] transition">
+
+                <p class="text-gray-400 text-sm">
+                    Organizations
+                </p>
+
+                <h2 class="text-4xl font-bold mt-3 text-blue-300">
+                    {{ total_organizations }}
+                </h2>
+
+            </div>
+
+            <div class="bg-[#1E1630] border border-green-800/40 rounded-2xl p-6 shadow-lg hover:scale-[1.02] transition">
+
+                <p class="text-gray-400 text-sm">
+                    Projects
+                </p>
+
+                <h2 class="text-4xl font-bold mt-3 text-green-300">
+                    {{ total_projects }}
+                </h2>
+
+            </div>
+
+            <div class="bg-[#1E1630] border border-orange-800/40 rounded-2xl p-6 shadow-lg hover:scale-[1.02] transition">
+
+                <p class="text-gray-400 text-sm">
+                    Tasks
+                </p>
+
+                <h2 class="text-4xl font-bold mt-3 text-orange-300">
+                    {{ total_tasks }}
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <!-- Authentication & Audit Summary -->
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-10">
+
+            <!-- Authentication -->
+
+            <div class="bg-[#1E1630] rounded-2xl border border-white/10 p-7 shadow-lg">
+
+                <h2 class="text-xl font-semibold mb-6">
+                    Authentication Summary
+                </h2>
+
+                <div class="space-y-5">
+
+                    <div class="flex items-center justify-between">
+
+                        <span class="text-gray-400">
+                            Total Logins
+                        </span>
+
+                        <span class="text-green-400 font-bold text-xl">
+                            {{ total_logins }}
+                        </span>
+
+                    </div>
+
+                    <div class="flex items-center justify-between">
+
+                        <span class="text-gray-400">
+                            Total Logouts
+                        </span>
+
+                        <span class="text-red-400 font-bold text-xl">
+                            {{ total_logouts }}
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Audit Summary -->
+
+            <div class="bg-[#1E1630] rounded-2xl border border-white/10 p-7 shadow-lg">
+
+                <h2 class="text-xl font-semibold mb-6">
+                    Audit Summary
+                </h2>
+
+                <div class="space-y-3">
+
+                    {% for action in action_summary %}
+
+                    <div class="flex justify-between items-center bg-[#271D3A] rounded-lg px-4 py-3">
+
+                        <span class="capitalize">
+                            {{ action.action }}
+                        </span>
+
+                        <span class="bg-purple-700 px-3 py-1 rounded-full text-sm font-semibold">
+                            {{ action.total }}
+                        </span>
+
+                    </div>
+
+                    {% empty %}
+
+                    <p class="text-gray-400">
+                        No audit data available.
+                    </p>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Recent Activity -->
+
+        <div class="mt-10 bg-[#1E1630] rounded-2xl border border-white/10 shadow-lg overflow-hidden">
+
+            <div class="px-6 py-5 border-b border-white/10">
+
+                <h2 class="text-2xl font-semibold">
+                    Recent Activity
+                </h2>
+
+            </div>
+
+            <div class="overflow-x-auto">
+
+                <table class="w-full">
+
+                    <thead class="bg-[#2B2140]">
+
+                        <tr>
+
+                            <th class="px-6 py-4 text-left text-gray-300">
+                                Time
+                            </th>
+
+                            <th class="px-6 py-4 text-left text-gray-300">
+                                User
+                            </th>
+
+                            <th class="px-6 py-4 text-left text-gray-300">
+                                Organization
+                            </th>
+
+                            <th class="px-6 py-4 text-left text-gray-300">
+                                Action
+                            </th>
+
+                            <th class="px-6 py-4 text-left text-gray-300">
+                                Model
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for log in recent_logs %}
+
+                        <tr class="border-b border-white/5 hover:bg-[#2A203C] transition">
+
+                            <td class="px-6 py-4 text-gray-300 whitespace-nowrap">
+
+                                {{ log.created_at|date:"d M Y, H:i" }}
+
+                            </td>
+
+                            <td class="px-6 py-4 font-medium">
+
+                                {{ log.user|default:"System" }}
+
+                            </td>
+
+                            <td class="px-6 py-4">
+
+                                {{ log.organization|default:"-" }}
+
+                            </td>
+
+                            <td class="px-6 py-4">
+
+                                {% if log.action == "create" %}
+                                    <span class="bg-green-600/20 text-green-400 px-3 py-1 rounded-full text-xs font-semibold">
+                                        CREATE
+                                    </span>
+
+                                {% elif log.action == "update" %}
+                                    <span class="bg-yellow-600/20 text-yellow-400 px-3 py-1 rounded-full text-xs font-semibold">
+                                        UPDATE
+                                    </span>
+
+                                {% elif log.action == "delete" %}
+                                    <span class="bg-red-600/20 text-red-400 px-3 py-1 rounded-full text-xs font-semibold">
+                                        DELETE
+                                    </span>
+
+                                {% elif log.action == "login" %}
+                                    <span class="bg-blue-600/20 text-blue-400 px-3 py-1 rounded-full text-xs font-semibold">
+                                        LOGIN
+                                    </span>
+
+                                {% elif log.action == "logout" %}
+                                    <span class="bg-gray-600/20 text-gray-300 px-3 py-1 rounded-full text-xs font-semibold">
+                                        LOGOUT
+                                    </span>
+
+                                {% elif log.action == "permission" %}
+                                    <span class="bg-purple-600/20 text-purple-400 px-3 py-1 rounded-full text-xs font-semibold">
+                                        PERMISSION
+                                    </span>
+
+                                {% else %}
+                                    <span class="bg-gray-700 px-3 py-1 rounded-full text-xs">
+                                        {{ log.action }}
+                                    </span>
+                                {% endif %}
+
+                            </td>
+
+                            <td class="px-6 py-4">
+
+                                {{ log.model_name }}
+
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+
+                            <td colspan="5" class="text-center py-10 text-gray-500">
+
+                                No recent activity found.
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

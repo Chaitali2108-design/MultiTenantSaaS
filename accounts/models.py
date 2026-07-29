@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from organizations.models import Organization
+from .validators import validate_file_size
+from .validators import validate_image_extension
 
 class User(AbstractUser):
     organization = models.ForeignKey(
@@ -160,7 +162,35 @@ class UserProfile(models.Model):
     profile_picture = models.ImageField(
         upload_to="profile_pictures/",
         null=True,
-        blank=True
+        blank=True,
+        validators=[
+            validate_file_size,
+            validate_image_extension,
+        ]
+    )
+
+    timezone = models.CharField(
+        max_length=50,
+        default="UTC"
+    )
+
+    language = models.CharField(
+        max_length=20,
+        default="en"
+    )
+
+    theme = models.CharField(
+        max_length=20,
+        choices=[
+            ("light", "Light"),
+            ("dark", "Dark"),
+            ("system", "System Default"),
+        ],
+        default="system"
+    )
+
+    email_notifications = models.BooleanField(
+        default=True
     )
 
     created_at = models.DateTimeField(

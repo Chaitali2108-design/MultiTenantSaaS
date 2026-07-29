@@ -15,7 +15,13 @@ from .models import User
 from django.shortcuts import get_object_or_404
 from .permissions import require_permission
 from .forms import UserProfileForm
-
+from .forms import ProfilePictureForm
+from .models import UserProfile
+from .forms import AccountSettingsForm
+from django.contrib.sessions.models import Session
+from django.utils import timezone
+from django.views.decorators.cache import never_cache
+from audit.utils import create_audit_log
 
 
 def signup(request):
@@ -59,8 +65,10 @@ def signup(request):
 
 
 
-
+@never_cache
 def login_view(request):
+
+    messages.get_messages(request).used = True
 
     if request.method == "POST":
 
@@ -87,6 +95,8 @@ def login_view(request):
                 user
             )
 
+            
+
             return redirect(
                 "profile"
             )
@@ -99,6 +109,8 @@ def login_view(request):
                 "Invalid username or password."
             )
 
+            
+
 
     return render(
         request,
@@ -106,7 +118,7 @@ def login_view(request):
     )
 
 
-
+@never_cache
 @login_required
 def profile(request):
 
@@ -119,12 +131,15 @@ def profile(request):
 
 def logout_view(request):
 
+
     logout(request)
 
     messages.success(
         request,
         "Logged out successfully."
     )
+
+    messages.get_messages(request).used = True
 
     return redirect(
         "login"
@@ -372,3 +387,112 @@ def update_profile(request):
             "form": form,
         },
     )
+
+@login_required
+def upload_profile_picture(request):
+
+    profile, created = UserProfile.objects.get_or_create(
+        user=request.user
+    )
+
+    if request.method == "POST":
+
+        form = ProfilePictureForm(
+            request.POST,
+            request.FILES,
+            instance=profile
+        )
+
+        if form.is_valid():
+
+            form.save()
+
+            messages.success(
+                request,
+                "Profile picture updated successfully."
+            )
+
+            return redirect(
+                "profile"
+            )
+
+    else:
+
+        form = ProfilePictureForm(
+            instance=profile
+        )
+
+
+    return render(
+        request,
+        "accounts/upload_profile_picture.html",
+        {
+            "form": form,
+        },
+    )
+
+@login_required
+def account_settings(request):
+
+    profile = request.user.profile
+
+
+    if request.method == "POST":
+
+        form = AccountSettingsForm(
+            request.POST,
+            instance=profile
+        )
+
+        if form.is_valid():
+
+            form.save()
+
+            messages.success(
+                request,
+                "Account settings updated successfully."
+            )
+
+            return redirect(
+                "profile"
+            )
+
+    else:
+
+        form = AccountSettingsForm(
+            instance=profile
+        )
+
+
+    return render(
+        request,
+        "accounts/account_settings.html",
+        {
+            "form": form,
+        },
+    )
+
+
+
+@login_required
+def logout_all_sessions(request):
+
+    user_id = request.user.id
+
+    sessions = Session.objects.filter(
+        expire_date__gte=timezone.now()
+    )
+
+
+    for session in sessions:
+
+        data = session.get_decoded()
+
+        if data.get("_auth_user_id") == str(user_id):
+
+            session.delete()
+
+
+    logout(request)
+
+    return redirect("login")

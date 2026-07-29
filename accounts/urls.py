@@ -1,6 +1,7 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 
+
 from .views import (
     signup,
     login_view,
@@ -13,6 +14,9 @@ from .views import (
     user_list,
     assign_user_role,
     update_profile,
+    upload_profile_picture,
+    account_settings,
+    logout_all_sessions
 )
 
 
@@ -131,6 +135,23 @@ path(
     update_profile,
     name="update_profile",
 ),
+
+path(
+    "profile/picture/",
+    upload_profile_picture,
+    name="upload_profile_picture",
+),
+
+path(
+    "settings/",
+    account_settings,
+    name="account_settings",
+),
+path(
+    "logout-all/",
+    logout_all_sessions,
+    name="logout_all_sessions",
+)
 
 
 

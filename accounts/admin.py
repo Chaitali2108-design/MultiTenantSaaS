@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+from django import forms
 
 from .models import (
     User,
@@ -8,9 +9,55 @@ from .models import (
     Permission,
 )
 
+class UserAdminForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = "__all__"
+
+
+    def __init__(self, *args, **kwargs):
+
+        super().__init__(*args, **kwargs)
+
+
+        # Initially hide all roles
+        self.fields["role"].queryset = Role.objects.none()
+
+
+        # When editing existing user
+        if self.instance.pk:
+
+            if self.instance.organization:
+
+                self.fields["role"].queryset = Role.objects.filter(
+                    organization=self.instance.organization
+                )
+
+
+        # When creating new user
+        elif "organization" in self.data:
+
+            try:
+
+                organization_id = int(
+                    self.data.get("organization")
+                )
+
+
+                self.fields["role"].queryset = Role.objects.filter(
+                    organization_id=organization_id
+                )
+
+
+            except (ValueError, TypeError):
+
+                pass
 
 @admin.register(User)
 class CustomUserAdmin(UserAdmin):
+    
+    form = UserAdminForm
 
     list_display = (
         "username",
