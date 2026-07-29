@@ -4,121 +4,700 @@
 
 <h2>Kanban Board</h2>
 
-<div style="display:flex; gap:20px;">
+<style>
 
-    <!-- TO DO -->
-    <div style="width:33%; background:#f2f2f2; padding:15px; border-radius:10px;">
+body {
+    font-family: Arial, sans-serif;
+}
 
-        <h3>To Do</h3>
 
-        {% for task in todo %}
+/* FILTER BAR */
+.filter-bar {
 
-        <div style="background:white; padding:15px; margin:10px 0; border-radius:8px;">
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
 
-            <!-- CARD CLICK ONLY OPENS DETAILS -->
-            <a href="{% url 'task_detail' task.id %}"
-               style="text-decoration:none; color:black;">
+    background:white;
+    padding:12px;
 
-                <h4>{{ task.title }}</h4>
+    border-radius:8px;
+    border:1px solid #ddd;
 
-                <p>Status: {{ task.status }}</p>
+    margin-bottom:20px;
+}
 
-            </a>
 
-            <!-- MOVE BUTTON -->
-            <form method="POST"
-                  action="/projects/tasks/update/{{ task.id }}/">
+.filter-bar input,
+.filter-bar select {
 
-                {% csrf_token %}
+    padding:7px 10px;
 
-                <button type="submit">
-                    Move to Progress
-                </button>
+    border-radius:6px;
 
-            </form>
+    border:1px solid #ccc;
 
-        </div>
+}
 
-        {% empty %}
 
-        <p>No tasks</p>
+.apply-btn {
 
-        {% endfor %}
+    background:#2c3e50;
 
-    </div>
+    color:white;
 
-    <!-- IN PROGRESS -->
-    <div style="width:33%; background:#f2f2f2; padding:15px; border-radius:10px;">
+    padding:7px 15px;
 
-        <h3>In Progress</h3>
+    border:none;
 
-        {% for task in progress %}
+    border-radius:6px;
 
-        <div style="background:white; padding:15px; margin:10px 0; border-radius:8px;">
+    cursor:pointer;
 
-            <!-- CARD CLICK ONLY OPENS DETAILS -->
-            <a href="{% url 'task_detail' task.id %}"
-               style="text-decoration:none; color:black;">
+}
 
-                <h4>{{ task.title }}</h4>
 
-                <p>Status: {{ task.status }}</p>
+.apply-btn:hover {
 
-            </a>
+    background:#1a252f;
 
-            <!-- MOVE BUTTON -->
-            <form method="POST"
-                  action="/projects/tasks/update/{{ task.id }}/">
+}
 
-                {% csrf_token %}
 
-                <button type="submit">
-                    Move to Done
-                </button>
+.reset-btn {
 
-            </form>
+    background:#bdc3c7;
 
-        </div>
+    color:black;
 
-        {% empty %}
+    padding:7px 15px;
 
-        <p>No tasks</p>
+    border-radius:6px;
 
-        {% endfor %}
+    text-decoration:none;
 
-    </div>
+}
 
-    <!-- DONE -->
-    <div style="width:33%; background:#f2f2f2; padding:15px; border-radius:10px;">
 
-        <h3>Done</h3>
+/* BOARD */
 
-        {% for task in done %}
+.board {
 
-        <div style="background:white; padding:15px; margin:10px 0; border-radius:8px;">
+    display:flex;
 
-            <!-- CARD CLICK ONLY OPENS DETAILS -->
-            <a href="{% url 'task_detail' task.id %}"
-               style="text-decoration:none; color:black;">
+    gap:20px;
 
-                <h4>{{ task.title }}</h4>
+    margin-bottom:40px;
 
-                <p>Status: {{ task.status }}</p>
+}
 
-            </a>
 
-            <p>
-                Completed
-            </p>
+.kanban-column {
 
-        </div>
+    width:33%;
 
-        {% empty %}
+    background:#f9f9f9;
 
-        <p>No tasks</p>
+    padding:15px;
 
-        {% endfor %}
+    border-radius:8px;
 
-    </div>
+    border:1px solid #ddd;
+
+}
+
+
+/* TASK CARD */
+
+.task-card {
+
+    background:white;
+
+    padding:12px;
+
+    margin-bottom:12px;
+
+    border-radius:7px;
+
+    border-left:5px solid #ccc;
+
+    box-shadow:0 2px 5px rgba(0,0,0,0.08);
+
+}
+
+
+.priority-high {
+
+    border-left-color:#e74c3c;
+
+}
+
+
+.priority-medium {
+
+    border-left-color:#f39c12;
+
+}
+
+
+.priority-low {
+
+    border-left-color:#2ecc71;
+
+}
+
+
+.overdue {
+
+    background:#fff4f4;
+
+    border-left-color:#c0392b !important;
+
+}
+
+
+.task-meta {
+
+    font-size:13px;
+
+    color:#555;
+
+}
+
+
+.btn {
+
+    padding:6px 10px;
+
+    border-radius:5px;
+
+    border:1px solid #ccc;
+
+    background:white;
+
+    cursor:pointer;
+
+}
+
+
+.btn:hover {
+
+    background:#eee;
+
+}
+
+
+</style>
+
+
+
+<!-- =========================
+FILTER SECTION
+========================= -->
+
+<form method="GET" class="filter-bar">
+
+
+<input 
+type="text"
+name="search"
+placeholder="Search task/project/member..."
+value="{{ request.GET.search }}">
+
+
+
+<select name="project">
+
+<option value="">
+All Projects
+</option>
+
+{% for p in all_projects %}
+
+<option value="{{ p.id }}"
+{% if selected_project == p.id|stringformat:"s" %}
+selected
+{% endif %}
+>
+
+{{ p.name }}
+
+</option>
+
+{% endfor %}
+
+</select>
+
+
+
+
+<select name="status">
+
+<option value="">
+All Status
+</option>
+
+<option value="todo">
+To Do
+</option>
+
+<option value="progress">
+In Progress
+</option>
+
+<option value="done">
+Done
+</option>
+
+</select>
+
+
+
+
+<select name="priority">
+
+<option value="">
+All Priority
+</option>
+
+<option value="high">
+High
+</option>
+
+<option value="medium">
+Medium
+</option>
+
+<option value="low">
+Low
+</option>
+
+</select>
+
+
+
+
+
+<!-- SORTING -->
+
+<select name="sort">
+
+<option value="">
+Sort By
+</option>
+
+
+<option value="newest">
+Newest
+</option>
+
+
+<option value="oldest">
+Oldest
+</option>
+
+
+<option value="priority">
+Priority
+</option>
+
+
+<option value="due_date">
+Due Date
+</option>
+
+
+<option value="project_name">
+Project Name
+</option>
+
+
+<option value="status">
+Status
+</option>
+
+
+<option value="completion">
+Completion
+</option>
+
+
+</select>
+
+
+
+
+<button type="submit" class="apply-btn">
+
+Apply
+
+</button>
+
+
+
+<a href="/projects/kanban/" class="reset-btn">
+
+Reset
+
+</a>
+
+
+</form>
+
+
+
+<hr>
+
+
+
+
+<!-- =========================
+KANBAN BOARD
+========================= -->
+
+
+{% for data in project_data %}
+
+
+
+<h3>
+{{ data.project.name }}
+</h3>
+
+
+<p>
+
+Progress:
+{{ data.project.progress }}%
+
+|
+
+Tasks:
+{{ data.completed_tasks }}/{{ data.total_tasks }}
+
+</p>
+
+
+
+
+
+<div class="board">
+
+
+
+<!-- TODO -->
+
+<div class="kanban-column">
+
+
+<h4>
+To Do
+</h4>
+
+
+
+{% for task in data.todo %}
+
+
+<div class="task-card
+
+{% if task.priority == 'high' %}
+priority-high
+
+{% elif task.priority == 'medium' %}
+priority-medium
+
+{% else %}
+priority-low
+
+{% endif %}
+
+
+{% if task.is_overdue %}
+overdue
+{% endif %}
+
+">
+
+
+<a href="{% url 'task_detail' task.id %}">
+
+<b>
+{{ task.title }}
+</b>
+
+</a>
+
+
+
+<p class="task-meta">
+
+Status:
+{{ task.status|title }}
+
+</p>
+
+
+<p class="task-meta">
+
+Priority:
+{{ task.priority|title }}
+
+</p>
+
+
+
+{% if task.is_overdue %}
+
+<p style="color:#c0392b">
+
+⚠ Overdue
+
+</p>
+
+{% endif %}
+
+
+
+
+<form method="POST" action="/projects/tasks/update/{{ task.id }}/">
+
+{% csrf_token %}
+
+<input type="hidden" name="action" value="forward">
+
+<button class="btn">
+
+→ Progress
+
+</button>
+
+
+</form>
+
+
+
 </div>
+
+
+
+{% empty %}
+
+<p>
+No tasks
+</p>
+
+{% endfor %}
+
+
+
+</div>
+
+
+
+
+
+<!-- PROGRESS -->
+
+
+<div class="kanban-column">
+
+
+<h4>
+In Progress
+</h4>
+
+
+
+{% for task in data.progress %}
+
+
+<div class="task-card
+
+{% if task.priority == 'high' %}
+priority-high
+
+{% elif task.priority == 'medium' %}
+priority-medium
+
+{% else %}
+priority-low
+
+{% endif %}
+
+{% if task.is_overdue %}
+overdue
+{% endif %}
+
+">
+
+
+
+<a href="{% url 'task_detail' task.id %}">
+
+<b>
+{{ task.title }}
+</b>
+
+</a>
+
+
+
+<p class="task-meta">
+
+Status:
+{{ task.status|title }}
+
+</p>
+
+
+<p class="task-meta">
+
+Priority:
+{{ task.priority|title }}
+
+</p>
+
+
+
+<form method="POST" action="/projects/tasks/update/{{ task.id }}/">
+
+{% csrf_token %}
+
+<input type="hidden" name="action" value="backward">
+
+
+<button class="btn">
+
+← Back
+
+</button>
+
+
+</form>
+
+
+
+
+<form method="POST" action="/projects/tasks/update/{{ task.id }}/">
+
+{% csrf_token %}
+
+<input type="hidden" name="action" value="forward">
+
+
+<button class="btn">
+
+→ Done
+
+</button>
+
+
+</form>
+
+
+
+</div>
+
+
+
+{% empty %}
+
+<p>
+No tasks
+</p>
+
+
+{% endfor %}
+
+
+
+</div>
+
+
+
+
+
+<!-- DONE -->
+
+
+<div class="kanban-column">
+
+
+<h4>
+Done
+</h4>
+
+
+
+{% for task in data.done %}
+
+
+
+<div class="task-card priority-low">
+
+
+<a href="{% url 'task_detail' task.id %}">
+
+<b>
+{{ task.title }}
+</b>
+
+</a>
+
+
+<p class="task-meta">
+
+✅ Completed
+
+</p>
+
+
+
+
+<form method="POST" action="/projects/tasks/update/{{ task.id }}/">
+
+{% csrf_token %}
+
+<input type="hidden" name="action" value="backward">
+
+
+<button class="btn">
+
+← Move Back
+
+</button>
+
+
+</form>
+
+
+
+</div>
+
+
+
+{% empty %}
+
+<p>
+No tasks
+</p>
+
+
+{% endfor %}
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+{% endfor %}
+
+
+
 {% endblock %}

@@ -13,6 +13,10 @@
     </p>
 
     <p>
+        <b>Progress:</b> {{ task.progress }}%
+    </p>
+
+    <p>
         <b>Project:</b> {{ task.project.name }}
     </p>
 
@@ -23,9 +27,48 @@
 </div>
 
 
+<br>
+
 <a href="/projects/kanban/">
-    Back to Kanban
+    ← Back to Kanban
 </a>
+
+
+<hr>
+
+
+<h3>Activity History</h3>
+
+
+{% for activity in activities %}
+
+<div style="
+    background:#ffffff;
+    padding:12px;
+    margin:10px 0;
+    border-radius:8px;
+    border-left:5px solid #007bff;
+">
+
+    <p>
+        <b>{{ activity.user.username }}</b>
+    </p>
+
+    <p>
+        {{ activity.old_status }} → {{ activity.new_status }}
+    </p>
+
+    <p style="font-size:12px; color:gray;">
+        {{ activity.created_at }}
+    </p>
+
+</div>
+
+{% empty %}
+
+<p>No activity yet</p>
+
+{% endfor %}
 
 
 {% endblock %}

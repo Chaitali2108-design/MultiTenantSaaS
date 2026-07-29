@@ -15,4 +15,6 @@ urlpatterns = [
     path('kanban/', views.kanban_board),
 
     path('task/<int:task_id>/', views.task_detail, name='task_detail'),
+
+path('dashboard/', views.dashboard),
 ]
