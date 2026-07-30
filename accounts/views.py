@@ -102,7 +102,7 @@ def login_view(request):
             
 
             return redirect(
-                "profile"
+                "dashboard"
             )
 
 

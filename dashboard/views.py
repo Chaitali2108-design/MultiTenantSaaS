@@ -1,6 +1,10 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+
+@login_required
 def dashboard(request):
     return render(request, 'dashboard.html')
+
 def project_list(request):
     return render(request, 'projects/project_list.html')
 
@@ -28,5 +32,3 @@ def settings(request):
 def organization(request):
     return render(request, "organizations/organization.html")
 
-def login(request):
-    return render(request, "registration/login.html")

@@ -11,5 +11,4 @@ urlpatterns = [
     path("profile/", views.profile, name="profile"),
     path("settings/", views.settings, name="settings"),
     path("organization/", views.organization, name="organization"),
-    path("login/", views.login, name="login"),
 ]

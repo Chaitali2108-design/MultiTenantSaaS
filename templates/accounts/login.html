@@ -1,208 +1,93 @@
-{% extends "base.html" %}
+{% load static %}
 
-{% block content %}
-<script src="https://cdn.tailwindcss.com"></script>
+<!DOCTYPE html>
+<html>
 
+<head>
 
-<div class="min-h-screen bg-[#0F0B16] flex items-center justify-center px-4">
+    <title>Login</title>
 
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
-    <div class="w-full max-w-md">
-
-
-        <div class="bg-[#1A1525]/95 backdrop-blur-lg border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
-
-
-            <!-- Header -->
-
-            <div class="p-8 text-center border-b border-white/10">
+</head>
 
 
-                <div class="w-16 h-16 mx-auto mb-5 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center">
+<body>
 
 
-                    <svg
-                        class="w-8 h-8 text-cyan-400"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24">
-
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M15 7a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V9a2 2 0 012-2h6zM12 11v2">
-                        </path>
-
-                    </svg>
+<div class="login-container">
 
 
-                </div>
+    <div class="login-card">
 
 
-                <h2 class="text-3xl font-bold text-white">
-
-                    Welcome Back
-
-                </h2>
+        <h1>
+            Multi-Tenant SaaS
+        </h1>
 
 
-                <p class="text-gray-400 mt-2">
+        <p>
+            Sign in to continue
+        </p>
 
-                    Sign in to continue to your account
 
+
+        <form method="post" autocomplete="off">
+
+            {% csrf_token %}
+
+
+            <input 
+                type="text"
+                name="username"
+                placeholder="Username"
+                required
+            >
+
+
+
+            <input 
+                type="password"
+                name="password"
+                placeholder="Password"
+                required
+            >
+
+
+
+            <button type="submit">
+
+                Login
+
+            </button>
+
+
+        </form>
+
+
+
+        <p>
+
+            <a href="{% url 'password_reset' %}">
+                Forgot Password?
+            </a>
+
+        </p>
+
+
+
+        {% if messages %}
+
+            {% for message in messages %}
+
+                <p>
+                    {{ message }}
                 </p>
 
+            {% endfor %}
 
-            </div>
+        {% endif %}
 
-
-
-            <!-- Form -->
-
-
-            <div class="p-8">
-
-
-                <form method="post" autocomplete="off" class="space-y-6">
-
-
-                    {% csrf_token %}
-
-
-
-                    <div>
-
-
-                        <label class="block text-sm font-medium text-gray-300 mb-2">
-
-                            Username
-
-                        </label>
-
-
-                        <input
-
-                            type="text"
-
-                            name="username"
-
-                            autocomplete="off"
-
-                            placeholder="Enter your username"
-
-                            class="w-full px-4 py-3 bg-[#241D32] border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/60 focus:border-cyan-500 transition"
-
-                        >
-
-
-                    </div>
-
-
-
-
-                    <div>
-
-
-                        <label class="block text-sm font-medium text-gray-300 mb-2">
-
-                            Password
-
-                        </label>
-
-
-                        <input
-
-                            type="password"
-
-                            name="password"
-
-                            autocomplete="new-password"
-
-                            placeholder="Enter your password"
-
-                            class="w-full px-4 py-3 bg-[#241D32] border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/60 focus:border-cyan-500 transition"
-
-                        >
-
-
-                    </div>
-
-
-
-
-                    <div class="text-right">
-
-
-                        <a
-
-                            href="{% url 'password_reset' %}"
-
-                            class="text-sm text-amber-400 hover:text-amber-300 transition"
-
-                        >
-
-                            Forgot Password?
-
-                        </a>
-
-
-                    </div>
-
-
-
-
-                    <button
-
-                        type="submit"
-
-                        class="w-full bg-cyan-500 hover:bg-cyan-600 text-black font-semibold py-3 rounded-xl transition duration-300 shadow-lg"
-
-                    >
-
-                        Login
-
-                    </button>
-
-
-
-                </form>
-
-
-
-
-                {% if messages %}
-
-
-                    <div class="mt-6 space-y-3">
-
-
-                        {% for message in messages %}
-
-
-                            <div class="bg-red-500/10 border border-red-500/30 text-red-300 rounded-lg px-4 py-3">
-
-
-                                {{ message }}
-
-
-                            </div>
-
-
-                        {% endfor %}
-
-
-                    </div>
-
-
-                {% endif %}
-
-
-
-            </div>
-
-
-        </div>
 
 
     </div>
@@ -211,4 +96,6 @@
 </div>
 
 
-{% endblock %}
+</body>
+
+</html>

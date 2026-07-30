@@ -1,20 +1,52 @@
 <nav>
+
     <h2>Multi-Tenant SaaS</h2>
+
     <div>
-        <p>Organization : ABC Company</p>
+
+        <p>
+            Organization :
+            {% if request.user.organization %}
+                {{ request.user.organization.name }}
+            {% else %}
+                No Organization
+            {% endif %}
+        </p>
+
+
         <input
             type="text"
             placeholder="Search..."
         >
+
+
         <button>
             Notifications
         </button>
+
+
         <button>
-            Profile
-        </button>
-        <button>
-            Logout
-        </button>
+
+    <a href="{% url 'profile' %}" style="color:white; text-decoration:none;">
+        Profile
+    </a>
+
+</button>
+
+
+        <form method="post" action="{% url 'logout' %}" style="display:inline;">
+
+            {% csrf_token %}
+
+            <button type="submit">
+                Logout
+            </button>
+
+        </form>
+
+
     </div>
+
     <hr>
+
 </nav>
