@@ -5,7 +5,7 @@
 <script src="https://cdn.tailwindcss.com"></script>
 
 
-<div class="min-h-screen bg-[#0F0B16] text-white flex items-center justify-center px-6 py-10">
+<div class="min-h-screen bg-gray-100 flex items-center justify-center px-6 py-10">
 
 
 
@@ -13,7 +13,7 @@
 
 
 
-    <div class="bg-[#181320] border border-white/10 rounded-xl shadow-xl overflow-hidden">
+    <div class="bg-white border border-gray-200 rounded-xl shadow-xl overflow-hidden">
 
 
 
@@ -22,17 +22,17 @@
         <!-- Header -->
 
 
-        <div class="px-7 py-6 border-b border-white/10">
+        <div class="px-7 py-6 border-b border-gray-200">
 
 
-            <h2 class="text-2xl font-semibold">
+            <h2 class="text-2xl font-semibold text-gray-800">
 
                 Create Role
 
             </h2>
 
 
-            <p class="text-gray-400 text-sm mt-2">
+            <p class="text-gray-500 text-sm mt-2">
 
                 Create a custom role with specific permissions for your organization.
 
@@ -62,8 +62,9 @@
 
 
 
+
                 <div
-                class="text-white
+                class="text-gray-800
 
                 [&_p]:mb-5
 
@@ -71,7 +72,7 @@
                 [&_label]:block
                 [&_label]:text-sm
                 [&_label]:font-medium
-                [&_label]:text-gray-300
+                [&_label]:text-gray-700
                 [&_label]:mb-2
 
 
@@ -80,10 +81,10 @@
                 [&_input]:px-4
                 [&_input]:py-3
                 [&_input]:rounded-lg
-                [&_input]:bg-[#211A2D]
+                [&_input]:bg-white
                 [&_input]:border
-                [&_input]:border-white/10
-                [&_input]:text-white
+                [&_input]:border-gray-300
+                [&_input]:text-gray-800
                 [&_input]:focus:outline-none
                 [&_input]:focus:ring-2
                 [&_input]:focus:ring-emerald-500/40
@@ -94,10 +95,10 @@
                 [&_textarea]:px-4
                 [&_textarea]:py-3
                 [&_textarea]:rounded-lg
-                [&_textarea]:bg-[#211A2D]
+                [&_textarea]:bg-white
                 [&_textarea]:border
-                [&_textarea]:border-white/10
-                [&_textarea]:text-white
+                [&_textarea]:border-gray-300
+                [&_textarea]:text-gray-800
                 [&_textarea]:focus:outline-none
                 [&_textarea]:focus:ring-2
                 [&_textarea]:focus:ring-emerald-500/40
@@ -108,10 +109,10 @@
                 [&_select]:px-4
                 [&_select]:py-3
                 [&_select]:rounded-lg
-                [&_select]:bg-[#211A2D]
+                [&_select]:bg-white
                 [&_select]:border
-                [&_select]:border-white/10
-                [&_select]:text-white
+                [&_select]:border-gray-300
+                [&_select]:text-gray-800
                 [&_select]:focus:outline-none
                 [&_select]:focus:ring-2
                 [&_select]:focus:ring-emerald-500/40
@@ -132,7 +133,10 @@
 
 
 
+
                 <div class="flex gap-4 pt-2">
+
+
 
 
 
@@ -140,7 +144,7 @@
 
                     type="submit"
 
-                    class="flex-1 bg-emerald-600/80 hover:bg-emerald-600 text-white font-medium py-3 rounded-lg transition"
+                    class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3 rounded-lg transition"
 
                     >
 
@@ -153,11 +157,13 @@
 
 
 
+
+
                     <a
 
                     href="{% url 'role_list' %}"
 
-                    class="flex-1 text-center bg-[#211A2D] border border-white/10 hover:bg-[#2A2238] text-gray-300 py-3 rounded-lg transition"
+                    class="flex-1 text-center bg-gray-100 border border-gray-300 hover:bg-gray-200 text-gray-700 py-3 rounded-lg transition"
 
                     >
 
@@ -167,7 +173,9 @@
 
 
 
+
                 </div>
+
 
 
 

@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block title %}
+Organization Details
+{% endblock %}
+
+{% block content %}
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<div class="min-h-screen bg-gray-100 py-8">
+
+    <div class="max-w-5xl mx-auto px-6">
+
+        <div class="bg-white border border-gray-200 rounded-xl shadow-lg">
+
+            <div class="px-8 py-6 border-b border-gray-200">
+
+                <h1 class="text-3xl font-bold text-gray-900">
+                    Organization Details
+                </h1>
+
+            </div>
+
+            <div class="p-8">
+
+                {% if organization.logo %}
+
+                <div class="mb-8">
+
+                    <img
+                        src="{{ organization.logo.url }}"
+                        alt="{{ organization.name }}"
+                        class="w-24 h-24 rounded-xl object-cover border border-gray-300"
+                    >
+
+                </div>
+
+                {% endif %}
+
+                <div class="grid md:grid-cols-2 gap-6">
+
+                    <div>
+                        <p class="text-sm text-gray-500">Organization Name</p>
+                        <p class="text-lg font-semibold text-gray-900">
+                            {{ organization.name }}
+                        </p>
+                    </div>
+
+                    <div>
+                        <p class="text-sm text-gray-500">Domain</p>
+                        <p class="text-lg font-semibold text-gray-900">
+                            {{ organization.domain }}
+                        </p>
+                    </div>
+
+                    <div>
+                        <p class="text-sm text-gray-500">Email</p>
+                        <p class="text-lg font-semibold text-gray-900">
+                            {{ organization.contact_email }}
+                        </p>
+                    </div>
+
+                    <div>
+                        <p class="text-sm text-gray-500">Phone</p>
+                        <p class="text-lg font-semibold text-gray-900">
+                            {{ organization.contact_phone }}
+                        </p>
+                    </div>
+
+                    <div>
+                        <p class="text-sm text-gray-500">Plan</p>
+                        <p class="text-lg font-semibold text-gray-900">
+                            {{ organization.plan }}
+                        </p>
+                    </div>
+
+                    <div>
+                        <p class="text-sm text-gray-500">Status</p>
+
+                        {% if organization.status == "ACTIVE" %}
+
+                        <span class="inline-block px-3 py-1 rounded-full bg-green-100 text-green-700 font-semibold">
+                            Active
+                        </span>
+
+                        {% else %}
+
+                        <span class="inline-block px-3 py-1 rounded-full bg-red-100 text-red-700 font-semibold">
+                            Inactive
+                        </span>
+
+                        {% endif %}
+
+                    </div>
+
+                    <div>
+                        <p class="text-sm text-gray-500">Maximum Users</p>
+                        <p class="text-lg font-semibold text-gray-900">
+                            {{ organization.max_users }}
+                        </p>
+                    </div>
+
+                    <div>
+                        <p class="text-sm text-gray-500">Maximum Projects</p>
+                        <p class="text-lg font-semibold text-gray-900">
+                            {{ organization.max_projects }}
+                        </p>
+                    </div>
+
+                    <div>
+                        <p class="text-sm text-gray-500">Storage Limit</p>
+                        <p class="text-lg font-semibold text-gray-900">
+                            {{ organization.storage_limit_gb }} GB
+                        </p>
+                    </div>
+
+                    <div>
+                        <p class="text-sm text-gray-500">Created At</p>
+                        <p class="text-lg font-semibold text-gray-900">
+                            {{ organization.created_at }}
+                        </p>
+                    </div>
+
+                </div>
+
+                {% if request.user.role.name == "Owner" or request.user.role.name == "Admin" %}
+
+                <div class="flex flex-wrap gap-4 mt-10">
+
+                    <a
+                        href="{% url 'organization_update' organization.id %}"
+                        class="px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition"
+                    >
+                        Edit Organization
+                    </a>
+
+                    <a
+                        href="{% url 'organization_delete' organization.id %}"
+                        class="px-5 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition"
+                    >
+                        Delete Organization
+                    </a>
+
+                    <a
+                        href="{% url 'organization_toggle_status' organization.id %}"
+                        class="px-5 py-3 bg-gray-700 hover:bg-gray-800 text-white rounded-lg font-medium transition"
+                    >
+                        {% if organization.status == "ACTIVE" %}
+                            Deactivate Organization
+                        {% else %}
+                            Activate Organization
+                        {% endif %}
+                    </a>
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

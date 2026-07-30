@@ -1,46 +1,76 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
-    <title>Delete Organization</title>
-</head>
+{% block title %}
+Delete Organization
+{% endblock %}
 
+{% block content %}
 
-<body>
-
-
-<h2>
-    Delete Organization
-</h2>
+<script src="https://cdn.tailwindcss.com"></script>
 
 
-<p>
-    Are you sure you want to delete:
-</p>
+<div class="min-h-screen bg-gray-100 py-8">
 
+    <div class="max-w-2xl mx-auto px-6">
 
-<h3>
-    {{ organization.name }}
-</h3>
+        <div class="bg-white border border-red-200 rounded-xl shadow-lg">
 
+            <div class="px-8 py-6 border-b border-red-200">
 
-<form method="post">
+                <h1 class="text-3xl font-bold text-red-700">
+                    Delete Organization
+                </h1>
 
-    {% csrf_token %}
+            </div>
 
-    <button type="submit">
-        Confirm Delete
-    </button>
+            <div class="p-8">
 
+                <div class="bg-red-50 border border-red-200 rounded-lg p-5">
 
-</form>
+                    <p class="text-gray-700">
+                        Are you sure you want to permanently delete this organization?
+                    </p>
 
+                    <h2 class="text-2xl font-bold text-gray-900 mt-4">
+                        {{ organization.name }}
+                    </h2>
 
-<a href="{% url 'organization_detail' organization.id %}">
-    Cancel
-</a>
+                    <p class="text-red-600 mt-3 font-medium">
+                        This action cannot be undone.
+                    </p>
 
+                </div>
 
-</body>
+                <form method="post" class="mt-8">
 
-</html>
+                    {% csrf_token %}
+
+                    <div class="flex gap-4">
+
+                        <button
+                            type="submit"
+                            class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold transition"
+                        >
+                            Confirm Delete
+                        </button>
+
+                        <a
+                            href="{% url 'organization_detail' organization.id %}"
+                            class="px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-900 rounded-lg font-semibold rounded-lg transition"
+                        >
+                            Cancel
+                        </a>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

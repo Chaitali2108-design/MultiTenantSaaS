@@ -1,25 +1,117 @@
-<!DOCTYPE html>
+{% extends "base.html" %}
 
-<html>
+{% block content %}
 
-<head>
-    <title>
-        Maintenance
-    </title>
-</head>
+<script src="https://cdn.tailwindcss.com"></script>
 
 
-<body>
+<div class="min-h-screen bg-gray-50 flex items-center justify-center px-6 py-10">
 
-<h1>
-    System Maintenance
-</h1>
 
-<p>
-    We are currently improving the system.
-    Please try again later.
-</p>
 
-</body>
+    <div class="max-w-md w-full">
 
-</html>
+
+
+        <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden">
+
+
+
+            <!-- Header -->
+
+
+            <div class="p-8 text-center">
+
+
+
+                <div class="w-20 h-20 mx-auto rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center mb-6">
+
+
+                    <svg
+                        class="w-10 h-10 text-amber-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24">
+
+
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M12 9v3m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z">
+                        </path>
+
+
+                    </svg>
+
+
+                </div>
+
+
+
+
+
+                <h1 class="text-3xl font-bold text-gray-800">
+
+
+                    System Maintenance
+
+
+                </h1>
+
+
+
+
+
+                <p class="text-gray-500 mt-4 leading-relaxed">
+
+
+                    We are currently improving the system.
+                    Please try again later.
+
+
+                </p>
+
+
+
+            </div>
+
+
+
+
+
+            <!-- Footer -->
+
+
+            <div class="px-8 py-5 bg-gray-50 border-t border-gray-200 text-center">
+
+
+                <p class="text-sm text-gray-400">
+
+
+                    Thank you for your patience.
+
+
+                </p>
+
+
+            </div>
+
+
+
+
+        </div>
+
+
+
+
+    </div>
+
+
+
+
+</div>
+
+
+
+{% endblock %}

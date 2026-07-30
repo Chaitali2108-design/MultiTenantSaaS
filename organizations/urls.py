@@ -10,6 +10,12 @@ from .views import (
 
 
 urlpatterns = [
+
+    path(
+    "my_organization/",
+    organization_detail,
+    name="my_organization",
+),
     path(
         "register/",
         register_organization,

@@ -65,12 +65,15 @@ def organization_list(request):
 
 
 @login_required
-def organization_detail(request, id):
+def organization_detail(request, id=None):
 
-    organization = get_object_or_404(
-        Organization,
-        id=id
-    )
+    if id is None:
+        organization = request.user.organization
+    else:
+        organization = get_object_or_404(
+            Organization,
+            id=id,
+        )
 
     context = {
         "organization": organization,
@@ -78,7 +81,7 @@ def organization_detail(request, id):
 
     return render(
         request,
-        "organizations/detail.html",
+        "organizations/organization_detail.html",
         context,
     )
 

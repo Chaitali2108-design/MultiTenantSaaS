@@ -1,92 +1,312 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
-    <title>Organizations</title>
-</head>
+{% block content %}
 
-<body>
-
-<h2>Organizations List</h2>
+<script src="https://cdn.tailwindcss.com"></script>
 
 
-<table border="1">
-
-    <tr>
-        <th>Name</th>
-        <th>Domain</th>
-        <th>Email</th>
-        <th>Plan</th>
-        <th>Status</th>
-        <th>Logo</th>
-        <th>Action</th>
-    </tr>
+<div class="min-h-screen bg-gray-50 text-gray-800 py-10 px-6">
 
 
-    {% for organization in organizations %}
-
-    <tr>
-
-        <td>
-            {{ organization.name }}
-        </td>
-
-        <td>
-            {{ organization.domain }}
-        </td>
-
-        <td>
-            {{ organization.contact_email }}
-        </td>
-
-        <td>
-            {{ organization.plan }}
-        </td>
-
-        <td>
-            {{ organization.status }}
-        </td>
-
-        <td>
-
-            {% if organization.logo %}
-                <img 
-                    src="{{ organization.logo.url }}"
-                    width="80"
-                >
-            {% else %}
-                No Logo
-            {% endif %}
-
-        </td>
-
-        <td>
-    <a href="{% url 'organization_detail' organization.id %}">
-        View
-    </a>
-</td>
-
-    </tr>
-
-    
+    <div class="max-w-7xl mx-auto">
 
 
-    {% empty %}
-
-    <tr>
-
-        <td colspan="6">
-            No organizations found.
-        </td>
-
-    </tr>
-
-    {% endfor %}
+        <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden">
 
 
-</table>
+
+            <!-- Header -->
+
+            <div class="px-8 py-6 border-b border-gray-200 flex justify-between items-center">
 
 
-</body>
+                <div>
 
-</html>
+                    <h2 class="text-3xl font-bold text-gray-800">
+
+                        Organizations
+
+                    </h2>
+
+
+                    <p class="text-gray-500 mt-1">
+
+                        Manage registered organizations and their details.
+
+                    </p>
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+
+
+            <!-- Table -->
+
+
+            <div class="overflow-x-auto">
+
+
+                <table class="w-full text-left">
+
+
+
+                    <thead class="bg-gray-100">
+
+
+                        <tr class="text-gray-600 text-sm">
+
+
+                            <th class="px-6 py-4 font-semibold">
+                                Name
+                            </th>
+
+
+                            <th class="px-6 py-4 font-semibold">
+                                Domain
+                            </th>
+
+
+                            <th class="px-6 py-4 font-semibold">
+                                Email
+                            </th>
+
+
+                            <th class="px-6 py-4 font-semibold">
+                                Plan
+                            </th>
+
+
+                            <th class="px-6 py-4 font-semibold">
+                                Status
+                            </th>
+
+
+                            <th class="px-6 py-4 font-semibold">
+                                Logo
+                            </th>
+
+
+                            <th class="px-6 py-4 font-semibold">
+                                Action
+                            </th>
+
+
+                        </tr>
+
+
+                    </thead>
+
+
+
+
+
+
+                    <tbody>
+
+
+
+                    {% for organization in organizations %}
+
+
+
+                        <tr class="border-t border-gray-200 hover:bg-gray-50 transition">
+
+
+
+                            <td class="px-6 py-4 font-medium text-gray-800">
+
+                                {{ organization.name }}
+
+                            </td>
+
+
+
+
+                            <td class="px-6 py-4 text-gray-600">
+
+                                {{ organization.domain }}
+
+                            </td>
+
+
+
+
+
+                            <td class="px-6 py-4 text-gray-600">
+
+                                {{ organization.contact_email }}
+
+                            </td>
+
+
+
+
+
+                            <td class="px-6 py-4">
+
+
+                                <span class="px-3 py-1 text-xs rounded-lg bg-blue-50 text-blue-600 border border-blue-200">
+
+                                    {{ organization.plan }}
+
+                                </span>
+
+
+                            </td>
+
+
+
+
+
+
+                            <td class="px-6 py-4">
+
+
+                                {% if organization.status %}
+
+
+                                    <span class="px-3 py-1 text-xs rounded-lg bg-green-50 text-green-600 border border-green-200">
+
+                                        {{ organization.status }}
+
+                                    </span>
+
+
+                                {% else %}
+
+
+                                    <span class="px-3 py-1 text-xs rounded-lg bg-gray-100 text-gray-500 border border-gray-200">
+
+                                        Unknown
+
+                                    </span>
+
+
+                                {% endif %}
+
+
+                            </td>
+
+
+
+
+
+
+                            <td class="px-6 py-4">
+
+
+                                {% if organization.logo %}
+
+
+                                    <img
+                                        src="{{ organization.logo.url }}"
+                                        class="w-16 h-16 rounded-lg object-cover border border-gray-200"
+                                    >
+
+
+                                {% else %}
+
+
+                                    <span class="text-gray-400 text-sm">
+
+                                        No Logo
+
+                                    </span>
+
+
+                                {% endif %}
+
+
+
+                            </td>
+
+
+
+
+
+
+                            <td class="px-6 py-4">
+
+
+                                <a
+
+                                href="{% url 'organization_detail' organization.id %}"
+
+                                class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium transition"
+
+                                >
+
+                                    View
+
+                                </a>
+
+
+                            </td>
+
+
+
+
+                        </tr>
+
+
+
+
+
+                    {% empty %}
+
+
+
+
+                        <tr>
+
+
+                            <td colspan="7" class="px-6 py-10 text-center text-gray-500">
+
+
+                                No organizations found.
+
+
+                            </td>
+
+
+                        </tr>
+
+
+
+
+                    {% endfor %}
+
+
+
+
+                    </tbody>
+
+
+
+                </table>
+
+
+
+            </div>
+
+
+
+
+        </div>
+
+
+    </div>
+
+
+
+</div>
+
+
+
+{% endblock %}

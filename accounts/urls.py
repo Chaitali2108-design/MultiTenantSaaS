@@ -17,9 +17,9 @@ from .views import (
     upload_profile_picture,
     account_settings,
     logout_all_sessions,
-    organization_users,
     create_invitation,
     accept_invitation,
+    delete_user,
     
 )
 
@@ -133,7 +133,11 @@ path(
     assign_user_role,
     name="assign_user_role",
 ),
-
+path(
+    "users/<int:user_id>/delete/",
+    delete_user,
+    name="delete_user"
+),
 path(
     "profile/edit/",
     update_profile,
@@ -157,11 +161,6 @@ path(
     name="logout_all_sessions",
 ),
 
-path(
-    "organization-users/",
-     organization_users,
-    name="organization_users",
-),
 path(
     "invite-user/",
     create_invitation,

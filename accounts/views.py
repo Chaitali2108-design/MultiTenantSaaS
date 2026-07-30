@@ -151,7 +151,6 @@ def logout_view(request):
 
 
 @login_required
-@require_permission("view_user")
 def role_list(request):
 
     roles = Role.objects.filter(
@@ -294,7 +293,6 @@ def role_delete(request, pk):
     )
 
 @login_required
-@require_permission("view_user")
 def user_list(request):
 
     users = User.objects.filter(
@@ -354,6 +352,24 @@ def assign_user_role(request, pk):
             "user": user,
         },
     )
+
+
+
+@login_required
+def delete_user(request, user_id):
+
+    if request.method == "POST":
+
+        user = get_object_or_404(
+            User,
+            id=user_id,
+            organization=request.user.organization
+        )
+
+        if user != request.user:
+            user.delete()
+
+    return redirect("user_list")
 
 @login_required
 def update_profile(request):
@@ -502,25 +518,7 @@ def logout_all_sessions(request):
     return redirect("login")
 
 
-@login_required
-def organization_users(request):
 
-    users = User.objects.filter(
-        organization=request.user.organization
-    ).select_related(
-        "role"
-    ).order_by(
-        "username"
-    )
-
-
-    return render(
-        request,
-        "accounts/organization_users.html",
-        {
-            "users": users
-        }
-    )
 
 from django.contrib import messages
 from django.shortcuts import redirect

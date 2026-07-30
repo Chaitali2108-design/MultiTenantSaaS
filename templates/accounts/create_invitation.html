@@ -1,31 +1,81 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <script src="https://cdn.tailwindcss.com"></script>
 
 
-<div class="min-h-screen bg-[#140F1F] text-white p-8">
+<div class="min-h-screen bg-gray-100 text-gray-800 p-8">
+
 
 
 <div class="max-w-xl mx-auto">
 
 
-<h1 class="text-3xl font-bold mb-8">
+
+
+
+<h1 class="text-3xl font-bold mb-8 text-gray-800">
+
 Invite User
+
 </h1>
 
 
-<form method="post" class="space-y-5">
+
+
+
+<form method="post" class="space-y-5 bg-white border border-gray-200 rounded-2xl shadow-xl p-8">
+
 
 {% csrf_token %}
 
 
-{{ form.as_p }}
+
+
+
+<div class="text-gray-800
+
+    [&_p]:mb-5
+
+    [&_label]:block
+    [&_label]:text-sm
+    [&_label]:font-medium
+    [&_label]:text-gray-700
+    [&_label]:mb-2
+
+
+    [&_input]:w-full
+    [&_input]:px-4
+    [&_input]:py-3
+    [&_input]:rounded-xl
+    [&_input]:bg-white
+    [&_input]:border
+    [&_input]:border-gray-300
+    [&_input]:text-gray-800
+
+    [&_select]:w-full
+    [&_select]:px-4
+    [&_select]:py-3
+    [&_select]:rounded-xl
+    [&_select]:bg-white
+    [&_select]:border
+    [&_select]:border-gray-300
+    [&_select]:text-gray-800
+
+">
+
+    {{ form.as_p }}
+
+</div>
+
+
+
 
 
 <button
 type="submit"
-class="bg-green-600 px-6 py-3 rounded-lg"
+class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg transition"
 >
 
 Send Invitation
@@ -33,12 +83,18 @@ Send Invitation
 </button>
 
 
+
+
 </form>
 
 
+
+
+
 </div>
 
 
 </div>
+
 
 {% endblock %}
