@@ -2,30 +2,165 @@
 
 {% block content %}
 
-<h2>
-    Delete Role
-</h2>
-
-<p>
-    Are you sure you want to delete
-    <strong>{{ role.name }}</strong>?
-</p>
+<script src="https://cdn.tailwindcss.com"></script>
 
 
-<form method="post">
-
-    {% csrf_token %}
-
-    <button type="submit">
-        Confirm Delete
-    </button>
+<div class="min-h-screen bg-[#0F0B16] text-white flex items-center justify-center px-6 py-10">
 
 
-    <a href="{% url 'role_list' %}">
-        Cancel
-    </a>
 
-</form>
+<div class="w-full max-w-md">
+
+
+
+    <div class="bg-[#181320] border border-white/10 rounded-xl shadow-xl overflow-hidden">
+
+
+
+
+
+        <!-- Header -->
+
+
+        <div class="px-7 py-6 border-b border-white/10 text-center">
+
+
+
+            <div class="w-14 h-14 mx-auto mb-4 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center">
+
+
+                <svg
+                    class="w-7 h-7 text-red-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24">
+
+
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 9v3m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z">
+                    </path>
+
+
+                </svg>
+
+
+            </div>
+
+
+
+
+            <h2 class="text-2xl font-semibold">
+
+                Delete Role
+
+            </h2>
+
+
+            <p class="text-gray-400 text-sm mt-2">
+
+                This action cannot be undone.
+
+            </p>
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <!-- Content -->
+
+
+        <div class="p-7 text-center">
+
+
+
+            <p class="text-gray-300 mb-6">
+
+
+                Are you sure you want to delete
+
+
+                <strong class="text-white">
+
+                    {{ role.name }}
+
+                </strong>
+
+
+                ?
+
+
+            </p>
+
+
+
+
+
+
+            <form method="post" class="flex gap-4">
+
+
+                {% csrf_token %}
+
+
+
+                <button
+
+                type="submit"
+
+                class="flex-1 bg-red-500/80 hover:bg-red-500 text-white font-medium py-3 rounded-lg transition"
+
+                >
+
+                    Confirm Delete
+
+                </button>
+
+
+
+
+
+
+                <a
+
+                href="{% url 'role_list' %}"
+
+                class="flex-1 bg-[#211A2D] border border-white/10 hover:bg-[#2A2238] text-gray-300 py-3 rounded-lg transition"
+
+                >
+
+                    Cancel
+
+                </a>
+
+
+
+
+            </form>
+
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+</div>
+
+
+
+</div>
 
 
 {% endblock %}

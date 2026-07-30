@@ -1,56 +1,248 @@
-<h2>Organization Users</h2>
+{% extends "base.html" %}
 
-<table border="1">
+{% block content %}
 
-    <tr>
-        <th>Username</th>
-        <th>Email</th>
-        <th>Role</th>
-        <th>Action</th>
-    </tr>
+<script src="https://cdn.tailwindcss.com"></script>
 
-    {% for user in users %}
 
-    <tr>
+<div class="min-h-screen bg-[#0F0B16] text-white py-8 px-6">
 
-        <td>{{ user.username }}</td>
 
-        <td>{{ user.email }}</td>
+    <div class="max-w-6xl mx-auto">
 
-        <td>
-            {% if user.role %}
-                {{ user.role.name }}
-            {% else %}
-                No Role
-            {% endif %}
-        </td>
 
-        <td>
+        <div class="bg-[#181320] border border-white/10 rounded-xl shadow-xl overflow-hidden">
 
-            {% if user != request.user %}
 
-                <a href="{% url 'assign_user_role' user.id %}">
-                    Assign Role
-                </a>
+            <!-- Header -->
 
-            {% else %}
+            <div class="px-7 py-5 border-b border-white/10">
 
-                Current User
 
-            {% endif %}
+                <h2 class="text-2xl font-semibold">
 
-        </td>
+                    Organization Users
 
-    </tr>
+                </h2>
 
-    {% empty %}
 
-    <tr>
-        <td colspan="4">
-            No users found.
-        </td>
-    </tr>
+                <p class="text-gray-400 text-sm mt-1">
 
-    {% endfor %}
+                    Manage members, roles, and access permissions.
 
-</table>
+                </p>
+
+
+            </div>
+
+
+
+            <!-- Table -->
+
+            <div class="overflow-x-auto">
+
+
+                <table class="w-full text-left">
+
+
+                    <thead class="bg-[#211A2D]">
+
+
+                        <tr class="text-gray-400 text-sm">
+
+
+                            <th class="px-6 py-4 font-medium">
+                                Username
+                            </th>
+
+
+                            <th class="px-6 py-4 font-medium">
+                                Email
+                            </th>
+
+
+                            <th class="px-6 py-4 font-medium">
+                                Role
+                            </th>
+
+
+                            <th class="px-6 py-4 font-medium">
+                                Action
+                            </th>
+
+
+                        </tr>
+
+
+                    </thead>
+
+
+
+                    <tbody>
+
+
+                    {% for user in users %}
+
+
+
+                        <tr class="border-t border-white/5 hover:bg-white/[0.03] transition">
+
+
+
+                            <td class="px-6 py-4">
+
+
+                                <div class="font-medium">
+
+                                    {{ user.username }}
+
+                                </div>
+
+
+                            </td>
+
+
+
+
+                            <td class="px-6 py-4 text-gray-300">
+
+
+                                {{ user.email }}
+
+
+                            </td>
+
+
+
+
+
+                            <td class="px-6 py-4">
+
+
+
+                                {% if user.role %}
+
+
+                                    <span class="px-3 py-1 text-xs rounded-lg bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
+
+                                        {{ user.role.name }}
+
+                                    </span>
+
+
+
+                                {% else %}
+
+
+
+                                    <span class="px-3 py-1 text-xs rounded-lg bg-gray-500/10 text-gray-400 border border-gray-500/20">
+
+                                        No Role
+
+                                    </span>
+
+
+
+                                {% endif %}
+
+
+
+                            </td>
+
+
+
+
+
+
+                            <td class="px-6 py-4">
+
+
+
+                                {% if user != request.user %}
+
+
+
+                                    <a
+
+                                    href="{% url 'assign_user_role' user.id %}"
+
+                                    class="inline-flex items-center px-4 py-2 text-sm rounded-lg bg-[#2A2238] border border-white/10 text-amber-300 hover:bg-[#342A45] transition"
+
+                                    >
+
+                                        Assign Role
+
+                                    </a>
+
+
+
+                                {% else %}
+
+
+
+                                    <span class="text-gray-500 text-sm">
+
+                                        Current User
+
+                                    </span>
+
+
+
+                                {% endif %}
+
+
+
+                            </td>
+
+
+
+                        </tr>
+
+
+
+                    {% empty %}
+
+
+
+                        <tr>
+
+
+                            <td colspan="4" class="px-6 py-8 text-center text-gray-400">
+
+
+                                No users found.
+
+
+                            </td>
+
+
+                        </tr>
+
+
+
+                    {% endfor %}
+
+
+
+                    </tbody>
+
+
+
+                </table>
+
+
+            </div>
+
+
+
+        </div>
+
+
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

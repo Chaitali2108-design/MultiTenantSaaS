@@ -25,13 +25,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-     
+    "axes",
     'accounts',
     "organizations.apps.OrganizationsConfig",
     'dashboard',
     'projects',
 
     'rest_framework',
+    'system_settings',
+    "audit.apps.AuditConfig",
+    
 ]
 
 MIDDLEWARE = [
@@ -40,6 +43,9 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    "audit.middleware.AuditMiddleware",
+    "system_settings.middleware.MaintenanceModeMiddleware",
+    "axes.middleware.AxesMiddleware",
     "accounts.middleware.TenantMiddleware",
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -119,3 +125,50 @@ AUTH_USER_MODEL = 'accounts.User'
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
+# Session expires after 30 minutes
+SESSION_COOKIE_AGE = 1800
+
+SESSION_SAVE_EVERY_REQUEST = True
+
+# Expire session when browser closes
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+# Session security
+
+SESSION_COOKIE_HTTPONLY = True
+
+SESSION_COOKIE_SECURE = False
+
+SESSION_COOKIE_SAMESITE = "Lax"
+
+# Security Headers
+
+X_FRAME_OPTIONS = "DENY"
+
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+SECURE_BROWSER_XSS_FILTER = True
+
+SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
+
+
+# Production only
+SECURE_SSL_REDIRECT = False
+
+# Login Attempt Security
+
+AXES_FAILURE_LIMIT = 5
+
+AXES_COOLOFF_TIME = 1
+
+AXES_RESET_ON_SUCCESS = True
+
+AXES_LOCKOUT_PARAMETERS = [
+    ["username", "ip_address"],
+]
+
+
+AUTHENTICATION_BACKENDS = [
+    "axes.backends.AxesStandaloneBackend",
+    "django.contrib.auth.backends.ModelBackend",
+]

@@ -1,23 +1,183 @@
-<h2>Assign Role</h2>
+{% extends "base.html" %}
 
-<p>
-    <strong>User:</strong> {{ user.username }}
-</p>
+{% block content %}
 
-<form method="POST">
+<script src="https://cdn.tailwindcss.com"></script>
 
-    {% csrf_token %}
 
-    {{ form.as_p }}
+<div class="min-h-screen bg-[#0F0B16] text-white flex items-center justify-center px-6 py-10">
 
-    <button type="submit">
-        Save
-    </button>
 
-</form>
+<div class="w-full max-w-xl">
 
-<br>
 
-<a href="{% url 'user_list' %}">
-    Back to Users
-</a>
+    <div class="bg-[#181320] border border-white/10 rounded-xl shadow-xl overflow-hidden">
+
+
+
+        <!-- Header -->
+
+
+        <div class="px-7 py-6 border-b border-white/10">
+
+
+            <h2 class="text-2xl font-semibold">
+
+                Assign Role
+
+            </h2>
+
+
+            <p class="text-gray-400 text-sm mt-2">
+
+                Manage role access and permissions for this user.
+
+            </p>
+
+
+        </div>
+
+
+
+
+
+        <!-- Content -->
+
+
+        <div class="p-7">
+
+
+            <!-- User Info -->
+
+
+            <div class="bg-[#211A2D] border border-white/10 rounded-xl px-5 py-4 mb-6">
+
+
+                <p class="text-gray-400 text-sm">
+
+                    User
+
+                </p>
+
+
+                <p class="text-lg font-medium mt-1">
+
+                    {{ user.username }}
+
+                </p>
+
+
+            </div>
+
+
+
+
+
+            <form method="POST" class="space-y-6">
+
+
+                {% csrf_token %}
+
+
+
+                <div
+                class="text-white
+
+                [&_p]:mb-5
+
+                [&_label]:block
+                [&_label]:text-sm
+                [&_label]:font-medium
+                [&_label]:text-gray-300
+                [&_label]:mb-2
+
+
+                [&_select]:w-full
+                [&_select]:px-4
+                [&_select]:py-3
+                [&_select]:rounded-lg
+                [&_select]:bg-[#211A2D]
+                [&_select]:border
+                [&_select]:border-white/10
+                [&_select]:text-white
+                [&_select]:focus:outline-none
+                [&_select]:focus:ring-2
+                [&_select]:focus:ring-amber-400/50
+
+
+                [&_input]:w-full
+                [&_input]:px-4
+                [&_input]:py-3
+                [&_input]:rounded-lg
+                [&_input]:bg-[#211A2D]
+                [&_input]:border
+                [&_input]:border-white/10
+                [&_input]:text-white
+                [&_input]:focus:outline-none
+                [&_input]:focus:ring-2
+                [&_input]:focus:ring-amber-400/50
+
+                ">
+
+
+                    {{ form.as_p }}
+
+
+                </div>
+
+
+
+
+
+                <button
+    type="submit"
+    class="w-full bg-emerald-600/80 hover:bg-emerald-600 text-white font-semibold py-3 rounded-lg transition shadow-lg border border-emerald-500/20"
+>
+    Save Role
+</button>
+
+
+
+            </form>
+
+
+
+
+
+
+            <div class="mt-6">
+
+
+                <a
+
+                href="{% url 'user_list' %}"
+
+                class="block text-center px-5 py-3 rounded-lg bg-[#211A2D] border border-white/10 text-gray-300 hover:bg-[#2A2238] transition"
+
+                >
+
+                    Back to Users
+
+                </a>
+
+
+
+            </div>
+
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+</div>
+
+
+</div>
+
+
+{% endblock %}

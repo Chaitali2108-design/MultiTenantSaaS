@@ -2,65 +2,322 @@
 
 {% block content %}
 
-<h2>Roles</h2>
-
-<a href="{% url 'role_create' %}">
-    Create Role
-</a>
-
-<table border="1">
-    <thead>
-        <tr>
-            <th>Role Name</th>
-            <th>Organization</th>
-            <th>Description</th>
-            <th>System Role</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-
-<tbody>
-
-{% for role in roles %}
-
-<tr>
-    <td>{{ role.name }}</td>
-    <td>{{ role.organization.name }}</td>
-    <td>{{ role.description }}</td>
-    <td>{{ role.is_system }}</td>
-
-    <td>
-        {% if not role.is_system %}
-
-<a href="{% url 'role_update' role.pk %}">
-    Edit
-</a>
+<script src="https://cdn.tailwindcss.com"></script>
 
 
-<a href="{% url 'role_delete' role.pk %}">
-    Delete
-</a>
+<div class="min-h-screen bg-[#0F0B16] text-white py-8 px-6">
 
-{% else %}
 
-System Role
+<div class="max-w-6xl mx-auto">
 
-{% endif %}
-    </td>
 
-</tr>
 
-{% empty %}
+    <div class="bg-[#181320] border border-white/10 rounded-xl shadow-xl overflow-hidden">
 
-<tr>
-    <td colspan="5">
-        No roles found.
-    </td>
-</tr>
 
-{% endfor %}
 
-</tbody>
-</table>
+        <!-- Header -->
+
+
+        <div class="px-7 py-6 border-b border-white/10 flex items-center justify-between">
+
+
+            <div>
+
+
+                <h2 class="text-2xl font-semibold">
+
+                    Roles
+
+                </h2>
+
+
+                <p class="text-gray-400 text-sm mt-1">
+
+                    Manage organization roles and access levels.
+
+                </p>
+
+
+            </div>
+
+
+
+            <a
+
+            href="{% url 'role_create' %}"
+
+            class="px-4 py-2 rounded-lg bg-emerald-600/80 hover:bg-emerald-600 text-white text-sm font-medium transition"
+
+            >
+
+                Create Role
+
+            </a>
+
+
+
+        </div>
+
+
+
+
+
+
+        <!-- Table -->
+
+
+        <div class="overflow-x-auto">
+
+
+
+            <table class="w-full text-left">
+
+
+
+                <thead class="bg-[#211A2D]">
+
+
+                    <tr class="text-gray-400 text-sm">
+
+
+                        <th class="px-6 py-4 font-medium">
+                            Role Name
+                        </th>
+
+
+                        <th class="px-6 py-4 font-medium">
+                            Organization
+                        </th>
+
+
+                        <th class="px-6 py-4 font-medium">
+                            Description
+                        </th>
+
+
+                        <th class="px-6 py-4 font-medium">
+                            System Role
+                        </th>
+
+
+                        <th class="px-6 py-4 font-medium">
+                            Actions
+                        </th>
+
+
+                    </tr>
+
+
+                </thead>
+
+
+
+
+
+
+                <tbody>
+
+
+
+                {% for role in roles %}
+
+
+
+
+                    <tr class="border-t border-white/5 hover:bg-white/[0.03] transition">
+
+
+
+                        <td class="px-6 py-4 font-medium">
+
+                            {{ role.name }}
+
+                        </td>
+
+
+
+
+
+                        <td class="px-6 py-4 text-gray-300">
+
+                            {{ role.organization.name }}
+
+                        </td>
+
+
+
+
+
+                        <td class="px-6 py-4 text-gray-400 max-w-xs">
+
+                            {{ role.description }}
+
+                        </td>
+
+
+
+
+
+                        <td class="px-6 py-4">
+
+
+
+                            {% if role.is_system %}
+
+
+                                <span class="px-3 py-1 text-xs rounded-lg bg-gray-500/10 text-gray-300 border border-gray-500/20">
+
+                                    System Role
+
+                                </span>
+
+
+
+                            {% else %}
+
+
+
+                                <span class="px-3 py-1 text-xs rounded-lg bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
+
+                                    Custom
+
+                                </span>
+
+
+
+                            {% endif %}
+
+
+
+                        </td>
+
+
+
+
+
+
+
+                        <td class="px-6 py-4">
+
+
+
+                        {% if not role.is_system %}
+
+
+
+                            <div class="flex gap-3">
+
+
+
+                                <a
+
+                                href="{% url 'role_update' role.pk %}"
+
+                                class="px-3 py-1.5 rounded-lg bg-[#211A2D] border border-white/10 text-gray-300 hover:text-white hover:bg-[#2A2238] transition text-sm"
+
+                                >
+
+                                    Edit
+
+                                </a>
+
+
+
+
+
+
+                                <a
+
+                                href="{% url 'role_delete' role.pk %}"
+
+                                class="px-3 py-1.5 rounded-lg bg-red-500/10 border border-red-500/20 text-red-300 hover:bg-red-500/20 transition text-sm"
+
+                                >
+
+                                    Delete
+
+                                </a>
+
+
+
+                            </div>
+
+
+
+                        {% else %}
+
+
+
+                            <span class="text-gray-500 text-sm">
+
+                                Protected
+
+                            </span>
+
+
+
+                        {% endif %}
+
+
+
+                        </td>
+
+
+
+
+                    </tr>
+
+
+
+
+
+                {% empty %}
+
+
+
+                    <tr>
+
+
+                        <td colspan="5" class="px-6 py-8 text-center text-gray-400">
+
+                            No roles found.
+
+                        </td>
+
+
+                    </tr>
+
+
+
+
+                {% endfor %}
+
+
+
+
+
+                </tbody>
+
+
+
+            </table>
+
+
+
+        </div>
+
+
+
+
+    </div>
+
+
+
+</div>
+
+
+</div>
+
 
 {% endblock %}

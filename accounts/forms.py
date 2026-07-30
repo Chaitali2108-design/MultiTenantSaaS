@@ -4,6 +4,9 @@ from django.db import transaction
 
 from .models import Role, User
 from organizations.models import Organization
+from .models import UserProfile
+from .models import UserInvitation
+
 
 
 
@@ -132,3 +135,122 @@ class UserProfileForm(forms.ModelForm):
             "last_name",
             "email",
         ]
+
+class ProfilePictureForm(forms.ModelForm):
+
+    class Meta:
+
+        model = UserProfile
+
+        fields = [
+            "profile_picture",
+        ]
+
+class AccountSettingsForm(forms.ModelForm):
+
+    class Meta:
+
+        model = UserProfile
+
+        fields = [
+            "timezone",
+            "language",
+            "theme",
+            "email_notifications",
+        ]
+
+
+
+
+
+
+class UserInvitationForm(forms.ModelForm):
+
+    class Meta:
+        model = UserInvitation
+        fields = ["email", "role"]
+
+        widgets = {
+            "email": forms.EmailInput(
+                attrs={
+                    "class": "w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-green-500",
+                }
+            ),
+
+            "role": forms.Select(
+                attrs={
+                    "class": "w-full bg-[#1E1630] text-white border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:border-green-500 appearance-none",
+                }
+            ),
+        }
+
+
+    def __init__(self, *args, **kwargs):
+
+        organization = kwargs.pop(
+            "organization",
+            None
+        )
+
+        super().__init__(
+            *args,
+            **kwargs
+        )
+
+
+        if organization:
+
+            self.fields["role"].queryset = Role.objects.filter(
+                organization=organization
+            )
+
+from django import forms
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+
+class AcceptInvitationForm(forms.ModelForm):
+
+    password1 = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                "class": "w-full",
+                "placeholder": "Password",
+            }
+        )
+    )
+
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                "class": "w-full",
+                "placeholder": "Confirm Password",
+            }
+        )
+    )
+
+    class Meta:
+
+        model = User
+
+        fields = (
+            "username",
+            "first_name",
+            "last_name",
+        )
+
+    def clean(self):
+
+        cleaned_data = super().clean()
+
+        password1 = cleaned_data.get("password1")
+        password2 = cleaned_data.get("password2")
+
+        if password1 and password2 and password1 != password2:
+
+            raise forms.ValidationError(
+                "Passwords do not match."
+            )
+
+        return cleaned_data

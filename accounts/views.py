@@ -15,7 +15,17 @@ from .models import User
 from django.shortcuts import get_object_or_404
 from .permissions import require_permission
 from .forms import UserProfileForm
+from .forms import ProfilePictureForm
+from .models import UserProfile
+from .forms import AccountSettingsForm
+from django.contrib.sessions.models import Session
+from django.utils import timezone
+from django.views.decorators.cache import never_cache
+from django.contrib.auth import get_user_model
+from .forms import AcceptInvitationForm
+from .models import UserInvitation
 
+User = get_user_model()
 
 
 def signup(request):
@@ -59,8 +69,10 @@ def signup(request):
 
 
 
-
+@never_cache
 def login_view(request):
+
+    messages.get_messages(request).used = True
 
     if request.method == "POST":
 
@@ -87,6 +99,8 @@ def login_view(request):
                 user
             )
 
+            
+
             return redirect(
                 "profile"
             )
@@ -99,6 +113,8 @@ def login_view(request):
                 "Invalid username or password."
             )
 
+            
+
 
     return render(
         request,
@@ -106,7 +122,7 @@ def login_view(request):
     )
 
 
-
+@never_cache
 @login_required
 def profile(request):
 
@@ -114,10 +130,11 @@ def profile(request):
 
     return render(
         request,
-        "accounts/profile.html"
+        "profile.html"
     )
 
 def logout_view(request):
+
 
     logout(request)
 
@@ -125,6 +142,8 @@ def logout_view(request):
         request,
         "Logged out successfully."
     )
+
+    messages.get_messages(request).used = True
 
     return redirect(
         "login"
@@ -370,5 +389,278 @@ def update_profile(request):
         "accounts/profile_update.html",
         {
             "form": form,
+        },
+    )
+
+@login_required
+def upload_profile_picture(request):
+
+    profile, created = UserProfile.objects.get_or_create(
+        user=request.user
+    )
+
+    if request.method == "POST":
+
+        form = ProfilePictureForm(
+            request.POST,
+            request.FILES,
+            instance=profile
+        )
+
+        if form.is_valid():
+
+            form.save()
+
+            messages.success(
+                request,
+                "Profile picture updated successfully."
+            )
+
+            return redirect(
+                "profile"
+            )
+
+    else:
+
+        form = ProfilePictureForm(
+            instance=profile
+        )
+
+
+    return render(
+        request,
+        "accounts/upload_profile_picture.html",
+        {
+            "form": form,
+        },
+    )
+
+@login_required
+def account_settings(request):
+
+    profile = request.user.profile
+
+
+    if request.method == "POST":
+
+        form = AccountSettingsForm(
+            request.POST,
+            instance=profile
+        )
+
+        if form.is_valid():
+
+            form.save()
+
+            messages.success(
+                request,
+                "Account settings updated successfully."
+            )
+
+            return redirect(
+                "profile"
+            )
+
+    else:
+
+        form = AccountSettingsForm(
+            instance=profile
+        )
+
+
+    return render(
+        request,
+        "accounts/account_settings.html",
+        {
+            "form": form,
+        },
+    )
+
+
+
+@login_required
+def logout_all_sessions(request):
+
+    user_id = request.user.id
+
+    sessions = Session.objects.filter(
+        expire_date__gte=timezone.now()
+    )
+
+
+    for session in sessions:
+
+        data = session.get_decoded()
+
+        if data.get("_auth_user_id") == str(user_id):
+
+            session.delete()
+
+
+    logout(request)
+
+    return redirect("login")
+
+
+@login_required
+def organization_users(request):
+
+    users = User.objects.filter(
+        organization=request.user.organization
+    ).select_related(
+        "role"
+    ).order_by(
+        "username"
+    )
+
+
+    return render(
+        request,
+        "accounts/organization_users.html",
+        {
+            "users": users
+        }
+    )
+
+from django.contrib import messages
+from django.shortcuts import redirect
+
+from .forms import UserInvitationForm
+from .models import UserInvitation
+
+
+@login_required
+def create_invitation(request):
+
+    if request.method == "POST":
+
+        form = UserInvitationForm(
+            request.POST,
+            organization=request.user.organization
+        )
+
+
+        if form.is_valid():
+
+            invitation = form.save(
+                commit=False
+            )
+
+
+            invitation.organization = (
+                request.user.organization
+            )
+
+
+            invitation.save()
+
+
+            from django.urls import reverse
+
+            invitation_url = request.build_absolute_uri(
+                reverse(
+                    "accept_invitation",
+                kwargs={
+                    "token": invitation.token
+                }
+            )
+        )
+
+            return render(
+                request,
+                "accounts/invitation_success.html",
+                {
+                    "invitation": invitation,
+                    "invitation_url": invitation_url,
+                },
+            )
+
+
+    else:
+
+        form = UserInvitationForm(
+            organization=request.user.organization
+        )
+
+
+    return render(
+        request,
+        "accounts/create_invitation.html",
+        {
+            "form": form
+        }
+    )
+
+def accept_invitation(request, token):
+
+    invitation = get_object_or_404(
+        UserInvitation,
+        token=token,
+    )
+
+    if invitation.is_accepted:
+
+        messages.error(
+            request,
+            "This invitation has already been used."
+        )
+
+        return redirect("login")
+
+    if (
+        invitation.expires_at
+        and invitation.expires_at < timezone.now()
+    ):
+
+        messages.error(
+            request,
+            "This invitation has expired."
+        )
+
+        return redirect("login")
+
+    if request.method == "POST":
+
+        form = AcceptInvitationForm(request.POST)
+
+        if form.is_valid():
+
+            user = form.save(commit=False)
+
+            user.email = invitation.email
+
+            user.organization = invitation.organization
+
+            user.role = invitation.role
+
+            user.set_password(
+                form.cleaned_data["password1"]
+            )
+
+            user.save()
+
+            invitation.is_accepted = True
+
+            invitation.accepted_at = timezone.now()
+
+            invitation.save()
+
+            messages.success(
+                request,
+                "Account created successfully. Please log in."
+            )
+
+            return redirect("login")
+
+    else:
+
+        form = AcceptInvitationForm()
+
+    return render(
+        request,
+        "accounts/accept_invitation.html",
+        {
+            "form": form,
+            "invitation": invitation,
         },
     )
