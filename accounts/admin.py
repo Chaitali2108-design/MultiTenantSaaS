@@ -143,3 +143,30 @@ class PermissionAdmin(admin.ModelAdmin):
         "codename",
     )
 
+from .models import UserInvitation
+
+
+@admin.register(UserInvitation)
+class UserInvitationAdmin(admin.ModelAdmin):
+
+    list_display = (
+        "email",
+        "organization",
+        "role",
+        "is_accepted",
+        "created_at",
+    )
+    readonly_fields = (
+    "token",
+)
+
+
+    list_filter = (
+        "organization",
+        "is_accepted",
+    )
+
+
+    search_fields = (
+        "email",
+    )

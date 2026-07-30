@@ -16,7 +16,11 @@ from .views import (
     update_profile,
     upload_profile_picture,
     account_settings,
-    logout_all_sessions
+    logout_all_sessions,
+    organization_users,
+    create_invitation,
+    accept_invitation,
+    
 )
 
 
@@ -151,7 +155,24 @@ path(
     "logout-all/",
     logout_all_sessions,
     name="logout_all_sessions",
-)
+),
+
+path(
+    "organization-users/",
+     organization_users,
+    name="organization_users",
+),
+path(
+    "invite-user/",
+    create_invitation,
+    name="create_invitation",
+),
+path(
+    "accept-invitation/<uuid:token>/",
+    accept_invitation,
+    name="accept_invitation",
+),
+
 
 
 

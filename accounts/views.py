@@ -21,7 +21,11 @@ from .forms import AccountSettingsForm
 from django.contrib.sessions.models import Session
 from django.utils import timezone
 from django.views.decorators.cache import never_cache
-from audit.utils import create_audit_log
+from django.contrib.auth import get_user_model
+from .forms import AcceptInvitationForm
+from .models import UserInvitation
+
+User = get_user_model()
 
 
 def signup(request):
@@ -126,7 +130,7 @@ def profile(request):
 
     return render(
         request,
-        "accounts/profile.html"
+        "profile.html"
     )
 
 def logout_view(request):
@@ -496,3 +500,167 @@ def logout_all_sessions(request):
     logout(request)
 
     return redirect("login")
+
+
+@login_required
+def organization_users(request):
+
+    users = User.objects.filter(
+        organization=request.user.organization
+    ).select_related(
+        "role"
+    ).order_by(
+        "username"
+    )
+
+
+    return render(
+        request,
+        "accounts/organization_users.html",
+        {
+            "users": users
+        }
+    )
+
+from django.contrib import messages
+from django.shortcuts import redirect
+
+from .forms import UserInvitationForm
+from .models import UserInvitation
+
+
+@login_required
+def create_invitation(request):
+
+    if request.method == "POST":
+
+        form = UserInvitationForm(
+            request.POST,
+            organization=request.user.organization
+        )
+
+
+        if form.is_valid():
+
+            invitation = form.save(
+                commit=False
+            )
+
+
+            invitation.organization = (
+                request.user.organization
+            )
+
+
+            invitation.save()
+
+
+            from django.urls import reverse
+
+            invitation_url = request.build_absolute_uri(
+                reverse(
+                    "accept_invitation",
+                kwargs={
+                    "token": invitation.token
+                }
+            )
+        )
+
+            return render(
+                request,
+                "accounts/invitation_success.html",
+                {
+                    "invitation": invitation,
+                    "invitation_url": invitation_url,
+                },
+            )
+
+
+    else:
+
+        form = UserInvitationForm(
+            organization=request.user.organization
+        )
+
+
+    return render(
+        request,
+        "accounts/create_invitation.html",
+        {
+            "form": form
+        }
+    )
+
+def accept_invitation(request, token):
+
+    invitation = get_object_or_404(
+        UserInvitation,
+        token=token,
+    )
+
+    if invitation.is_accepted:
+
+        messages.error(
+            request,
+            "This invitation has already been used."
+        )
+
+        return redirect("login")
+
+    if (
+        invitation.expires_at
+        and invitation.expires_at < timezone.now()
+    ):
+
+        messages.error(
+            request,
+            "This invitation has expired."
+        )
+
+        return redirect("login")
+
+    if request.method == "POST":
+
+        form = AcceptInvitationForm(request.POST)
+
+        if form.is_valid():
+
+            user = form.save(commit=False)
+
+            user.email = invitation.email
+
+            user.organization = invitation.organization
+
+            user.role = invitation.role
+
+            user.set_password(
+                form.cleaned_data["password1"]
+            )
+
+            user.save()
+
+            invitation.is_accepted = True
+
+            invitation.accepted_at = timezone.now()
+
+            invitation.save()
+
+            messages.success(
+                request,
+                "Account created successfully. Please log in."
+            )
+
+            return redirect("login")
+
+    else:
+
+        form = AcceptInvitationForm()
+
+    return render(
+        request,
+        "accounts/accept_invitation.html",
+        {
+            "form": form,
+            "invitation": invitation,
+        },
+    )

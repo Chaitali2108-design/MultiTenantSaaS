@@ -3,6 +3,8 @@ from django.db import models
 from organizations.models import Organization
 from .validators import validate_file_size
 from .validators import validate_image_extension
+from django.utils import timezone
+import uuid
 
 class User(AbstractUser):
     organization = models.ForeignKey(
@@ -204,3 +206,53 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return f"{self.user.username} Profile"
+
+
+class UserInvitation(models.Model):
+
+    organization = models.ForeignKey(
+        "organizations.Organization",
+        on_delete=models.CASCADE,
+        related_name="invitations",
+    )
+
+
+    email = models.EmailField()
+
+
+    role = models.ForeignKey(
+        "accounts.Role",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+
+
+    token = models.UUIDField(
+        default=uuid.uuid4,
+        unique=True,
+        editable=False,
+    )
+
+
+    is_accepted = models.BooleanField(
+        default=False,
+    )
+
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+
+    expires_at = models.DateTimeField(
+        null=True,
+        blank=True,
+    )
+
+
+    def __str__(self):
+
+        return self.email
+
+
