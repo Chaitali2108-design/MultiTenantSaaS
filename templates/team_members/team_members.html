@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Team Members
+{% endblock %}
+
+{% block content %}
+
+<section>
+
+    <h1>Team Members</h1>
+
+    <hr>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Total Members</h3>
+            <p>10</p>
+        </div>
+
+        <div class="card">
+            <h3>Admins</h3>
+            <p>2</p>
+        </div>
+
+        <div class="card">
+            <h3>Managers</h3>
+            <p>3</p>
+        </div>
+
+        <div class="card">
+            <h3>Employees</h3>
+            <p>5</p>
+        </div>
+
+    </div>
+
+    <hr>
+
+    <div class="toolbar">
+
+        <button>Add Member</button>
+
+        <input type="text" placeholder="Search Member">
+
+        <select>
+            <option>All Roles</option>
+            <option>Admin</option>
+            <option>Manager</option>
+            <option>Employee</option>
+        </select>
+
+    </div>
+
+    <table>
+
+        <tr>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Email</th>
+            <th>Status</th>
+        </tr>
+
+        <tr>
+            <td>Rahul Sharma</td>
+            <td>Admin</td>
+            <td>rahul@example.com</td>
+            <td>Active</td>
+        </tr>
+
+        <tr>
+            <td>Priya Patel</td>
+            <td>Manager</td>
+            <td>priya@example.com</td>
+            <td>Active</td>
+        </tr>
+
+        <tr>
+            <td>Sayee Vispute</td>
+            <td>Employee</td>
+            <td>sayee@example.com</td>
+            <td>Active</td>
+        </tr>
+
+    </table>
+
+</section>
+
+{% endblock %}

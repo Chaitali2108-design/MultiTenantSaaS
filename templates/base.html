@@ -1,16 +1,46 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <title>MultiTenant SaaS</title>
+    <title>
+        {% block title %}
+        Multi-Tenant SaaS
+        {% endblock %}
+    </title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/projects.css' %}">
+<link rel="stylesheet" href="{% static 'css/tasks.css' %}">
+<link rel="stylesheet" href="{% static 'css/kanban.css' %}">
+<link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
 
 <body>
 
     {% include 'components/navbar.html' %}
-    {% include 'components/sidebar.html' %}
-    {% block content %}
-    {% endblock %}
-    {% include 'components/footer.html' %}
+
+    <div class="page-wrapper">
+
+        <div class="container">
+
+            {% include 'components/sidebar.html' %}
+
+            <main>
+
+                {% block content %}
+                {% endblock %}
+
+            </main>
+
+        </div>
+
+        {% include 'components/footer.html' %}
+
+    </div>
 
 </body>
 </html>

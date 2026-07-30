@@ -6,51 +6,342 @@ Projects
 
 {% block content %}
 
-<div class="container mt-4">
+<section>
 
-    <h2>Project List</h2>
+    <div class="projects-header">
 
-    {% if projects %}
+        <div>
 
-        <table border="1">
+            <h1>Projects</h1>
+
+            <p class="page-description">
+                Manage all organization projects in one place.
+            </p>
+
+        </div>
+
+        <button>
+            <i class="fa-solid fa-plus"></i>
+            New Project
+        </button>
+
+    </div>
+
+
+    <hr>
+
+
+    <div class="cards">
+
+
+        <div class="card blue">
+
+            <div class="card-header">
+
+                <h3>Total Projects</h3>
+
+                <i class="fa-solid fa-folder"></i>
+
+            </div>
+
+            <p>15</p>
+
+            <span>+2 this month</span>
+
+        </div>
+
+
+
+        <div class="card green">
+
+            <div class="card-header">
+
+                <h3>Active Projects</h3>
+
+                <i class="fa-solid fa-chart-line"></i>
+
+            </div>
+
+            <p>10</p>
+
+            <span>Running</span>
+
+        </div>
+
+
+
+        <div class="card purple">
+
+            <div class="card-header">
+
+                <h3>Completed</h3>
+
+                <i class="fa-solid fa-circle-check"></i>
+
+            </div>
+
+            <p>4</p>
+
+            <span>Finished Successfully</span>
+
+        </div>
+
+
+
+        <div class="card orange">
+
+            <div class="card-header">
+
+                <h3>Pending</h3>
+
+                <i class="fa-solid fa-hourglass-half"></i>
+
+            </div>
+
+            <p>1</p>
+
+            <span>Needs Attention</span>
+
+        </div>
+
+
+    </div>
+
+
+    <hr>
+
+
+    <div class="toolbar">
+
+
+        <div class="search-box">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input type="text" placeholder="Search Project...">
+
+        </div>
+
+
+        <select>
+
+            <option>All Status</option>
+
+            <option>In Progress</option>
+
+            <option>Completed</option>
+
+            <option>Pending</option>
+
+        </select>
+
+
+        <button>
+
+            <i class="fa-solid fa-plus"></i>
+
+            Add Project
+
+        </button>
+
+
+    </div>
+
+
+    <hr>
+
+
+
+    <table>
+
+
+        <thead>
 
             <tr>
-                <th>Name</th>
+
+                <th>Project</th>
+
+                <th>Owner</th>
+
                 <th>Description</th>
-                <th>Created By</th>
+
                 <th>Organization</th>
+
+                <th>Action</th>
+
             </tr>
+
+        </thead>
+
+
+
+        <tbody>
+
+
+        {% if projects %}
+
 
             {% for project in projects %}
 
+
             <tr>
-                <td>
-                    {{ project.name }}
-                </td>
+
 
                 <td>
-                    {{ project.description }}
+
+                    <strong>
+                        {{ project.name }}
+                    </strong>
+
+                    <br>
+
+                    <small>
+                        Project
+                    </small>
+
                 </td>
 
+
+
                 <td>
+
                     {{ project.created_by.username }}
+
                 </td>
 
+
+
                 <td>
-                    {{ project.organization.name }}
+
+                    {{ project.description }}
+
                 </td>
+
+
+
+                <td>
+
+                    {{ project.organization.name }}
+
+                </td>
+
+
+
+                <td class="actions">
+
+
+                    <i class="fa-solid fa-eye"></i>
+
+                    <i class="fa-solid fa-pen"></i>
+
+                    <i class="fa-solid fa-trash"></i>
+
+
+                </td>
+
+
             </tr>
+
 
             {% endfor %}
 
-        </table>
 
-    {% else %}
 
-        <p>No projects available.</p>
+        {% else %}
 
-    {% endif %}
 
-</div>
+            <tr>
 
+                <td colspan="5">
+
+                    No projects available.
+
+                </td>
+
+            </tr>
+
+
+        {% endif %}
+
+
+
+        </tbody>
+
+
+    </table>
+
+
+
+    <hr>
+
+
+
+    <div class="project-summary">
+
+
+        <div class="summary-card">
+
+            <i class="fa-solid fa-calendar-check"></i>
+
+            <h3>
+                Upcoming Deadline
+            </h3>
+
+            <p>
+                Library Management
+            </p>
+
+            <span>
+                10 June 2026
+            </span>
+
+        </div>
+
+
+
+
+        <div class="summary-card">
+
+            <i class="fa-solid fa-user-group"></i>
+
+            <h3>
+                Most Active Member
+            </h3>
+
+            <p>
+                Member 3
+            </p>
+
+            <span>
+                12 Tasks Completed
+            </span>
+
+        </div>
+
+
+
+
+        <div class="summary-card">
+
+            <i class="fa-solid fa-chart-pie"></i>
+
+            <h3>
+                Completion Rate
+            </h3>
+
+            <p>
+                78%
+            </p>
+
+            <span>
+                Overall Progress
+            </span>
+
+        </div>
+
+
+    </div>
+
+
+</section>
 {% endblock %}

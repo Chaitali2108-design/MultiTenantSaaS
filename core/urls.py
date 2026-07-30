@@ -7,10 +7,30 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('organizations/', include('organizations.urls')),
-    path('accounts/', include('accounts.urls')),
-    path('projects/', include('projects.urls')),   # ✅ IMPORTANT
-    path('audit/', include('audit.urls')),   # ✅ IMPORTANT
+path(
+    "organizations/",
+    include("organizations.urls"),
+),
+
+path(
+    "accounts/",
+    include("accounts.urls"),
+),
+
+path(
+    "projects/",
+    include("projects.urls"),
+),
+
+path(
+    "audit/",
+    include("audit.urls"),
+),
+
+path(
+    "dashboard/",
+    include("dashboard.urls"),
+),
 ]
 
 if settings.DEBUG:

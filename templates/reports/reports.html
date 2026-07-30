@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Reports
+{% endblock %}
+
+{% block content %}
+
+<section>
+
+    <h1>Reports</h1>
+
+    <hr>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Total Projects</h3>
+            <p>15</p>
+        </div>
+
+        <div class="card">
+            <h3>Total Tasks</h3>
+            <p>120</p>
+        </div>
+
+        <div class="card">
+            <h3>Completed Tasks</h3>
+            <p>80</p>
+        </div>
+
+        <div class="card">
+            <h3>Pending Tasks</h3>
+            <p>40</p>
+        </div>
+
+    </div>
+
+    <hr>
+
+    <h2>Monthly Report</h2>
+
+    <table>
+
+        <tr>
+            <th>Month</th>
+            <th>Projects Completed</th>
+            <th>Tasks Completed</th>
+        </tr>
+
+        <tr>
+            <td>January</td>
+            <td>3</td>
+            <td>25</td>
+        </tr>
+
+        <tr>
+            <td>February</td>
+            <td>5</td>
+            <td>30</td>
+        </tr>
+
+        <tr>
+            <td>March</td>
+            <td>7</td>
+            <td>25</td>
+        </tr>
+
+    </table>
+
+</section>
+
+{% endblock %}

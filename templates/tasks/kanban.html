@@ -5,8 +5,138 @@ Kanban Board
 {% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2>Kanban Board</h2>
-    <p>Kanban board will be developed here.</p>
+
+<section>
+
+<h1>Kanban Board</h1>
+
+<hr>
+
+
+<div class="kanban">
+
+
+    <!-- TO DO -->
+
+    <div class="kanban-column todo">
+
+        <h2>
+            📝 To Do
+        </h2>
+
+
+        <div class="task-box">
+
+            <h3>Create Login Page</h3>
+
+            <p>
+                👤 Member 3
+            </p>
+
+            <span class="priority high">
+                High
+            </span>
+
+        </div>
+
+
+        <div class="task-box">
+
+            <h3>Create Reports</h3>
+
+            <p>
+                👤 Member 2
+            </p>
+
+            <span class="priority medium">
+                Medium
+            </span>
+
+        </div>
+
+
+    </div>
+
+
+
+
+    <!-- IN PROGRESS -->
+
+
+    <div class="kanban-column progress-column">
+
+
+        <h2>
+            🚀 In Progress
+        </h2>
+
+
+        <div class="task-box">
+
+
+            <h3>
+                Dashboard Design
+            </h3>
+
+
+            <p>
+                👤 Member 3
+            </p>
+
+
+            <span class="priority high">
+                High
+            </span>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+    <!-- COMPLETED -->
+
+
+    <div class="kanban-column completed-column">
+
+
+        <h2>
+            ✅ Completed
+        </h2>
+
+
+        <div class="task-box">
+
+
+            <h3>
+                Database Setup
+            </h3>
+
+
+            <p>
+                👤 Member 1
+            </p>
+
+
+            <span class="priority low">
+                Completed
+            </span>
+
+
+        </div>
+
+
+    </div>
+
+
+
 </div>
+
+
+</section>
+
 {% endblock %}

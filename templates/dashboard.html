@@ -5,8 +5,504 @@ Dashboard
 {% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2>Dashboard</h2>
-    <p>Dashboard page will be developed here.</p>
+
+<section>
+
+    <h1>Dashboard</h1>
+
+    <hr>
+
+    <div class="welcome-banner">
+
+    <div>
+
+        <h2>👋 Welcome Back, Member 3</h2>
+
+        <p>
+            Manage your projects, monitor team progress, and stay productive.
+        </p>
+
+    </div>
+
+    <button>+ New Project</button>
+
 </div>
+
+    <h2>Dashboard Statistics</h2>
+
+<div class="cards">
+
+    <div class="card blue">
+
+    <div class="card-header">
+
+        <h3>Total Projects</h3>
+
+        <i class="fa-solid fa-folder"></i>
+
+    </div>
+
+    <p>15</p>
+
+    <span>+2 this week</span>
+
+</div>
+
+    <div class="card green">
+
+    <div class="card-header">
+
+        <h3>Active Projects</h3>
+
+        <i class="fa-solid fa-chart-line"></i>
+
+    </div>
+
+    <p>10</p>
+
+<div class="mini-progress">
+
+    <div class="mini-fill green-fill" style="width:75%;"></div>
+
+</div>
+
+<span>75% Running</span>
+
+</div>
+
+    <div class="card purple">
+
+    <div class="card-header">
+
+        <h3>Completed Tasks</h3>
+
+        <i class="fa-solid fa-circle-check"></i>
+
+    </div>
+
+    <p>80</p>
+
+<div class="mini-progress">
+
+    <div class="mini-fill purple-fill" style="width:80%;"></div>
+
+</div>
+
+<span>Excellent Progress</span>
+
+</div>
+
+    <div class="card orange">
+
+    <div class="card-header">
+
+        <h3>Pending Tasks</h3>
+
+        <i class="fa-solid fa-hourglass-half"></i>
+
+    </div>
+
+   <p>40</p>
+
+<div class="mini-progress">
+
+    <div class="mini-fill orange-fill" style="width:40%;"></div>
+
+</div>
+
+<span>Needs Attention</span>
+
+</div>
+
+    <div class="card red">
+
+    <div class="card-header">
+
+        <h3>Overdue Tasks</h3>
+
+        <i class="fa-solid fa-triangle-exclamation"></i>
+
+    </div>
+
+    <p>5</p>
+
+<div class="mini-progress">
+
+    <div class="mini-fill red-fill" style="width:15%;"></div>
+
+</div>
+
+<span>Complete Soon</span>
+</div>
+
+    <div class="card teal">
+
+    <div class="card-header">
+
+        <h3>Team Members</h3>
+
+        <i class="fa-solid fa-users"></i>
+
+    </div>
+
+    <p>10</p>
+
+    <span>Active Members</span>
+
+</div>
+
+</div>
+
+<hr>
+
+<div class="dashboard-grid">
+
+    <div class="quick-actions">
+
+        <h2>⚡ Quick Actions</h2>
+
+        <button>Add Project</button>
+
+        <button>Add Task</button>
+
+        <button>Create Report</button>
+
+        <button>Invite Member</button>
+
+    </div>
+
+    <div class="recent-activity">
+
+        <h2>🔔 Recent Activity</h2>
+
+        <ul>
+
+            <li>✅ Dashboard UI completed</li>
+
+            <li>📁 New project created</li>
+
+            <li>👤 Member 3 updated profile</li>
+
+            <li>📊 Report generated</li>
+
+        </ul>
+
+    </div>
+
+</div>
+
+<hr>
+
+<div class="progress-section">
+
+    <div class="progress-card">
+
+        <h2>Project Progress</h2>
+
+        <p>Website Redesign</p>
+
+        <div class="progress">
+
+            <div class="progress-fill blue-fill" style="width:75%;">
+                75%
+            </div>
+
+        </div>
+
+        <p>Inventory System</p>
+
+        <div class="progress">
+
+            <div class="progress-fill green-fill" style="width:100%;">
+                100%
+            </div>
+
+        </div>
+
+        <p>Library Management</p>
+
+        <div class="progress">
+
+            <div class="progress-fill orange-fill" style="width:40%;">
+                40%
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<hr>
+
+<h2>Recent Projects</h2>
+
+<table>
+
+    <thead>
+
+        <tr>
+
+            <th>Project</th>
+            <th>Owner</th>
+            <th>Status</th>
+            <th>Priority</th>
+            <th>Due Date</th>
+            <th>Action</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        <tr>
+
+            <td>Website Redesign</td>
+
+            <td>Member 3</td>
+
+            <td>
+                <span class="status in-progress">
+                    In Progress
+                </span>
+            </td>
+
+            <td>
+                <span class="priority high">
+                    High
+                </span>
+            </td>
+
+            <td>20 May 2026</td>
+
+            <td class="actions">
+
+                <i class="fa-solid fa-eye"></i>
+
+                <i class="fa-solid fa-pen"></i>
+
+                <i class="fa-solid fa-trash"></i>
+
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>Inventory System</td>
+
+            <td>Member 1</td>
+
+            <td>
+                <span class="status completed">
+                    Completed
+                </span>
+            </td>
+
+            <td>
+                <span class="priority medium">
+                    Medium
+                </span>
+            </td>
+
+            <td>15 April 2026</td>
+
+            <td class="actions">
+
+                <i class="fa-solid fa-eye"></i>
+
+                <i class="fa-solid fa-pen"></i>
+
+                <i class="fa-solid fa-trash"></i>
+
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>Library Management</td>
+
+            <td>Member 2</td>
+
+            <td>
+                <span class="status pending">
+                    Pending
+                </span>
+            </td>
+
+            <td>
+                <span class="priority high">
+                    High
+                </span>
+            </td>
+
+            <td>30 May 2026</td>
+
+            <td class="actions">
+
+                <i class="fa-solid fa-eye"></i>
+
+                <i class="fa-solid fa-pen"></i>
+
+                <i class="fa-solid fa-trash"></i>
+
+            </td>
+
+        </tr>
+
+    </tbody>
+
+</table>
+
+    <hr>
+
+    <h2>Recent Tasks</h2>
+
+<table>
+
+    <thead>
+
+        <tr>
+
+            <th>Task</th>
+            <th>Project</th>
+            <th>Assigned To</th>
+            <th>Status</th>
+            <th>Priority</th>
+            <th>Action</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        <tr>
+
+            <td>Design Login Page</td>
+
+            <td>Website Redesign</td>
+
+            <td>Member 3</td>
+
+            <td>
+
+                <span class="status completed">
+
+                    Completed
+
+                </span>
+
+            </td>
+
+            <td>
+
+                <span class="priority high">
+
+                    High
+
+                </span>
+
+            </td>
+
+            <td class="actions">
+
+                <i class="fa-solid fa-eye"></i>
+
+                <i class="fa-solid fa-pen"></i>
+
+                <i class="fa-solid fa-trash"></i>
+
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>Create Dashboard UI</td>
+
+            <td>Website Redesign</td>
+
+            <td>Member 3</td>
+
+            <td>
+
+                <span class="status in-progress">
+
+                    In Progress
+
+                </span>
+
+            </td>
+
+            <td>
+
+                <span class="priority high">
+
+                    High
+
+                </span>
+
+            </td>
+
+            <td class="actions">
+
+                <i class="fa-solid fa-eye"></i>
+
+                <i class="fa-solid fa-pen"></i>
+
+                <i class="fa-solid fa-trash"></i>
+
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>Database Design</td>
+
+            <td>Inventory System</td>
+
+            <td>Member 1</td>
+
+            <td>
+
+                <span class="status pending">
+
+                    Pending
+
+                </span>
+
+            </td>
+
+            <td>
+
+                <span class="priority medium">
+
+                    Medium
+
+                </span>
+
+            </td>
+
+            <td class="actions">
+
+                <i class="fa-solid fa-eye"></i>
+
+                <i class="fa-solid fa-pen"></i>
+
+                <i class="fa-solid fa-trash"></i>
+
+            </td>
+
+        </tr>
+
+    </tbody>
+
+</table>
+
+</section>
+
 {% endblock %}
