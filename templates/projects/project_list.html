@@ -5,8 +5,375 @@ Projects
 {% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2>Project List</h2>
-    <p>All projects will be displayed here.</p>
+
+<section>
+
+    <div class="projects-header">
+
+    <div>
+
+        <h1>Projects</h1>
+
+        <p class="page-description">
+            Manage all organization projects in one place.
+        </p>
+
+    </div>
+
+    <button>
+        <i class="fa-solid fa-plus"></i>
+        New Project
+    </button>
+
 </div>
+
+<hr>
+
+    <div class="cards">
+
+        <div class="card blue">
+
+    <div class="card-header">
+
+        <h3>Total Projects</h3>
+
+        <i class="fa-solid fa-folder"></i>
+
+    </div>
+
+    <p>15</p>
+
+    <span>+2 this month</span>
+
+</div>
+
+        <div class="card green">
+
+    <div class="card-header">
+
+        <h3>Active Projects</h3>
+
+        <i class="fa-solid fa-chart-line"></i>
+
+    </div>
+
+    <p>10</p>
+
+    <span>Running</span>
+
+</div>
+
+        <div class="card purple">
+
+    <div class="card-header">
+
+        <h3>Completed</h3>
+
+        <i class="fa-solid fa-circle-check"></i>
+
+    </div>
+
+    <p>4</p>
+
+    <span>Finished Successfully</span>
+
+</div>
+
+        <div class="card orange">
+
+    <div class="card-header">
+
+        <h3>Pending</h3>
+
+        <i class="fa-solid fa-hourglass-half"></i>
+
+    </div>
+
+    <p>1</p>
+
+    <span>Needs Attention</span>
+
+</div>
+
+    </div>
+
+    <hr>
+
+   <div class="toolbar">
+
+    <div class="search-box">
+
+        <i class="fa-solid fa-magnifying-glass"></i>
+
+        <input type="text" placeholder="Search Project...">
+
+    </div>
+
+    <select>
+
+        <option>All Status</option>
+        <option>In Progress</option>
+        <option>Completed</option>
+        <option>Pending</option>
+
+    </select>
+
+    <button>
+
+        <i class="fa-solid fa-plus"></i>
+
+        Add Project
+
+    </button>
+
+</div>
+
+    <hr>
+
+   <table>
+
+    <thead>
+
+        <tr>
+
+            <th>Project</th>
+
+            <th>Owner</th>
+
+            <th>Status</th>
+
+            <th>Priority</th>
+
+            <th>Progress</th>
+
+            <th>Due Date</th>
+
+            <th>Action</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        <tr>
+
+            <td>
+
+    <strong>Website Redesign</strong>
+
+    <br>
+
+    <small>UI/UX Team</small>
+
+</td>
+
+            <td>Member 3</td>
+
+            <td>
+
+                <span class="status in-progress">
+
+                    In Progress
+
+                </span>
+
+            </td>
+
+            <td>
+
+                <span class="priority high">
+
+                    High
+
+                </span>
+
+            </td>
+
+            <td>
+
+                <div class="mini-progress">
+
+                    <div class="mini-fill blue-fill" style="width:75%;"></div>
+
+                </div>
+
+            </td>
+
+            <td>20 May 2026</td>
+
+            <td class="actions">
+
+                <i class="fa-solid fa-eye"></i>
+
+                <i class="fa-solid fa-pen"></i>
+
+                <i class="fa-solid fa-trash"></i>
+
+            </td>
+
+        </tr>
+
+        <tr>
+
+           <td>
+
+    <strong>Inventory System</strong>
+
+    <br>
+
+    <small>Backend Team</small>
+
+</td>
+
+            <td>Member 1</td>
+
+            <td>
+
+                <span class="status completed">
+
+                    Completed
+
+                </span>
+
+            </td>
+
+            <td>
+
+                <span class="priority medium">
+
+                    Medium
+
+                </span>
+
+            </td>
+
+            <td>
+
+                <div class="mini-progress">
+
+                    <div class="mini-fill green-fill" style="width:100%;"></div>
+
+                </div>
+
+            </td>
+
+            <td>15 April 2026</td>
+
+            <td class="actions">
+
+                <i class="fa-solid fa-eye"></i>
+
+                <i class="fa-solid fa-pen"></i>
+
+                <i class="fa-solid fa-trash"></i>
+
+            </td>
+
+        </tr>
+
+        <tr>
+
+           <td>
+
+    <strong>Library Management</strong>
+
+    <br>
+
+    <small>Development Team</small>
+
+</td>
+            <td>Member 2</td>
+
+            <td>
+
+                <span class="status pending">
+
+                    Pending
+
+                </span>
+
+            </td>
+
+            <td>
+
+                <span class="priority high">
+
+                    High
+
+                </span>
+
+            </td>
+
+            <td>
+
+                <div class="mini-progress">
+
+                    <div class="mini-fill orange-fill" style="width:40%;"></div>
+
+                </div>
+
+            </td>
+
+            <td>10 June 2026</td>
+
+            <td class="actions">
+
+                <i class="fa-solid fa-eye"></i>
+
+                <i class="fa-solid fa-pen"></i>
+
+                <i class="fa-solid fa-trash"></i>
+
+            </td>
+
+        </tr>
+
+    </tbody>
+
+</table>
+
+<hr>
+
+<div class="project-summary">
+
+    <div class="summary-card">
+
+        <i class="fa-solid fa-calendar-check"></i>
+
+        <h3>Upcoming Deadline</h3>
+
+        <p>Library Management</p>
+
+        <span>10 June 2026</span>
+
+    </div>
+
+    <div class="summary-card">
+
+        <i class="fa-solid fa-user-group"></i>
+
+        <h3>Most Active Member</h3>
+
+        <p>Member 3</p>
+
+        <span>12 Tasks Completed</span>
+
+    </div>
+
+    <div class="summary-card">
+
+        <i class="fa-solid fa-chart-pie"></i>
+
+        <h3>Completion Rate</h3>
+
+        <p>78%</p>
+
+        <span>Overall Progress</span>
+
+    </div>
+
+</div>
+</section>
+
 {% endblock %}
