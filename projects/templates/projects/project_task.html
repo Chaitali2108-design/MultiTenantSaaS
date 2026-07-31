@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card">
+
+<h1>Task List</h1>
+
+<a href="/projects/tasks/create/" class="btn">
++ Create Task
+</a>
+
+</div>
+
+
+<div class="card">
+
+<form method="GET">
+
+<input 
+type="text" 
+name="search"
+placeholder="Search task..."
+class="input">
+
+
+<select name="status" class="input">
+
+<option value="">Status</option>
+<option value="todo">To Do</option>
+<option value="progress">In Progress</option>
+<option value="done">Done</option>
+
+</select>
+
+
+<select name="priority" class="input">
+
+<option value="">Priority</option>
+<option value="high">High</option>
+<option value="medium">Medium</option>
+<option value="low">Low</option>
+
+</select>
+
+
+<select name="sort" class="input">
+
+<option value="">Sort</option>
+<option value="new">Newest</option>
+<option value="old">Oldest</option>
+<option value="priority">Priority</option>
+<option value="status">Status</option>
+
+</select>
+
+
+<button class="btn">
+Apply
+</button>
+
+
+</form>
+
+</div>
+
+
+
+<div class="card">
+
+
+<h2>Task List</h2>
+
+
+<table>
+
+
+<tr>
+
+<th>Title</th>
+<th>Project</th>
+<th>Status</th>
+<th>Priority</th>
+<th>Action</th>
+
+</tr>
+
+
+
+{% for task in tasks %}
+
+
+<tr>
+
+
+<td>
+
+<a href="{% url 'task_detail' task.id %}">
+{{ task.title }}
+</a>
+
+</td>
+
+
+
+<td>
+{{ task.project.name }}
+</td>
+
+
+
+<td>
+
+{% if task.status == 'done' %}
+
+<span class="badge done">
+Done
+</span>
+
+
+{% elif task.status == 'progress' %}
+
+<span class="badge progress-badge">
+In Progress
+</span>
+
+
+{% else %}
+
+<span class="badge todo">
+To Do
+</span>
+
+
+{% endif %}
+
+</td>
+
+
+
+<td>
+
+{{ task.priority }}
+
+</td>
+
+
+
+<td>
+
+<form method="POST" action="{% url 'update_task_status' task.id %}">
+
+{% csrf_token %}
+
+<button class="btn">
+Change Status
+</button>
+
+</form>
+
+</td>
+
+
+</tr>
+
+
+{% empty %}
+
+<tr>
+
+<td colspan="5">
+No tasks available
+</td>
+
+</tr>
+
+
+{% endfor %}
+
+
+</table>
+
+
+</div>
+
+
+{% endblock %}

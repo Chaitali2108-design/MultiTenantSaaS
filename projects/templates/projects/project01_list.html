@@ -2,157 +2,100 @@
 
 {% block content %}
 
-<h1>Project List</h1>
+<div class="card">
+
+    <h1>Projects</h1>
+
+    <a href="/projects/create/" class="btn">
+        + Create Project
+    </a>
+
+</div>
 
 
-<a href="/projects/create/">
-    Create Project
-</a>
+<div class="card">
 
-
-<br><br>
-
-
-<table border="1" cellpadding="10" cellspacing="0">
-
+<table>
 
 <tr>
-
     <th>Name</th>
-
     <th>Description</th>
-
     <th>Created By</th>
-
     <th>Organization</th>
-
-    <th>Project Progress</th>
-
+    <th>Progress</th>
 </tr>
-
 
 
 {% for project in projects %}
 
-
 <tr>
 
-
-    <td>
-
-        <a href="/projects/{{ project.id }}/">
-
-            {{ project.name }}
-
-        </a>
-
-    </td>
+<td>
+    <a href="{% url 'project_detail' project.id %}">
+        {{ project.name }}
+    </a>
+</td>
 
 
-
-    <td>
-
-        {{ project.description }}
-
-    </td>
+<td>
+    {{ project.description }}
+</td>
 
 
-
-    <td>
-
-        {{ project.created_by }}
-
-    </td>
+<td>
+    {{ project.created_by }}
+</td>
 
 
-
-    <td>
-
-        {{ project.organization }}
-
-    </td>
+<td>
+    {{ project.organization }}
+</td>
 
 
-
-    <td style="width:250px;">
-
-
-        <strong>
-            {{ project.progress }}%
-        </strong>
+<td style="width:180px;">
 
 
-
-        <div style="
-            background:#ddd;
-            width:100%;
-            height:22px;
-            border-radius:10px;
-            margin-top:5px;
-        ">
+<small>
+{{ project.progress }}%
+</small>
 
 
+<div class="progress">
 
-            <div style="
+<div class="progress-bar"
+style="
+width:{{ project.progress }}%;
 
-                {% if project.progress < 40 %}
+{% if project.progress < 40 %}
+background:#ef4444;
 
-                    background:red;
+{% elif project.progress < 80 %}
+background:#f59e0b;
 
-                {% elif project.progress < 80 %}
+{% else %}
+background:#22c55e;
 
-                    background:orange;
+{% endif %}
 
-                {% else %}
+">
+</div>
 
-                    background:green;
-
-                {% endif %}
-
-
-                width:{{ project.progress }}%;
-
-                height:22px;
-
-                border-radius:10px;
-
-                text-align:center;
-
-                color:white;
-
-                font-size:13px;
-
-            ">
+</div>
 
 
-                {{ project.progress }}%
-
-
-            </div>
-
-
-        </div>
-
-
-
-    </td>
-
+</td>
 
 
 </tr>
 
 
-
 {% empty %}
-
 
 <tr>
 
-    <td colspan="5">
-
-        No projects available.
-
-    </td>
+<td colspan="5">
+No projects available
+</td>
 
 </tr>
 
@@ -160,8 +103,10 @@
 {% endfor %}
 
 
-
 </table>
+
+
+</div>
 
 
 {% endblock %}
