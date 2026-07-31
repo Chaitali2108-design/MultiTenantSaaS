@@ -4,43 +4,44 @@
 
 <h2>Kanban Board</h2>
 
+
 <a href="{% url 'export_tasks_csv' %}" 
 style="background:#27ae60; color:white; padding:8px 15px; border-radius:6px; text-decoration:none; margin-bottom:10px; display:inline-block;">
 Export Tasks CSV
 </a>
 
+
 <style>
 
 body {
     font-family: "Segoe UI", Arial, sans-serif;
-    background: #f5f6f8;
-    color: #2c3e50;
+    background:#f5f6f8;
+    color:#2c3e50;
 }
 
-
-/* Top heading */
 
 h2 {
-    margin-bottom: 20px;
-    font-weight: 600;
+    margin-bottom:20px;
+    font-weight:600;
 }
+
 
 h3 {
-    margin-top: 25px;
-    font-weight: 600;
+    margin-top:25px;
+    font-weight:600;
 }
 
-
-/* Export button */
 
 a[href*="export"] {
-    background: #2c3e50 !important;
+    background:#2c3e50 !important;
 }
+
 
 
 /* Filter */
 
 .filter-bar {
+
     display:flex;
     gap:12px;
     flex-wrap:wrap;
@@ -49,6 +50,7 @@ a[href*="export"] {
     border-radius:10px;
     border:1px solid #e5e7eb;
     box-shadow:0 2px 8px rgba(0,0,0,0.05);
+
 }
 
 
@@ -61,6 +63,7 @@ a[href*="export"] {
     background:white;
 
 }
+
 
 
 /* Buttons */
@@ -86,6 +89,7 @@ a[href*="export"] {
 }
 
 
+
 /* Board */
 
 .board {
@@ -95,6 +99,7 @@ a[href*="export"] {
     margin-top:20px;
 
 }
+
 
 
 /* Columns */
@@ -119,7 +124,8 @@ a[href*="export"] {
 }
 
 
-/* Cards */
+
+/* Task Cards */
 
 .task-card {
 
@@ -141,6 +147,29 @@ a[href*="export"] {
 }
 
 
+/* NEW STEP 7 OVERDUE */
+
+.overdue-card {
+
+    border-left:5px solid red;
+    background:#fff5f5;
+
+}
+
+
+.overdue-badge {
+
+    color:red;
+    font-weight:700;
+    font-size:13px;
+    display:block;
+    margin-top:8px;
+
+}
+
+
+
+
 .task-card a {
 
     color:#2c3e50;
@@ -157,7 +186,8 @@ a[href*="export"] {
 }
 
 
-/* Priority indicator */
+
+/* Priority */
 
 .priority-high {
     border-left:5px solid #555;
@@ -172,6 +202,8 @@ a[href*="export"] {
 .priority-low {
     border-left:5px solid #aaa;
 }
+
+
 
 /* Action buttons */
 
@@ -198,57 +230,114 @@ a[href*="export"] {
 
 }
 
+
+
 .task-title {
+
     font-size:16px;
     font-weight:600;
     margin-bottom:12px;
     letter-spacing:0.2px;
+
 }
+
 
 .task-title a {
+
     color:#1f2937;
     text-decoration:none;
+
 }
 
+
 .task-title a:hover {
+
     color:#34495e;
+
 }
+
 
 </style>
 
 
 <form method="GET" class="filter-bar">
 
-<input type="text" name="search" placeholder="Search..." value="{{ request.GET.search }}">
+
+<input type="text" 
+name="search" 
+placeholder="Search..."
+value="{{ request.GET.search }}">
+
+
 
 <select name="project">
-<option value="">All Projects</option>
+
+<option value="">
+All Projects
+</option>
+
 
 {% for p in all_projects %}
-<option value="{{ p.id }}">{{ p.name }}</option>
+
+<option value="{{ p.id }}">
+{{ p.name }}
+</option>
+
 {% endfor %}
 
+
 </select>
+
 
 
 <select name="status">
 
-<option value="">All Status</option>
-<option value="todo">To Do</option>
-<option value="progress">In Progress</option>
-<option value="done">Done</option>
+<option value="">
+All Status
+</option>
+
+<option value="todo">
+To Do
+</option>
+
+<option value="progress">
+In Progress
+</option>
+
+<option value="done">
+Done
+</option>
+
 
 </select>
+
 
 
 <select name="priority">
 
-<option value="">All Priority</option>
-<option value="high">High</option>
-<option value="medium">Medium</option>
-<option value="low">Low</option>
+
+<option value="">
+All Priority
+</option>
+
+
+<option value="high">
+High
+</option>
+
+
+<option value="medium">
+Medium
+</option>
+
+
+<option value="low">
+Low
+</option>
+
 
 </select>
+
 
 
 <button type="submit" class="apply-btn">
@@ -260,7 +349,9 @@ Apply
 Reset
 </a>
 
+
 </form>
+
 
 
 <hr>
@@ -268,7 +359,11 @@ Reset
 
 {% for data in project_data %}
 
-<h3>{{ data.project.name }}</h3>
+
+<h3>
+{{ data.project.name }}
+</h3>
+
 
 <p>
 Progress: {{ data.project.progress }}% |
@@ -278,8 +373,7 @@ Tasks: {{ data.completed_tasks }}/{{ data.total_tasks }}
 
 <div class="board">
 
-
-<!-- TODO -->
+    <!-- TODO COLUMN -->
 
 <div class="kanban-column">
 
@@ -288,14 +382,28 @@ Tasks: {{ data.completed_tasks }}/{{ data.total_tasks }}
 
 {% for task in data.todo %}
 
-<div class="task-card">
+
+<div class="task-card {% if task.is_overdue %}overdue-card{% endif %}">
 
 
 <div class="task-title">
-    <a href="/projects/tasks/{{ task.id }}/">
-        {{ task.title }}
-    </a>
+
+<a href="/projects/tasks/{{ task.id }}/">
+{{ task.title }}
+</a>
+
 </div>
+
+
+{% if task.is_overdue %}
+
+<span class="overdue-badge">
+⚠ Overdue
+</span>
+
+{% endif %}
+
+
 
 <form method="POST" action="{% url 'update_task_status' task.id %}">
 
@@ -303,14 +411,17 @@ Tasks: {{ data.completed_tasks }}/{{ data.total_tasks }}
 
 <input type="hidden" name="action" value="forward">
 
+
 <button class="btn">
 → Progress
 </button>
+
 
 </form>
 
 
 </div>
+
 
 {% empty %}
 
@@ -320,23 +431,47 @@ Tasks: {{ data.completed_tasks }}/{{ data.total_tasks }}
 
 
 </div>
-<!-- PROGRESS -->
+
+
+
+
+<!-- IN PROGRESS COLUMN -->
+
 
 <div class="kanban-column">
 
-<h4>In Progress</h4>
+
+<h4>
+In Progress
+</h4>
+
 
 
 {% for task in data.progress %}
 
-<div class="task-card">
 
 
-<b>
+<div class="task-card {% if task.is_overdue %}overdue-card{% endif %}">
+
+
+
+<div class="task-title">
+
 <a href="{% url 'task_detail' task.id %}">
-    {{ task.title }}
+{{ task.title }}
 </a>
-</b>
+
+</div>
+
+
+
+{% if task.is_overdue %}
+
+<span class="overdue-badge">
+⚠ Overdue
+</span>
+
+{% endif %}
 
 
 
@@ -346,11 +481,14 @@ Tasks: {{ data.completed_tasks }}/{{ data.total_tasks }}
 
 <input type="hidden" name="action" value="backward">
 
+
 <button class="btn">
 ← Back
 </button>
 
+
 </form>
+
 
 
 
@@ -360,14 +498,18 @@ Tasks: {{ data.completed_tasks }}/{{ data.total_tasks }}
 
 <input type="hidden" name="action" value="forward">
 
+
 <button class="btn">
 → Done
 </button>
 
+
 </form>
 
 
+
 </div>
+
 
 
 {% empty %}
@@ -377,32 +519,51 @@ Tasks: {{ data.completed_tasks }}/{{ data.total_tasks }}
 {% endfor %}
 
 
+
 </div>
 
 
 
-<!-- DONE -->
+
+
+
+<!-- DONE COLUMN -->
 
 
 <div class="kanban-column">
 
 
-<h4>Done</h4>
+<h4>
+Done
+</h4>
 
 
 
 {% for task in data.done %}
 
 
-<div class="task-card">
+
+<div class="task-card {% if task.is_overdue %}overdue-card{% endif %}">
 
 
 
-<b>
+<div class="task-title">
+
 <a href="/projects/tasks/{{ task.id }}/">
 {{ task.title }}
 </a>
-</b>
+
+</div>
+
+
+
+{% if task.is_overdue %}
+
+<span class="overdue-badge">
+⚠ Overdue
+</span>
+
+{% endif %}
 
 
 
@@ -425,6 +586,7 @@ Tasks: {{ data.completed_tasks }}/{{ data.total_tasks }}
 </div>
 
 
+
 {% empty %}
 
 <p>No tasks</p>
@@ -432,11 +594,13 @@ Tasks: {{ data.completed_tasks }}/{{ data.total_tasks }}
 {% endfor %}
 
 
-</div>
-
-
 
 </div>
+
+
+
+</div>
+
 
 
 {% endfor %}
