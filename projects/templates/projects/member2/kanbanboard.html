@@ -4,8 +4,6 @@
 
 <h2>Kanban Board</h2>
 
-<!-- LIVE INDICATOR -->
-
 <div id="live-indicator" style="font-size:12px;color:green;margin-bottom:10px;">
     ● Live Updating
 </div>
@@ -15,23 +13,16 @@ style="background:#27ae60; color:white; padding:8px 15px; border-radius:6px; tex
 Export Tasks CSV </a>
 
 <style>
-
 body {
     font-family: "Segoe UI", Arial, sans-serif;
-    background: #f5f6f8;
-    color: #2c3e50;
+    background:#f5f6f8;
+    color:#2c3e50;
 }
 
-h2 {
-    margin-bottom: 20px;
-    font-weight: 600;
-}
+h2 { margin-bottom:20px; font-weight:600; }
+h3 { margin-top:25px; font-weight:600; }
 
-h3 {
-    margin-top: 25px;
-    font-weight: 600;
-}
-
+/* Filter */
 .filter-bar {
     display:flex;
     gap:12px;
@@ -40,7 +31,6 @@ h3 {
     padding:15px;
     border-radius:10px;
     border:1px solid #e5e7eb;
-    box-shadow:0 2px 8px rgba(0,0,0,0.05);
 }
 
 .filter-bar input,
@@ -48,9 +38,9 @@ h3 {
     padding:8px 12px;
     border-radius:6px;
     border:1px solid #d1d5db;
-    background:white;
 }
 
+/* Buttons */
 .apply-btn {
     background:#34495e;
     color:white;
@@ -66,68 +56,63 @@ h3 {
     border-radius:6px;
 }
 
+/* Board */
 .board {
     display:flex;
     gap:20px;
     margin-top:20px;
 }
 
+/* Columns */
 .kanban-column {
     width:33%;
     background:#eef1f4;
     padding:18px;
     border-radius:12px;
-    min-height:250px;
 }
 
-.kanban-column h4 {
-    text-align:center;
-    font-size:18px;
-    margin-bottom:15px;
-}
-
+/* Task */
 .task-card {
     background:white;
     padding:15px;
     margin-bottom:12px;
     border-radius:10px;
     border:1px solid #e5e7eb;
-    box-shadow:0 2px 6px rgba(0,0,0,0.06);
 }
 
-.task-card:hover {
-    transform:translateY(-2px);
-    transition:0.2s;
+/* Step 7 Overdue */
+.overdue-card {
+    border-left:5px solid red;
+    background:#fff5f5;
 }
 
-.task-title {
-    font-size:16px;
-    font-weight:600;
-    margin-bottom:10px;
+.overdue-badge {
+    color:red;
+    font-weight:700;
+    font-size:13px;
 }
 
+/* Buttons */
 .btn {
-    margin-top:8px;
-    padding:6px 14px;
-    border-radius:6px;
+    margin-top:10px;
+    padding:8px 16px;
+    border-radius:8px;
     border:none;
     cursor:pointer;
-    font-size:13px;
     background:#2563eb;
     color:white;
 }
 
+/* Progress */
 .progress {
     background:#ddd;
     border-radius:6px;
     overflow:hidden;
     margin-top:8px;
 }
-
 .progress-bar {
     height:6px;
 }
-
 </style>
 
 <form method="GET" class="filter-bar">
@@ -156,7 +141,6 @@ h3 {
 </select>
 
 <button type="submit" class="apply-btn">Apply</button>
-
 <a href="/projects/kanban/" class="reset-btn">Reset</a>
 
 </form>
@@ -167,41 +151,29 @@ h3 {
 
 <h3>{{ data.project.name }}</h3>
 
-<!-- PROJECT PROGRESS -->
-
 <p>
-    Progress: {{ data.project.progress }}% |
-    Tasks: {{ data.completed_tasks }}/{{ data.total_tasks }}
+Progress: {{ data.project.progress }}% |
+Tasks: {{ data.completed_tasks }}/{{ data.total_tasks }}
 </p>
 
-<div class="progress" style="height:10px;">
-    <div class="progress-bar" style="
-        width:{{ data.project.progress }}%;
-        background:#2ecc71;">
-    </div>
+<div class="progress">
+<div class="progress-bar" style="width:{{ data.project.progress }}%; background:#2ecc71;"></div>
 </div>
 
 <div class="board">
 
 <!-- TODO -->
-
 <div class="kanban-column">
 <h4>To Do</h4>
 
 {% for task in data.todo %}
+<div class="task-card {% if task.is_overdue %}overdue-card{% endif %}">
 
-<div class="task-card">
+<a href="/projects/tasks/{{ task.id }}/">{{ task.title }}</a>
 
-<div class="task-title">
-    <a href="/projects/tasks/{{ task.id }}/">{{ task.title }}</a>
-</div>
-
-<!-- TASK PROGRESS -->
-
-<div class="progress">
-    <div class="progress-bar" style="width:0%; background:#999;"></div>
-</div>
-<small>0%</small>
+{% if task.is_overdue %}
+<span class="overdue-badge">⚠ Overdue</span>
+{% endif %}
 
 <form method="POST" action="{% url 'update_task_status' task.id %}">
 {% csrf_token %}
@@ -210,31 +182,23 @@ h3 {
 </form>
 
 </div>
-
 {% empty %}
-
 <p>No tasks</p>
 {% endfor %}
-
 </div>
 
 <!-- PROGRESS -->
-
 <div class="kanban-column">
 <h4>In Progress</h4>
 
 {% for task in data.progress %}
+<div class="task-card {% if task.is_overdue %}overdue-card{% endif %}">
 
-<div class="task-card">
-
-<div class="task-title">
 <a href="{% url 'task_detail' task.id %}">{{ task.title }}</a>
-</div>
 
-<div class="progress">
-    <div class="progress-bar" style="width:50%; background:#f39c12;"></div>
-</div>
-<small>50%</small>
+{% if task.is_overdue %}
+<span class="overdue-badge">⚠ Overdue</span>
+{% endif %}
 
 <form method="POST" action="{% url 'update_task_status' task.id %}">
 {% csrf_token %}
@@ -249,31 +213,23 @@ h3 {
 </form>
 
 </div>
-
 {% empty %}
-
 <p>No tasks</p>
 {% endfor %}
-
 </div>
 
 <!-- DONE -->
-
 <div class="kanban-column">
 <h4>Done</h4>
 
 {% for task in data.done %}
+<div class="task-card {% if task.is_overdue %}overdue-card{% endif %}">
 
-<div class="task-card">
-
-<div class="task-title">
 <a href="/projects/tasks/{{ task.id }}/">{{ task.title }}</a>
-</div>
 
-<div class="progress">
-    <div class="progress-bar" style="width:100%; background:#2ecc71;"></div>
-</div>
-<small>100%</small>
+{% if task.is_overdue %}
+<span class="overdue-badge">⚠ Overdue</span>
+{% endif %}
 
 <form method="POST" action="{% url 'update_task_status' task.id %}">
 {% csrf_token %}
@@ -282,42 +238,16 @@ h3 {
 </form>
 
 </div>
-
 {% empty %}
-
 <p>No tasks</p>
 {% endfor %}
-
 </div>
 
 </div>
-
 {% endfor %}
 
-<!-- AUTO UPDATE SCRIPT -->
-
 <script>
-function refreshKanban() {
-    fetch(window.location.href)
-        .then(res => res.text())
-        .then(html => {
-            const newDoc = new DOMParser().parseFromString(html, 'text/html');
-
-            document.querySelectorAll('.progress').forEach((el, i) => {
-                el.innerHTML = newDoc.querySelectorAll('.progress')[i].innerHTML;
-            });
-        });
-}
-
-setInterval(refreshKanban, 5000);
-</script>
-
-<script>
-setInterval(() => {
-    const dot = document.getElementById("live-indicator");
-    dot.style.visibility =
-        dot.style.visibility === "hidden" ? "visible" : "hidden";
-}, 1000);
+setInterval(() => location.reload(), 5000);
 </script>
 
 {% endblock %}

@@ -10,6 +10,7 @@ STATUS_CHOICES = [
     ('done', 'Done'),
 ]
 
+
 PRIORITY_CHOICES = [
     ('low', 'Low'),
     ('medium', 'Medium'),
@@ -17,78 +18,235 @@ PRIORITY_CHOICES = [
 ]
 
 
+
 class Project(models.Model):
 
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
+    name = models.CharField(
+        max_length=255
+    )
 
-    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    description = models.TextField(
+        blank=True
+    )
 
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='todo')
-    priority = models.CharField(max_length=20, choices=PRIORITY_CHOICES, default='medium')
 
-    due_date = models.DateField(null=True, blank=True)
+    organization = models.ForeignKey(
+        Organization,
+        on_delete=models.CASCADE
+    )
 
-    members = models.ManyToManyField(User, related_name='project_members', blank=True)
 
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )
+
+
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='todo'
+    )
+
+
+    priority = models.CharField(
+        max_length=20,
+        choices=PRIORITY_CHOICES,
+        default='medium'
+    )
+
+
+    due_date = models.DateField(
+        null=True,
+        blank=True
+    )
+
+
+    members = models.ManyToManyField(
+        User,
+        related_name='project_members',
+        blank=True
+    )
+
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
 
     @property
     def progress(self):
+
         tasks = self.task_set.all()
+
         if not tasks.exists():
             return 0
-        return int(sum([t.progress for t in tasks]) / tasks.count())
+
+        return int(
+            sum([task.progress for task in tasks])
+            /
+            tasks.count()
+        )
+
 
     def __str__(self):
+
         return self.name
+
+
+
 
 
 class Task(models.Model):
 
-    title = models.CharField(max_length=255)
+    title = models.CharField(
+        max_length=255
+    )
 
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
 
-    assigned_to = models.ForeignKey(User, on_delete=models.CASCADE)
+    project = models.ForeignKey(
+        Project,
+        on_delete=models.CASCADE
+    )
 
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='todo')
-    priority = models.CharField(max_length=20, choices=PRIORITY_CHOICES, default='medium')
 
-    due_date = models.DateField(null=True, blank=True)
+    organization = models.ForeignKey(
+        Organization,
+        on_delete=models.CASCADE
+    )
+
+
+    assigned_to = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )
+
+
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='todo'
+    )
+
+
+    priority = models.CharField(
+        max_length=20,
+        choices=PRIORITY_CHOICES,
+        default='medium'
+    )
+
+
+    due_date = models.DateField(
+        null=True,
+        blank=True
+    )
+
+
+    # Step 7.2 Reminder System
+
+    reminder_date = models.DateTimeField(
+        null=True,
+        blank=True
+    )
+
+
+    reminder_sent = models.BooleanField(
+        default=False
+    )
+
+
 
     dependency = models.ForeignKey(
-    'self',
-    null=True,
-    blank=True,
-    on_delete=models.SET_NULL,
-    related_name='dependent_tasks'
-)
-    order = models.IntegerField(default=0)  # drag-drop support
+        'self',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='dependent_tasks'
+    )
 
-    created_at = models.DateTimeField(auto_now_add=True)
+
+    order = models.IntegerField(
+        default=0
+    )
+
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+
 
     @property
     def progress(self):
-        return 0 if self.status == 'todo' else 50 if self.status == 'progress' else 100
+
+        if self.status == 'todo':
+            return 0
+
+        elif self.status == 'progress':
+            return 50
+
+        return 100
+
+
 
     @property
     def is_overdue(self):
-        return self.due_date and self.status != 'done' and self.due_date < timezone.now().date()
+
+        return (
+            self.due_date
+            and
+            self.status != 'done'
+            and
+            self.due_date < timezone.now().date()
+        )
+
+
+
+    @property
+    def is_reminder_due(self):
+
+        return (
+            self.reminder_date
+            and
+            self.reminder_date <= timezone.now()
+            and
+            not self.reminder_sent
+        )
+
+
 
     def __str__(self):
+
         return self.title
+
+
+
 
 
 class ActivityLog(models.Model):
 
-    task = models.ForeignKey(Task, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    task = models.ForeignKey(
+        Task,
+        on_delete=models.CASCADE
+    )
 
-    action = models.CharField(max_length=255)
-    created_at = models.DateTimeField(auto_now_add=True)
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )
+
+
+    action = models.CharField(
+        max_length=255
+    )
+
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
 
     def __str__(self):
+
         return f"{self.user} - {self.action}"
