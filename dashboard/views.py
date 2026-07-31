@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
-from projects.models import Project, Task
+from projects.models import Project, Task, ActivityLog
 from accounts.models import User, Role
 
 @login_required
@@ -23,6 +23,11 @@ def dashboard(request):
 
     recent_projects = Project.objects.order_by("-created_at")[:5]
     recent_tasks = Task.objects.order_by("-created_at")[:5]
+    team_members = User.objects.filter(
+        organization=request.user.organization
+    ).count()
+    progress_projects = Project.objects.order_by("-created_at")[:5]
+    recent_activities = ActivityLog.objects.order_by("-created_at")[:5]
     
     context = {
         "total_projects": total_projects,
@@ -33,6 +38,9 @@ def dashboard(request):
 
         "recent_projects": recent_projects,
         "recent_tasks": recent_tasks,
+        "team_members": team_members,
+        "progress_projects": progress_projects,
+        "recent_activities": recent_activities,
     }
 
     return render(request, "dashboard.html", context)

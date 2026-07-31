@@ -145,7 +145,7 @@ Dashboard
 
     </div>
 
-    <p>10</p>
+    <p>{{ team_members }}</p>
 
     <span>Active Members</span>
 
@@ -159,35 +159,65 @@ Dashboard
 
     <div class="quick-actions">
 
-        <h2>⚡ Quick Actions</h2>
+    <h2>⚡ Quick Actions</h2>
 
-        <button>Add Project</button>
+    <a href="{% url 'create_project' %}" class="btn btn-primary">
+        + Add Project
+    </a>
 
-        <button>Add Task</button>
+    <a href="{% url 'create_task' %}" class="btn btn-primary">
+        + Add Task
+    </a>
 
-        <button>Create Report</button>
+    <a href="{% url 'audit:activity_report' %}" class="btn btn-primary">
+        Create Report
+    </a>
 
-        <button>Invite Member</button>
+    <a href="{% url 'team_members' %}" class="btn btn-primary">
+        Invite Member
+    </a>
 
-    </div>
+</div>
 
     <div class="recent-activity">
 
-        <h2>🔔 Recent Activity</h2>
+    <h2>🔔 Recent Activity</h2>
 
-        <ul>
+    <ul>
 
-            <li>✅ Dashboard UI completed</li>
+        {% for activity in recent_activities %}
 
-            <li>📁 New project created</li>
+        <li>
 
-            <li>👤 Member 3 updated profile</li>
+            <strong>{{ activity.user.username }}</strong>
 
-            <li>📊 Report generated</li>
+            {{ activity.action }}
 
-        </ul>
+            <br>
 
-    </div>
+            <small>
+
+                {{ activity.task.title }}
+
+                •
+
+                {{ activity.created_at|date:"d M Y H:i" }}
+
+            </small>
+
+        </li>
+
+        {% empty %}
+
+        <li>No recent activity found.</li>
+
+        {% endfor %}
+
+    </ul>
+
+</div>
+
+</div>
 
 </div>
 
@@ -199,42 +229,30 @@ Dashboard
 
         <h2>Project Progress</h2>
 
-        <p>Website Redesign</p>
+        {% for project in progress_projects %}
 
-        <div class="progress">
+            <p>{{ project.name }}</p>
 
-            <div class="progress-fill blue-fill" style="width:75%;">
-                75%
+            <div class="progress">
+
+                <div class="progress-fill blue-fill"
+                     style="width:{{ project.progress }}%;">
+
+                    {{ project.progress }}%
+
+                </div>
+
             </div>
 
-        </div>
+        {% empty %}
 
-        <p>Inventory System</p>
+            <p>No projects available.</p>
 
-        <div class="progress">
-
-            <div class="progress-fill green-fill" style="width:100%;">
-                100%
-            </div>
-
-        </div>
-
-        <p>Library Management</p>
-
-        <div class="progress">
-
-            <div class="progress-fill orange-fill" style="width:40%;">
-                40%
-            </div>
-
-        </div>
+        {% endfor %}
 
     </div>
-
 </div>
-
 <hr>
-
 <h2>Recent Projects</h2>
 
 <table>

@@ -114,15 +114,20 @@ def create_task(request):
             assigned_to=assigned_to,
             dependency=dependency
         )
+        ActivityLog.objects.create(
+        task=task,
+        user=request.user,
+        action="Task Created"
+    )
 
         messages.success(request, "Task created successfully")
         return redirect('task_list')  # change if your URL name is different
 
-    return render(request, 'projects/task_form.html', {
-        'projects': projects,
-        'users': users,
-        'tasks': tasks
-    })
+    return render(request, 'projects/create_task.html', {
+    'projects': projects,
+    'users': users,
+    'tasks': tasks
+})
 
 # ================= KANBAN =================
 

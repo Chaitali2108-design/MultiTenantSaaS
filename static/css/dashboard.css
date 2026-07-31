@@ -238,3 +238,26 @@
     background:#ea580c;
 
 }
+.quick-actions{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.quick-actions a{
+    display: block;
+    text-align: center;
+    background: #2d4aa8;
+    color: white;
+    text-decoration: none;
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.quick-actions a:hover{
+    background: #1d357f;
+}
+
