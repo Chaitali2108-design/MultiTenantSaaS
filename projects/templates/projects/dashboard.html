@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Dashboard</h2>
+
+<div style="display:flex; gap:20px; flex-wrap:wrap;">
+
+    <div class="card">Total Tasks: {{ total }}</div>
+    <div class="card">To Do: {{ todo }}</div>
+    <div class="card">In Progress: {{ progress }}</div>
+    <div class="card">Done: {{ done }}</div>
+    <div class="card">Overdue: {{ overdue }}</div>
+    <div class="card">Due Today: {{ today }}</div>
+    <div class="card">Due This Week: {{ week }}</div>
+    <div class="card">Completion: {{ completion }}%</div>
+
+</div>
+
+<style>
+.card {
+    background:white;
+    padding:15px;
+    border-radius:8px;
+    border:1px solid #ddd;
+    min-width:150px;
+}
+</style>
+
+{% endblock %}

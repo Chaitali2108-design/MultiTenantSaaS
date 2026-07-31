@@ -20,4 +20,21 @@
     <br><br>
 
     <button type="submit">Create Task</button>
+
+    <label>Priority</label>
+<select name="priority">
+    <option value="high">High</option>
+    <option value="medium" selected>Medium</option>
+    <option value="low">Low</option>
+</select>
+
+<label>Dependency</label>
+<select name="dependency" class="form-control">
+    <option value="">None</option>
+    {% for t in tasks %}
+        <option value="{{ t.id }}">
+            {{ t.title }}
+        </option>
+    {% endfor %}
+</select>
 </form>
