@@ -1,9 +1,41 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
+from projects.models import Project, Task
+from accounts.models import User, Role
+
 @login_required
 def dashboard(request):
-    return render(request, 'dashboard.html')
+
+    total_projects = Project.objects.count()
+
+    completed_tasks = Task.objects.filter(status="done").count()
+
+    pending_tasks = Task.objects.filter(status="todo").count()
+
+    active_projects = Project.objects.count()
+
+    overdue_tasks = 0
+
+    for task in Task.objects.all():
+        if task.is_overdue:
+            overdue_tasks += 1
+
+    recent_projects = Project.objects.order_by("-created_at")[:5]
+    recent_tasks = Task.objects.order_by("-created_at")[:5]
+    
+    context = {
+        "total_projects": total_projects,
+        "active_projects": active_projects,
+        "completed_tasks": completed_tasks,
+        "pending_tasks": pending_tasks,
+        "overdue_tasks": overdue_tasks,
+
+        "recent_projects": recent_projects,
+        "recent_tasks": recent_tasks,
+    }
+
+    return render(request, "dashboard.html", context)
 
 def project_list(request):
     return render(request, 'projects/project_list.html')
@@ -20,10 +52,7 @@ def tasks(request):
 def reports(request):
     return render(request, "reports/reports.html")
 
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
 
-from accounts.models import User, Role
 
 
 @login_required

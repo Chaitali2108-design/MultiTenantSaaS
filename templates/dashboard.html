@@ -42,7 +42,7 @@ Dashboard
 
     </div>
 
-    <p>15</p>
+    <p>{{ total_projects }}</p>
 
     <span>+2 this week</span>
 
@@ -58,7 +58,7 @@ Dashboard
 
     </div>
 
-    <p>10</p>
+    <p>{{ active_projects }}</p>
 
 <div class="mini-progress">
 
@@ -80,7 +80,7 @@ Dashboard
 
     </div>
 
-    <p>80</p>
+    <p>{{ completed_tasks }}</p>
 
 <div class="mini-progress">
 
@@ -102,7 +102,7 @@ Dashboard
 
     </div>
 
-   <p>40</p>
+   <p>{{ pending_tasks }}</p>
 
 <div class="mini-progress">
 
@@ -124,7 +124,7 @@ Dashboard
 
     </div>
 
-    <p>5</p>
+    <p>{{ overdue_tasks }}</p>
 
 <div class="mini-progress">
 
@@ -256,104 +256,45 @@ Dashboard
 
     <tbody>
 
-        <tr>
+{% for project in recent_projects %}
 
-            <td>Website Redesign</td>
+<tr>
 
-            <td>Member 3</td>
+    <td>{{ project.name }}</td>
 
-            <td>
-                <span class="status in-progress">
-                    In Progress
-                </span>
-            </td>
+    <td>{{ project.created_by.username }}</td>
 
-            <td>
-                <span class="priority high">
-                    High
-                </span>
-            </td>
+    <td>
+        <span class="status in-progress">
+            Active
+        </span>
+    </td>
 
-            <td>20 May 2026</td>
+    <td>
+        <span class="priority medium">
+            Medium
+        </span>
+    </td>
 
-            <td class="actions">
+    <td>{{ project.created_at|date:"d M Y" }}</td>
 
-                <i class="fa-solid fa-eye"></i>
+    <td class="actions">
+        <i class="fa-solid fa-eye"></i>
+        <i class="fa-solid fa-pen"></i>
+        <i class="fa-solid fa-trash"></i>
+    </td>
 
-                <i class="fa-solid fa-pen"></i>
+</tr>
 
-                <i class="fa-solid fa-trash"></i>
+{% empty %}
 
-            </td>
+<tr>
+    <td colspan="6">No projects found.</td>
+</tr>
 
-        </tr>
+{% endfor %}
 
-        <tr>
-
-            <td>Inventory System</td>
-
-            <td>Member 1</td>
-
-            <td>
-                <span class="status completed">
-                    Completed
-                </span>
-            </td>
-
-            <td>
-                <span class="priority medium">
-                    Medium
-                </span>
-            </td>
-
-            <td>15 April 2026</td>
-
-            <td class="actions">
-
-                <i class="fa-solid fa-eye"></i>
-
-                <i class="fa-solid fa-pen"></i>
-
-                <i class="fa-solid fa-trash"></i>
-
-            </td>
-
-        </tr>
-
-        <tr>
-
-            <td>Library Management</td>
-
-            <td>Member 2</td>
-
-            <td>
-                <span class="status pending">
-                    Pending
-                </span>
-            </td>
-
-            <td>
-                <span class="priority high">
-                    High
-                </span>
-            </td>
-
-            <td>30 May 2026</td>
-
-            <td class="actions">
-
-                <i class="fa-solid fa-eye"></i>
-
-                <i class="fa-solid fa-pen"></i>
-
-                <i class="fa-solid fa-trash"></i>
-
-            </td>
-
-        </tr>
-
-    </tbody>
-
+</tbody>
 </table>
 
     <hr>
@@ -377,129 +318,63 @@ Dashboard
 
     </thead>
 
-    <tbody>
+  <tbody>
 
-        <tr>
+{% for task in recent_tasks %}
 
-            <td>Design Login Page</td>
+<tr>
 
-            <td>Website Redesign</td>
+    <td>{{ task.title }}</td>
 
-            <td>Member 3</td>
+    <td>{{ task.project.name }}</td>
 
-            <td>
+    <td>{{ task.assigned_to.username }}</td>
 
-                <span class="status completed">
+    <td>
 
-                    Completed
+        {% if task.status == "done" %}
+            <span class="status completed">Completed</span>
 
-                </span>
+        {% elif task.status == "progress" %}
+            <span class="status in-progress">In Progress</span>
 
-            </td>
+        {% else %}
+            <span class="status pending">Pending</span>
+        {% endif %}
 
-            <td>
+    </td>
 
-                <span class="priority high">
+    <td>
 
-                    High
+        {% if task.priority == "high" %}
+            <span class="priority high">High</span>
 
-                </span>
+        {% elif task.priority == "medium" %}
+            <span class="priority medium">Medium</span>
 
-            </td>
+        {% else %}
+            <span class="priority low">Low</span>
+        {% endif %}
 
-            <td class="actions">
+    </td>
 
-                <i class="fa-solid fa-eye"></i>
+    <td class="actions">
+        <i class="fa-solid fa-eye"></i>
+        <i class="fa-solid fa-pen"></i>
+        <i class="fa-solid fa-trash"></i>
+    </td>
 
-                <i class="fa-solid fa-pen"></i>
+</tr>
 
-                <i class="fa-solid fa-trash"></i>
+{% empty %}
 
-            </td>
+<tr>
+    <td colspan="6">No tasks found.</td>
+</tr>
 
-        </tr>
+{% endfor %}
 
-        <tr>
-
-            <td>Create Dashboard UI</td>
-
-            <td>Website Redesign</td>
-
-            <td>Member 3</td>
-
-            <td>
-
-                <span class="status in-progress">
-
-                    In Progress
-
-                </span>
-
-            </td>
-
-            <td>
-
-                <span class="priority high">
-
-                    High
-
-                </span>
-
-            </td>
-
-            <td class="actions">
-
-                <i class="fa-solid fa-eye"></i>
-
-                <i class="fa-solid fa-pen"></i>
-
-                <i class="fa-solid fa-trash"></i>
-
-            </td>
-
-        </tr>
-
-        <tr>
-
-            <td>Database Design</td>
-
-            <td>Inventory System</td>
-
-            <td>Member 1</td>
-
-            <td>
-
-                <span class="status pending">
-
-                    Pending
-
-                </span>
-
-            </td>
-
-            <td>
-
-                <span class="priority medium">
-
-                    Medium
-
-                </span>
-
-            </td>
-
-            <td class="actions">
-
-                <i class="fa-solid fa-eye"></i>
-
-                <i class="fa-solid fa-pen"></i>
-
-                <i class="fa-solid fa-trash"></i>
-
-            </td>
-
-        </tr>
-
-    </tbody>
+</tbody>
 
 </table>
 
