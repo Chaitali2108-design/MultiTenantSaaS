@@ -12,7 +12,7 @@ from accounts.models import User
 
 
 # ================= REMINDER CHECK =================
-def check_reminders():
+def check_reminders(request):
     now = timezone.now()
 
     tasks = Task.objects.filter(
@@ -21,16 +21,29 @@ def check_reminders():
     )
 
     for task in tasks:
-        print("🔔 Reminder:", task.title)
+
+        print("REMINDER FOUND:", task.title)
+
+        if task.priority == "high":
+            message = f"🚨 HIGH PRIORITY Reminder: {task.title}"
+
+        elif task.priority == "medium":
+            message = f"⚠️ Reminder: {task.title}"
+
+        else:
+            message = f"🔔 Reminder: {task.title}"
+
+        messages.warning(
+            request,
+            message
+        )
+
         task.reminder_sent = True
         task.save()
-
-
 # ================= PROJECT =================
 
 @login_required(login_url='/accounts/login/')
 def project_list(request):
-    check_reminders()
 
     user = request.user
 
@@ -123,8 +136,9 @@ def create_task(request):
         reminder_date = None
 
         if reminder_raw:
-            reminder_date = datetime.fromisoformat(reminder_raw)
-
+            reminder_date = timezone.make_aware(
+                datetime.fromisoformat(reminder_raw)
+            )
         # ✅ FIXED VALIDATION (INSIDE POST)
         if due_date:
             due_date_obj = datetime.strptime(due_date, "%Y-%m-%d").date()
@@ -191,7 +205,6 @@ def create_task(request):
 
 @login_required(login_url='/accounts/login/')
 def kanban_board(request):
-    check_reminders()
 
     user = request.user
 
@@ -338,7 +351,6 @@ def project_detail(request, project_id):
 
 @login_required(login_url='/accounts/login/')
 def task_list(request):
-    check_reminders()
 
     user = request.user
 
@@ -348,10 +360,11 @@ def task_list(request):
 
     search = request.GET.get('search')
     if search:
-        tasks = tasks.filter(
+       tasks = tasks.filter(
             Q(title__icontains=search) |
-            Q(description__icontains=search)
-        )
+            Q(project__name__icontains=search) |
+            Q(assigned_to__username__icontains=search)
+      )
 
     status = request.GET.get('status')
     priority = request.GET.get('priority')

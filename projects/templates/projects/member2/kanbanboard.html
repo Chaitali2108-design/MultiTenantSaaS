@@ -2,708 +2,214 @@
 
 {% block content %}
 
-<h2>Kanban Board</h2>
-
-<div id="live-indicator" style="font-size:12px;color:green;margin-bottom:10px;">
-    ● Live Updating
-</div>
-
-
-<a href="{% url 'export_tasks_csv' %}" 
-style="
-background:#27ae60;
-color:white;
-padding:8px 15px;
-border-radius:6px;
-text-decoration:none;
-margin-bottom:10px;
-display:inline-block;
-">
-Export Tasks CSV
-</a>
-
-
 <style>
 
-body {
-    font-family:"Segoe UI", Arial, sans-serif;
-    background:#f5f6f8;
-    color:#2c3e50;
-}
-
-
-h2 {
+.kanban-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
     margin-bottom:20px;
 }
 
-
-h3 {
-    margin-top:25px;
-}
-
-
-/* Filter */
-
-.filter-bar {
-
-    display:flex;
-    gap:12px;
-    flex-wrap:wrap;
-    background:white;
-    padding:15px;
-    border-radius:10px;
-    border:1px solid #e5e7eb;
-
-}
-
-
-.filter-bar input,
-.filter-bar select {
-
-    padding:8px 12px;
-    border-radius:6px;
-    border:1px solid #d1d5db;
-
-}
-
-
-
-/* Buttons */
-
-.apply-btn {
-
-    background:#34495e;
-    color:white;
-    border:none;
-    padding:8px 18px;
-    border-radius:6px;
-
-}
-
-
-.reset-btn {
-
-    background:#e5e7eb;
-    color:#333;
-    padding:8px 18px;
-    border-radius:6px;
-
-}
-
-
-
-/* Board */
-
-.board {
-
+.kanban-container{
     display:flex;
     gap:20px;
-    margin-top:20px;
-
+    overflow-x:auto;
 }
 
-
-
-.kanban-column {
-
-    width:33%;
-    background:#eef1f4;
-    padding:18px;
-    border-radius:12px;
-
-}
-
-
-
-/* Task Card */
-
-.task-card {
-
-    background:white;
+.kanban-column{
+    background:#f1f5f9;
     padding:15px;
-    margin-bottom:12px;
     border-radius:10px;
-    border:1px solid #e5e7eb;
-
+    width:300px;
+    flex-shrink:0;
 }
 
-
-
-.overdue-card {
-
-    border-left:5px solid red;
-    background:#fff5f5;
-
+.column-title{
+    font-weight:600;
+    margin-bottom:10px;
 }
 
-
-.overdue-badge {
-
-    color:red;
-    font-weight:700;
-    font-size:13px;
-
-}
-
-
-
-/* Step 7 badges */
-
-.priority-high {
-
-    color:red;
-    font-weight:bold;
-
-}
-
-
-.priority-medium {
-
-    color:orange;
-    font-weight:bold;
-
-}
-
-
-.priority-low {
-
-    color:green;
-    font-weight:bold;
-
-}
-
-
-.reminder-badge {
-
-    color:#8e44ad;
-    font-weight:bold;
-
-}
-
-
-
-/* Buttons */
-
-.btn {
-
-    margin-top:10px;
-    padding:8px 16px;
+.task-card{
+    background:white;
+    padding:12px;
     border-radius:8px;
+    margin-bottom:10px;
+    box-shadow:0 3px 10px rgba(0,0,0,0.05);
+}
+
+.task-title{
+    font-weight:600;
+    margin-bottom:5px;
+}
+
+.badge{
+    padding:4px 8px;
+    border-radius:12px;
+    font-size:12px;
+}
+
+.high{background:#fee2e2;color:#b91c1c;}
+.medium{background:#fef3c7;color:#92400e;}
+.low{background:#dcfce7;color:#166534;}
+
+.btn{
+    margin-top:8px;
+    padding:6px 10px;
     border:none;
-    cursor:pointer;
+    border-radius:5px;
     background:#2563eb;
     color:white;
-
+    cursor:pointer;
+    font-size:12px;
 }
 
-
-
-/* Progress */
-
-.progress {
-
-    background:#ddd;
-    border-radius:6px;
-    overflow:hidden;
-    margin-top:8px;
-
+.btn:hover{
+    background:#1d4ed8;
 }
 
-
-.progress-bar {
-
-    height:6px;
-
+.progress-box{
+    margin-bottom:10px;
+    font-size:13px;
+    font-weight:500;
 }
 
+.overdue{
+    color:red;
+    font-size:12px;
+}
 
 </style>
 
-
-
-<form method="GET" class="filter-bar">
-
-
-<input 
-type="text" 
-name="search" 
-placeholder="Search..."
-value="{{ request.GET.search }}"
->
-
-
-
-<select name="project">
-
-<option value="">
-All Projects
-</option>
-
-
-{% for p in all_projects %}
-
-<option value="{{ p.id }}">
-{{ p.name }}
-</option>
-
-{% endfor %}
-
-
-</select>
-
-
-
-<select name="status">
-
-<option value="">
-All Status
-</option>
-
-<option value="todo">
-To Do
-</option>
-
-<option value="progress">
-In Progress
-</option>
-
-<option value="done">
-Done
-</option>
-
-
-</select>
-
-
-
-<select name="priority">
-
-<option value="">
-All Priority
-</option>
-
-<option value="high">
-High
-</option>
-
-<option value="medium">
-Medium
-</option>
-
-<option value="low">
-Low
-</option>
-
-
-</select>
-
-
-
-<button type="submit" class="apply-btn">
-Apply
-</button>
-
-
-<a href="/projects/kanban/" class="reset-btn">
-Reset
-</a>
-
-
-</form>
-
-
-<hr>
-
-
+<div class="kanban-header">
+<h1>Kanban Board</h1>
+</div>
 
 {% for data in project_data %}
 
+<div class="card">
 
-<h3>
-{{ data.project.name }}
-</h3>
+<h2>{{ data.project.name }}</h2>
 
-
-<p>
-
-Progress:
-{{ data.project.progress }}%
-
-|
-
-Tasks:
-{{ data.completed_tasks }}/{{ data.total_tasks }}
-
-</p>
-
-
-
-<div class="progress">
-
-<div class="progress-bar"
-style="width:{{ data.project.progress }}%; background:#2ecc71;">
+<div class="progress-box">
+Completed: {{ data.completed_tasks }} / {{ data.total_tasks }}
 </div>
 
+{% if data.overdue_tasks %}
+
+<div class="overdue">
+Overdue Tasks: {{ data.overdue_tasks.count }}
 </div>
+{% endif %}
 
-<div class="board">
+<div class="kanban-container">
 
-
-<!-- TODO COLUMN -->
+<!-- TODO -->
 
 <div class="kanban-column">
-
-<h4>To Do</h4>
-
+<div class="column-title">To Do</div>
 
 {% for task in data.todo %}
 
+<div class="task-card">
 
-<div class="task-card {% if task.is_overdue %}overdue-card{% endif %}">
-
-
+<div class="task-title">
 <a href="{% url 'task_detail' task.id %}">
 {{ task.title }}
 </a>
+</div>
 
-
-
-<br><br>
-
-
-<!-- Priority -->
-
-{% if task.priority == "high" %}
-
-<span class="priority-high">
-🔴 High Priority
+<span class="badge {{ task.priority }}">
+{{ task.priority }}
 </span>
-
-
-{% elif task.priority == "medium" %}
-
-<span class="priority-medium">
-🟠 Medium Priority
-</span>
-
-
-{% else %}
-
-<span class="priority-low">
-🟢 Low Priority
-</span>
-
-
-{% endif %}
-
-
-
-<br>
-
-
-
-<!-- Due Date -->
-
-{% if task.due_date %}
-
-<p>
-<b>Due:</b> {{ task.due_date }}
-</p>
-
-{% endif %}
-
-
-
-<!-- Reminder -->
-
-{% if task.reminder_date %}
-
-<span class="reminder-badge">
-🔔 Reminder Set
-</span>
-
-{% endif %}
-
-
-
-{% if task.is_overdue %}
-
-<br>
-
-<span class="overdue-badge">
-⚠ Overdue
-</span>
-
-{% endif %}
-
-
 
 <form method="POST" action="{% url 'update_task_status' task.id %}">
-
 {% csrf_token %}
-
 <input type="hidden" name="action" value="forward">
-
-<button class="btn">
-→ Progress
-</button>
-
+<button class="btn">→ Move</button>
 </form>
 
-
 </div>
-
-
 {% empty %}
-
 <p>No tasks</p>
-
-
 {% endfor %}
 
-
 </div>
 
-
-
-
-
-<!-- IN PROGRESS COLUMN -->
-
+<!-- IN PROGRESS -->
 
 <div class="kanban-column">
-
-
-<h4>In Progress</h4>
-
-
+<div class="column-title">In Progress</div>
 
 {% for task in data.progress %}
 
+<div class="task-card">
 
-
-<div class="task-card {% if task.is_overdue %}overdue-card{% endif %}">
-
-
-
+<div class="task-title">
 <a href="{% url 'task_detail' task.id %}">
 {{ task.title }}
 </a>
-
-
-
-<br><br>
-
-
-
-{% if task.priority == "high" %}
-
-<span class="priority-high">
-🔴 High Priority
-</span>
-
-
-{% elif task.priority == "medium" %}
-
-<span class="priority-medium">
-🟠 Medium Priority
-</span>
-
-
-{% else %}
-
-<span class="priority-low">
-🟢 Low Priority
-</span>
-
-
-{% endif %}
-
-
-
-{% if task.due_date %}
-
-<p>
-<b>Due:</b> {{ task.due_date }}
-</p>
-
-{% endif %}
-
-
-
-{% if task.reminder_date %}
-
-<span class="reminder-badge">
-🔔 Reminder Set
-</span>
-
-{% endif %}
-
-
-
-{% if task.is_overdue %}
-
-<br>
-
-<span class="overdue-badge">
-⚠ Overdue
-</span>
-
-{% endif %}
-
-
-
-<form method="POST" action="{% url 'update_task_status' task.id %}">
-
-{% csrf_token %}
-
-<input type="hidden" name="action" value="backward">
-
-<button class="btn">
-← Back
-</button>
-
-</form>
-
-
-
-<form method="POST" action="{% url 'update_task_status' task.id %}">
-
-{% csrf_token %}
-
-<input type="hidden" name="action" value="forward">
-
-<button class="btn">
-→ Done
-</button>
-
-</form>
-
-
-
 </div>
 
+<span class="badge {{ task.priority }}">
+{{ task.priority }}
+</span>
 
+<form method="POST" action="{% url 'update_task_status' task.id %}">
+{% csrf_token %}
+<input type="hidden" name="action" value="forward">
+<button class="btn">→ Done</button>
+</form>
 
+<form method="POST" action="{% url 'update_task_status' task.id %}">
+{% csrf_token %}
+<input type="hidden" name="action" value="backward">
+<button class="btn">← Back</button>
+</form>
+
+</div>
 {% empty %}
-
 <p>No tasks</p>
-
-
 {% endfor %}
 
-
 </div>
 
-
-
-
-
-<!-- DONE COLUMN -->
-
+<!-- DONE -->
 
 <div class="kanban-column">
-
-
-<h4>Done</h4>
-
-
+<div class="column-title">Done</div>
 
 {% for task in data.done %}
 
-
-
 <div class="task-card">
 
-
+<div class="task-title">
 <a href="{% url 'task_detail' task.id %}">
 {{ task.title }}
 </a>
+</div>
 
-
-
-<br><br>
-
-
-
-{% if task.priority == "high" %}
-
-<span class="priority-high">
-🔴 High Priority
+<span class="badge {{ task.priority }}">
+{{ task.priority }}
 </span>
-
-
-{% elif task.priority == "medium" %}
-
-<span class="priority-medium">
-🟠 Medium Priority
-</span>
-
-
-{% else %}
-
-<span class="priority-low">
-🟢 Low Priority
-</span>
-
-
-{% endif %}
-
-
-
-{% if task.due_date %}
-
-<p>
-<b>Due:</b> {{ task.due_date }}
-</p>
-
-{% endif %}
-
-
 
 <form method="POST" action="{% url 'update_task_status' task.id %}">
-
 {% csrf_token %}
-
 <input type="hidden" name="action" value="backward">
-
-
-<button class="btn">
-← Move Back
-</button>
-
-
+<button class="btn">← Reopen</button>
 </form>
 
-
 </div>
-
-
-
 {% empty %}
-
 <p>No tasks</p>
-
-
 {% endfor %}
-
 
 </div>
 
-
+</div>
 
 </div>
 
-
 {% endfor %}
-
-
-
-<script>
-
-setInterval(() => location.reload(), 5000);
-
-</script>
-
 
 {% endblock %}

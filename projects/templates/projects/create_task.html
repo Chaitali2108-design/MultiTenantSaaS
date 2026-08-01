@@ -4,405 +4,270 @@
 
 <style>
 
-.task-container{
+.form-container{
     width:600px;
-    margin:30px auto;
+    margin:40px auto;
     background:white;
     padding:30px;
-    border-radius:15px;
-    box-shadow:0 5px 20px rgba(0,0,0,0.1);
+    border-radius:12px;
+    box-shadow:0 6px 20px rgba(0,0,0,0.08);
 }
 
-
-.task-container h2{
+.form-title{
     text-align:center;
+    font-size:22px;
+    font-weight:600;
     margin-bottom:25px;
 }
-
 
 .form-group{
     margin-bottom:18px;
 }
 
-
 label{
     font-weight:600;
     display:block;
-    margin-bottom:8px;
+    margin-bottom:6px;
 }
-
 
 input,
 select{
-
     width:100%;
-    padding:12px;
-    border-radius:8px;
+    padding:10px;
+    border-radius:6px;
     border:1px solid #ddd;
     font-size:14px;
-
 }
-
 
 input:focus,
 select:focus{
-
     outline:none;
     border-color:#2563eb;
-
 }
 
-
-.create-btn{
-
+.btn{
     width:100%;
     padding:12px;
     background:#2563eb;
     color:white;
     border:none;
-    border-radius:8px;
-    font-size:16px;
+    border-radius:6px;
+    font-size:15px;
     cursor:pointer;
-
 }
 
-
-.create-btn:hover{
-
+.btn:hover{
     background:#1d4ed8;
-
 }
-
 
 .alert{
-
-    color:red;
+    background:#fee2e2;
+    color:#b91c1c;
+    padding:10px;
+    border-radius:6px;
     margin-bottom:15px;
-
 }
-
-
-.priority-box{
-
-    display:flex;
-    gap:10px;
-
-}
-
 
 </style>
 
+<div class="form-container">
 
-
-<div class="task-container">
-
-
-<h2>Create Task</h2>
-
-
+<h2 class="form-title">
+{% if task %}
+Update Task
+{% else %}
+Create Task
+{% endif %}
+</h2>
 
 {% if error %}
 
 <div class="alert">
 {{ error }}
 </div>
-
 {% endif %}
-
-
 
 <form method="POST" onsubmit="return validateDates()">
 
 {% csrf_token %}
 
-
-
 <div class="form-group">
-
-<label>
-Task Title
-</label>
-
+<label>Task Title</label>
 <input 
 type="text" 
 name="title"
+value="{{ task.title|default:'' }}"
 placeholder="Enter task title"
 required>
-
 </div>
 
-
-
-
 <div class="form-group">
-
-<label>
-Select Project
-</label>
-
+<label>Select Project</label>
 
 <select name="project" required>
 
-<option value="">
-Select Project
-</option>
-
+<option value="">Select Project</option>
 
 {% for project in projects %}
 
-<option value="{{ project.id }}">
+<option value="{{ project.id }}"
+{% if task.project.id == project.id %}selected{% endif %}>
 {{ project.name }}
 </option>
-
 {% endfor %}
 
-
 </select>
-
 </div>
 
-
-
-
-
 <div class="form-group">
-
-<label>
-Priority
-</label>
-
+<label>Priority</label>
 
 <select name="priority">
 
-
-<option value="high">
+<option value="high"
+{% if task.priority == 'high' %}selected{% endif %}>
 🔴 High
 </option>
 
-
-<option value="medium" selected>
+<option value="medium"
+{% if task.priority == 'medium' or not task %}selected{% endif %}>
 🟠 Medium
 </option>
 
-
-<option value="low">
+<option value="low"
+{% if task.priority == 'low' %}selected{% endif %}>
 🟢 Low
 </option>
 
-
 </select>
-
-
 </div>
 
-
-
-
-
 <div class="form-group">
-
-<label>
-Due Date
-</label>
-
+<label>Due Date</label>
 
 <input 
 type="date"
 name="due_date"
-id="due_date">
-
+id="due_date"
+value="{{ task.due_date|date:'Y-m-d' }}">
 
 </div>
 
-
-
-
-
 <div class="form-group">
-
-<label>
-Reminder Date & Time
-</label>
-
+<label>Reminder Date & Time</label>
 
 <input 
 type="datetime-local"
 name="reminder_date"
-id="reminder_date">
-
+id="reminder_date"
+value="{% if task.reminder_date %}{{ task.reminder_date|date:'Y-m-d\\TH:i' }}{% endif %}">
 
 </div>
 
-
-
-
-
 <div class="form-group">
+<label>Assign To</label>
 
-    <label>Assign To</label>
-<br>
+<select name="assigned_to">
 
-<select name="assigned_to" required>
+<option value="">Select Member</option>
 
-    <option value="">
-        Select Member
-    </option>
+{% for user in users %}
 
-    {% for user in users %}
-
-        <option value="{{ user.id }}">
-            {{ user.username }}
-        </option>
-
-    {% endfor %}
+<option value="{{ user.id }}"
+{% if task.assigned_to.id == user.id %}selected{% endif %}>
+{{ user.username }}
+</option>
+{% endfor %}
 
 </select>
+</div>
 
-<br><br>
-
-
-<label>
-Dependency Task
-</label>
-
+<div class="form-group">
+<label>Dependency Task</label>
 
 <select name="dependency">
 
-
-<option value="">
-None
-</option>
-
+<option value="">None</option>
 
 {% for t in tasks %}
 
-
-<option value="{{ t.id }}">
-
+<option value="{{ t.id }}"
+{% if task.dependency.id == t.id %}selected{% endif %}>
 {{ t.title }}
-
 </option>
-
-
 {% endfor %}
 
-
 </select>
-
-
 </div>
 
-
+<div class="form-group">
 <label>Status</label>
 
-<select name="status" required>
-    <option value="todo">To Do</option>
-    <option value="progress">In Progress</option>
-    <option value="done">Done</option>
+<select name="status">
+
+<option value="todo"
+{% if task.status == 'todo' %}selected{% endif %}>
+To Do
+</option>
+
+<option value="progress"
+{% if task.status == 'progress' %}selected{% endif %}>
+In Progress
+</option>
+
+<option value="done"
+{% if task.status == 'done' %}selected{% endif %}>
+Done
+</option>
+
 </select>
+</div>
 
+<button class="btn" type="submit">
 
-<button class="create-btn" type="submit">
-
+{% if task %}
+Update Task
+{% else %}
 Create Task
+{% endif %}
 
 </button>
 
-
-
 </form>
-
 
 </div>
 
-
-
-
-
-
 <script>
-
 
 function validateDates(){
 
-
-let dueDate =
-document.getElementById("due_date").value;
-
-
-let reminderDate =
-document.getElementById("reminder_date").value;
-
-
+let dueDate = document.getElementById("due_date").value;
+let reminderDate = document.getElementById("reminder_date").value;
 
 let today = new Date();
-
-
 today.setHours(0,0,0,0);
 
-
-
 if(dueDate){
-
-
-let selectedDate =
-new Date(dueDate);
-
-
+let selectedDate = new Date(dueDate);
 
 if(selectedDate < today){
-
-
-alert(
-"Due date cannot be in the past"
-);
-
-
+alert("Due date cannot be in the past");
 return false;
-
-
 }
-
-
 }
-
-
-
 
 if(reminderDate){
-
-
-let selectedReminder =
-new Date(reminderDate);
-
-
+let selectedReminder = new Date(reminderDate);
 
 if(selectedReminder < new Date()){
-
-
-alert(
-"Reminder date cannot be in the past"
-);
-
-
+alert("Reminder date cannot be in the past");
 return false;
-
-
 }
-
-
 }
-
-
 
 return true;
-
-
 }
 
-
 </script>
-
-
 
 {% endblock %}
