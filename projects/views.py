@@ -64,7 +64,10 @@ def delete_project(request, project_id):
 
 def create_task(request):
     # 🔒 Multi-tenant safety (only current org data)
+    print("Current User:", request.user)
+    print("Organization:", request.user.organization)
     projects = Project.objects.filter(organization=request.user.organization)
+    print(projects)
     users = User.objects.filter(organization=request.user.organization)
     tasks = Task.objects.filter(project__organization=request.user.organization)
 
@@ -106,19 +109,19 @@ def create_task(request):
         # create task
         task = Task.objects.create(
             title=title,
-            description=description,
+            project=project,
+            organization=request.user.organization,
+            assigned_to=assigned_to,
             status=status,
             priority=priority,
             due_date=due_date if due_date else None,
-            project=project,
-            assigned_to=assigned_to,
-            dependency=dependency
+            dependency=dependency,
         )
         ActivityLog.objects.create(
-        task=task,
-        user=request.user,
-        action="Task Created"
-    )
+            task=task,
+            user=request.user,
+            action="Task Created"
+        )
 
         messages.success(request, "Task created successfully")
         return redirect('task_list')  # change if your URL name is different
@@ -342,6 +345,7 @@ def task_list(request):
             'tasks': tasks,
             'projects': projects,
             'users': users
+
         }
     )
 
@@ -386,15 +390,30 @@ def update_task(request, task_id):
     if request.method == "POST":
 
         task.title = request.POST.get("title")
+        task.description = request.POST.get("description")
 
-        task.status = request.POST.get("status", task.status)
-        task.priority = request.POST.get("priority", task.priority)
+        project_id = request.POST.get("project")
+        task.project = Project.objects.get(
+            id=project_id,
+            organization=user.organization
+        )
+
+        assigned_to_id = request.POST.get("assigned_to")
+
+        if assigned_to_id:
+            task.assigned_to = User.objects.get(
+                id=assigned_to_id,
+                organization=user.organization
+            )
+
+        task.status = request.POST.get("status")
+        task.priority = request.POST.get("priority")
         task.due_date = request.POST.get("due_date") or None
 
-        # ✅ dependency
         dependency_id = request.POST.get("dependency")
+
         if dependency_id:
-            task.dependency_id = dependency_id
+            task.dependency = Task.objects.get(id=dependency_id)
         else:
             task.dependency = None
 
@@ -406,20 +425,30 @@ def update_task(request, task_id):
             action="Task Updated"
         )
 
-        return redirect('task_detail', task_id=task.id)
+        return redirect("task_detail", task.id)
 
-    # GET request (open form)
-    tasks = Task.objects.filter(project__organization=user.organization)
+    projects = Project.objects.filter(
+        organization=user.organization
+    )
+
+    users = User.objects.filter(
+        organization=user.organization
+    )
+
+    tasks = Task.objects.filter(
+        project__organization=user.organization
+    ).exclude(id=task.id)
 
     return render(
         request,
-        'projects/create_task.html',
+        "projects/update_task.html",
         {
-            'task': task,
-            'tasks': tasks
-        }
+            "task": task,
+            "projects": projects,
+            "users": users,
+            "tasks": tasks,
+        },
     )
-
 # ================= DELETE TASK =================
 
 def delete_task(request, task_id):

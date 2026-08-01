@@ -1,40 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}
+Create Task
+{% endblock %}
+
+{% block content %}
+
 <h1>Create Task</h1>
 
-{% if error %}
-<p style="color:red">{{ error }}</p>
-{% endif %}
+<hr>
 
 <form method="POST">
     {% csrf_token %}
 
-    <input type="text" name="title" placeholder="Task Title" required>
-    <br><br>
+    <div>
+        <label>Task Title</label><br>
+        <input type="text" name="title" required>
+    </div>
 
-    <select name="project" required>
-        <option value="">Select Project</option>   <!-- ✅ IMPORTANT -->
-        {% for project in projects %}
-            <option value="{{ project.id }}">{{ project.name }}</option>
-        {% endfor %}
-    </select>
+    <br>
 
-    <br><br>
+    <div>
+        <label>Description</label><br>
+        <textarea name="description" rows="4"></textarea>
+    </div>
 
-    <button type="submit">Create Task</button>
+    <br>
 
-    <label>Priority</label>
-<select name="priority">
-    <option value="high">High</option>
-    <option value="medium" selected>Medium</option>
-    <option value="low">Low</option>
-</select>
+    <div>
+        <label>Project</label><br>
+        <select name="project" required>
+            <option value="">Select Project</option>
+            {% for project in projects %}
+                <option value="{{ project.id }}">
+                    {{ project.name }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
 
-<label>Dependency</label>
-<select name="dependency" class="form-control">
-    <option value="">None</option>
-    {% for t in tasks %}
-        <option value="{{ t.id }}">
-            {{ t.title }}
-        </option>
-    {% endfor %}
-</select>
+    <br>
+
+    <div>
+        <label>Assign To</label><br>
+        <select name="assigned_to">
+            <option value="">Select Member</option>
+            {% for user in users %}
+                <option value="{{ user.id }}">
+                    {{ user.username }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <br>
+
+    <div>
+        <label>Status</label><br>
+        <select name="status">
+            <option value="todo">To Do</option>
+            <option value="progress">In Progress</option>
+            <option value="done">Completed</option>
+        </select>
+    </div>
+
+    <br>
+
+    <div>
+        <label>Priority</label><br>
+        <select name="priority">
+            <option value="high">High</option>
+            <option value="medium" selected>Medium</option>
+            <option value="low">Low</option>
+        </select>
+    </div>
+
+    <br>
+
+    <div>
+        <label>Due Date</label><br>
+        <input type="date" name="due_date">
+    </div>
+
+    <br>
+
+    <div>
+        <label>Dependency</label><br>
+        <select name="dependency">
+            <option value="">None</option>
+
+            {% for task in tasks %}
+                <option value="{{ task.id }}">
+                    {{ task.title }}
+                </option>
+            {% endfor %}
+
+        </select>
+    </div>
+
+    <br>
+
+    <button type="submit">
+        Create Task
+    </button>
+
+    <a href="{% url 'task_list' %}">
+        Cancel
+    </a>
+
 </form>
+
+{% endblock %}
