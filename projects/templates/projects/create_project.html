@@ -1,31 +1,41 @@
-<h1>Create Project</h1>
+{% extends 'base01.html' %}
+{% block content %}
+
+<div class="card">
+
+
+<h2>Create Project</h2>
 
 {% if error %}
-<p style="color:red">{{ error }}</p>
+    <p style="color:red">{{ error }}</p>
 {% endif %}
 
 <form method="POST">
     {% csrf_token %}
-    <input type="text" name="name" placeholder="Project Name"><br><br>
-    <textarea name="description" placeholder="Description"></textarea><br><br>
-    <button type="submit">Create</button>
 
-    <label>Status</label>
-<select name="status">
-    <option value="todo">To Do</option>
-    <option value="progress">In Progress</option>
-    <option value="done">Done</option>
-</select>
+    <input class="input" type="text" name="name" placeholder="Project Name" required>
 
+    <textarea class="input" name="description" placeholder="Description" style="width:100%; height:80px;"></textarea>
 
-<label>Priority</label>
-<select name="priority">
-    <option value="high">High</option>
-    <option value="medium" selected>Medium</option>
-    <option value="low">Low</option>
-</select>
+    <select class="input" name="status">
+        <option value="todo">To Do</option>
+        <option value="progress">In Progress</option>
+        <option value="done">Done</option>
+    </select>
 
+    <select class="input" name="priority">
+        <option value="high">High</option>
+        <option value="medium" selected>Medium</option>
+        <option value="low">Low</option>
+    </select>
 
-<label>Due Date</label>
-<input type="date" name="due_date">
+    <input class="input" type="date" name="due_date">
+
+    <button class="btn">Create Project</button>
+
 </form>
+
+
+</div>
+
+{% endblock %}

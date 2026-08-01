@@ -57,10 +57,8 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            BASE_DIR / "projects/templates",
-            BASE_DIR / "accounts/templates",   # keep this (important for login)
-        ],
+        'DIRS': [BASE_DIR / 'templates',
+            BASE_DIR / 'projects' / 'templates',],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -71,7 +69,6 @@ TEMPLATES = [
         },
     },
 ]
-
 
 WSGI_APPLICATION = 'core.wsgi.application'
 

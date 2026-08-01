@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base01.html' %}
 
 {% block content %}
 
@@ -97,6 +97,10 @@ Apply
 
 <a href="{% url 'task_detail' task.id %}">
 {{ task.title }}
+
+{% if task.is_overdue %}
+    <span style="color:red; font-weight:bold;">(Overdue)</span>
+{% endif %}
 </a>
 
 </td>

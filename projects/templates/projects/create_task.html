@@ -1,40 +1,408 @@
-<h1>Create Task</h1>
+{% extends 'base01.html' %}
+
+{% block content %}
+
+<style>
+
+.task-container{
+    width:600px;
+    margin:30px auto;
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.1);
+}
+
+
+.task-container h2{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+
+.form-group{
+    margin-bottom:18px;
+}
+
+
+label{
+    font-weight:600;
+    display:block;
+    margin-bottom:8px;
+}
+
+
+input,
+select{
+
+    width:100%;
+    padding:12px;
+    border-radius:8px;
+    border:1px solid #ddd;
+    font-size:14px;
+
+}
+
+
+input:focus,
+select:focus{
+
+    outline:none;
+    border-color:#2563eb;
+
+}
+
+
+.create-btn{
+
+    width:100%;
+    padding:12px;
+    background:#2563eb;
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    cursor:pointer;
+
+}
+
+
+.create-btn:hover{
+
+    background:#1d4ed8;
+
+}
+
+
+.alert{
+
+    color:red;
+    margin-bottom:15px;
+
+}
+
+
+.priority-box{
+
+    display:flex;
+    gap:10px;
+
+}
+
+
+</style>
+
+
+
+<div class="task-container">
+
+
+<h2>Create Task</h2>
+
+
 
 {% if error %}
-<p style="color:red">{{ error }}</p>
+
+<div class="alert">
+{{ error }}
+</div>
+
 {% endif %}
 
-<form method="POST">
-    {% csrf_token %}
 
-    <input type="text" name="title" placeholder="Task Title" required>
-    <br><br>
 
-    <select name="project" required>
-        <option value="">Select Project</option>   <!-- ✅ IMPORTANT -->
-        {% for project in projects %}
-            <option value="{{ project.id }}">{{ project.name }}</option>
-        {% endfor %}
-    </select>
+<form method="POST" onsubmit="return validateDates()">
 
-    <br><br>
+{% csrf_token %}
 
-    <button type="submit">Create Task</button>
 
-    <label>Priority</label>
+
+<div class="form-group">
+
+<label>
+Task Title
+</label>
+
+<input 
+type="text" 
+name="title"
+placeholder="Enter task title"
+required>
+
+</div>
+
+
+
+
+<div class="form-group">
+
+<label>
+Select Project
+</label>
+
+
+<select name="project" required>
+
+<option value="">
+Select Project
+</option>
+
+
+{% for project in projects %}
+
+<option value="{{ project.id }}">
+{{ project.name }}
+</option>
+
+{% endfor %}
+
+
+</select>
+
+</div>
+
+
+
+
+
+<div class="form-group">
+
+<label>
+Priority
+</label>
+
+
 <select name="priority">
-    <option value="high">High</option>
-    <option value="medium" selected>Medium</option>
-    <option value="low">Low</option>
+
+
+<option value="high">
+🔴 High
+</option>
+
+
+<option value="medium" selected>
+🟠 Medium
+</option>
+
+
+<option value="low">
+🟢 Low
+</option>
+
+
 </select>
 
-<label>Dependency</label>
-<select name="dependency" class="form-control">
-    <option value="">None</option>
-    {% for t in tasks %}
-        <option value="{{ t.id }}">
-            {{ t.title }}
+
+</div>
+
+
+
+
+
+<div class="form-group">
+
+<label>
+Due Date
+</label>
+
+
+<input 
+type="date"
+name="due_date"
+id="due_date">
+
+
+</div>
+
+
+
+
+
+<div class="form-group">
+
+<label>
+Reminder Date & Time
+</label>
+
+
+<input 
+type="datetime-local"
+name="reminder_date"
+id="reminder_date">
+
+
+</div>
+
+
+
+
+
+<div class="form-group">
+
+    <label>Assign To</label>
+<br>
+
+<select name="assigned_to" required>
+
+    <option value="">
+        Select Member
+    </option>
+
+    {% for user in users %}
+
+        <option value="{{ user.id }}">
+            {{ user.username }}
         </option>
+
     {% endfor %}
+
 </select>
+
+<br><br>
+
+
+<label>
+Dependency Task
+</label>
+
+
+<select name="dependency">
+
+
+<option value="">
+None
+</option>
+
+
+{% for t in tasks %}
+
+
+<option value="{{ t.id }}">
+
+{{ t.title }}
+
+</option>
+
+
+{% endfor %}
+
+
+</select>
+
+
+</div>
+
+
+<label>Status</label>
+
+<select name="status" required>
+    <option value="todo">To Do</option>
+    <option value="progress">In Progress</option>
+    <option value="done">Done</option>
+</select>
+
+
+<button class="create-btn" type="submit">
+
+Create Task
+
+</button>
+
+
+
 </form>
+
+
+</div>
+
+
+
+
+
+
+<script>
+
+
+function validateDates(){
+
+
+let dueDate =
+document.getElementById("due_date").value;
+
+
+let reminderDate =
+document.getElementById("reminder_date").value;
+
+
+
+let today = new Date();
+
+
+today.setHours(0,0,0,0);
+
+
+
+if(dueDate){
+
+
+let selectedDate =
+new Date(dueDate);
+
+
+
+if(selectedDate < today){
+
+
+alert(
+"Due date cannot be in the past"
+);
+
+
+return false;
+
+
+}
+
+
+}
+
+
+
+
+if(reminderDate){
+
+
+let selectedReminder =
+new Date(reminderDate);
+
+
+
+if(selectedReminder < new Date()){
+
+
+alert(
+"Reminder date cannot be in the past"
+);
+
+
+return false;
+
+
+}
+
+
+}
+
+
+
+return true;
+
+
+}
+
+
+</script>
+
+
+
+{% endblock %}
