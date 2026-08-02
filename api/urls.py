@@ -2,6 +2,12 @@ from .views import (
     LoginAPIView,
     ProfileAPIView,
     LogoutAPIView,
+    OrganizationListCreateAPIView,
+    OrganizationDetailAPIView,
+    UserListAPIView,
+    UserDetailAPIView,
+    UserUpdateAPIView,
+    UserStatusAPIView,
 )
 
 from django.urls import path
@@ -26,5 +32,37 @@ urlpatterns = [
         LogoutAPIView.as_view(),
         name="api-logout"
     ),
+    path(
+    "organizations/",
+    OrganizationListCreateAPIView.as_view(),
+    name="organization-list-create",
+),
+
+path(
+    "organizations/<int:pk>/",
+    OrganizationDetailAPIView.as_view(),
+    name="organization-detail",
+),
+path(
+    "users/",
+    UserListAPIView.as_view(),
+    name="user-list",
+),
+
+path(
+    "users/<int:pk>/",
+    UserDetailAPIView.as_view(),
+    name="user-detail",
+),
+path(
+    "users/<int:pk>/update/",
+    UserUpdateAPIView.as_view(),
+    name="user-update",
+),
+path(
+    "users/<int:pk>/status/",
+    UserStatusAPIView.as_view(),
+    name="user-status"
+),
 
 ]
