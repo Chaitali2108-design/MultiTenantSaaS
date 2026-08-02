@@ -1,40 +1,179 @@
-{% extends 'base.html' %}
+{% extends 'base01.html' %}
 
 {% block content %}
 
 <h2>Task Details</h2>
 
-<div style="background:#f5f5f5; padding:20px; border-radius:10px;">
 
-    <h3>{{ task.title }}</h3>
+<div style="
+background:#f5f5f5;
+padding:20px;
+border-radius:10px;
+">
 
-    <p>
-        <b>Status:</b> {{ task.status }}
-    </p>
 
-    <p>
-        <b>Progress:</b> {{ task.progress }}%
-    </p>
+<h3>{{ task.title }}</h3>
 
-    <p>
-        <b>Project:</b> {{ task.project.name }}
-    </p>
 
-    <p>
-        <b>Assigned To:</b> {{ task.assigned_to.username }}
-    </p>
+<p>
+<b>Status:</b> {{ task.status }}
+</p>
+
+
+<p>
+<b>Progress:</b> {{ task.progress }}%
+</p>
+
+
+<p>
+<b>Project:</b> {{ task.project.name }}
+</p>
+
+
+<p>
+<b>Assigned To:</b> 
+{{ task.assigned_to.username }}
+</p>
+
+
+
+<!-- Step 7 Deadline Management -->
+
+<hr>
+
+
+<h3>Deadline Information</h3>
+
+
+<p>
+<b>Due Date:</b>
+
+{% if task.due_date %}
+
+{{ task.due_date }}
+
+{% else %}
+
+No deadline set
+
+{% endif %}
+
+</p>
+
+
+
+{% if task.is_overdue %}
+
+<p style="
+color:red;
+font-weight:bold;
+background:#ffe5e5;
+padding:10px;
+border-radius:6px;
+">
+
+⚠ This task is overdue
+
+</p>
+
+{% endif %}
+
+
+
+<!-- Priority Alert -->
+
+<p>
+
+<b>Priority:</b>
+
+{% if task.priority == "high" %}
+
+<span style="
+color:red;
+font-weight:bold;
+">
+🔴 High Priority
+</span>
+
+
+{% elif task.priority == "medium" %}
+
+<span style="
+color:orange;
+font-weight:bold;
+">
+🟠 Medium Priority
+</span>
+
+
+{% else %}
+
+<span style="
+color:green;
+font-weight:bold;
+">
+🟢 Low Priority
+</span>
+
+
+{% endif %}
+
+</p>
+
+
+
+<!-- Reminder -->
+
+<p>
+
+<b>Reminder:</b>
+
+
+{% if task.reminder_date %}
+
+{{ task.reminder_date }}
+
+
+{% if task.is_reminder_due %}
+
+<span style="
+color:red;
+font-weight:bold;
+">
+
+🔔 Reminder Due
+
+</span>
+
+{% endif %}
+
+
+{% else %}
+
+No reminder set
+
+{% endif %}
+
+
+</p>
+
+
 
 </div>
 
 
 <br>
 
+
 <a href="/projects/kanban/">
-    ← Back to Kanban
+
+← Back to Kanban
+
 </a>
 
 
 <hr>
+
 
 
 <h3>Activity History</h3>
@@ -42,33 +181,46 @@
 
 {% for activity in activities %}
 
+
 <div style="
-    background:#ffffff;
-    padding:12px;
-    margin:10px 0;
-    border-radius:8px;
-    border-left:5px solid #007bff;
+background:#ffffff;
+padding:12px;
+margin:10px 0;
+border-radius:8px;
+border-left:5px solid #007bff;
 ">
 
-    <p>
-        <b>{{ activity.user.username }}</b>
-    </p>
 
-    <p>
-        {{ activity.old_status }} → {{ activity.new_status }}
-    </p>
+<p>
+<b>{{ activity.user.username }}</b>
+</p>
 
-    <p style="font-size:12px; color:gray;">
-        {{ activity.created_at }}
-    </p>
+
+<p>
+{{ activity.old_status }} → {{ activity.new_status }}
+</p>
+
+
+<p style="
+font-size:12px;
+color:gray;
+">
+
+{{ activity.created_at }}
+
+</p>
+
 
 </div>
+
 
 {% empty %}
 
 <p>No activity yet</p>
 
+
 {% endfor %}
+
 
 
 {% endblock %}

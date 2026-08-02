@@ -1,40 +1,273 @@
-<h1>Create Task</h1>
+{% extends 'base01.html' %}
+
+{% block content %}
+
+<style>
+
+.form-container{
+    width:600px;
+    margin:40px auto;
+    background:white;
+    padding:30px;
+    border-radius:12px;
+    box-shadow:0 6px 20px rgba(0,0,0,0.08);
+}
+
+.form-title{
+    text-align:center;
+    font-size:22px;
+    font-weight:600;
+    margin-bottom:25px;
+}
+
+.form-group{
+    margin-bottom:18px;
+}
+
+label{
+    font-weight:600;
+    display:block;
+    margin-bottom:6px;
+}
+
+input,
+select{
+    width:100%;
+    padding:10px;
+    border-radius:6px;
+    border:1px solid #ddd;
+    font-size:14px;
+}
+
+input:focus,
+select:focus{
+    outline:none;
+    border-color:#2563eb;
+}
+
+.btn{
+    width:100%;
+    padding:12px;
+    background:#2563eb;
+    color:white;
+    border:none;
+    border-radius:6px;
+    font-size:15px;
+    cursor:pointer;
+}
+
+.btn:hover{
+    background:#1d4ed8;
+}
+
+.alert{
+    background:#fee2e2;
+    color:#b91c1c;
+    padding:10px;
+    border-radius:6px;
+    margin-bottom:15px;
+}
+
+</style>
+
+<div class="form-container">
+
+<h2 class="form-title">
+{% if task %}
+Update Task
+{% else %}
+Create Task
+{% endif %}
+</h2>
 
 {% if error %}
-<p style="color:red">{{ error }}</p>
+
+<div class="alert">
+{{ error }}
+</div>
 {% endif %}
 
-<form method="POST">
-    {% csrf_token %}
+<form method="POST" onsubmit="return validateDates()">
 
-    <input type="text" name="title" placeholder="Task Title" required>
-    <br><br>
+{% csrf_token %}
 
-    <select name="project" required>
-        <option value="">Select Project</option>   <!-- ✅ IMPORTANT -->
-        {% for project in projects %}
-            <option value="{{ project.id }}">{{ project.name }}</option>
-        {% endfor %}
-    </select>
+<div class="form-group">
+<label>Task Title</label>
+<input 
+type="text" 
+name="title"
+value="{{ task.title|default:'' }}"
+placeholder="Enter task title"
+required>
+</div>
 
-    <br><br>
+<div class="form-group">
+<label>Select Project</label>
 
-    <button type="submit">Create Task</button>
+<select name="project" required>
 
-    <label>Priority</label>
+<option value="">Select Project</option>
+
+{% for project in projects %}
+
+<option value="{{ project.id }}"
+{% if task.project.id == project.id %}selected{% endif %}>
+{{ project.name }}
+</option>
+{% endfor %}
+
+</select>
+</div>
+
+<div class="form-group">
+<label>Priority</label>
+
 <select name="priority">
-    <option value="high">High</option>
-    <option value="medium" selected>Medium</option>
-    <option value="low">Low</option>
-</select>
 
-<label>Dependency</label>
-<select name="dependency" class="form-control">
-    <option value="">None</option>
-    {% for t in tasks %}
-        <option value="{{ t.id }}">
-            {{ t.title }}
-        </option>
-    {% endfor %}
+<option value="high"
+{% if task.priority == 'high' %}selected{% endif %}>
+🔴 High
+</option>
+
+<option value="medium"
+{% if task.priority == 'medium' or not task %}selected{% endif %}>
+🟠 Medium
+</option>
+
+<option value="low"
+{% if task.priority == 'low' %}selected{% endif %}>
+🟢 Low
+</option>
+
 </select>
+</div>
+
+<div class="form-group">
+<label>Due Date</label>
+
+<input 
+type="date"
+name="due_date"
+id="due_date"
+value="{{ task.due_date|date:'Y-m-d' }}">
+
+</div>
+
+<div class="form-group">
+<label>Reminder Date & Time</label>
+
+<input 
+type="datetime-local"
+name="reminder_date"
+id="reminder_date"
+value="{% if task.reminder_date %}{{ task.reminder_date|date:'Y-m-d\\TH:i' }}{% endif %}">
+
+</div>
+
+<div class="form-group">
+<label>Assign To</label>
+
+<select name="assigned_to">
+
+<option value="">Select Member</option>
+
+{% for user in users %}
+
+<option value="{{ user.id }}"
+{% if task.assigned_to.id == user.id %}selected{% endif %}>
+{{ user.username }}
+</option>
+{% endfor %}
+
+</select>
+</div>
+
+<div class="form-group">
+<label>Dependency Task</label>
+
+<select name="dependency">
+
+<option value="">None</option>
+
+{% for t in tasks %}
+
+<option value="{{ t.id }}"
+{% if task.dependency.id == t.id %}selected{% endif %}>
+{{ t.title }}
+</option>
+{% endfor %}
+
+</select>
+</div>
+
+<div class="form-group">
+<label>Status</label>
+
+<select name="status">
+
+<option value="todo"
+{% if task.status == 'todo' %}selected{% endif %}>
+To Do
+</option>
+
+<option value="progress"
+{% if task.status == 'progress' %}selected{% endif %}>
+In Progress
+</option>
+
+<option value="done"
+{% if task.status == 'done' %}selected{% endif %}>
+Done
+</option>
+
+</select>
+</div>
+
+<button class="btn" type="submit">
+
+{% if task %}
+Update Task
+{% else %}
+Create Task
+{% endif %}
+
+</button>
+
 </form>
+
+</div>
+
+<script>
+
+function validateDates(){
+
+let dueDate = document.getElementById("due_date").value;
+let reminderDate = document.getElementById("reminder_date").value;
+
+let today = new Date();
+today.setHours(0,0,0,0);
+
+if(dueDate){
+let selectedDate = new Date(dueDate);
+
+if(selectedDate < today){
+alert("Due date cannot be in the past");
+return false;
+}
+}
+
+if(reminderDate){
+let selectedReminder = new Date(reminderDate);
+
+if(selectedReminder < new Date()){
+alert("Reminder date cannot be in the past");
+return false;
+}
+}
+
+return true;
+}
+
+</script>
+
+{% endblock %}
