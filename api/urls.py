@@ -8,6 +8,16 @@ from .views import (
     UserDetailAPIView,
     UserUpdateAPIView,
     UserStatusAPIView,
+    UserRemoveAPIView,
+    RoleListAPIView,
+    RoleDetailAPIView,
+    RoleCreateAPIView,
+    RoleUpdateAPIView,
+    RoleDeleteAPIView,
+    PermissionListAPIView,
+    RolePermissionUpdateAPIView,
+    TokenRefreshAPIView,
+    ProfileImageUploadAPIView,
 )
 
 from django.urls import path
@@ -63,6 +73,56 @@ path(
     "users/<int:pk>/status/",
     UserStatusAPIView.as_view(),
     name="user-status"
+),
+path(
+    "users/<int:pk>/remove/",
+    UserRemoveAPIView.as_view(),
+    name="user-remove"
+),
+path(
+    "roles/",
+    RoleListAPIView.as_view(),
+    name="role-list",
+),
+path(
+    "roles/<int:pk>/",
+    RoleDetailAPIView.as_view(),
+    name="role-detail",
+),
+path(
+    "roles/create/",
+    RoleCreateAPIView.as_view(),
+    name="role-create",
+),
+path(
+    "roles/<int:pk>/update/",
+    RoleUpdateAPIView.as_view(),
+    name="role-update",
+),
+path(
+    "roles/<int:pk>/delete/",
+    RoleDeleteAPIView.as_view(),
+    name="role-delete",
+),
+path(
+    "permissions/",
+    PermissionListAPIView.as_view(),
+    name="permission-list",
+),
+path(
+    "roles/<int:pk>/permissions/",
+    RolePermissionUpdateAPIView.as_view(),
+    name="role-permissions-update",
+),
+path(
+    "token/refresh/",
+    TokenRefreshAPIView.as_view(),
+    name="token-refresh",
+),
+path(
+    "profile/image/",
+    ProfileImageUploadAPIView.as_view(),
+    name="profile-image-upload"
 ),
 
 ]

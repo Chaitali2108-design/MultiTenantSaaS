@@ -24,6 +24,8 @@ from django.views.decorators.cache import never_cache
 from django.contrib.auth import get_user_model
 from .forms import AcceptInvitationForm
 from .models import UserInvitation
+from .utils import assign_default_permissions
+
 
 User = get_user_model()
 
@@ -170,6 +172,7 @@ def role_list(request):
 
 
 
+
 @login_required
 def role_create(request):
 
@@ -183,8 +186,12 @@ def role_create(request):
 
             role.organization = request.user.organization
             role.is_system = False
+            role.is_editable = True
 
             role.save()
+
+            # Copy Member permissions
+            assign_default_permissions(role)
 
             messages.success(
                 request,
@@ -205,7 +212,6 @@ def role_create(request):
         "accounts/roles/role_form.html",
         context,
     )
-
 
 @login_required
 def role_update(request, pk):

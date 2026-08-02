@@ -56,7 +56,7 @@ class UserAdminForm(forms.ModelForm):
 
 @admin.register(User)
 class CustomUserAdmin(UserAdmin):
-    
+
     form = UserAdminForm
 
     list_display = (
@@ -73,7 +73,26 @@ class CustomUserAdmin(UserAdmin):
         "organization",
     )
 
-    fieldsets = UserAdmin.fieldsets + (
+    fieldsets = (
+        (
+            None,
+            {
+                "fields": (
+                    "username",
+                    "password",
+                )
+            },
+        ),
+        (
+            "Personal info",
+            {
+                "fields": (
+                    "first_name",
+                    "last_name",
+                    "email",
+                )
+            },
+        ),
         (
             "Organization Details",
             {
@@ -81,11 +100,49 @@ class CustomUserAdmin(UserAdmin):
                     "organization",
                     "role",
                 )
-            }
+            },
+        ),
+        (
+            "Permissions",
+            {
+                "fields": (
+                    "is_active",
+                    "is_staff",
+                    "is_superuser",
+                )
+            },
+        ),
+        (
+            "Important dates",
+            {
+                "fields": (
+                    "last_login",
+                    "date_joined",
+                )
+            },
         ),
     )
 
-
+    add_fieldsets = (
+        (
+            None,
+            {
+                "classes": ("wide",),
+                "fields": (
+                    "username",
+                    "password1",
+                    "password2",
+                    "email",
+                    "first_name",
+                    "last_name",
+                    "organization",
+                    "role",
+                    "is_active",
+                    "is_staff",
+                ),
+            },
+        ),
+    )
 
 
 @admin.register(Role)

@@ -65,6 +65,10 @@ class Role(models.Model):
         default=False,
     )
 
+    is_editable = models.BooleanField(
+        default=True,
+    )
+
     created_at = models.DateTimeField(
         auto_now_add=True,
     )
