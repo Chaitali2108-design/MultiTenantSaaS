@@ -1,41 +1,360 @@
-{% extends 'base01.html' %}
+{% extends 'base.html' %}
+
 {% block content %}
 
-<div class="card">
+
+<style>
 
 
-<h2>Create Project</h2>
+.create-page{
 
-{% if error %}
-    <p style="color:red">{{ error }}</p>
-{% endif %}
+    padding:25px;
+
+}
+
+
+
+.form-card{
+
+    max-width:650px;
+    margin:auto;
+    background:white;
+    border:1px solid #e2e8f0;
+    border-radius:12px;
+    padding:30px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.05);
+
+}
+
+
+
+.form-title{
+
+    font-size:26px;
+    font-weight:700;
+    color:#1e293b;
+    margin-bottom:25px;
+    text-align:center;
+
+}
+
+
+
+.form-group{
+
+    margin-bottom:18px;
+
+}
+
+
+
+.form-group label{
+
+    display:block;
+    font-size:14px;
+    font-weight:600;
+    color:#334155;
+    margin-bottom:8px;
+
+}
+
+
+
+.form-control{
+
+    width:100%;
+    padding:12px;
+    border:1px solid #cbd5e1;
+    border-radius:8px;
+    outline:none;
+    font-size:14px;
+
+}
+
+
+
+.form-control:focus{
+
+    border-color:#2563eb;
+
+}
+
+
+
+
+.form-row{
+
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+
+}
+
+
+
+
+.create-btn{
+
+    width:100%;
+    background:#2563eb;
+    color:white;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    font-weight:600;
+    cursor:pointer;
+    font-size:15px;
+
+}
+
+
+
+.create-btn:hover{
+
+    background:#1d4ed8;
+
+}
+
+
+
+
+@media(max-width:700px){
+
+.form-row{
+
+    grid-template-columns:1fr;
+
+}
+
+}
+
+
+</style>
+
+
+
+
+
+<div class="create-page">
+
+
+
+<div class="form-card">
+
+
+
+<h2 class="form-title">
+
+Create Project
+
+</h2>
+
+
+
+
 
 <form method="POST">
-    {% csrf_token %}
 
-    <input class="input" type="text" name="name" placeholder="Project Name" required>
 
-    <textarea class="input" name="description" placeholder="Description" style="width:100%; height:80px;"></textarea>
+{% csrf_token %}
 
-    <select class="input" name="status">
-        <option value="todo">To Do</option>
-        <option value="progress">In Progress</option>
-        <option value="done">Done</option>
-    </select>
 
-    <select class="input" name="priority">
-        <option value="high">High</option>
-        <option value="medium" selected>Medium</option>
-        <option value="low">Low</option>
-    </select>
 
-    <input class="input" type="date" name="due_date">
 
-    <button class="btn">Create Project</button>
+
+
+<div class="form-group">
+
+
+<label>
+Project Name
+</label>
+
+
+<input
+
+type="text"
+
+name="name"
+
+placeholder="Enter project name"
+
+class="form-control"
+
+required>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="form-group">
+
+
+<label>
+Description
+</label>
+
+
+<textarea
+
+name="description"
+
+placeholder="Enter project description"
+
+rows="4"
+
+class="form-control"></textarea>
+
+
+</div>
+
+
+
+
+
+
+
+
+<div class="form-row">
+
+
+
+<div class="form-group">
+
+
+<label>
+Status
+</label>
+
+
+<select name="status" class="form-control">
+
+
+<option value="todo">
+To Do
+</option>
+
+
+<option value="progress">
+In Progress
+</option>
+
+
+<option value="done">
+Done
+</option>
+
+
+
+</select>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="form-group">
+
+
+<label>
+Priority
+</label>
+
+
+<select name="priority" class="form-control">
+
+
+<option value="low">
+Low
+</option>
+
+
+<option value="medium">
+Medium
+</option>
+
+
+<option value="high">
+High
+</option>
+
+
+
+</select>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="form-group">
+
+
+<label>
+Due Date
+</label>
+
+
+<input
+
+type="date"
+
+name="due_date"
+
+class="form-control">
+
+
+</div>
+
+
+
+
+
+
+
+
+<button type="submit" class="create-btn">
+
+
+Create Project
+
+
+</button>
+
+
+
+
 
 </form>
 
 
+
+
 </div>
+
+
+
+</div>
+
+
 
 {% endblock %}

@@ -6,136 +6,114 @@ Kanban Board
 
 {% block content %}
 
-<section>
+<section class="p-6">
 
-<h1>Kanban Board</h1>
+<h1 class="text-2xl font-bold mb-4">Kanban Board</h1>
 
-<hr>
-
+<hr class="mb-6">
 
 <div class="kanban">
 
+{% for data in project_data %}
 
-    <!-- TO DO -->
+    <h2 class="text-lg font-semibold mb-2 mt-6">
+        {{ data.project.name }}
+    </h2>
 
-    <div class="kanban-column todo">
+    <div class="grid grid-cols-3 gap-4">
 
-        <h2>
-            📝 To Do
-        </h2>
+        <!-- TO DO -->
+        <div class="bg-gray-100 p-4 rounded">
 
+            <h2 class="font-bold mb-2">📝 To Do</h2>
 
-        <div class="task-box">
+            {% for task in data.todo %}
+            <div class="bg-white p-3 rounded shadow mb-2">
 
-            <h3>Create Login Page</h3>
+                <h3 class="font-semibold">{{ task.title }}</h3>
 
-            <p>
-                👤 Member 3
-            </p>
+                <p class="text-sm">
+                    👤 {{ task.assigned_to.username }}
+                </p>
 
-            <span class="priority high">
-                High
-            </span>
+                <span class="
+                    {% if task.priority == 'high' %}text-red-600
+                    {% elif task.priority == 'medium' %}text-yellow-600
+                    {% else %}text-green-600{% endif %}
+                ">
+                    {{ task.priority }}
+                </span>
 
-        </div>
-
-
-        <div class="task-box">
-
-            <h3>Create Reports</h3>
-
-            <p>
-                👤 Member 2
-            </p>
-
-            <span class="priority medium">
-                Medium
-            </span>
+            </div>
+            {% empty %}
+                <p>No tasks</p>
+            {% endfor %}
 
         </div>
 
+        <!-- IN PROGRESS -->
+        <div class="bg-gray-100 p-4 rounded">
+
+            <h2 class="font-bold mb-2">🚀 In Progress</h2>
+
+            {% for task in data.progress %}
+            <div class="bg-white p-3 rounded shadow mb-2">
+
+                <h3 class="font-semibold">{{ task.title }}</h3>
+
+                <p class="text-sm">
+                    👤 {{ task.assigned_to.username }}
+                </p>
+
+                <span class="
+                    {% if task.priority == 'high' %}text-red-600
+                    {% elif task.priority == 'medium' %}text-yellow-600
+                    {% else %}text-green-600{% endif %}
+                ">
+                    {{ task.priority }}
+                </span>
+
+            </div>
+            {% empty %}
+                <p>No tasks</p>
+            {% endfor %}
+
+        </div>
+
+        <!-- DONE -->
+        <div class="bg-gray-100 p-4 rounded">
+
+            <h2 class="font-bold mb-2">✅ Completed</h2>
+
+            {% for task in data.done %}
+            <div class="bg-white p-3 rounded shadow mb-2">
+
+                <h3 class="font-semibold">{{ task.title }}</h3>
+
+                <p class="text-sm">
+                    👤 {{ task.assigned_to.username }}
+                </p>
+
+                <span class="
+                    {% if task.priority == 'high' %}text-red-600
+                    {% elif task.priority == 'medium' %}text-yellow-600
+                    {% else %}text-green-600{% endif %}
+                ">
+                    {{ task.priority }}
+                </span>
+
+            </div>
+            {% empty %}
+                <p>No tasks</p>
+            {% endfor %}
+
+        </div>
 
     </div>
 
-
-
-
-    <!-- IN PROGRESS -->
-
-
-    <div class="kanban-column progress-column">
-
-
-        <h2>
-            🚀 In Progress
-        </h2>
-
-
-        <div class="task-box">
-
-
-            <h3>
-                Dashboard Design
-            </h3>
-
-
-            <p>
-                👤 Member 3
-            </p>
-
-
-            <span class="priority high">
-                High
-            </span>
-
-
-        </div>
-
-
-    </div>
-
-
-
-
-
-    <!-- COMPLETED -->
-
-
-    <div class="kanban-column completed-column">
-
-
-        <h2>
-            ✅ Completed
-        </h2>
-
-
-        <div class="task-box">
-
-
-            <h3>
-                Database Setup
-            </h3>
-
-
-            <p>
-                👤 Member 1
-            </p>
-
-
-            <span class="priority low">
-                Completed
-            </span>
-
-
-        </div>
-
-
-    </div>
-
-
+{% endfor %}
 
 </div>
-
 
 </section>
 

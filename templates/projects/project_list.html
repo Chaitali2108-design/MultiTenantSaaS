@@ -177,93 +177,22 @@ Projects
 
         <tbody>
 
+        {% for project in projects %}
 
-        {% if projects %}
+        <tr>
+            <td><strong>{{ project.name }}</strong></td>
+            <td>{{ project.created_by.username }}</td>
+            <td>{{ project.description }}</td>
+            <td>{{ project.organization.name }}</td>
 
+            <td>
+                <a href="{% url 'project_detail' project.id %}">View</a>
+                <a href="{% url 'update_project' project.id %}">Edit</a>
+                <a href="{% url 'delete_project' project.id %}">Delete</a>
+            </td>
+        </tr>
 
-            {% for project in projects %}
-
-
-            <tr>
-
-
-                <td>
-
-                    <strong>
-                        {{ project.name }}
-                    </strong>
-
-                    <br>
-
-                    <small>
-                        Project
-                    </small>
-
-                </td>
-
-
-
-                <td>
-
-                    {{ project.created_by.username }}
-
-                </td>
-
-
-
-                <td>
-
-                    {{ project.description }}
-
-                </td>
-
-
-
-                <td>
-
-                    {{ project.organization.name }}
-
-                </td>
-
-
-
-                <td class="actions">
-
-
-                    <i class="fa-solid fa-eye"></i>
-
-                    <i class="fa-solid fa-pen"></i>
-
-                    <i class="fa-solid fa-trash"></i>
-
-
-                </td>
-
-
-            </tr>
-
-
-            {% endfor %}
-
-
-
-        {% else %}
-
-
-            <tr>
-
-                <td colspan="5">
-
-                    No projects available.
-
-                </td>
-
-            </tr>
-
-
-        {% endif %}
-
-
+        {% endfor %}
 
         </tbody>
 
