@@ -339,15 +339,14 @@ def task_list(request):
     users = User.objects.filter(organization=user.organization)
 
     return render(
-        request,
-        'projects/project_task.html',
-        {
-            'tasks': tasks,
-            'projects': projects,
-            'users': users
-
-        }
-    )
+    request,
+    'projects/project_task.html',
+    {
+        'tasks': tasks,
+        'projects': projects,
+        'users': users,
+    }
+)
 
 # ================= TASK DETAIL =================
 

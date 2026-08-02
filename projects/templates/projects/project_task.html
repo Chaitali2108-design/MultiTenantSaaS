@@ -69,9 +69,6 @@ Apply
 <div class="card">
 
 
-<h2>Task List</h2>
-
-
 <table>
 
 
@@ -89,24 +86,17 @@ Apply
 
 {% for task in tasks %}
 
-
 <tr>
 
-
 <td>
-
-<a href="{% url 'task_detail' task.id %}">
-{{ task.title }}
-</a>
-
+    <a href="{% url 'task_detail' task.id %}">
+        {{ task.title }}
+    </a>
 </td>
 
-
-
 <td>
-{{ task.project.name }}
+    {{ task.project.name }}
 </td>
-
 
 
 <td>
@@ -148,18 +138,55 @@ To Do
 
 <td>
 
-<form method="POST" action="{% url 'update_task_status' task.id %}">
+<a href="{% url 'task_detail' task.id %}" class="btn">
+View
+</a>
 
-{% csrf_token %}
 
-<button class="btn">
-Change Status
-</button>
+<a href="{% url 'update_task' task.id %}" class="btn">
+Edit
+</a>
+
+
+<a href="{% url 'delete_task' task.id %}" class="btn">
+Delete
+</a>
+
+
+<form method="POST" action="{% url 'update_task_status' task.id %}" style="display:inline;">
+
+    {% csrf_token %}
+
+    {% if task.status == "todo" %}
+
+        <input type="hidden" name="action" value="forward">
+
+        <button type="submit" class="btn">
+            Start
+        </button>
+
+    {% elif task.status == "progress" %}
+
+        <input type="hidden" name="action" value="forward">
+
+        <button type="submit" class="btn">
+            Complete
+        </button>
+
+    {% else %}
+
+        <input type="hidden" name="action" value="backward">
+
+        <button type="submit" class="btn">
+            Reopen
+        </button>
+
+    {% endif %}
 
 </form>
 
-</td>
 
+</td>
 
 </tr>
 
