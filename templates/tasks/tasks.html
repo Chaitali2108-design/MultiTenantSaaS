@@ -103,6 +103,32 @@ Tasks
 
 <div class="toolbar">
 
+    <table>
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Project</th>
+        <th>Status</th>
+        <th>Priority</th>
+    </tr>
+    </thead>
+
+    <tbody>
+
+    {% for task in tasks %}
+
+    <tr>
+        <td>{{ task.title }}</td>
+        <td>{{ task.project.name }}</td>
+        <td>{{ task.status }}</td>
+        <td>{{ task.priority }}</td>
+    </tr>
+
+    {% endfor %}
+
+    </tbody>
+    </table>
+
     <div class="search-box">
 
         <i class="fa-solid fa-magnifying-glass"></i>

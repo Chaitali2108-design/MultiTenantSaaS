@@ -1,52 +1,401 @@
-{% extends 'base01.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
 
-<h2>Task Details</h2>
+
+<style>
 
 
-<div style="
-background:#f5f5f5;
-padding:20px;
-border-radius:10px;
-">
+.task-detail-page{
+
+    padding:25px;
+
+}
 
 
-<h3>{{ task.title }}</h3>
+
+.page-heading{
+
+    font-size:26px;
+    font-weight:700;
+    color:#1e293b;
+    margin-bottom:20px;
+
+}
 
 
-<p>
-<b>Status:</b> {{ task.status }}
-</p>
 
 
-<p>
-<b>Progress:</b> {{ task.progress }}%
-</p>
+.detail-card{
+
+    background:white;
+    border:1px solid #e2e8f0;
+    border-radius:12px;
+    padding:25px;
+    margin-bottom:25px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.05);
+
+}
 
 
-<p>
-<b>Project:</b> {{ task.project.name }}
-</p>
+
+.task-name{
+
+    font-size:24px;
+    font-weight:700;
+    color:#1e293b;
+    margin-bottom:20px;
+
+}
 
 
-<p>
-<b>Assigned To:</b> 
+
+
+.info-grid{
+
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
+
+}
+
+
+
+.info-box{
+
+    background:#f8fafc;
+    padding:15px;
+    border-radius:10px;
+
+}
+
+
+
+.label{
+
+    font-size:13px;
+    color:#64748b;
+
+}
+
+
+
+.value{
+
+    font-weight:600;
+    color:#1e293b;
+    margin-top:5px;
+
+}
+
+
+
+
+.progress{
+
+    height:10px;
+    background:#e2e8f0;
+    border-radius:20px;
+    overflow:hidden;
+
+}
+
+
+
+.progress-bar{
+
+    height:100%;
+    background:#2563eb;
+
+}
+
+
+
+
+
+.badge{
+
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:600;
+
+}
+
+
+
+.high{
+
+    color:#dc2626;
+    font-weight:700;
+
+}
+
+
+
+.medium{
+
+    color:#d97706;
+    font-weight:700;
+
+}
+
+
+
+.low{
+
+    color:#16a34a;
+    font-weight:700;
+
+}
+
+
+
+
+
+.overdue{
+
+    background:#fee2e2;
+    color:#b91c1c;
+    padding:12px;
+    border-radius:8px;
+    font-weight:600;
+
+}
+
+
+
+
+.reminder{
+
+    color:#dc2626;
+    font-weight:700;
+
+}
+
+
+
+
+.back-link{
+
+    color:#2563eb;
+    text-decoration:none;
+    font-weight:600;
+
+}
+
+
+
+
+.activity{
+
+    background:white;
+    border:1px solid #e2e8f0;
+    border-left:5px solid #2563eb;
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:12px;
+
+}
+
+
+
+.activity-user{
+
+    font-weight:700;
+    color:#1e293b;
+
+}
+
+
+
+.activity-time{
+
+    font-size:12px;
+    color:#64748b;
+
+}
+
+
+
+@media(max-width:700px){
+
+.info-grid{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+
+
+</style>
+
+
+
+
+
+<div class="task-detail-page">
+
+
+
+
+
+<h2 class="page-heading">
+
+Task Details
+
+</h2>
+
+
+
+
+
+
+
+<div class="detail-card">
+
+
+
+
+
+<h3 class="task-name">
+
+{{ task.title }}
+
+</h3>
+
+
+
+
+
+
+
+<div class="info-grid">
+
+
+
+
+
+<div class="info-box">
+
+<div class="label">
+Status
+</div>
+
+<div class="value">
+
+{{ task.status }}
+
+</div>
+
+</div>
+
+
+
+
+
+
+<div class="info-box">
+
+<div class="label">
+Project
+</div>
+
+<div class="value">
+
+{{ task.project.name }}
+
+</div>
+
+</div>
+
+
+
+
+
+
+<div class="info-box">
+
+<div class="label">
+Assigned To
+</div>
+
+<div class="value">
+
 {{ task.assigned_to.username }}
-</p>
+
+</div>
+
+</div>
 
 
 
-<!-- Step 7 Deadline Management -->
-
-<hr>
 
 
-<h3>Deadline Information</h3>
+
+<div class="info-box">
+
+<div class="label">
+Progress
+</div>
+
+
+<div class="value">
+
+{{ task.progress }}%
+
+</div>
+
+
+<div class="progress">
+
+<div class="progress-bar"
+
+style="width:{{ task.progress }}%;">
+
+</div>
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+</div>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="detail-card">
+
+
+<h3>
+Deadline Information
+</h3>
+
+
 
 
 <p>
+
 <b>Due Date:</b>
+
 
 {% if task.due_date %}
 
@@ -58,168 +407,217 @@ No deadline set
 
 {% endif %}
 
+
 </p>
+
+
+
 
 
 
 {% if task.is_overdue %}
 
-<p style="
-color:red;
-font-weight:bold;
-background:#ffe5e5;
-padding:10px;
-border-radius:6px;
-">
+
+<div class="overdue">
 
 ⚠ This task is overdue
 
-</p>
+</div>
+
 
 {% endif %}
 
 
 
-<!-- Priority Alert -->
+
 
 <p>
 
+
 <b>Priority:</b>
+
 
 {% if task.priority == "high" %}
 
-<span style="
-color:red;
-font-weight:bold;
-">
+
+<span class="high">
+
 🔴 High Priority
+
 </span>
+
 
 
 {% elif task.priority == "medium" %}
 
-<span style="
-color:orange;
-font-weight:bold;
-">
+
+<span class="medium">
+
 🟠 Medium Priority
+
 </span>
+
 
 
 {% else %}
 
-<span style="
-color:green;
-font-weight:bold;
-">
+
+<span class="low">
+
 🟢 Low Priority
+
 </span>
 
 
+
 {% endif %}
+
+
 
 </p>
 
 
 
-<!-- Reminder -->
+
+
+
 
 <p>
+
 
 <b>Reminder:</b>
 
 
+
 {% if task.reminder_date %}
+
 
 {{ task.reminder_date }}
 
 
+
 {% if task.is_reminder_due %}
 
-<span style="
-color:red;
-font-weight:bold;
-">
+
+<span class="reminder">
 
 🔔 Reminder Due
 
 </span>
 
+
+
 {% endif %}
+
 
 
 {% else %}
 
+
 No reminder set
+
 
 {% endif %}
 
 
+
 </p>
+
 
 
 
 </div>
 
 
-<br>
 
 
-<a href="/projects/kanban/">
+
+
+
+<a href="/projects/kanban/" class="back-link">
 
 ← Back to Kanban
 
 </a>
 
 
-<hr>
 
 
 
-<h3>Activity History</h3>
+
+
+<hr style="margin:25px 0;">
+
+
+
+
+
+
+
+<h3 class="page-heading">
+
+Activity History
+
+</h3>
+
+
+
+
+
 
 
 {% for activity in activities %}
 
 
-<div style="
-background:#ffffff;
-padding:12px;
-margin:10px 0;
-border-radius:8px;
-border-left:5px solid #007bff;
-">
+
+<div class="activity">
+
+
+<div class="activity-user">
+
+{{ activity.user.username }}
+
+</div>
 
 
 <p>
-<b>{{ activity.user.username }}</b>
-</p>
 
-
-<p>
 {{ activity.old_status }} → {{ activity.new_status }}
+
 </p>
 
 
-<p style="
-font-size:12px;
-color:gray;
-">
+
+<div class="activity-time">
 
 {{ activity.created_at }}
 
-</p>
+</div>
 
 
 </div>
 
 
+
+
+
 {% empty %}
 
-<p>No activity yet</p>
+
+<p>
+No activity yet
+</p>
+
 
 
 {% endfor %}
+
+
+
+
+
+
+</div>
 
 
 

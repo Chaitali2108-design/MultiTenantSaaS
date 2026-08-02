@@ -35,11 +35,7 @@ urlpatterns = [
 
     # ================= TASK =================
 
-    path(
-        'tasks/',
-        views.task_list,
-        name='task_list'
-    ),
+   path('tasks/', views.task_list, name='tasks_list'),
 
     path(
         'tasks/create/',
@@ -68,11 +64,7 @@ urlpatterns = [
 
     # ================= KANBAN =================
 
-    path(
-        'kanban/',
-        views.kanban_board,
-        name='kanban_board'
-    ),
+    path('kanban/', views.kanban_board, name='kanban'),
 
     path(
         'tasks/update-status/<int:task_id>/',

@@ -1,306 +1,530 @@
-{% extends 'base01.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
 
+
 <style>
 
-.page-header{
+
+.task-page{
+
+    padding:25px;
+
+}
+
+
+
+.task-header{
+
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:20px;
+    margin-bottom:25px;
+
 }
 
-.btn{
-    padding:8px 14px;
-    border:none;
-    border-radius:6px;
+
+
+.task-title{
+
+    font-size:26px;
+    font-weight:700;
+    color:#1e293b;
+
+}
+
+
+
+.create-task-btn{
+
     background:#2563eb;
     color:white;
-    cursor:pointer;
+    padding:11px 18px;
+    border-radius:8px;
     text-decoration:none;
     font-size:14px;
+    font-weight:600;
+
 }
 
-.btn:hover{
+
+
+.create-task-btn:hover{
+
     background:#1d4ed8;
+
 }
 
-.table{
+
+
+
+.task-box{
+
+    background:white;
+    border:1px solid #e2e8f0;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 4px 15px rgba(0,0,0,0.05);
+
+}
+
+
+
+
+
+.task-table{
+
     width:100%;
     border-collapse:collapse;
-    background:white;
-    border-radius:10px;
-    overflow:hidden;
-    box-shadow:0 4px 15px rgba(0,0,0,0.08);
+
 }
 
-.table th{
-    background:#f1f5f9;
+
+
+.task-table th{
+
+    background:#f8fafc;
+    padding:15px;
     text-align:left;
-    padding:12px;
+    font-size:14px;
+    color:#475569;
+
+}
+
+
+
+.task-table td{
+
+    padding:15px;
+    border-top:1px solid #e2e8f0;
+    color:#334155;
+
+}
+
+
+
+
+
+.task-name{
+
     font-weight:600;
+    color:#1e293b;
+
 }
 
-.table td{
-    padding:12px;
-    border-top:1px solid #eee;
-}
 
-.table tr:hover{
-    background:#f9fafb;
-}
 
-.badge{
-    padding:5px 10px;
+
+
+.status{
+
+    padding:5px 12px;
     border-radius:20px;
     font-size:12px;
     font-weight:600;
+
 }
 
-.badge.todo{
-    background:#e0f2fe;
-    color:#0369a1;
+
+
+.todo{
+
+    background:#e2e8f0;
+    color:#475569;
+
 }
 
-.badge.progress-badge{
-    background:#fef3c7;
-    color:#92400e;
+
+
+.progress{
+
+    background:#dbeafe;
+    color:#1d4ed8;
+
 }
 
-.badge.done{
+
+
+.done{
+
     background:#dcfce7;
-    color:#166534;
+    color:#15803d;
+
 }
+
+
+
+
 
 .priority-high{
+
     color:#dc2626;
     font-weight:600;
+
 }
+
+
 
 .priority-medium{
+
     color:#d97706;
+    font-weight:600;
+
 }
+
+
 
 .priority-low{
+
     color:#16a34a;
+    font-weight:600;
+
 }
 
-.reminder-box{
-    background:#fff3cd;
-    color:#856404;
-    padding:12px;
-    border-radius:8px;
-    margin-bottom:15px;
-    font-weight:500;
+
+
+
+
+.action a{
+
+    text-decoration:none;
+    font-weight:600;
+    font-size:14px;
+    margin-right:12px;
+
 }
 
-.card{
-    background:white;
-    padding:20px;
-    border-radius:10px;
-    margin-bottom:20px;
-    box-shadow:0 4px 10px rgba(0,0,0,0.05);
+
+
+.view{
+
+    color:#2563eb;
+
 }
 
-.input{
-    padding:10px;
-    border-radius:6px;
-    border:1px solid #ddd;
-    margin-right:10px;
+
+
+.edit{
+
+    color:#16a34a;
+
 }
 
-.action-buttons{
-    display:flex;
-    flex-direction:column;
-    gap:8px;
+
+
+.delete{
+
+    color:#dc2626;
+
 }
+
+
+
+
+.empty{
+
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+
+}
+
+
 
 </style>
 
-{% if messages %}
-{% for message in messages %} <div class="reminder-box">
-{{ message }} </div>
-{% endfor %}
-{% endif %}
 
-<div class="card page-header">
 
-<h1>Task List</h1>
 
-<a href="/projects/tasks/create/" class="btn">
+
+<div class="task-page">
+
+
+
+
+
+<div class="task-header">
+
+
+<h1 class="task-title">
+
+Tasks
+
+</h1>
+
+
+
+<a href="{% url 'create_task' %}" class="create-task-btn">
+
 + Create Task
+
 </a>
 
-</div>
 
-<div class="card">
-
-<form method="GET">
-
-<input 
-type="text" 
-name="search"
-placeholder="Search task..."
-class="input">
-
-<select name="status" class="input">
-
-<option value="">Status</option>
-<option value="todo">To Do</option>
-<option value="progress">In Progress</option>
-<option value="done">Done</option>
-
-</select>
-
-<select name="priority" class="input">
-
-<option value="">Priority</option>
-<option value="high">High</option>
-<option value="medium">Medium</option>
-<option value="low">Low</option>
-
-</select>
-
-<select name="sort" class="input">
-
-<option value="">Sort</option>
-<option value="new">Newest</option>
-<option value="old">Oldest</option>
-<option value="priority">Priority</option>
-<option value="status">Status</option>
-
-</select>
-
-<button class="btn">
-Apply
-</button>
-
-</form>
 
 </div>
 
-<div class="card">
-
-
-<h2>Task List</h2>
-
-<table class="table">
 
 
 
 
 
+
+<div class="task-box">
+
+
+
+<table class="task-table">
+
+
+
+<thead>
 
 <tr>
 
-<th>Title</th>
-<th>Project</th>
-<th>Status</th>
-<th>Priority</th>
-<th>Action</th>
+<th>
+Title
+</th>
+
+<th>
+Project
+</th>
+
+<th>
+Status
+</th>
+
+<th>
+Priority
+</th>
+
+<th>
+Actions
+</th>
+
 
 </tr>
+
+</thead>
+
+
+
+
+<tbody>
+
+
+
 
 {% for task in tasks %}
 
+
+
 <tr>
+
+
+
+<td>
+
+<div class="task-name">
+
+{{ task.title }}
+
+</div>
+
+</td>
+
+
+
+
+
+<td>
+
+{{ task.project.name }}
+
+</td>
+
+
+
+
+
+
 
 <td>
 
 
-<a href="{% url 'task_detail' task.id %}">
-{{ task.title }}
 
-{% if task.is_overdue %} 
+{% if task.status == "done" %}
 
-<span style="color:red; font-weight:bold;">(Overdue)</span>
-{% endif %} 
+
+<span class="status done">
+
+Done
+
+</span>
+
+
+
+{% elif task.status == "progress" %}
+
+
+<span class="status progress">
+
+In Progress
+
+</span>
+
+
+
+{% else %}
+
+
+<span class="status todo">
+
+To Do
+
+</span>
+
+
+
+{% endif %}
+
+
+
+</td>
+
+
+
+
+
+
+
+<td>
+
+
+{% if task.priority == "High" %}
+
+
+<span class="priority-high">
+
+🔴 {{ task.priority }}
+
+</span>
+
+
+
+{% elif task.priority == "Medium" %}
+
+
+<span class="priority-medium">
+
+🟠 {{ task.priority }}
+
+</span>
+
+
+
+{% else %}
+
+
+<span class="priority-low">
+
+🟢 {{ task.priority }}
+
+</span>
+
+
+
+{% endif %}
+
+
+
+</td>
+
+
+
+
+
+
+
+<td class="action">
+
+
+<a href="{% url 'task_detail' task.id %}" class="view">
+
+View
+
 </a>
 
 
-</td>
 
-<td>
-    {{ task.project.name }}
-</td>
+<a href="{% url 'update_task' task.id %}" class="edit">
+
+Edit
+
+</a>
 
 
-<td>
 
-{% if task.status == 'done' %} <span class="badge done">Done</span>
+<a href="{% url 'delete_task' task.id %}" class="delete">
 
-{% elif task.status == 'progress' %} <span class="badge progress-badge">In Progress</span>
+Delete
 
-{% else %} <span class="badge todo">To Do</span>
-{% endif %}
+</a>
 
-</td>
 
-<td>
-
-{% if task.priority == 'high' %} <span class="priority-high">High</span>
-
-{% elif task.priority == 'medium' %} <span class="priority-medium">Medium</span>
-
-{% else %} <span class="priority-low">Low</span>
-{% endif %}
 
 </td>
 
-<td>
 
-<div class="action-buttons">
 
-    <a href="{% url 'task_detail' task.id %}" class="btn">
-        View
-    </a>
 
-    <a href="{% url 'update_task' task.id %}" class="btn">
-        Update
-    </a>
 
-    <a href="{% url 'delete_task' task.id %}" class="btn">
-        Delete
-    </a>
-
-    <form method="POST" action="{% url 'update_task_status' task.id %}">
-        {% csrf_token %}
-
-        {% if task.status == "todo" %}
-            <input type="hidden" name="action" value="forward">
-            <button type="submit" class="btn">Start</button>
-
-        {% elif task.status == "progress" %}
-            <input type="hidden" name="action" value="forward">
-            <button type="submit" class="btn">Complete</button>
-
-        {% else %}
-            <input type="hidden" name="action" value="backward">
-            <button type="submit" class="btn">Reopen</button>
-
-        {% endif %}
-    </form>
-
-</div>
-
-</td>
 </tr>
+
+
+
+
 
 {% empty %}
 
+
+
 <tr>
 
-<td colspan="5">
-No tasks available
+<td colspan="5" class="empty">
+
+No Tasks Found
+
 </td>
 
 </tr>
 
+
+
+
 {% endfor %}
+
+
+
+
+
+</tbody>
+
+
 
 </table>
 
+
+
 </div>
+
+
+
+
+
+</div>
+
+
+
 
 {% endblock %}
