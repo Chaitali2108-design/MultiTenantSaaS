@@ -1,3 +1,4 @@
+
 {% extends 'base01.html' %}
 
 {% block content %}
@@ -86,6 +87,7 @@ Create Task
 {{ error }}
 </div>
 {% endif %}
+
 
 <form method="POST" onsubmit="return validateDates()">
 
@@ -233,6 +235,8 @@ Create Task
 
 </button>
 
+<a href="{% url 'task_list' %}" class="btn">Cancel</a>
+
 </form>
 
 </div>
@@ -271,3 +275,4 @@ return true;
 </script>
 
 {% endblock %}
+

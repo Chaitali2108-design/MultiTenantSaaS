@@ -48,6 +48,9 @@ class Project(models.Model):
 class Task(models.Model):
 
     title = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
+
+    description = models.TextField(blank=True, null=True)
 
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)

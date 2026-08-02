@@ -119,11 +119,32 @@ def delete_project(request, project_id):
 
 @login_required(login_url='/accounts/login/')
 def create_task(request):
+
     user = request.user
 
-    projects = Project.objects.filter(organization=user.organization)
-    users = User.objects.filter(organization=user.organization)
-    tasks = Task.objects.filter(project__organization=user.organization)
+    # 🔒 Multi-tenant safety (only current org data)
+
+    print("Current User:", request.user.username)
+    print("Organization:", request.user.organization)
+
+    projects = Project.objects.filter(
+        organization=request.user.organization
+    )
+
+    print(projects)
+
+    users = User.objects.filter(
+        organization=request.user.organization
+    )
+
+    tasks = Task.objects.filter(
+        project__organization=request.user.organization
+    )
+
+    print("Projects Count:", projects.count())
+    print("Users Count:", users.count())
+    print("Tasks Count:", tasks.count())
+  
 
     if request.method == "POST":
 
@@ -180,7 +201,7 @@ def create_task(request):
                 project__organization=user.organization
             ).first()
 
-        Task.objects.create(
+        task = Task.objects.create(
             title=title,
             project=project,
             organization=project.organization,
@@ -193,13 +214,21 @@ def create_task(request):
             order=0
         )
 
+        ActivityLog.objects.create(
+            task=task,
+            user=user,
+            action="Task Created"
+        )
+
         return redirect('task_list')
 
     return render(request, 'projects/create_task.html', {
+
         'projects': projects,
         'users': users,
         'tasks': tasks
     })
+
 
 # ================= KANBAN =================
 
@@ -408,6 +437,7 @@ def task_list(request):
     projects = Project.objects.filter(organization=user.organization)
     users = User.objects.filter(organization=user.organization)
 
+
     return render(request, 'projects/project_task.html', {
         'tasks': tasks,
         'projects': projects,
@@ -416,6 +446,7 @@ def task_list(request):
             due_date__lt=timezone.now().date()
         ).exclude(status='done')
     })
+
 
 
 # ================= TASK DETAIL =================
@@ -454,6 +485,24 @@ def update_task(request, task_id):
 
     if request.method == "POST":
         task.title = request.POST.get("title")
+        task.description = request.POST.get("description")
+
+        project_id = request.POST.get("project")
+        task.project = Project.objects.get(
+            id=project_id,
+            organization=user.organization
+        )
+
+        assigned_to_id = request.POST.get("assigned_to")
+
+        if assigned_to_id:
+            task.assigned_to = User.objects.get(
+                id=assigned_to_id,
+                organization=user.organization
+            )
+        else:
+            task.assigned_to = None
+
         task.status = request.POST.get("status", task.status)
         task.priority = request.POST.get("priority", task.priority)
         task.due_date = request.POST.get("due_date") or None
@@ -461,11 +510,10 @@ def update_task(request, task_id):
         reminder_raw = request.POST.get("reminder_date")
         if reminder_raw:
             task.reminder_date = datetime.fromisoformat(reminder_raw)
-
         dependency_id = request.POST.get("dependency")
 
         if dependency_id:
-            task.dependency_id = dependency_id
+            task.dependency = Task.objects.get(id=dependency_id)
         else:
             task.dependency = None
 
@@ -477,15 +525,33 @@ def update_task(request, task_id):
             action="Task Updated"
         )
 
-        return redirect('task_detail', task_id=task.id)
+        return redirect("task_detail", task.id)
 
-    tasks = Task.objects.filter(project__organization=user.organization)
 
-    return render(request, 'projects/create_task.html', {
-        'task': task,
-        'tasks': tasks
-    })
 
+
+    projects = Project.objects.filter(
+        organization=user.organization
+    )
+
+    users = User.objects.filter(
+        organization=user.organization
+    )
+
+    tasks = Task.objects.filter(
+        project__organization=user.organization
+    ).exclude(id=task.id)
+
+    return render(
+        request,
+        "projects/update_task.html",
+        {
+            "task": task,
+            "projects": projects,
+            "users": users,
+            "tasks": tasks,
+        },
+    )
 
 # ================= DELETE TASK =================
 
