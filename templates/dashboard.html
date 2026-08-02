@@ -5,18 +5,22 @@ Dashboard
 {% endblock %}
 
 {% block content %}
-
 <section>
 
-    <h1>Dashboard</h1>
+    <div class="dashboard-title">
 
-    <hr>
+    <div>
+        <h1>Dashboard</h1>
+        <p>Overview of your organization, projects and activities.</p>
+    </div>
+
+</div>
 
     <div class="welcome-banner">
 
     <div>
 
-        <h2>👋 Welcome Back, Member 3</h2>
+        <h2>👋 Welcome Back, {{ request.user.first_name|default:request.user.username }}</h2>
 
         <p>
             Manage your projects, monitor team progress, and stay productive.
@@ -24,7 +28,55 @@ Dashboard
 
     </div>
 
-    <button>+ New Project</button>
+    <a href="{% url 'create_project' %}" class="btn btn-primary">
+    + New Project
+</a>
+
+</div>
+<div class="dashboard-toolbar">
+
+    <div class="toolbar-left">
+        <input type="text" placeholder="🔍 Search..." class="search-box">
+    </div>
+
+    <div class="toolbar-right">
+
+        <button class="toolbar-btn">
+            <i class="fa-solid fa-bell"></i>
+        </button>
+
+        <button class="toolbar-btn">
+            <i class="fa-solid fa-gear"></i>
+        </button>
+
+    </div>
+
+</div>
+<div class="overview-bar">
+
+    <div class="overview-item">
+        <i class="fa-solid fa-calendar-days"></i>
+        <div>
+            <h4>Today's Date</h4>
+            <p>{{ now|date:"d M Y" }}</p>
+        </div>
+    </div>
+
+    <div class="overview-item">
+        <i class="fa-solid fa-clock"></i>
+        <div>
+            <h4>Current Time</h4>
+            <p>{{ now|time:"H:i" }}</p>
+        </div>
+    </div>
+
+    <div class="overview-item">
+        <i class="fa-solid fa-user"></i>
+        <div>
+            <h4>Logged in as</h4>
+            <p>{{ request.user.username }}</p>
+        </div>
+    </div>
 
 </div>
 
@@ -32,117 +84,115 @@ Dashboard
 
 <div class="cards">
 
-    <div class="card blue">
+    <a href="{% url 'project_list' %}" class="dashboard-link">
+        <div class="card blue">
+
+            <div class="card-header">
+                <h3>Total Projects</h3>
+                <i class="fa-solid fa-folder"></i>
+            </div>
+
+            <p>{{ total_projects }}</p>
+            <span>+2 this week</span>
+
+        </div>
+    </a>
+
+    <a href="{% url 'project_list' %}" class="dashboard-link">
+
+<div class="card green">
 
     <div class="card-header">
-
-        <h3>Total Projects</h3>
-
-        <i class="fa-solid fa-folder"></i>
-
-    </div>
-
-    <p>{{ total_projects }}</p>
-
-    <span>+2 this week</span>
-
-</div>
-
-    <div class="card green">
-
-    <div class="card-header">
-
         <h3>Active Projects</h3>
-
         <i class="fa-solid fa-chart-line"></i>
-
     </div>
 
     <p>{{ active_projects }}</p>
 
-<div class="mini-progress">
+    <div class="mini-progress">
+        <div class="mini-fill green-fill"
+            style="width:100%;">
+        </div>
+    </div>
 
-    <div class="mini-fill green-fill" style="width:75%;"></div>
+    <span>{{ active_projects }} Active Projects</span>
 
 </div>
 
-<span>75% Running</span>
+</a>
 
-</div>
+    <a href="{% url 'task_list' %}" class="dashboard-link">
 
-    <div class="card purple">
+<div class="card purple">
 
     <div class="card-header">
-
         <h3>Completed Tasks</h3>
-
         <i class="fa-solid fa-circle-check"></i>
-
     </div>
 
     <p>{{ completed_tasks }}</p>
 
-<div class="mini-progress">
-
-    <div class="mini-fill purple-fill" style="width:80%;"></div>
-
-</div>
-
-<span>Excellent Progress</span>
-
-</div>
-
-    <div class="card orange">
-
-    <div class="card-header">
-
-        <h3>Pending Tasks</h3>
-
-        <i class="fa-solid fa-hourglass-half"></i>
-
+    <div class="mini-progress">
+        <div class="mini-fill purple-fill"
+            style="width:{{ completion_percentage }}%;">
+        </div>
     </div>
 
-   <p>{{ pending_tasks }}</p>
-
-<div class="mini-progress">
-
-    <div class="mini-fill orange-fill" style="width:40%;"></div>
+    <span>{{ completion_percentage }}% Completed</span>
 
 </div>
 
-<span>Needs Attention</span>
+</a>
 
-</div>
+    <a href="{% url 'task_list' %}" class="dashboard-link">
 
-    <div class="card red">
+<div class="card orange">
 
     <div class="card-header">
+        <h3>Pending Tasks</h3>
+        <i class="fa-solid fa-hourglass-half"></i>
+    </div>
 
+    <p>{{ pending_tasks }}</p>
+
+    <div class="mini-progress">
+        <div class="mini-fill orange-fill" style="width:40%;"></div>
+    </div>
+
+    <span>{{ pending_tasks }} Tasks Remaining</span>
+
+</div>
+
+</a>
+
+    <a href="{% url 'task_list' %}" class="dashboard-link">
+
+<div class="card red">
+
+    <div class="card-header">
         <h3>Overdue Tasks</h3>
-
         <i class="fa-solid fa-triangle-exclamation"></i>
-
     </div>
 
     <p>{{ overdue_tasks }}</p>
 
-<div class="mini-progress">
+    <div class="mini-progress">
+        <div class="mini-fill red-fill" style="width:15%;"></div>
+    </div>
 
-    <div class="mini-fill red-fill" style="width:15%;"></div>
+    <span>{{ overdue_tasks }} Overdue</span>
 
 </div>
 
-<span>Complete Soon</span>
-</div>
+</a>
 
-    <div class="card teal">
+    <a href="{% url 'team_members' %}" class="dashboard-link">
+
+<div class="card teal">
 
     <div class="card-header">
-
         <h3>Team Members</h3>
-
         <i class="fa-solid fa-users"></i>
-
     </div>
 
     <p>{{ team_members }}</p>
@@ -150,6 +200,8 @@ Dashboard
     <span>Active Members</span>
 
 </div>
+
+</a>
 
 </div>
 
@@ -183,43 +235,55 @@ Dashboard
 
     <h2>🔔 Recent Activity</h2>
 
-    <ul>
+    {% for activity in recent_activities %}
 
-        {% for activity in recent_activities %}
+        <div class="activity-card">
 
-        <li>
+            <div class="activity-icon">
 
-            <strong>{{ activity.user.username }}</strong>
+                {% if activity.action|lower == "created" %}
+                    <i class="fa-solid fa-circle-plus"></i>
 
-            {{ activity.action }}
+                {% elif activity.action|lower == "updated" %}
+                    <i class="fa-solid fa-pen"></i>
 
-            <br>
+                {% elif activity.action|lower == "deleted" %}
+                    <i class="fa-solid fa-trash"></i>
 
-            <small>
+                {% else %}
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                {% endif %}
 
-                {{ activity.task.title }}
+            </div>
 
-                •
+            <div class="activity-content">
 
-                {{ activity.created_at|date:"d M Y H:i" }}
+                <strong>{{ activity.user.username }}</strong>
 
-            </small>
+                {{ activity.action }}
 
-        </li>
+                {% if activity.task %}
+                    <br>
+                    <span>{{ activity.task.title }}</span>
+                {% endif %}
 
-        {% empty %}
+                <small>
+                    {{ activity.created_at|date:"d M Y • H:i" }}
+                </small>
 
-        <li>No recent activity found.</li>
+            </div>
 
-        {% endfor %}
+        </div>
 
-    </ul>
+    {% empty %}
 
-</div>
+    <p>No recent activity available.</p>
 
-</div>
+{% endfor %}
 
-</div>
+</div>   <!-- Ends recent-activity -->
+
+</div>   <!-- Ends dashboard-grid -->
 
 <hr>
 
@@ -282,26 +346,45 @@ Dashboard
 
     <td>{{ project.created_by.username }}</td>
 
-    <td>
-        <span class="status in-progress">
-            Active
-        </span>
-    </td>
+   <td>
+    {% if project.status == "done" %}
+        <span class="status completed">Completed</span>
 
-    <td>
-        <span class="priority medium">
-            Medium
-        </span>
-    </td>
+    {% elif project.status == "progress" %}
+        <span class="status in-progress">In Progress</span>
+
+    {% else %}
+        <span class="status pending">To Do</span>
+    {% endif %}
+</td>
+
+<td>
+    {% if project.priority == "high" %}
+        <span class="priority high">High</span>
+    {% elif project.priority == "medium" %}
+        <span class="priority medium">Medium</span>
+    {% else %}
+        <span class="priority low">Low</span>
+    {% endif %}
+</td>
 
     <td>{{ project.created_at|date:"d M Y" }}</td>
 
     <td class="actions">
-        <i class="fa-solid fa-eye"></i>
-        <i class="fa-solid fa-pen"></i>
-        <i class="fa-solid fa-trash"></i>
-    </td>
 
+    <a href="{% url 'project_detail' project.id %}" title="View">
+        <i class="fa-solid fa-eye"></i>
+    </a>
+
+    <a href="{% url 'update_project' project.id %}" title="Edit">
+        <i class="fa-solid fa-pen"></i>
+    </a>
+
+    <a href="{% url 'delete_project' project.id %}" title="Delete">
+        <i class="fa-solid fa-trash"></i>
+    </a>
+
+</td>
 </tr>
 
 {% empty %}
@@ -377,10 +460,20 @@ Dashboard
     </td>
 
     <td class="actions">
+
+    <a href="{% url 'task_detail' task.id %}" title="View">
         <i class="fa-solid fa-eye"></i>
+    </a>
+
+    <a href="{% url 'update_task' task.id %}" title="Edit">
         <i class="fa-solid fa-pen"></i>
+    </a>
+
+    <a href="{% url 'delete_task' task.id %}" title="Delete">
         <i class="fa-solid fa-trash"></i>
-    </td>
+    </a>
+
+</td>
 
 </tr>
 
@@ -396,6 +489,63 @@ Dashboard
 
 </table>
 
-</section>
+<hr>
 
+<div class="dashboard-summary">
+
+    <div class="summary-card">
+
+        <i class="fa-solid fa-chart-pie"></i>
+
+        <h3>Organization Overview</h3>
+
+        <p>
+            You currently have
+            <strong>{{ total_projects }}</strong>
+            projects and
+            <strong>{{ team_members }}</strong>
+            team members.
+        </p>
+
+    </div>
+
+    <div class="summary-card">
+
+        <i class="fa-solid fa-list-check"></i>
+
+        <h3>Task Progress</h3>
+
+        <p>
+
+            Completed:
+            <strong>{{ completed_tasks }}</strong>
+
+            <br>
+
+            Pending:
+            <strong>{{ pending_tasks }}</strong>
+
+            <br>
+
+            Overdue:
+            <strong>{{ overdue_tasks }}</strong>
+
+        </p>
+
+    </div>
+
+    <div class="summary-card">
+
+        <i class="fa-solid fa-bullseye"></i>
+
+        <h3>Productivity Tip</h3>
+
+        <p>
+            Keep your tasks updated daily to improve project tracking and team collaboration.
+        </p>
+
+    </div>
+
+</div>
+</section>
 {% endblock %}

@@ -3,31 +3,61 @@ from django.contrib.auth.decorators import login_required
 
 from projects.models import Project, Task, ActivityLog
 from accounts.models import User, Role
+from django.utils import timezone
 
 @login_required
 def dashboard(request):
 
-    total_projects = Project.objects.count()
+    organization = request.user.organization
 
-    completed_tasks = Task.objects.filter(status="done").count()
+    total_projects = Project.objects.filter(
+    organization=organization
+    ).count()
 
-    pending_tasks = Task.objects.filter(status="todo").count()
+    completed_tasks = Task.objects.filter(
+    organization=organization,
+    status="done"
+    ).count()
 
-    active_projects = Project.objects.count()
+    pending_tasks = Task.objects.filter(
+    organization=organization,
+    status="todo"
+    ).count()
+
+    active_projects = Project.objects.filter(
+    organization=organization
+    ).count()
 
     overdue_tasks = 0
 
-    for task in Task.objects.all():
+    for task in Task.objects.filter(
+        organization=organization
+        ):
         if task.is_overdue:
             overdue_tasks += 1
 
-    recent_projects = Project.objects.order_by("-created_at")[:5]
-    recent_tasks = Task.objects.order_by("-created_at")[:5]
+    recent_projects = Project.objects.filter(
+    organization=organization
+    ).order_by("-created_at")[:5]
+    recent_tasks = Task.objects.filter(
+    organization=organization
+    ).order_by("-created_at")[:5]
     team_members = User.objects.filter(
         organization=request.user.organization
     ).count()
-    progress_projects = Project.objects.order_by("-created_at")[:5]
-    recent_activities = ActivityLog.objects.order_by("-created_at")[:5]
+    progress_projects = Project.objects.filter(
+    organization=organization
+    ).order_by("-created_at")[:5]
+
+    total_tasks = completed_tasks + pending_tasks + overdue_tasks
+
+    if total_tasks > 0:
+        completion_percentage = int((completed_tasks / total_tasks) * 100)
+    else:
+        completion_percentage = 0
+    recent_activities = ActivityLog.objects.filter(
+    task__organization=organization
+    ).order_by("-created_at")[:5]
     
     context = {
         "total_projects": total_projects,
@@ -40,7 +70,9 @@ def dashboard(request):
         "recent_tasks": recent_tasks,
         "team_members": team_members,
         "progress_projects": progress_projects,
+        "completion_percentage": completion_percentage,
         "recent_activities": recent_activities,
+        "now": timezone.now(),
     }
 
     return render(request, "dashboard.html", context)
