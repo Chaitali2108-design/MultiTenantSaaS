@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
 Dashboard
 {% endblock %}
 
 {% block content %}
-<section>
+<div>
 
     <div class="dashboard-title">
 
@@ -113,35 +114,42 @@ Dashboard
     <a href="{% url 'project_list' %}" class="dashboard-link">
         <div class="card blue">
 
-            <div class="card-header">
-                <h3>Total Projects</h3>
-                <i class="fa-solid fa-folder"></i>
-            </div>
+    <div class="card-header">
+        <h3>Total Projects</h3>
+        <i class="fa-solid fa-folder"></i>
+    </div>
 
-            <p>{{ total_projects }}</p>
-            <span>+2 this week</span>
+    <div class="card-body">
+        <p>{{ total_projects }}</p>
+    </div>
 
-        </div>
+    <div class="card-footer">
+        <span>+2 this week</span>
+    </div>
+
+</div>
     </a>
 
     <a href="{% url 'project_list' %}" class="dashboard-link">
 
-<div class="card green">
+        <div class="card green">
 
-    <div class="card-header">
-        <h3>Active Projects</h3>
-        <i class="fa-solid fa-chart-line"></i>
-    </div>
+            <div class="card-header">
+                <h3>Active Projects</h3>
+                <i class="fa-solid fa-chart-line"></i>
+            </div>
 
-    <p>{{ active_projects }}</p>
+            <div class="card-body">
+                <p>{{ active_projects }}</p>
+            </div>
 
-    <div class="mini-progress">
-        <div class="mini-fill green-fill"
-            style="width:100%;">
+            <div class="card-footer">
+                <div class="mini-progress">
+            <div class="mini-fill green-fill" style="width:100%;"></div>
         </div>
-    </div>
 
-    <span>{{ active_projects }} Active Projects</span>
+        <span>{{ active_projects }} Active Projects</span>
+    </div>
 
 </div>
 
@@ -156,15 +164,19 @@ Dashboard
         <i class="fa-solid fa-circle-check"></i>
     </div>
 
-    <p>{{ completed_tasks }}</p>
-
-    <div class="mini-progress">
-        <div class="mini-fill purple-fill"
-            style="width:{{ completion_percentage }}%;">
-        </div>
+    <div class="card-body">
+        <p>{{ completed_tasks }}</p>
     </div>
 
-    <span>{{ completion_percentage }}% Completed</span>
+    <div class="card-footer">
+        <div class="mini-progress">
+            <div class="mini-fill purple-fill"
+                style="width:{{ completion_percentage }}%;">
+            </div>
+        </div>
+
+        <span>{{ completion_percentage }}% Completed</span>
+    </div>
 
 </div>
 
@@ -179,13 +191,17 @@ Dashboard
         <i class="fa-solid fa-hourglass-half"></i>
     </div>
 
-    <p>{{ pending_tasks }}</p>
-
-    <div class="mini-progress">
-        <div class="mini-fill orange-fill" style="width:40%;"></div>
+    <div class="card-body">
+        <p>{{ pending_tasks }}</p>
     </div>
 
-    <span>{{ pending_tasks }} Tasks Remaining</span>
+    <div class="card-footer">
+        <div class="mini-progress">
+            <div class="mini-fill orange-fill" style="width:40%;"></div>
+        </div>
+
+        <span>{{ pending_tasks }} Tasks Remaining</span>
+    </div>
 
 </div>
 
@@ -200,16 +216,19 @@ Dashboard
         <i class="fa-solid fa-triangle-exclamation"></i>
     </div>
 
-    <p>{{ overdue_tasks }}</p>
-
-    <div class="mini-progress">
-        <div class="mini-fill red-fill" style="width:15%;"></div>
+    <div class="card-body">
+        <p>{{ overdue_tasks }}</p>
     </div>
 
-    <span>{{ overdue_tasks }} Overdue</span>
+    <div class="card-footer">
+        <div class="mini-progress">
+            <div class="mini-fill red-fill" style="width:15%;"></div>
+        </div>
+
+        <span>{{ overdue_tasks }} Overdue</span>
+    </div>
 
 </div>
-
 </a>
 
     <a href="{% url 'team_members' %}" class="dashboard-link">
@@ -221,9 +240,13 @@ Dashboard
         <i class="fa-solid fa-users"></i>
     </div>
 
-    <p>{{ team_members }}</p>
+    <div class="card-body">
+        <p>{{ team_members }}</p>
+    </div>
 
-    <span>Active Members</span>
+    <div class="card-footer">
+        <span>Active Members</span>
+    </div>
 
 </div>
 
@@ -326,7 +349,7 @@ Dashboard
             <div class="progress">
 
                 <div class="progress-fill blue-fill"
-                     style="width:{{ project.progress }}%;">
+                    style="width:{{ project.progress }}%;">
 
                     {{ project.progress }}%
 
@@ -345,6 +368,7 @@ Dashboard
 <hr>
 <h2>Recent Projects</h2>
 
+<div class="table-card">
 <table>
 
     <thead>
@@ -372,7 +396,7 @@ Dashboard
 
     <td>{{ project.created_by.username }}</td>
 
-   <td>
+<td>
     {% if project.status == "done" %}
         <span class="status completed">Completed</span>
 
@@ -423,11 +447,12 @@ Dashboard
 
 </tbody>
 </table>
+</div>
 
     <hr>
 
-    <h2>Recent Tasks</h2>
-
+<h2>Recent Tasks</h2>
+<div class="table-card">
 <table>
 
     <thead>
@@ -514,6 +539,7 @@ Dashboard
 </tbody>
 
 </table>
+</div>
 
 <hr>
 
@@ -573,5 +599,34 @@ Dashboard
     </div>
 
 </div>
+<hr>
+
+<h2>Dashboard Charts</h2>
+
+<div class="charts-section">
+
+    <div class="chart-card">
+        <h3>Projects Status</h3>
+        <canvas id="projectChart"></canvas>
+    </div>
+
+    <div class="chart-card">
+        <h3>Tasks Priority</h3>
+        <canvas id="priorityChart"></canvas>
+    </div>
+
+    <div class="chart-card">
+        <h3>Monthly Tasks</h3>
+        <canvas id="lineChart"></canvas>
+    </div>
+
+    <div class="chart-card">
+        <h3>Completed vs Pending</h3>
+        <canvas id="progressChart"></canvas>
+    </div>
+
+</div>
+
+<script src="{% static 'js/dashboard_charts.js' %}"></script>
 </section>
 {% endblock %}

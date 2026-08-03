@@ -2,45 +2,32 @@
 
     <h2>Multi-Tenant SaaS</h2>
 
-    <div>
+    <div class="nav-right">
 
-        <p>
-            Organization :
-            {% if request.user.organization %}
-                {{ request.user.organization.name }}
-            {% else %}
-                No Organization
-            {% endif %}
-        </p>
+    <span class="org-name">
+        Organization :
+        {{ request.user.organization.name }}
+    </span>
 
+    <a href="#">
+        <i class="fa-solid fa-bell"></i>
+        Notifications
+    </a>
 
-        <button>
-            Notifications
-        </button>
-
-
-        <button>
-
-    <a href="{% url 'profile' %}" style="color:white; text-decoration:none;">
+    <a href="{% url 'profile' %}">
+        <i class="fa-solid fa-user"></i>
         Profile
     </a>
 
-</button>
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Logout
+        </button>
+    </form>
 
+</div>
 
-        <form method="post" action="{% url 'logout' %}" style="display:inline;">
-
-            {% csrf_token %}
-
-            <button type="submit">
-                Logout
-            </button>
-
-        </form>
-
-
-    </div>
-
-    <hr>
 
 </nav>
