@@ -220,7 +220,7 @@ def create_task(request):
             action="Task Created"
         )
 
-        return redirect('task_list')
+        return redirect('tasks_list')
 
     return render(request, 'projects/create_task.html', {
 
