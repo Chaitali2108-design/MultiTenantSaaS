@@ -4,6 +4,7 @@ from organizations.models import Organization
 from accounts.models import Role
 from accounts.models import Permission
 from accounts.models import UserProfile
+from .validators import validate_image_file
 
 
 
@@ -211,7 +212,16 @@ class RolePermissionSerializer(serializers.Serializer):
         child=serializers.IntegerField()
     )
 
-class ProfileImageSerializer(serializers.ModelSerializer):
+class ProfileImageSerializer(
+    serializers.ModelSerializer
+):
+
+    profile_picture = serializers.ImageField(
+        validators=[
+            validate_image_file
+        ]
+    )
+
 
     class Meta:
 
@@ -219,4 +229,23 @@ class ProfileImageSerializer(serializers.ModelSerializer):
 
         fields = [
             "profile_picture",
+        ]
+
+class OrganizationLogoSerializer(
+    serializers.ModelSerializer
+):
+
+    logo = serializers.ImageField(
+        validators=[
+            validate_image_file
+        ]
+    )
+
+
+    class Meta:
+
+        model = Organization
+
+        fields = [
+            "logo",
         ]

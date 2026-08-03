@@ -12,6 +12,34 @@ from .models import UserInvitation
 
 class OrganizationOwnerSignupForm(UserCreationForm):
 
+
+
+    def __init__(self,*args,**kwargs):
+
+        super().__init__(*args,**kwargs)
+
+
+        fields = [
+        "organization_name",
+        "domain",
+        "contact_email",
+        "contact_phone",
+        "username",
+        "email",
+        "password1",
+        "password2",
+    ]
+
+
+        for field in fields:
+
+            self.fields[field].widget.attrs.update({
+
+            "class":
+            "saas-input"
+
+        })
+
     organization_name = forms.CharField(
         max_length=150
     )
@@ -26,7 +54,8 @@ class OrganizationOwnerSignupForm(UserCreationForm):
     )
 
     plan = forms.ChoiceField(
-        choices=Organization.PLAN_CHOICES
+        choices=Organization.PLAN_CHOICES,
+        widget=forms.RadioSelect
     )
 
     contact_email = forms.EmailField()

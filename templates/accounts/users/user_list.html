@@ -4,66 +4,99 @@
 
 <script src="https://cdn.tailwindcss.com"></script>
 
-
-<div class="min-h-screen bg-gray-100 text-gray-800 py-8 px-6">
-
-
-    <div class="max-w-6xl mx-auto">
+<link
+href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+rel="stylesheet">
 
 
-        <div class="bg-white border border-gray-200 rounded-xl shadow-xl overflow-hidden">
+<style>
 
+body{
+    font-family:'Plus Jakarta Sans',sans-serif;
+}
 
-            <!-- Header -->
-
-<div class="px-7 py-5 border-b border-gray-200">
-
-
-    <div class="flex items-center justify-between">
-
-
-        <div>
-
-            <h2 class="text-2xl font-semibold text-gray-800">
-
-                Organization Users
-
-            </h2>
-
-
-            <p class="text-gray-500 text-sm mt-1">
-
-                Manage members, roles, and access permissions.
-
-            </p>
-
-        </div>
+</style>
 
 
 
-<div class="flex items-center gap-3">
+<div class="min-h-screen bg-slate-50 py-10 px-6">
 
-{% if request.user.role.name == "Owner" %}
 
-    <a
-        href="{% url 'create_invitation' %}"
-        class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-lg transition shadow-sm">
-
-        + Create User
-
-    </a>
-
-    {% endif %}
+<div class="max-w-7xl mx-auto">
 
 
 
-    <a
-        href="{% url 'role_list' %}"
-        class="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-white text-sm font-semibold rounded-lg transition shadow-sm">
+<!-- Main Card -->
 
-        Roles
+<div class="
+bg-white
+rounded-3xl
+border
+border-slate-200
+shadow-xl
+overflow-hidden
+">
 
-    </a>
+
+
+<div class="h-1 bg-gradient-to-r from-cyan-500 via-sky-500 to-indigo-500"></div>
+
+
+
+<!-- Header -->
+
+<div class="px-8 py-7 border-b border-slate-200">
+
+
+<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+
+
+
+<div>
+
+
+<div class="
+inline-flex
+items-center
+gap-2
+px-3
+py-1
+rounded-full
+bg-cyan-50
+text-cyan-700
+border
+border-cyan-200
+text-sm
+font-semibold
+">
+
+👥 User Management
+
+</div>
+
+
+
+<h1 class="
+mt-4
+text-3xl
+font-extrabold
+text-slate-900
+">
+
+Organization Users
+
+</h1>
+
+
+<p class="
+mt-2
+text-slate-500
+">
+
+Manage members, roles, and access permissions.
+
+</p>
+
 
 
 </div>
@@ -71,232 +104,399 @@
 
 
 
-    </div>
 
-
-</div>
-
-
-
-            <!-- Table -->
-
-            <div class="overflow-x-auto">
-
-
-                <table class="w-full text-left">
-
-
-                    <thead class="bg-gray-50">
-
-
-                        <tr class="text-gray-500 text-sm">
-
-
-                            <th class="px-6 py-4 font-medium">
-                                Username
-                            </th>
-
-
-                            <th class="px-6 py-4 font-medium">
-                                Email
-                            </th>
-
-
-                            <th class="px-6 py-4 font-medium">
-                                Role
-                            </th>
-
-
-                            <th class="px-6 py-4 font-medium">
-                                Action
-                            </th>
-
-
-                        </tr>
-
-
-                    </thead>
-
-
-
-                    <tbody>
-
-
-                    {% for user in users %}
-
-
-
-                        <tr class="border-t border-gray-200 hover:bg-gray-50 transition">
-
-
-
-                            <td class="px-6 py-4">
-
-
-                                <div class="font-medium text-gray-800">
-
-                                    {{ user.username }}
-
-                                </div>
-
-
-                            </td>
-
-
-
-
-
-                            <td class="px-6 py-4 text-gray-600">
-
-
-                                {{ user.email }}
-
-
-                            </td>
-
-
-
-
-
-                            <td class="px-6 py-4">
-
-
-
-                                {% if user.role %}
-
-
-                                    <span class="px-3 py-1 text-xs rounded-lg bg-emerald-100 text-emerald-700 border border-emerald-200">
-
-                                        {{ user.role.name }}
-
-                                    </span>
-
-
-
-                                {% else %}
-
-
-
-                                    <span class="px-3 py-1 text-xs rounded-lg bg-gray-100 text-gray-500 border border-gray-200">
-
-                                        No Role
-
-                                    </span>
-
-
-
-                                {% endif %}
-
-
-
-                            </td>
-
-
-
-
-
-
-
-                        <td class="px-6 py-4">
+<div class="flex gap-3">
 
 
 {% if request.user.role.name == "Owner" %}
 
 
-    {% if user != request.user %}
+<a
+href="{% url 'create_invitation' %}"
+class="
+px-5
+py-3
+rounded-xl
+bg-cyan-600
+hover:bg-cyan-700
+text-white
+font-semibold
+shadow-lg
+transition
+">
 
++ Create User
 
-    <div class="flex gap-3">
-
-
-        <a
-        href="{% url 'assign_user_role' user.id %}"
-        class="inline-flex items-center px-4 py-2 text-sm rounded-lg bg-amber-500 hover:bg-amber-600 text-white transition shadow-sm">
-
-            Assign Role
-
-        </a>
-
-
-
-        <form method="POST" action="{% url 'delete_user' user.id %}">
-
-            {% csrf_token %}
-
-            <button
-            type="submit"
-            onclick="return confirm('Are you sure you want to delete this user?')"
-            class="inline-flex items-center px-4 py-2 text-sm rounded-lg bg-red-500 hover:bg-red-600 text-white transition shadow-sm">
-
-                Delete
-
-            </button>
-
-        </form>
-
-
-    </div>
-
-
-    {% else %}
-
-
-        <span class="text-gray-400 text-sm">
-            Current User
-        </span>
-
-
-    {% endif %}
-
-
-{% else %}
-
-
-    <span class="text-gray-400 text-sm">
-        View Only
-    </span>
+</a>
 
 
 {% endif %}
 
 
-</td>
+
+<a
+href="{% url 'role_list' %}"
+class="
+px-5
+py-3
+rounded-xl
+bg-white
+border
+border-amber-300
+text-amber-700
+font-semibold
+hover:bg-amber-50
+transition
+">
+
+Roles
+
+</a>
+
+
+</div>
+
+
+</div>
+
+
+</div>
 
 
 
-                        </tr>
+
+
+<!-- Users Cards -->
+
+<div class="p-8">
+
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+
+
+        {% for user in users %}
+
+
+        <div class="
+            bg-white
+            border
+            border-slate-200
+            rounded-3xl
+            p-6
+            shadow-sm
+            hover:shadow-xl
+            transition
+            duration-300
+        ">
+
+
+            <!-- User Header -->
+
+            <div class="flex items-center gap-4">
+
+
+                {% if user.profile.profile_picture %}
+
+                <img
+                src="{{ user.profile.profile_picture.url }}"
+                class="
+                w-16
+                h-16
+                rounded-2xl
+                object-cover
+                border
+                border-slate-200
+                "
+                >
+
+                {% else %}
+
+
+                <div
+                class="
+                w-16
+                h-16
+                rounded-2xl
+                bg-cyan-100
+                text-cyan-700
+                flex
+                items-center
+                justify-center
+                text-2xl
+                font-bold
+                "
+                >
+
+                    {{ user.username|first|upper }}
+
+                </div>
+
+
+                {% endif %}
 
 
 
-                    {% empty %}
+                <div>
+
+                    <h3 class="
+                    text-lg
+                    font-bold
+                    text-slate-900
+                    ">
+
+                        {{ user.username }}
+
+                    </h3>
+
+
+                    <p class="
+                    text-sm
+                    text-slate-500
+                    ">
+
+                        {{ user.email }}
+
+                    </p>
+
+
+                </div>
+
+
+            </div>
 
 
 
-                        <tr>
+
+            <!-- User Info -->
 
 
-                            <td colspan="4" class="px-6 py-8 text-center text-gray-500">
+            <div class="
+            mt-6
+            space-y-4
+            ">
 
 
-                                No users found.
+                <div class="
+                flex
+                justify-between
+                items-center
+                ">
+
+                    <span class="text-sm text-slate-500">
+                        Role
+                    </span>
 
 
-                            </td>
+                    {% if user.role %}
+
+                    <span
+                    class="
+                    px-3
+                    py-1
+                    rounded-full
+                    bg-emerald-100
+                    text-emerald-700
+                    text-xs
+                    font-semibold
+                    border
+                    border-emerald-200
+                    "
+                    >
+
+                        {{ user.role.name }}
+
+                    </span>
 
 
-                        </tr>
+                    {% else %}
+
+
+                    <span
+                    class="
+                    px-3
+                    py-1
+                    rounded-full
+                    bg-slate-100
+                    text-slate-500
+                    text-xs
+                    "
+                    >
+
+                        No Role
+
+                    </span>
+
+
+                    {% endif %}
+
+
+                </div>
 
 
 
-                    {% endfor %}
+
+                <div class="
+                flex
+                justify-between
+                items-center
+                ">
+
+
+                    <span class="text-sm text-slate-500">
+                        Status
+                    </span>
+
+
+                    <span
+                    class="
+                    px-3
+                    py-1
+                    rounded-full
+                    bg-cyan-100
+                    text-cyan-700
+                    text-xs
+                    font-semibold
+                    "
+                    >
+
+                        Active
+
+                    </span>
+
+
+                </div>
+
+
+            </div>
 
 
 
-                    </tbody>
+
+
+            <!-- Actions -->
+
+
+            <div class="
+            mt-6
+            flex
+            gap-3
+            ">
+
+
+            {% if request.user.role.name == "Owner" %}
+
+
+                {% if user != request.user %}
+
+
+                <a
+                href="{% url 'assign_user_role' user.id %}"
+                class="
+                flex-1
+                text-center
+                px-4
+                py-2.5
+                rounded-xl
+                bg-amber-500
+                hover:bg-amber-600
+                text-white
+                text-sm
+                font-semibold
+                transition
+                "
+                >
+
+                    Assign Role
+
+                </a>
 
 
 
-                </table>
+
+                <form
+                method="POST"
+                action="{% url 'delete_user' user.id %}"
+                class="flex-1"
+                >
+
+                    {% csrf_token %}
+
+
+                    <button
+                    type="submit"
+                    onclick="return confirm('Are you sure you want to delete this user?')"
+                    class="
+                    w-full
+                    px-4
+                    py-2.5
+                    rounded-xl
+                    bg-red-500
+                    hover:bg-red-600
+                    text-white
+                    text-sm
+                    font-semibold
+                    transition
+                    "
+                    >
+
+                        Delete
+
+                    </button>
+
+
+                </form>
+
+
+                {% else %}
+
+
+                <div
+                class="
+                w-full
+                text-center
+                px-4
+                py-2.5
+                rounded-xl
+                bg-slate-100
+                text-slate-500
+                text-sm
+                font-semibold
+                "
+                >
+
+                    Current User
+
+                </div>
+
+
+                {% endif %}
+
+
+
+            {% else %}
+
+
+
+                <div
+                class="
+                w-full
+                text-center
+                px-4
+                py-2.5
+                rounded-xl
+                bg-slate-100
+                text-slate-500
+                text-sm
+                "
+                >
+
+                    View Only
+
+                </div>
+
+
+
+            {% endif %}
+
 
 
             </div>
@@ -307,7 +507,36 @@
 
 
 
+        {% empty %}
+
+
+        <div class="
+        col-span-full
+        text-center
+        py-10
+        text-slate-500
+        ">
+
+            No users found.
+
+        </div>
+
+
+        {% endfor %}
+
+
+
     </div>
+
+
+</div>
+
+
+
+</div>
+
+
+</div>
 
 
 </div>

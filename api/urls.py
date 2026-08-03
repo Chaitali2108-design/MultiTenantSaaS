@@ -18,6 +18,7 @@ from .views import (
     RolePermissionUpdateAPIView,
     TokenRefreshAPIView,
     ProfileImageUploadAPIView,
+    OrganizationLogoUploadAPIView,
 )
 
 from django.urls import path
@@ -123,6 +124,11 @@ path(
     "profile/image/",
     ProfileImageUploadAPIView.as_view(),
     name="profile-image-upload"
+),
+path(
+    "organization/logo/",
+    OrganizationLogoUploadAPIView.as_view(),
+    name="organization-logo-upload",
 ),
 
 ]

@@ -41,6 +41,8 @@ from accounts.models import UserProfile
 
 from .serializers import ProfileImageSerializer
 
+from .serializers import OrganizationLogoSerializer
+
 class LoginAPIView(APIView):
 
     permission_classes = [AllowAny]
@@ -1074,5 +1076,37 @@ class ProfileImageUploadAPIView(APIView):
 
         return error_response(
             "Invalid image",
+            serializer.errors
+        )
+
+class OrganizationLogoUploadAPIView(APIView):
+
+    permission_classes = [
+        IsAuthenticated,
+        IsAdminOrOwner,
+    ]
+
+
+    def patch(self, request):
+
+        organization = request.user.organization
+
+        serializer = OrganizationLogoSerializer(
+            organization,
+            data=request.data,
+            partial=True
+        )
+
+        if serializer.is_valid():
+
+            serializer.save()
+
+            return success_response(
+                "Organization logo updated successfully",
+                serializer.data
+            )
+
+        return error_response(
+            "Invalid logo",
             serializer.errors
         )
