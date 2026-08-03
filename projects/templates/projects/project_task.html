@@ -2,17 +2,17 @@
 
 {% block content %}
 
-
 <style>
 
-
-.task-page{
+.task-page-wrapper{
 
     padding:25px;
+    background:#f8fafc;
 
 }
 
 
+/* HEADER */
 
 .task-header{
 
@@ -24,12 +24,11 @@
 }
 
 
-
 .task-title{
 
-    font-size:26px;
+    font-size:28px;
     font-weight:700;
-    color:#1e293b;
+    color:#0f172a;
 
 }
 
@@ -40,13 +39,12 @@
     background:#2563eb;
     color:white;
     padding:11px 18px;
-    border-radius:8px;
+    border-radius:10px;
     text-decoration:none;
-    font-size:14px;
     font-weight:600;
+    font-size:14px;
 
 }
-
 
 
 .create-task-btn:hover{
@@ -57,58 +55,91 @@
 
 
 
+/* GRID */
 
-.task-box{
+.task-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(320px,1fr));
+
+    gap:20px;
+
+}
+
+
+
+/* CARD */
+
+.task-card{
 
     background:white;
+
+    border-radius:18px;
+
+    padding:22px;
+
     border:1px solid #e2e8f0;
-    border-radius:12px;
-    overflow:hidden;
-    box-shadow:0 4px 15px rgba(0,0,0,0.05);
+
+    box-shadow:
+    0 8px 25px rgba(15,23,42,0.06);
+
+    transition:.3s;
+
+}
+
+
+
+.task-card:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:
+    0 12px 30px rgba(15,23,42,0.12);
 
 }
 
 
 
 
+.task-card-title{
 
-.task-table{
+    font-size:18px;
 
-    width:100%;
-    border-collapse:collapse;
+    font-weight:700;
+
+    color:#0f172a;
+
+    margin-bottom:10px;
 
 }
 
 
 
-.task-table th{
+.project-name{
 
-    background:#f8fafc;
-    padding:15px;
-    text-align:left;
+    color:#64748b;
+
     font-size:14px;
-    color:#475569;
+
+    margin-bottom:15px;
 
 }
 
 
 
-.task-table td{
+/* INFO ROW */
 
-    padding:15px;
-    border-top:1px solid #e2e8f0;
-    color:#334155;
+.task-info{
 
-}
+    display:flex;
 
+    justify-content:space-between;
 
+    align-items:center;
 
-
-
-.task-name{
-
-    font-weight:600;
-    color:#1e293b;
+    margin-bottom:18px;
 
 }
 
@@ -116,38 +147,59 @@
 
 
 
-.status{
+/* BADGES */
 
-    padding:5px 12px;
+
+.badge-row{
+
+    display:flex;
+
+    gap:10px;
+
+    flex-wrap:wrap;
+
+}
+
+
+
+.badge{
+
+    padding:6px 12px;
+
     border-radius:20px;
+
     font-size:12px;
-    font-weight:600;
+
+    font-weight:700;
 
 }
 
 
 
-.todo{
+.status-todo{
 
-    background:#e2e8f0;
+    background:#f1f5f9;
+
     color:#475569;
 
 }
 
 
 
-.progress{
+.status-progress{
 
     background:#dbeafe;
+
     color:#1d4ed8;
 
 }
 
 
 
-.done{
+.status-done{
 
     background:#dcfce7;
+
     color:#15803d;
 
 }
@@ -158,8 +210,9 @@
 
 .priority-high{
 
-    color:#dc2626;
-    font-weight:600;
+    background:#fee2e2;
+
+    color:#b91c1c;
 
 }
 
@@ -167,8 +220,9 @@
 
 .priority-medium{
 
-    color:#d97706;
-    font-weight:600;
+    background:#fef3c7;
+
+    color:#92400e;
 
 }
 
@@ -176,8 +230,21 @@
 
 .priority-low{
 
-    color:#16a34a;
-    font-weight:600;
+    background:#dcfce7;
+
+    color:#166534;
+
+}
+
+
+
+/* DUE DATE */
+
+.due-date{
+
+    font-size:13px;
+
+    color:#64748b;
 
 }
 
@@ -185,18 +252,108 @@
 
 
 
-.action a{
+/* PROGRESS */
+
+.progress-area{
+
+    margin-top:18px;
+
+}
+
+
+
+.progress-text{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    font-size:13px;
+
+    color:#64748b;
+
+    margin-bottom:7px;
+
+}
+
+
+
+.task-progress-track{
+
+    height:8px;
+
+    background:#e2e8f0;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+}
+
+
+
+.task-progress-fill{
+
+    height:100%;
+
+    background:#2563eb;
+
+    border-radius:20px;
+
+}
+
+
+
+
+/* ACTION ICONS */
+
+.task-actions{
+
+    margin-top:20px;
+
+    display:flex;
+
+    gap:10px;
+
+}
+
+
+
+.task-actions a{
+
+    width:38px;
+
+    height:38px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    border-radius:10px;
+
+    font-size:15px;
 
     text-decoration:none;
-    font-weight:600;
-    font-size:14px;
-    margin-right:12px;
+
+    transition:.2s;
 
 }
 
 
 
-.view{
+.task-actions a:hover{
+
+    transform:translateY(-3px);
+
+}
+
+
+
+.view-btn{
+
+    background:#dbeafe;
 
     color:#2563eb;
 
@@ -204,7 +361,9 @@
 
 
 
-.edit{
+.edit-btn{
+
+    background:#dcfce7;
 
     color:#16a34a;
 
@@ -212,7 +371,9 @@
 
 
 
-.delete{
+.delete-btn{
+
+    background:#fee2e2;
 
     color:#dc2626;
 
@@ -221,10 +382,16 @@
 
 
 
-.empty{
+.empty-task{
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:15px;
 
     text-align:center;
-    padding:30px;
+
     color:#64748b;
 
 }
@@ -237,9 +404,7 @@
 
 
 
-<div class="task-page">
-
-
+<div class="task-page-wrapper">
 
 
 
@@ -256,7 +421,9 @@ Tasks
 
 <a href="{% url 'create_task' %}" class="create-task-btn">
 
-+ Create Task
+<i class="fa-solid fa-plus"></i>
+
+Create Task
 
 </a>
 
@@ -270,48 +437,7 @@ Tasks
 
 
 
-<div class="task-box">
-
-
-
-<table class="task-table">
-
-
-
-<thead>
-
-<tr>
-
-<th>
-Title
-</th>
-
-<th>
-Project
-</th>
-
-<th>
-Status
-</th>
-
-<th>
-Priority
-</th>
-
-<th>
-Actions
-</th>
-
-
-</tr>
-
-</thead>
-
-
-
-
-<tbody>
-
+<div class="task-grid">
 
 
 
@@ -319,126 +445,133 @@ Actions
 
 
 
-<tr>
+<div class="task-card">
 
 
 
-<td>
-
-<div class="task-name">
+<div class="task-card-title">
 
 {{ task.title }}
 
 </div>
 
-</td>
 
 
 
+<div class="project-name">
 
-
-<td>
+<i class="fa-solid fa-folder"></i>
 
 {{ task.project.name }}
 
-</td>
+</div>
 
 
 
 
 
+<div class="task-info">
 
 
-<td>
 
+<div class="badge-row">
 
 
 {% if task.status == "done" %}
 
+<span class="badge status-done">
 
-<span class="status done">
-
+<i class="fa-solid fa-check"></i>
 Done
 
 </span>
 
 
-
 {% elif task.status == "progress" %}
 
+<span class="badge status-progress">
 
-<span class="status progress">
-
+<i class="fa-solid fa-spinner"></i>
 In Progress
 
 </span>
 
 
-
 {% else %}
 
+<span class="badge status-todo">
 
-<span class="status todo">
-
+<i class="fa-solid fa-list"></i>
 To Do
 
 </span>
 
 
-
 {% endif %}
 
 
 
-</td>
 
 
-
-
-
-
-
-<td>
 
 
 {% if task.priority == "High" %}
 
+<span class="badge priority-high">
 
-<span class="priority-high">
-
-🔴 {{ task.priority }}
+<i class="fa-solid fa-arrow-up"></i>
+High
 
 </span>
-
 
 
 {% elif task.priority == "Medium" %}
 
+<span class="badge priority-medium">
 
-<span class="priority-medium">
-
-🟠 {{ task.priority }}
+<i class="fa-solid fa-minus"></i>
+Medium
 
 </span>
-
 
 
 {% else %}
 
+<span class="badge priority-low">
 
-<span class="priority-low">
-
-🟢 {{ task.priority }}
+<i class="fa-solid fa-arrow-down"></i>
+Low
 
 </span>
-
 
 
 {% endif %}
 
 
 
-</td>
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+{% if task.due_date %}
+
+<div class="due-date">
+
+<i class="fa-solid fa-calendar"></i>
+
+Due:
+{{task.due_date}}
+
+</div>
+
+{% endif %}
 
 
 
@@ -446,42 +579,99 @@ To Do
 
 
 
-<td class="action">
+
+<div class="progress-area">
 
 
-<a href="{% url 'task_detail' task.id %}" class="view">
+<div class="progress-text">
 
-View
+<span>
+Progress
+</span>
+
+
+<span>
+
+{{task.progress}}%
+
+</span>
+
+</div>
+
+
+
+
+<div class="task-progress-track">
+
+
+<div class="task-progress-fill"
+
+style="width:{{task.progress}}%;">
+
+</div>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+<div class="task-actions">
+
+
+
+<a href="{% url 'task_detail' task.id %}"
+
+class="view-btn"
+
+title="View Task">
+
+<i class="fa-solid fa-eye"></i>
 
 </a>
 
 
 
-<a href="{% url 'update_task' task.id %}" class="edit">
 
-Edit
+<a href="{% url 'update_task' task.id %}"
 
-</a>
+class="edit-btn"
 
+title="Edit Task">
 
-
-<a href="{% url 'delete_task' task.id %}" class="delete">
-
-Delete
+<i class="fa-solid fa-pen"></i>
 
 </a>
 
 
 
-</td>
+
+<a href="{% url 'delete_task' task.id %}"
+
+class="delete-btn"
+
+title="Delete Task">
+
+<i class="fa-solid fa-trash"></i>
+
+</a>
+
+
+
+</div>
 
 
 
 
 
-</tr>
 
-
+</div>
 
 
 
@@ -489,16 +679,11 @@ Delete
 
 
 
-<tr>
-
-<td colspan="5" class="empty">
+<div class="empty-task">
 
 No Tasks Found
 
-</td>
-
-</tr>
-
+</div>
 
 
 
@@ -508,22 +693,11 @@ No Tasks Found
 
 
 
-</tbody>
-
-
-
-</table>
-
-
-
 </div>
 
 
 
-
-
 </div>
-
 
 
 

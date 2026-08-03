@@ -2,55 +2,92 @@
 
 {% block content %}
 
-
 <style>
+
+.kanban-folder-icon{
+
+    color:#f59e0b;
+
+    margin-right:8px;
+
+    font-size:18px;
+
+}
 
 
 .kanban-page{
 
     padding:25px;
+    background:#f8fafc;
 
 }
 
 
 
-.page-title{
+.kanban-header{
 
-    font-size:26px;
-    font-weight:700;
-    color:#1e293b;
     margin-bottom:30px;
 
 }
 
 
+.kanban-title{
+
+    font-size:28px;
+    font-weight:700;
+    color:#0f172a;
+
+}
 
 
+
+
+/* PROJECT BOARD */
 
 .project-board{
 
-    margin-bottom:35px;
+    background:white;
+
+    padding:22px;
+
+    border-radius:18px;
+
+    margin-bottom:30px;
+
+    border:1px solid #e2e8f0;
+
+    box-shadow:0 8px 25px rgba(15,23,42,.06);
 
 }
+
 
 
 
 .project-name{
 
     font-size:20px;
+
     font-weight:700;
-    color:#334155;
-    margin-bottom:15px;
+
+    color:#0f172a;
+
+    margin-bottom:20px;
 
 }
 
 
 
 
+
+/* COLUMNS */
+
+
 .kanban-columns{
 
     display:grid;
+
     grid-template-columns:repeat(3,1fr);
+
     gap:20px;
 
 }
@@ -62,20 +99,28 @@
 .column{
 
     background:#f8fafc;
-    border:1px solid #e2e8f0;
-    border-radius:12px;
+
+    border-radius:15px;
+
     padding:18px;
-    min-height:250px;
+
+    min-height:300px;
+
+    border:1px solid #e2e8f0;
 
 }
 
 
 
-.column-title{
 
-    font-size:15px;
-    font-weight:700;
-    color:#475569;
+.column-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
     margin-bottom:15px;
 
 }
@@ -83,74 +128,190 @@
 
 
 
+.column-title{
+
+    font-size:15px;
+
+    font-weight:700;
+
+    color:#334155;
+
+}
+
+
+
+.task-count{
+
+    background:#e2e8f0;
+
+    padding:4px 10px;
+
+    border-radius:20px;
+
+    font-size:12px;
+
+    font-weight:700;
+
+}
+
+
+
+
+
+
+/* TASK CARD */
+
 
 .task-card{
 
     background:white;
+
+    padding:16px;
+
+    border-radius:12px;
+
     border:1px solid #e2e8f0;
-    border-radius:10px;
-    padding:15px;
+
     margin-bottom:12px;
-    box-shadow:0 3px 10px rgba(0,0,0,0.04);
+
+    box-shadow:0 4px 12px rgba(0,0,0,.04);
+
+    transition:.2s;
 
 }
 
 
 
 
-.task-title{
+.task-card:hover{
 
-    font-weight:600;
-    color:#1e293b;
-    margin-bottom:12px;
+    transform:translateY(-3px);
+
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
 
 }
 
+
+
+
+
+.task-title a{
+
+    text-decoration:none;
+
+    font-size:15px;
+
+    font-weight:700;
+
+    color:#0f172a;
+
+}
+
+
+
+.task-title a:hover{
+
+    color:#2563eb;
+
+}
+
+
+
+
+
+/* BUTTONS */
+
+
+.task-actions{
+
+    display:flex;
+
+    gap:8px;
+
+    margin-top:15px;
+
+}
+
+
+
+
+
+.move-btn,
+.back-btn{
+
+
+    width:36px;
+
+    height:36px;
+
+    border:none;
+
+    border-radius:8px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+}
 
 
 
 
 .move-btn{
 
-    background:#2563eb;
-    color:white;
-    border:none;
-    padding:7px 12px;
-    border-radius:6px;
-    cursor:pointer;
-    font-size:13px;
+    background:#dbeafe;
+
+    color:#2563eb;
 
 }
-
-
-
-.move-btn:hover{
-
-    background:#1d4ed8;
-
-}
-
 
 
 
 
 .back-btn{
 
-    background:#64748b;
-    color:white;
-    border:none;
-    padding:7px 12px;
-    border-radius:6px;
-    cursor:pointer;
+    background:#e2e8f0;
+
+    color:#475569;
 
 }
+
+
+
+
+.move-btn:hover{
+
+    background:#bfdbfe;
+
+}
+
+
+
+.back-btn:hover{
+
+    background:#cbd5e1;
+
+}
+
+
 
 
 
 .empty{
 
     color:#94a3b8;
+
+    text-align:center;
+
     font-size:14px;
+
+    padding:20px;
 
 }
 
@@ -170,22 +331,6 @@ grid-template-columns:1fr;
 
 }
 
-.task-title a{
-
-    color:#1e293b;
-    text-decoration:none;
-    font-weight:600;
-    cursor:pointer;
-
-}
-
-
-.task-title a:hover{
-
-    color:#2563eb;
-    text-decoration:underline;
-
-}
 
 
 </style>
@@ -202,11 +347,20 @@ grid-template-columns:1fr;
 
 
 
-<h1 class="page-title">
+<div class="kanban-header">
+
+<h1 class="kanban-title">
+
+<i class="fa-solid fa-table-columns"></i>
 
 Kanban Board
 
 </h1>
+
+
+</div>
+
+
 
 
 
@@ -219,6 +373,7 @@ Kanban Board
 
 
 
+
 <div class="project-board">
 
 
@@ -226,6 +381,8 @@ Kanban Board
 
 
 <h2 class="project-name">
+
+<i class="fa-solid fa-folder kanban-folder-icon"></i>
 
 {{ data.project.name }}
 
@@ -244,11 +401,12 @@ Kanban Board
 
 
 
-
-
 <!-- TODO -->
 
 <div class="column">
+
+
+<div class="column-header">
 
 
 <div class="column-title">
@@ -256,6 +414,18 @@ Kanban Board
 To Do
 
 </div>
+
+
+<div class="task-count">
+
+{{ data.todo|length }}
+
+</div>
+
+
+</div>
+
+
 
 
 
@@ -270,13 +440,23 @@ To Do
 
 <div class="task-title">
 
+
 <a href="{% url 'task_detail' task.id %}">
-    {{ task.title }}
+
+{{ task.title }}
+
 </a>
+
 
 </div>
 
 
+
+
+
+
+
+<div class="task-actions">
 
 
 <form method="POST" action="{% url 'update_task_status' task.id %}">
@@ -286,14 +466,18 @@ To Do
 <input type="hidden" name="action" value="forward">
 
 
-<button class="move-btn">
+<button class="move-btn" title="Move Forward">
 
-Move →
+<i class="fa-solid fa-arrow-right"></i>
 
 </button>
 
 
 </form>
+
+
+</div>
+
 
 
 
@@ -304,14 +488,11 @@ Move →
 
 {% empty %}
 
-
 <p class="empty">
 
 No tasks
 
 </p>
-
-
 
 {% endfor %}
 
@@ -328,9 +509,12 @@ No tasks
 
 
 
-<!-- IN PROGRESS -->
+<!-- PROGRESS -->
 
 <div class="column">
+
+
+<div class="column-header">
 
 
 <div class="column-title">
@@ -338,6 +522,18 @@ No tasks
 In Progress
 
 </div>
+
+
+<div class="task-count">
+
+{{ data.progress|length }}
+
+</div>
+
+
+</div>
+
+
 
 
 
@@ -352,9 +548,13 @@ In Progress
 
 <div class="task-title">
 
+
 <a href="{% url 'task_detail' task.id %}">
-    {{ task.title }}
+
+{{ task.title }}
+
 </a>
+
 
 </div>
 
@@ -362,9 +562,9 @@ In Progress
 
 
 
-<div style="display:flex;gap:8px;">
 
 
+<div class="task-actions">
 
 
 
@@ -375,17 +575,14 @@ In Progress
 <input type="hidden" name="action" value="backward">
 
 
-<button class="back-btn">
+<button class="back-btn" title="Move Back">
 
-←
+<i class="fa-solid fa-arrow-left"></i>
 
 </button>
 
 
 </form>
-
-
-
 
 
 
@@ -398,9 +595,9 @@ In Progress
 <input type="hidden" name="action" value="forward">
 
 
-<button class="move-btn">
+<button class="move-btn" title="Move Forward">
 
-→
+<i class="fa-solid fa-arrow-right"></i>
 
 </button>
 
@@ -410,9 +607,7 @@ In Progress
 
 
 
-
 </div>
-
 
 
 
@@ -424,17 +619,13 @@ In Progress
 
 {% empty %}
 
-
 <p class="empty">
 
 No tasks
 
 </p>
 
-
-
 {% endfor %}
-
 
 
 
@@ -453,11 +644,26 @@ No tasks
 <div class="column">
 
 
+<div class="column-header">
+
+
 <div class="column-title">
 
 Done
 
 </div>
+
+
+<div class="task-count">
+
+{{ data.done|length }}
+
+</div>
+
+
+</div>
+
+
 
 
 
@@ -472,9 +678,13 @@ Done
 
 <div class="task-title">
 
+
 <a href="{% url 'task_detail' task.id %}">
-    {{ task.title }}
+
+{{ task.title }}
+
 </a>
+
 
 </div>
 
@@ -483,23 +693,27 @@ Done
 
 
 
-<form method="POST" action="{% url 'update_task_status' task.id %}">
+<div class="task-actions">
 
+
+<form method="POST" action="{% url 'update_task_status' task.id %}">
 
 {% csrf_token %}
 
 <input type="hidden" name="action" value="backward">
 
 
-<button class="back-btn">
+<button class="back-btn" title="Move Back">
 
-← Move Back
+<i class="fa-solid fa-arrow-left"></i>
 
 </button>
 
 
-
 </form>
+
+
+</div>
 
 
 
@@ -511,15 +725,12 @@ Done
 
 {% empty %}
 
-
 <p class="empty">
 
 No tasks
 
 </p>
 
-
-
 {% endfor %}
 
 
@@ -538,9 +749,6 @@ No tasks
 
 
 
-
-
-
 </div>
 
 
@@ -548,6 +756,8 @@ No tasks
 
 
 {% endfor %}
+
+
 
 
 

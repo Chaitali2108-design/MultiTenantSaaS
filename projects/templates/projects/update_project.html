@@ -96,7 +96,7 @@
 
 }
 
-/* BACK */
+/* BACK LINK */
 
 .back-link{
 
@@ -121,10 +121,12 @@
 
 <div class="edit-page">
 
+
 <div class="edit-card">
 
+
 <div class="edit-title">
-✏ Edit Task
+✏ Edit Project
 </div>
 
 
@@ -135,14 +137,28 @@
 
 <div class="input-group">
 
-<label class="input-label">Task Title</label>
+<label class="input-label">Project Name</label>
 
 <input 
 type="text"
-name="title"
-value="{{ task.title }}"
+name="name"
+value="{{ project.name }}"
 class="input-field"
 >
+
+</div>
+
+
+
+<div class="input-group">
+
+<label class="input-label">Description</label>
+
+<textarea 
+name="description"
+class="input-field"
+rows="4"
+>{{ project.description }}</textarea>
 
 </div>
 
@@ -154,15 +170,15 @@ class="input-field"
 
 <select name="status" class="input-field">
 
-<option value="todo" {% if task.status == "todo" %}selected{% endif %}>
+<option value="todo" {% if project.status == "todo" %}selected{% endif %}>
 To Do
 </option>
 
-<option value="progress" {% if task.status == "progress" %}selected{% endif %}>
+<option value="progress" {% if project.status == "progress" %}selected{% endif %}>
 In Progress
 </option>
 
-<option value="done" {% if task.status == "done" %}selected{% endif %}>
+<option value="done" {% if project.status == "done" %}selected{% endif %}>
 Done
 </option>
 
@@ -178,15 +194,15 @@ Done
 
 <select name="priority" class="input-field">
 
-<option value="High" {% if task.priority == "High" %}selected{% endif %}>
+<option value="High" {% if project.priority == "High" %}selected{% endif %}>
 High
 </option>
 
-<option value="Medium" {% if task.priority == "Medium" %}selected{% endif %}>
+<option value="Medium" {% if project.priority == "Medium" %}selected{% endif %}>
 Medium
 </option>
 
-<option value="Low" {% if task.priority == "Low" %}selected{% endif %}>
+<option value="Low" {% if project.priority == "Low" %}selected{% endif %}>
 Low
 </option>
 
@@ -197,20 +213,22 @@ Low
 
 
 <button class="update-btn">
-Update Task
+Update Project
 </button>
 
 
 </form>
 
 
-<a href="{% url 'tasks_list' %}" class="back-link">
-← Back to Tasks
+<a href="{% url 'project_list' %}" class="back-link">
+← Back to Projects
 </a>
 
 
 </div>
 
+
 </div>
+
 
 {% endblock %}

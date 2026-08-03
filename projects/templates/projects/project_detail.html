@@ -6,6 +6,7 @@
 
 .project-detail-wrapper{
     padding:25px;
+    background:#f8fafc;
 }
 
 
@@ -22,40 +23,50 @@
 .detail-title{
     font-size:28px;
     font-weight:700;
-    color:#1e293b;
+    color:#0f172a;
 }
 
 
 .back-button{
-    background:#64748b;
+
+    background:#334155;
     color:white;
+
     padding:10px 18px;
+
     border-radius:8px;
+
     text-decoration:none;
+
     font-size:14px;
+
 }
 
 
 
-/* CARD */
+/* MAIN CARD */
 
 .detail-card{
 
     background:white;
-    border:1px solid #e2e8f0;
-    border-radius:14px;
+
+    border-radius:18px;
+
     padding:25px;
+
     margin-bottom:25px;
-    box-shadow:0 5px 18px rgba(0,0,0,0.05);
+
+    box-shadow:
+    0 8px 25px rgba(15,23,42,0.06);
 
 }
-
 
 
 .detail-card h2{
 
     font-size:20px;
-    color:#1e293b;
+
+    color:#0f172a;
 
 }
 
@@ -63,11 +74,12 @@
 
 /* INFORMATION */
 
-
 .info-grid{
 
     display:grid;
+
     grid-template-columns:repeat(2,1fr);
+
     gap:18px;
 
 }
@@ -76,9 +88,30 @@
 
 .info-box{
 
-    background:#f8fafc;
-    padding:16px;
-    border-radius:10px;
+    padding:18px;
+
+    border-radius:14px;
+
+    background:linear-gradient(
+        135deg,
+        #ffffff,
+        #f1f5f9
+    );
+
+    border:1px solid #e2e8f0;
+
+    transition:.25s;
+
+}
+
+
+
+.info-box:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:
+    0 8px 18px rgba(0,0,0,.08);
 
 }
 
@@ -87,8 +120,12 @@
 .info-label{
 
     color:#64748b;
-    font-size:13px;
-    font-weight:600;
+
+    font-size:12px;
+
+    font-weight:700;
+
+    text-transform:uppercase;
 
 }
 
@@ -97,46 +134,62 @@
 .info-value{
 
     margin-top:8px;
+
     font-size:15px;
-    color:#1e293b;
+
+    color:#0f172a;
 
 }
 
 
 
-/* STATUS */
+/* STATUS BADGES */
 
 
 .badge{
 
     padding:6px 14px;
+
     border-radius:20px;
+
     font-size:12px;
-    font-weight:600;
+
+    font-weight:700;
 
 }
 
 
 
+/* TO DO */
+
 .todo{
 
-    background:#e2e8f0;
+    background:#f1f5f9;
+
     color:#475569;
 
 }
 
 
+
+/* IN PROGRESS */
+
 .progress-status{
 
     background:#dbeafe;
+
     color:#1d4ed8;
 
 }
 
 
+
+/* DONE */
+
 .done{
 
     background:#dcfce7;
+
     color:#15803d;
 
 }
@@ -144,16 +197,19 @@
 
 
 
-
-/* PROGRESS */
+/* PROJECT PROGRESS */
 
 
 .progress-container{
 
     width:100%;
+
     height:14px;
+
     background:#e2e8f0;
+
     border-radius:20px;
+
     overflow:hidden;
 
 }
@@ -163,137 +219,211 @@
 .progress-bar{
 
     height:100%;
-    background:#2563eb;
+
+    background:linear-gradient(
+        90deg,
+        #2563eb,
+        #60a5fa
+    );
 
 }
 
 
 
 
-
-/* TABLE */
-
-
-.table-wrapper{
-
-    overflow-x:auto;
-
-}
+/* TASK GRID */
 
 
+.task-grid{
 
-.task-table{
+    display:grid;
 
-    width:100%;
-    border-collapse:collapse;
+    grid-template-columns:
+    repeat(auto-fill,minmax(280px,1fr));
+
+    gap:20px;
 
 }
 
 
 
-.task-table th{
 
-    background:#f8fafc;
-    padding:14px;
-    text-align:left;
-    color:#475569;
-    font-size:14px;
-
-}
+/* TASK CARD */
 
 
+.task-card{
 
-.task-table td{
+    background:white;
 
-    padding:14px;
-    border-top:1px solid #e2e8f0;
-    color:#334155;
+    border-radius:16px;
 
-}
+    padding:18px;
+
+    border-left:5px solid #cbd5e1;
 
 
+    box-shadow:
+    0 5px 15px rgba(0,0,0,.05);
 
-.task-table tr:hover{
 
-    background:#f8fafc;
+    transition:.25s;
 
 }
 
 
 
-.task-link{
+.task-card:hover{
 
-    color:#2563eb;
-    font-weight:600;
+    transform:translateY(-5px);
+
+    box-shadow:
+    0 12px 25px rgba(0,0,0,.10);
+
+}
+
+
+
+
+.task-title{
+
+    font-weight:700;
+
+    color:#0f172a;
+
     text-decoration:none;
 
 }
 
 
+.task-title:hover{
 
-
-.priority-high{
-
-    color:#dc2626;
-    font-weight:600;
+    color:#2563eb;
 
 }
 
 
-.priority-medium{
 
-    color:#d97706;
-    font-weight:600;
+
+.task-footer{
+
+    margin-top:12px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
 
 }
 
 
-.priority-low{
 
-    color:#16a34a;
-    font-weight:600;
+
+
+/* PRIORITY */
+
+
+.priority{
+
+    font-size:12px;
+
+    font-weight:700;
+
+    padding:5px 12px;
+
+    border-radius:8px;
 
 }
 
 
+
+.high{
+
+    background:#fee2e2;
+
+    color:#b91c1c;
+
+}
+
+
+
+.medium{
+
+    background:#fef3c7;
+
+    color:#92400e;
+
+}
+
+
+
+.low{
+
+    background:#dcfce7;
+
+    color:#166534;
+
+}
+
+
+
+
+/* TASK BORDER */
+
+
+.border-red-500{
+
+    border-left-color:#ef4444;
+
+}
+
+
+
+.border-yellow-400{
+
+    border-left-color:#cbd5e1;
+
+}
+
+
+
+.border-green-500{
+
+    border-left-color:#22c55e;
+
+}
 
 
 
 @media(max-width:900px){
 
-.info-grid{
+    .info-grid{
 
-grid-template-columns:1fr;
+        grid-template-columns:1fr;
+
+    }
 
 }
-
-}
-
 
 
 </style>
 
 
 
-
 <div class="project-detail-wrapper">
 
 
+<!-- HEADER -->
 
 <div class="detail-header">
 
-
 <h1 class="detail-title">
-
 {{ project.name }}
-
 </h1>
 
 
 <a href="{% url 'project_list' %}" class="back-button">
-
 ← Back
-
 </a>
 
 
@@ -303,12 +433,16 @@ grid-template-columns:1fr;
 
 
 
+<!-- PROJECT INFORMATION -->
+
+
 <div class="detail-card">
 
 
 <h2>
 Project Information
 </h2>
+
 
 <br>
 
@@ -323,13 +457,16 @@ Project Information
 Description
 </div>
 
+
 <div class="info-value">
 
 {{ project.description|default:"No description" }}
 
 </div>
 
+
 </div>
+
 
 
 
@@ -340,13 +477,16 @@ Description
 Organization
 </div>
 
+
 <div class="info-value">
 
 {{ project.organization }}
 
 </div>
 
+
 </div>
+
 
 
 
@@ -357,13 +497,17 @@ Organization
 Created By
 </div>
 
+
 <div class="info-value">
 
 {{ project.created_by }}
 
 </div>
 
+
 </div>
+
+
 
 
 
@@ -373,6 +517,7 @@ Created By
 <div class="info-label">
 Status
 </div>
+
 
 <div class="info-value">
 
@@ -393,6 +538,7 @@ In Progress
 
 {% else %}
 
+
 <span class="badge todo">
 To Do
 </span>
@@ -401,11 +547,6 @@ To Do
 {% endif %}
 
 
-</div>
-
-</div>
-
-
 
 </div>
 
@@ -414,9 +555,16 @@ To Do
 
 
 
+</div>
+
+
+</div>
 
 
 
+
+
+<!-- PROJECT PROGRESS -->
 
 
 <div class="detail-card">
@@ -426,11 +574,12 @@ To Do
 Project Progress
 </h2>
 
+
 <br>
 
 
-<div class="progress-container">
 
+<div class="progress-container">
 
 <div class="progress-bar"
 style="width:{{ project.progress }}%;">
@@ -440,8 +589,10 @@ style="width:{{ project.progress }}%;">
 </div>
 
 
-<p>
+<p style="margin-top:8px;color:#475569;">
+
 {{ project.progress }}% Completed
+
 </p>
 
 
@@ -453,6 +604,8 @@ style="width:{{ project.progress }}%;">
 
 
 
+<!-- TASKS -->
+
 
 <div class="detail-card">
 
@@ -462,169 +615,218 @@ Project Tasks
 </h2>
 
 
-<br>
 
-
-<div class="table-wrapper">
-
-
-<table class="task-table">
-
-
-<tr>
-
-<th>Task</th>
-<th>Status</th>
-<th>Priority</th>
-<th>Progress</th>
-<th>Dependency</th>
-
-</tr>
+<div class="task-grid">
 
 
 
 {% for task in tasks %}
 
 
-<tr>
+
+<div class="task-card
+
+{% if task.priority == 'high' %}
+
+border-red-500
+
+{% elif task.priority == 'medium' %}
+
+border-yellow-400
+
+{% else %}
+
+border-green-500
+
+{% endif %}
+
+">
 
 
-<td>
 
-<a class="task-link"
-href="{% url 'task_detail' task.id %}">
+<a href="{% url 'task_detail' task.id %}" class="task-title">
 
 {{ task.title }}
 
 </a>
 
-</td>
 
 
 
-<td>
+<div style="margin-top:8px;">
 
 
 {% if task.status == "done" %}
+
 
 <span class="badge done">
 Done
 </span>
 
 
+
 {% elif task.status == "progress" %}
+
+
 
 <span class="badge progress-status">
 In Progress
 </span>
 
 
+
+
 {% else %}
+
+
 
 <span class="badge todo">
 To Do
 </span>
 
 
-{% endif %}
-
-
-
-</td>
-
-
-
-
-<td>
-
-
-{% if task.priority == "high" %}
-
-<span class="priority-high">
-🔴 High
-</span>
-
-
-{% elif task.priority == "medium" %}
-
-<span class="priority-medium">
-🟠 Medium
-</span>
-
-
-{% else %}
-
-<span class="priority-low">
-🟢 Low
-</span>
-
 
 {% endif %}
 
 
 
-</td>
+</div>
 
 
 
 
-<td>
+
+<!-- TASK PROGRESS -->
+
+
+<div style="margin-top:12px;">
+
+
+<div style="
+width:100%;
+height:6px;
+background:#e2e8f0;
+border-radius:10px;
+overflow:hidden;
+">
+
+
+<div style="
+height:100%;
+background:#2563eb;
+width:{{ task.progress }}%;
+">
+
+</div>
+
+
+</div>
+
+
+
+<div style="
+font-size:11px;
+color:#64748b;
+margin-top:3px;
+">
 
 {{ task.progress }}%
 
-</td>
+</div>
+
+
+
+</div>
 
 
 
 
-<td>
+
+
+
+<div class="task-footer">
+
+
+
+<span class="priority
+
+{% if task.priority == 'high' %}
+
+high
+
+{% elif task.priority == 'medium' %}
+
+medium
+
+{% else %}
+
+low
+
+{% endif %}
+
+">
+
+
+{{ task.priority|title }}
+
+
+</span>
+
+
+
+</div>
+
+
+
+
 
 
 {% if task.dependency %}
 
+
+<div style="
+margin-top:6px;
+font-size:12px;
+color:#64748b;
+">
+
+
+Depends:
 {{ task.dependency.title }}
 
-{% else %}
 
--
+</div>
+
 
 {% endif %}
 
 
-</td>
 
 
 
-</tr>
+</div>
+
 
 
 
 {% empty %}
 
 
-<tr>
-
-<td colspan="5">
+<div style="padding:20px;color:#64748b;">
 
 No tasks available
 
-</td>
-
-</tr>
+</div>
 
 
 {% endfor %}
 
 
 
-</table>
-
-
 </div>
 
 
 </div>
-
 
 
 

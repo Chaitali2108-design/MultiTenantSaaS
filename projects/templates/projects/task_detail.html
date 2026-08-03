@@ -2,48 +2,85 @@
 
 {% block content %}
 
-
 <style>
-
 
 .task-detail-page{
 
     padding:25px;
+    background:#f8fafc;
 
 }
 
+
+/* HEADER */
+
+.detail-header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+
+}
 
 
 .page-heading{
 
-    font-size:26px;
+    font-size:28px;
     font-weight:700;
-    color:#1e293b;
-    margin-bottom:20px;
+    color:#0f172a;
 
 }
 
 
 
+.back-link{
+
+    background:#334155;
+    color:white;
+
+    padding:10px 18px;
+
+    border-radius:8px;
+
+    text-decoration:none;
+
+    font-size:14px;
+
+}
+
+
+
+
+
+/* CARD */
 
 .detail-card{
 
     background:white;
-    border:1px solid #e2e8f0;
-    border-radius:12px;
+
+    border-radius:18px;
+
     padding:25px;
+
     margin-bottom:25px;
-    box-shadow:0 4px 15px rgba(0,0,0,0.05);
+
+    box-shadow:
+    0 8px 25px rgba(15,23,42,.06);
 
 }
+
 
 
 
 .task-name{
 
     font-size:24px;
+
     font-weight:700;
-    color:#1e293b;
+
+    color:#0f172a;
+
     margin-bottom:20px;
 
 }
@@ -51,21 +88,35 @@
 
 
 
+/* GRID */
+
+
 .info-grid{
 
     display:grid;
+
     grid-template-columns:repeat(2,1fr);
+
     gap:18px;
 
 }
 
 
 
+
 .info-box{
 
-    background:#f8fafc;
-    padding:15px;
-    border-radius:10px;
+    padding:18px;
+
+    border-radius:14px;
+
+    background:linear-gradient(
+        135deg,
+        #ffffff,
+        #f1f5f9
+    );
+
+    border:1px solid #e2e8f0;
 
 }
 
@@ -73,8 +124,13 @@
 
 .label{
 
-    font-size:13px;
     color:#64748b;
+
+    font-size:12px;
+
+    font-weight:700;
+
+    text-transform:uppercase;
 
 }
 
@@ -82,21 +138,83 @@
 
 .value{
 
+    margin-top:8px;
+
+    color:#0f172a;
+
     font-weight:600;
-    color:#1e293b;
-    margin-top:5px;
 
 }
 
 
 
 
+
+
+/* BADGES */
+
+
+.badge{
+
+    padding:6px 14px;
+
+    border-radius:20px;
+
+    font-size:12px;
+
+    font-weight:700;
+
+}
+
+
+
+.todo{
+
+    background:#f1f5f9;
+
+    color:#475569;
+
+}
+
+
+
+.progress-status{
+
+    background:#dbeafe;
+
+    color:#1d4ed8;
+
+}
+
+
+
+.done{
+
+    background:#dcfce7;
+
+    color:#15803d;
+
+}
+
+
+
+
+/* PROGRESS */
+
+
 .progress{
 
+    width:100%;
+
     height:10px;
+
     background:#e2e8f0;
+
     border-radius:20px;
+
     overflow:hidden;
+
+    margin-top:10px;
 
 }
 
@@ -105,7 +223,12 @@
 .progress-bar{
 
     height:100%;
-    background:#2563eb;
+
+    background:linear-gradient(
+        90deg,
+        #2563eb,
+        #60a5fa
+    );
 
 }
 
@@ -113,12 +236,18 @@
 
 
 
-.badge{
+/* PRIORITY */
 
-    padding:6px 12px;
+
+.priority{
+
+    padding:6px 14px;
+
     border-radius:20px;
+
     font-size:12px;
-    font-weight:600;
+
+    font-weight:700;
 
 }
 
@@ -126,8 +255,9 @@
 
 .high{
 
-    color:#dc2626;
-    font-weight:700;
+    background:#fee2e2;
+
+    color:#b91c1c;
 
 }
 
@@ -135,8 +265,9 @@
 
 .medium{
 
-    color:#d97706;
-    font-weight:700;
+    background:#fef3c7;
+
+    color:#92400e;
 
 }
 
@@ -144,24 +275,35 @@
 
 .low{
 
-    color:#16a34a;
-    font-weight:700;
+    background:#dcfce7;
+
+    color:#166534;
 
 }
 
 
 
+
+
+/* OVERDUE */
 
 
 .overdue{
 
+    margin-top:15px;
+
     background:#fee2e2;
+
     color:#b91c1c;
+
     padding:12px;
-    border-radius:8px;
-    font-weight:600;
+
+    border-radius:10px;
+
+    font-weight:700;
 
 }
+
 
 
 
@@ -169,6 +311,7 @@
 .reminder{
 
     color:#dc2626;
+
     font-weight:700;
 
 }
@@ -176,25 +319,24 @@
 
 
 
-.back-link{
 
-    color:#2563eb;
-    text-decoration:none;
-    font-weight:600;
-
-}
-
-
+/* ACTIVITY */
 
 
 .activity{
 
     background:white;
-    border:1px solid #e2e8f0;
+
+    border-radius:14px;
+
+    padding:18px;
+
+    margin-bottom:15px;
+
     border-left:5px solid #2563eb;
-    padding:15px;
-    border-radius:10px;
-    margin-bottom:12px;
+
+    box-shadow:
+    0 5px 15px rgba(0,0,0,.05);
 
 }
 
@@ -203,7 +345,8 @@
 .activity-user{
 
     font-weight:700;
-    color:#1e293b;
+
+    color:#0f172a;
 
 }
 
@@ -212,9 +355,11 @@
 .activity-time{
 
     font-size:12px;
+
     color:#64748b;
 
 }
+
 
 
 
@@ -242,11 +387,22 @@ grid-template-columns:1fr;
 
 
 
+<div class="detail-header">
+
+
 <h2 class="page-heading">
-
 Task Details
-
 </h2>
+
+
+<a href="/projects/kanban/" class="back-link">
+
+← Back to Kanban
+
+</a>
+
+
+</div>
 
 
 
@@ -255,8 +411,6 @@ Task Details
 
 
 <div class="detail-card">
-
-
 
 
 
@@ -270,11 +424,7 @@ Task Details
 
 
 
-
-
 <div class="info-grid">
-
-
 
 
 
@@ -284,9 +434,34 @@ Task Details
 Status
 </div>
 
+
 <div class="value">
 
-{{ task.status }}
+
+{% if task.status == "done" %}
+
+<span class="badge done">
+Done
+</span>
+
+
+{% elif task.status == "progress" %}
+
+<span class="badge progress-status">
+In Progress
+</span>
+
+
+{% else %}
+
+<span class="badge todo">
+To Do
+</span>
+
+
+{% endif %}
+
+
 
 </div>
 
@@ -303,13 +478,16 @@ Status
 Project
 </div>
 
+
 <div class="value">
 
 {{ task.project.name }}
 
 </div>
 
+
 </div>
+
 
 
 
@@ -322,13 +500,16 @@ Project
 Assigned To
 </div>
 
+
 <div class="value">
 
 {{ task.assigned_to.username }}
 
 </div>
 
+
 </div>
+
 
 
 
@@ -357,19 +538,15 @@ style="width:{{ task.progress }}%;">
 
 </div>
 
-</div>
-
 
 </div>
-
-
-
-
 
 
 </div>
 
 
+
+</div>
 
 
 </div>
@@ -390,12 +567,13 @@ Deadline Information
 </h3>
 
 
+<br>
+
 
 
 <p>
 
 <b>Due Date:</b>
-
 
 {% if task.due_date %}
 
@@ -417,13 +595,11 @@ No deadline set
 
 {% if task.is_overdue %}
 
-
 <div class="overdue">
 
 ⚠ This task is overdue
 
 </div>
-
 
 {% endif %}
 
@@ -431,8 +607,8 @@ No deadline set
 
 
 
-<p>
 
+<p style="margin-top:15px;">
 
 <b>Priority:</b>
 
@@ -440,9 +616,9 @@ No deadline set
 {% if task.priority == "high" %}
 
 
-<span class="high">
+<span class="priority high">
 
-🔴 High Priority
+High
 
 </span>
 
@@ -451,9 +627,9 @@ No deadline set
 {% elif task.priority == "medium" %}
 
 
-<span class="medium">
+<span class="priority medium">
 
-🟠 Medium Priority
+Medium
 
 </span>
 
@@ -462,16 +638,15 @@ No deadline set
 {% else %}
 
 
-<span class="low">
+<span class="priority low">
 
-🟢 Low Priority
+Low
 
 </span>
 
 
 
 {% endif %}
-
 
 
 </p>
@@ -484,9 +659,7 @@ No deadline set
 
 <p>
 
-
 <b>Reminder:</b>
-
 
 
 {% if task.reminder_date %}
@@ -506,13 +679,11 @@ No deadline set
 </span>
 
 
-
 {% endif %}
 
 
 
 {% else %}
-
 
 No reminder set
 
@@ -525,7 +696,6 @@ No reminder set
 
 
 
-
 </div>
 
 
@@ -534,31 +704,13 @@ No reminder set
 
 
 
-<a href="/projects/kanban/" class="back-link">
-
-← Back to Kanban
-
-</a>
 
 
-
-
-
-
-
-<hr style="margin:25px 0;">
-
-
-
-
-
-
-
-<h3 class="page-heading">
+<h2 class="page-heading">
 
 Activity History
 
-</h3>
+</h2>
 
 
 
@@ -580,6 +732,7 @@ Activity History
 </div>
 
 
+
 <p>
 
 {{ activity.old_status }} → {{ activity.new_status }}
@@ -595,6 +748,7 @@ Activity History
 </div>
 
 
+
 </div>
 
 
@@ -604,14 +758,15 @@ Activity History
 {% empty %}
 
 
-<p>
+<div class="detail-card">
+
 No activity yet
-</p>
+
+</div>
 
 
 
 {% endfor %}
-
 
 
 
