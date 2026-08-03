@@ -487,33 +487,43 @@ def update_task(request, task_id):
         task.title = request.POST.get("title")
         task.description = request.POST.get("description")
 
+        # ✅ SAFE PROJECT UPDATE
         project_id = request.POST.get("project")
-        task.project = Project.objects.get(
-            id=project_id,
-            organization=user.organization
-        )
+        if project_id:
+            task.project = get_object_or_404(
+                Project,
+                id=project_id,
+                organization=user.organization
+            )
 
+        # ✅ ASSIGNED USER
         assigned_to_id = request.POST.get("assigned_to")
-
         if assigned_to_id:
-            task.assigned_to = User.objects.get(
+            task.assigned_to = get_object_or_404(
+                User,
                 id=assigned_to_id,
                 organization=user.organization
             )
         else:
             task.assigned_to = None
 
+        # ✅ BASIC FIELDS
         task.status = request.POST.get("status", task.status)
         task.priority = request.POST.get("priority", task.priority)
         task.due_date = request.POST.get("due_date") or None
 
+        # ✅ REMINDER
         reminder_raw = request.POST.get("reminder_date")
         if reminder_raw:
             task.reminder_date = datetime.fromisoformat(reminder_raw)
-        dependency_id = request.POST.get("dependency")
 
+        # ✅ DEPENDENCY
+        dependency_id = request.POST.get("dependency")
         if dependency_id:
-            task.dependency = Task.objects.get(id=dependency_id)
+            task.dependency = Task.objects.filter(
+                id=dependency_id,
+                project__organization=user.organization
+            ).first()
         else:
             task.dependency = None
 
@@ -527,17 +537,9 @@ def update_task(request, task_id):
 
         return redirect("task_detail", task.id)
 
-
-
-
-    projects = Project.objects.filter(
-        organization=user.organization
-    )
-
-    users = User.objects.filter(
-        organization=user.organization
-    )
-
+    # GET REQUEST
+    projects = Project.objects.filter(organization=user.organization)
+    users = User.objects.filter(organization=user.organization)
     tasks = Task.objects.filter(
         project__organization=user.organization
     ).exclude(id=task.id)
@@ -573,7 +575,7 @@ def delete_task(request, task_id):
         )
 
         task.delete()
-        return redirect('tasks')
+        return redirect('tasks_list')
 
     return render(request, 'projects/delete_task.html', {
         'task': task
