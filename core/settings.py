@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'system_settings',
     "audit.apps.AuditConfig",
     'api',
+    'rest_framework_simplejwt.token_blacklist',
     
 ]
 
@@ -177,8 +178,107 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": (
+
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+
         "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ),
+
+    ],
+
+
+    "DEFAULT_PERMISSION_CLASSES": [
+
+        "rest_framework.permissions.IsAuthenticated",
+
+    ],
+
+
+    "DEFAULT_THROTTLE_CLASSES": [
+
+        "rest_framework.throttling.UserRateThrottle",
+
+        "rest_framework.throttling.AnonRateThrottle",
+
+    ],
+
+
+    "DEFAULT_THROTTLE_RATES": {
+
+        "user": "100/hour",
+
+        "anon": "20/hour",
+
+    },
+
+    "EXCEPTION_HANDLER":
+    "api.exceptions.custom_exception_handler",
+
 }
 
+
+from datetime import timedelta
+
+
+SIMPLE_JWT = {
+
+    # Access token used for API requests
+    "ACCESS_TOKEN_LIFETIME": timedelta(
+        minutes=15
+    ),
+
+
+    # Refresh token used to get new access token
+    "REFRESH_TOKEN_LIFETIME": timedelta(
+        days=7
+    ),
+
+
+    # Rotate refresh token after use
+    "ROTATE_REFRESH_TOKENS": True,
+
+
+    # Blacklist old refresh tokens
+    "BLACKLIST_AFTER_ROTATION": True,
+
+
+    # Authentication header
+    "AUTH_HEADER_TYPES": (
+        "Bearer",
+    ),
+
+
+    # User identifier
+    "USER_ID_FIELD": "id",
+
+
+    "USER_ID_CLAIM": "user_id",
+}
+
+# Security Headers
+
+X_FRAME_OPTIONS = "DENY"
+
+
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+
+SECURE_REFERRER_POLICY = (
+    "same-origin"
+)
+
+
+SECURE_BROWSER_XSS_FILTER = True
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+EMAIL_HOST = "smtp.gmail.com"
+
+EMAIL_PORT = 587
+
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = "chandelechaitali@gmail.com"
+
+EMAIL_HOST_PASSWORD = "izvpfpkrkrehhzls"
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

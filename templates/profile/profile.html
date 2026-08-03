@@ -1,23 +1,85 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <script src="https://cdn.tailwindcss.com"></script>
 
 
-
-<div class="min-h-screen bg-gray-100 text-gray-900 py-10">
-
-<div class="max-w-5xl mx-auto px-6">
-
-
-<!-- Profile Header -->
-
-<div class="bg-white border border-gray-200 rounded-2xl shadow-2xl p-8">
-
-<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+<link
+href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+rel="stylesheet">
 
 
-<div class="flex items-center gap-6">
+<style>
+
+body{
+    font-family:'Plus Jakarta Sans',sans-serif;
+}
+
+</style>
+
+
+
+<div class="
+min-h-screen
+bg-gradient-to-br
+from-slate-100
+via-violet-50
+to-indigo-100
+text-slate-900
+py-10
+">
+
+
+
+<div class="
+max-w-6xl
+mx-auto
+px-6
+">
+
+
+
+
+
+<!-- PROFILE HEADER -->
+
+
+<div class="
+bg-gradient-to-br
+from-violet-900
+via-indigo-900
+to-slate-900
+rounded-3xl
+shadow-2xl
+p-8
+text-white
+">
+
+
+
+<div class="
+flex
+flex-col
+md:flex-row
+md:items-center
+md:justify-between
+gap-8
+">
+
+
+
+
+
+<!-- USER INFO -->
+
+
+<div class="
+flex
+items-center
+gap-6
+">
+
 
 
 {% if request.user.profile.profile_picture %}
@@ -27,7 +89,16 @@
 
 src="{{ request.user.profile.profile_picture.url }}"
 
-class="w-28 h-28 rounded-full border-4 border-cyan-400 object-cover shadow-lg"
+class="
+w-28
+h-28
+rounded-full
+border-4
+border-violet-300
+object-cover
+shadow-xl
+"
+
 
 >
 
@@ -35,8 +106,24 @@ class="w-28 h-28 rounded-full border-4 border-cyan-400 object-cover shadow-lg"
 {% else %}
 
 
-<div class="w-28 h-28 rounded-full bg-gray-200 border-4 border-gray-400 flex items-center justify-center text-4xl font-bold text-gray-800">
+<div class="
+w-28
+h-28
+rounded-full
+bg-white/20
+border-4
+border-violet-300
+flex
+items-center
+justify-center
+text-4xl
+font-bold
+text-white
+">
+
+
 {{ request.user.username|first|upper }}
+
 
 </div>
 
@@ -45,60 +132,137 @@ class="w-28 h-28 rounded-full border-4 border-cyan-400 object-cover shadow-lg"
 
 
 
+
+
+
+
 <div>
 
 
-<h1 class="text-4xl font-bold">
+
+<h1 class="
+text-4xl
+font-extrabold
+">
 
 {{ request.user.username }}
 
 </h1>
 
 
-<p class="text-cyan-400 mt-2">
+
+
+<p class="
+inline-flex
+mt-3
+px-4
+py-1
+rounded-full
+bg-white/20
+border
+border-white/20
+text-violet-200
+font-semibold
+">
+
 
 {{ request.user.role.name }}
 
+
 </p>
 
 
-<p class="text-gray-400">
+
+<p class="
+text-indigo-200
+mt-3
+">
+
 
 {{ request.user.organization.name }}
 
+
 </p>
 
 
-</div>
-
 
 </div>
 
 
 
+</div>
 
-<div class="flex flex-wrap gap-3">
 
 
-<a href="{% url 'update_profile' %}"
 
-class="bg-cyan-500 hover:bg-cyan-600 text-black font-semibold px-5 py-3 rounded-xl transition">
+
+
+<!-- ACTION BUTTONS -->
+
+
+<div class="
+flex
+flex-wrap
+gap-3
+">
+
+
+<a
+
+href="{% url 'update_profile' %}"
+
+class="
+px-5
+py-3
+rounded-xl
+bg-violet-500
+hover:bg-violet-600
+text-white
+font-semibold
+shadow-lg
+transition
+">
+
 
 Edit Profile
 
+
 </a>
 
 
 
-<a href="{% url 'upload_profile_picture' %}"
 
-class="bg-gray-100 hover:bg-gray-200 border border-gray-300 text-gray-700 font-semibold px-5 py-3 rounded-xl transition">
+
+<a
+
+href="{% url 'upload_profile_picture' %}"
+
+class="
+px-5
+py-3
+rounded-xl
+bg-white/10
+hover:bg-white/20
+border
+border-white/20
+text-white
+font-semibold
+transition
+">
+
 
 Upload Photo
 
+
 </a>
 
 
+
+</div>
+
+
+
+
 </div>
 
 
@@ -106,30 +270,73 @@ Upload Photo
 </div>
 
 
+
+
+
+
+
+
+<!-- QUICK ACTIONS -->
+
+
+<div class="
+grid
+md:grid-cols-3
+gap-6
+mt-8
+">
+
+
+
+
+
+<a
+
+href="{% url 'account_settings' %}"
+
+class="
+bg-gradient-to-br
+from-white
+via-violet-50
+to-indigo-100
+border
+border-violet-200
+rounded-2xl
+p-6
+shadow-sm
+hover:shadow-xl
+transition
+">
+
+
+<div class="
+text-3xl
+mb-4
+">
+
+⚙️
+
 </div>
 
 
 
-
-
-<!-- Quick Actions -->
-
-
-<div class="grid md:grid-cols-3 gap-5 mt-8">
-
-
-<a href="{% url 'account_settings' %}"
-
-class="bg-white border border-gray-200 rounded-xl p-5 hover:border-gray-400 transition"
-
-<h3 class="text-lg font-semibold">
+<h3 class="
+text-lg
+font-bold
+text-violet-950
+">
 
 Account Settings
 
 </h3>
 
 
-<p class="text-gray-400 mt-2">
+
+<p class="
+text-violet-700
+mt-2
+text-sm
+">
 
 Manage your account preferences.
 
@@ -141,18 +348,55 @@ Manage your account preferences.
 
 
 
-<a href="{% url 'password_change' %}"
 
-class="bg-white border border-gray-200 rounded-xl p-5 hover:border-gray-400 transition"
 
-<h3 class="text-lg font-semibold">
+<a
+
+href="{% url 'password_change' %}"
+
+class="
+bg-gradient-to-br
+from-white
+via-violet-50
+to-indigo-100
+border
+border-violet-200
+rounded-2xl
+p-6
+shadow-sm
+hover:shadow-xl
+transition
+">
+
+
+<div class="
+text-3xl
+mb-4
+">
+
+🔐
+
+</div>
+
+
+
+<h3 class="
+text-lg
+font-bold
+text-violet-950
+">
 
 Change Password
 
 </h3>
 
 
-<p class="text-gray-400 mt-2">
+
+<p class="
+text-violet-700
+mt-2
+text-sm
+">
 
 Update your password securely.
 
@@ -164,18 +408,55 @@ Update your password securely.
 
 
 
-<a href="{% url 'logout_all_sessions' %}"
 
-class="bg-white border border-gray-200 rounded-xl p-5 hover:border-gray-400 transition"
 
-<h3 class="text-lg font-semibold">
+<a
+
+href="{% url 'logout_all_sessions' %}"
+
+class="
+bg-gradient-to-br
+from-white
+via-violet-50
+to-indigo-100
+border
+border-violet-200
+rounded-2xl
+p-6
+shadow-sm
+hover:shadow-xl
+transition
+">
+
+
+<div class="
+text-3xl
+mb-4
+">
+
+🚪
+
+</div>
+
+
+
+<h3 class="
+text-lg
+font-bold
+text-violet-950
+">
 
 Logout All Devices
 
 </h3>
 
 
-<p class="text-gray-400 mt-2">
+
+<p class="
+text-violet-700
+mt-2
+text-sm
+">
 
 End all active sessions.
 
@@ -185,105 +466,357 @@ End all active sessions.
 </a>
 
 
+
+
+
 </div>
 
+<!-- PROFILE INFORMATION -->
+
+
+<div class="
+bg-white/80
+backdrop-blur
+border
+border-violet-200
+rounded-3xl
+shadow-xl
+mt-8
+">
 
 
 
-
-<!-- Profile Information -->
-
-
-<div class="bg-white border border-gray-200 rounded-2xl shadow-xl mt-8">
-
-
-<div class="border-b border-gray-200 px-8 py-5">
+<div class="
+px-8
+py-6
+border-b
+border-violet-100
+">
 
 
-<h2 class="text-2xl font-bold">
+<h2 class="
+text-2xl
+font-bold
+text-slate-900
+">
 
 Profile Information
 
 </h2>
 
 
+<p class="
+text-slate-500
+text-sm
+mt-1
+">
+
+Personal and organization details.
+
+</p>
+
+
 </div>
 
 
 
-<div class="grid md:grid-cols-2 gap-6 p-8">
 
 
-<div>
-<p class="text-gray-600 text-sm">Username</p>
-<p class="text-lg font-semibold">{{ request.user.username }}</p>
-</div>
+<div class="
+grid
+md:grid-cols-2
+gap-6
+p-8
+">
 
 
-
-<div>
-<p class="text-gray-600 text-sm">Email</p>
-<p class="text-lg font-semibold">{{ request.user.email }}</p>
-</div>
-
-
-
-<div>
-<p class="text-gray-600 text-sm">First Name</p>
-<p class="text-lg font-semibold">{{ request.user.first_name|default:"Not provided" }}</p>
-</div>
-
-
-
-<div>
-<p class="text-gray-600 text-sm">Last Name</p>
-<p class="text-lg font-semibold">{{ request.user.last_name|default:"Not provided" }}</p>
-</div>
-
-
-
-<div>
-<p class="text-gray-600 text-sm">Organization</p>
-<p class="text-lg font-semibold">{{ request.user.organization.name }}</p>
-</div>
-
-
-
-<div>
-<p class="text-gray-600 text-sm">Role</p>
-<p class="text-lg font-semibold">{{ request.user.role.name }}</p>
-</div>
-
-
-
-<div>
-<p class="text-gray-600 text-sm">Date Joined</p>
-<p class="text-lg font-semibold">{{ request.user.date_joined }}</p>
-</div>
-
-
-
-<div>
-<p class="text-gray-600 text-sm">Last Login</p>
-<p class="text-lg font-semibold">{{ request.user.last_login }}</p>
-</div>
 
 
 
 <div>
 
-<p class="text-gray-600 text-sm mb-2">
+<p class="
+text-sm
+text-slate-500
+">
+
+Username
+
+</p>
+
+
+<p class="
+text-lg
+font-bold
+text-slate-900
+mt-1
+">
+
+{{ request.user.username }}
+
+</p>
+
+</div>
+
+
+
+
+
+
+
+<div>
+
+<p class="
+text-sm
+text-slate-500
+">
+
+Email
+
+</p>
+
+
+<p class="
+text-lg
+font-bold
+text-slate-900
+mt-1
+">
+
+{{ request.user.email }}
+
+</p>
+
+</div>
+
+
+
+
+
+
+
+<div>
+
+<p class="
+text-sm
+text-slate-500
+">
+
+First Name
+
+</p>
+
+
+<p class="
+text-lg
+font-bold
+text-slate-900
+mt-1
+">
+
+{{ request.user.first_name|default:"Not provided" }}
+
+</p>
+
+</div>
+
+
+
+
+
+
+
+<div>
+
+<p class="
+text-sm
+text-slate-500
+">
+
+Last Name
+
+</p>
+
+
+<p class="
+text-lg
+font-bold
+text-slate-900
+mt-1
+">
+
+{{ request.user.last_name|default:"Not provided" }}
+
+</p>
+
+</div>
+
+
+
+
+
+
+
+<div>
+
+<p class="
+text-sm
+text-slate-500
+">
+
+Organization
+
+</p>
+
+
+<p class="
+text-lg
+font-bold
+text-slate-900
+mt-1
+">
+
+{{ request.user.organization.name }}
+
+</p>
+
+</div>
+
+
+
+
+
+
+
+<div>
+
+<p class="
+text-sm
+text-slate-500
+">
+
+Role
+
+</p>
+
+
+<span class="
+inline-block
+mt-1
+px-4
+py-1
+rounded-full
+bg-violet-100
+text-violet-700
+font-semibold
+">
+
+{{ request.user.role.name }}
+
+</span>
+
+
+</div>
+
+
+
+
+
+
+
+<div>
+
+<p class="
+text-sm
+text-slate-500
+">
+
+Date Joined
+
+</p>
+
+
+<p class="
+text-lg
+font-bold
+text-slate-900
+mt-1
+">
+
+{{ request.user.date_joined }}
+
+</p>
+
+</div>
+
+
+
+
+
+
+
+<div>
+
+<p class="
+text-sm
+text-slate-500
+">
+
+Last Login
+
+</p>
+
+
+<p class="
+text-lg
+font-bold
+text-slate-900
+mt-1
+">
+
+{{ request.user.last_login }}
+
+</p>
+
+</div>
+
+
+
+
+
+
+
+
+<div>
+
+
+<p class="
+text-sm
+text-slate-500
+mb-3
+">
 
 Account Status
 
 </p>
 
 
+
 {% if request.user.is_active %}
 
-<span class="bg-green-100 text-green-700 px-4 py-1 rounded-full font-semibold">
 
-Active
+<span class="
+px-4
+py-2
+rounded-full
+bg-emerald-100
+text-emerald-700
+border
+border-emerald-200
+font-semibold
+">
+
+● Active
 
 </span>
 
@@ -291,9 +824,18 @@ Active
 {% else %}
 
 
-<span class="bg-red-100 text-red-700 px-4 py-1 rounded-full font-semibold">
+<span class="
+px-4
+py-2
+rounded-full
+bg-rose-100
+text-rose-700
+border
+border-rose-200
+font-semibold
+">
 
-Inactive
+● Inactive
 
 </span>
 
@@ -305,6 +847,9 @@ Inactive
 
 
 
+
+
+
 </div>
 
 
@@ -315,79 +860,237 @@ Inactive
 
 
 
-<!-- Preferences -->
 
 
-<div class="bg-white border border-gray-200 rounded-2xl shadow-xl mt-8">
 
 
-<div class="border-b border-gray-200 px-8 py-5">
+<!-- PREFERENCES -->
 
 
-<h2 class="text-2xl font-bold">
+<div class="
+bg-white/80
+backdrop-blur
+border
+border-indigo-200
+rounded-3xl
+shadow-xl
+mt-8
+">
+
+
+
+<div class="
+px-8
+py-6
+border-b
+border-indigo-100
+">
+
+
+<h2 class="
+text-2xl
+font-bold
+text-slate-900
+">
 
 Preferences
 
 </h2>
 
 
+<p class="
+text-slate-500
+text-sm
+mt-1
+">
+
+Customize your account experience.
+
+</p>
+
+
 </div>
 
 
 
 
-<div class="grid md:grid-cols-2 gap-6 p-8">
+
+
+
+<div class="
+grid
+md:grid-cols-2
+gap-6
+p-8
+">
+
+
+
 
 
 <div>
-<p class="text-gray-600 text-sm">Theme</p>
-<p class="text-lg font-semibold">{{ request.user.profile.theme }}</p>
+
+<p class="
+text-sm
+text-slate-500
+">
+
+Theme
+
+</p>
+
+
+<p class="
+text-lg
+font-bold
+mt-1
+">
+
+{{ request.user.profile.theme }}
+
+</p>
+
 </div>
 
 
+
+
+
+
+
 <div>
-<p class="text-gray-600 text-sm">Language</p>
-<p class="text-lg font-semibold">{{ request.user.profile.language }}</p>
+
+<p class="
+text-sm
+text-slate-500
+">
+
+Language
+
+</p>
+
+
+<p class="
+text-lg
+font-bold
+mt-1
+">
+
+{{ request.user.profile.language }}
+
+</p>
+
 </div>
 
 
+
+
+
+
+
 <div>
-<p class="text-gray-600 text-sm">Timezone</p>
-<p class="text-lg font-semibold">{{ request.user.profile.timezone }}</p>
+
+<p class="
+text-sm
+text-slate-500
+">
+
+Timezone
+
+</p>
+
+
+<p class="
+text-lg
+font-bold
+mt-1
+">
+
+{{ request.user.profile.timezone }}
+
+</p>
+
 </div>
 
 
+
+
+
+
+
 <div>
-<p class="text-gray-600 text-sm">Email Notifications</p>
+
+
+<p class="
+text-sm
+text-slate-500
+mb-2
+">
+
+Email Notifications
+
+</p>
+
+
 
 {% if request.user.profile.email_notifications %}
 
-<span class="text-green-700 font-semibold">
+
+<span class="
+px-4
+py-1
+rounded-full
+bg-emerald-100
+text-emerald-700
+font-semibold
+">
+
 Enabled
+
 </span>
+
 
 {% else %}
 
-<span class="text-gray-600 font-semibold">
+
+<span class="
+px-4
+py-1
+rounded-full
+bg-slate-100
+text-slate-600
+font-semibold
+">
+
 Disabled
+
 </span>
+
 
 {% endif %}
 
+
+
+</div>
+
+
+
+
 </div>
 
 
 </div>
 
 
-</div>
 
 
 
 
 
 
-<!-- Logout -->
+
+
+<!-- LOGOUT -->
 
 
 <div class="mt-8">
@@ -399,13 +1102,29 @@ Disabled
 {% csrf_token %}
 
 
+
 <button
 
 type="submit"
 
-class="w-full bg-red-100 hover:bg-red-200 border border-red-300 text-red-700 font-semibold py-4 rounded-xl transition">
+class="
+w-full
+py-4
+rounded-xl
+bg-gradient-to-r
+from-rose-500
+to-red-600
+hover:from-rose-600
+hover:to-red-700
+text-white
+font-bold
+shadow-lg
+transition
+">
 
-Logout
+
+Logout From Account
+
 
 </button>
 
@@ -417,10 +1136,14 @@ Logout
 
 
 
+
+
+
 </div>
 
 
 </div>
+
 
 
 {% endblock %}

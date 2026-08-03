@@ -65,6 +65,10 @@ class Role(models.Model):
         default=False,
     )
 
+    is_editable = models.BooleanField(
+        default=True,
+    )
+
     created_at = models.DateTimeField(
         auto_now_add=True,
     )
@@ -208,6 +212,9 @@ class UserProfile(models.Model):
         return f"{self.user.username} Profile"
 
 
+from django.utils import timezone
+
+
 class UserInvitation(models.Model):
 
     organization = models.ForeignKey(
@@ -225,6 +232,15 @@ class UserInvitation(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
+    )
+
+
+    user = models.OneToOneField(
+        "accounts.User",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="invitation"
     )
 
 
@@ -251,8 +267,18 @@ class UserInvitation(models.Model):
     )
 
 
-    def __str__(self):
+    @property
+    def status(self):
 
-        return self.email
+        from django.utils import timezone
 
 
+        if self.is_accepted:
+            return "Accepted"
+
+
+        if self.expires_at and self.expires_at < timezone.now():
+            return "Expired"
+
+
+        return "Pending"

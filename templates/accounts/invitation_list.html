@@ -1,0 +1,423 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+
+<div class="min-h-screen bg-slate-50 py-10 px-6">
+
+
+<div class="max-w-7xl mx-auto">
+
+
+
+<div class="
+bg-white
+rounded-3xl
+border
+border-slate-200
+shadow-xl
+overflow-hidden
+">
+
+
+
+<!-- Header -->
+
+<div class="
+px-8
+py-6
+border-b
+border-slate-200
+flex
+justify-between
+items-center
+">
+
+
+<div>
+
+<h1 class="
+text-3xl
+font-extrabold
+text-slate-900
+">
+
+Invitations
+
+</h1>
+
+
+<p class="
+text-slate-500
+mt-2
+">
+
+Manage organization invitations.
+
+</p>
+
+
+</div>
+
+
+
+<a
+href="{% url 'create_invitation' %}"
+class="
+px-5
+py-3
+rounded-xl
+bg-indigo-600
+hover:bg-indigo-700
+text-white
+font-semibold
+shadow-lg
+transition
+">
+
++ Invite User
+
+</a>
+
+
+
+</div>
+
+
+
+
+
+<div class="overflow-x-auto">
+
+
+<table class="w-full text-left">
+
+
+
+<thead class="bg-slate-50">
+
+
+<tr class="text-slate-500 text-sm">
+
+
+<th class="px-6 py-4">
+Email
+</th>
+
+
+<th class="px-6 py-4">
+Role
+</th>
+
+
+<th class="px-6 py-4">
+Created
+</th>
+
+
+<th class="px-6 py-4">
+Status
+</th>
+
+
+<th class="px-6 py-4">
+Action
+</th>
+
+
+</tr>
+
+
+</thead>
+
+
+
+
+
+<tbody>
+
+
+{% for invitation in invitations %}
+
+
+
+<tr class="
+border-t
+border-slate-200
+hover:bg-slate-50
+transition
+">
+
+
+
+<td class="px-6 py-5 font-semibold text-slate-800">
+
+{{ invitation.email }}
+
+</td>
+
+
+
+
+
+<td class="px-6 py-5">
+
+
+{% if invitation.role %}
+
+<span class="
+px-3
+py-1
+rounded-full
+bg-indigo-100
+text-indigo-700
+text-sm
+font-semibold
+">
+
+{{ invitation.role.name }}
+
+</span>
+
+
+{% else %}
+
+<span class="
+text-slate-400
+">
+
+No Role
+
+</span>
+
+{% endif %}
+
+
+</td>
+
+
+
+
+
+
+<td class="px-6 py-5 text-slate-600">
+
+{{ invitation.created_at|date:"d M Y" }}
+
+</td>
+
+
+
+
+
+
+
+<td class="px-6 py-5">
+
+
+
+{% if invitation.status == "Pending" %}
+
+
+<span class="
+px-3
+py-1
+rounded-full
+bg-amber-100
+text-amber-700
+border
+border-amber-200
+text-sm
+font-semibold
+">
+
+🟡 Pending
+
+</span>
+
+
+
+
+{% elif invitation.status == "Accepted" %}
+
+
+
+<span class="
+px-3
+py-1
+rounded-full
+bg-emerald-100
+text-emerald-700
+border
+border-emerald-200
+text-sm
+font-semibold
+">
+
+🟢 Accepted
+
+</span>
+
+
+
+
+{% else %}
+
+
+
+<span class="
+px-3
+py-1
+rounded-full
+bg-red-100
+text-red-700
+border
+border-red-200
+text-sm
+font-semibold
+">
+
+🔴 Expired
+
+</span>
+
+
+
+{% endif %}
+
+
+</td>
+
+
+
+
+
+
+<td class="px-6 py-5">
+
+
+
+{% if invitation.status == "Pending" %}
+
+
+<a
+href="{% url 'resend_invitation' invitation.id %}"
+class="
+px-4 py-2 rounded-lg
+bg-cyan-600
+hover:bg-cyan-700
+text-white
+text-sm
+font-semibold
+">
+Resend
+</a>
+
+
+
+{% elif invitation.status == "Accepted" %}
+
+
+
+<a
+href="{% url 'view_invited_user' invitation.id %}"
+class="
+px-4 py-2 rounded-lg
+bg-emerald-600
+hover:bg-emerald-700
+text-white
+text-sm
+font-semibold
+">
+View
+</a>
+
+
+
+
+{% else %}
+
+
+
+<a
+href="{% url 'regenerate_invitation' invitation.id %}"
+class="
+px-4 py-2 rounded-lg
+bg-orange-600
+hover:bg-orange-700
+text-white
+text-sm
+font-semibold
+">
+Regenerate
+</a>
+
+
+
+{% endif %}
+
+
+
+
+</td>
+
+
+
+
+
+
+</tr>
+
+
+
+
+{% empty %}
+
+
+
+<tr>
+
+<td colspan="5"
+class="
+px-6
+py-10
+text-center
+text-slate-500
+">
+
+No invitations found.
+
+</td>
+
+
+</tr>
+
+
+
+{% endfor %}
+
+
+
+</tbody>
+
+
+</table>
+
+
+</div>
+
+
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+{% endblock %}

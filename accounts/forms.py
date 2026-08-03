@@ -12,6 +12,34 @@ from .models import UserInvitation
 
 class OrganizationOwnerSignupForm(UserCreationForm):
 
+
+
+    def __init__(self,*args,**kwargs):
+
+        super().__init__(*args,**kwargs)
+
+
+        fields = [
+        "organization_name",
+        "domain",
+        "contact_email",
+        "contact_phone",
+        "username",
+        "email",
+        "password1",
+        "password2",
+    ]
+
+
+        for field in fields:
+
+            self.fields[field].widget.attrs.update({
+
+            "class":
+            "saas-input"
+
+        })
+
     organization_name = forms.CharField(
         max_length=150
     )
@@ -26,7 +54,8 @@ class OrganizationOwnerSignupForm(UserCreationForm):
     )
 
     plan = forms.ChoiceField(
-        choices=Organization.PLAN_CHOICES
+        choices=Organization.PLAN_CHOICES,
+        widget=forms.RadioSelect
     )
 
     contact_email = forms.EmailField()
@@ -212,23 +241,38 @@ User = get_user_model()
 
 class AcceptInvitationForm(forms.ModelForm):
 
+    username = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "class": "w-full",
+                "placeholder": "Username",
+                "autocomplete": "new-username",
+            }
+        )
+    )
+
+
     password1 = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
                 "class": "w-full",
-                "placeholder": "Password",
+                "placeholder": "Create Password",
+                "autocomplete": "new-password",
             }
         )
     )
+
 
     password2 = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
                 "class": "w-full",
                 "placeholder": "Confirm Password",
+                "autocomplete": "new-password",
             }
         )
     )
+
 
     class Meta:
 
@@ -240,6 +284,30 @@ class AcceptInvitationForm(forms.ModelForm):
             "last_name",
         )
 
+
+        widgets = {
+
+            "first_name": forms.TextInput(
+                attrs={
+                    "class": "w-full",
+                    "placeholder": "First Name",
+                    "autocomplete": "given-name",
+                }
+            ),
+
+
+            "last_name": forms.TextInput(
+                attrs={
+                    "class": "w-full",
+                    "placeholder": "Last Name",
+                    "autocomplete": "family-name",
+                }
+            ),
+
+        }
+
+
+
     def clean(self):
 
         cleaned_data = super().clean()
@@ -247,10 +315,12 @@ class AcceptInvitationForm(forms.ModelForm):
         password1 = cleaned_data.get("password1")
         password2 = cleaned_data.get("password2")
 
+
         if password1 and password2 and password1 != password2:
 
             raise forms.ValidationError(
                 "Passwords do not match."
             )
+
 
         return cleaned_data

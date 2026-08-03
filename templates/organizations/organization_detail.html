@@ -1,161 +1,449 @@
 {% extends "base.html" %}
 
-{% block title %}
-Organization Details
-{% endblock %}
-
 {% block content %}
+
 
 <script src="https://cdn.tailwindcss.com"></script>
 
-<div class="min-h-screen bg-gray-100 py-8">
+<link
+href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+rel="stylesheet">
 
-    <div class="max-w-5xl mx-auto px-6">
+<style>
 
-        <div class="bg-white border border-gray-200 rounded-xl shadow-lg">
+body{
+    font-family:'Plus Jakarta Sans',sans-serif;
+}
 
-            <div class="px-8 py-6 border-b border-gray-200">
+</style>
 
-                <h1 class="text-3xl font-bold text-gray-900">
-                    Organization Details
-                </h1>
+
+<div class="min-h-screen bg-slate-50">
+
+<div class="max-w-7xl mx-auto px-6 py-10">
+
+
+
+
+
+
+
+
+
+<!-- Hero Card -->
+
+<div class="mt-6 bg-white rounded-3xl border border-slate-200 shadow-lg p-8">
+
+<div class="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-8">
+
+
+
+
+<!-- Left -->
+
+<div class="flex items-center gap-6">
+
+{% if organization.logo %}
+
+<img
+src="{{ organization.logo.url }}"
+class="w-24 h-24 rounded-3xl object-cover border border-slate-200 shadow">
+
+{% else %}
+
+<div class="w-24 h-24 rounded-3xl bg-teal-100 flex items-center justify-center text-4xl font-bold text-teal-700">
+
+{{ organization.name|first }}
+
+</div>
+
+{% endif %}
+
+
+
+<div>
+
+<h1 class="text-4xl font-bold text-slate-900">
+
+{{ organization.name }}
+
+</h1>
+
+<p class="text-slate-500 mt-2">
+
+{{ organization.domain }}
+
+</p>
+
+
+
+<div class="flex gap-3 mt-5">
+
+<span class="px-4 py-2 rounded-full bg-cyan-100 text-cyan-700 font-semibold text-sm">
+
+{{ organization.plan }}
+
+</span>
+
+
+
+{% if organization.status == "ACTIVE" %}
+
+<span class="px-4 py-2 rounded-full bg-emerald-100 text-emerald-700 font-semibold text-sm">
+
+● Active
+
+</span>
+
+{% else %}
+
+<span class="px-4 py-2 rounded-full bg-red-100 text-red-700 font-semibold text-sm">
+
+● Inactive
+
+</span>
+
+{% endif %}
+
+</div>
+
+</div>
+
+</div>
+
+
+
+
+
+
+<!-- Right Buttons -->
+
+{% if request.user.role.name == "Owner" or request.user.role.name == "Admin" %}
+
+<div class="flex flex-wrap gap-3">
+
+<a
+href="{% url 'organization_update' organization.id %}"
+class="px-5 py-3 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-semibold transition">
+
+Edit
+
+</a>
+
+<a
+href="{% url 'organization_toggle_status' organization.id %}"
+class="px-5 py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-semibold transition">
+
+{% if organization.status == "ACTIVE" %}
+Deactivate
+{% else %}
+Activate
+{% endif %}
+
+</a>
+
+<a
+href="{% url 'organization_delete' organization.id %}"
+class="px-5 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold transition">
+
+Delete
+
+</a>
+
+</div>
+
+{% endif %}
+
+</div>
+
+</div>
+
+<!-- Statistics -->
+
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mt-8">
+
+
+    <!-- Users -->
+
+    <div class="bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl transition duration-300 p-6">
+
+        <div class="flex items-center justify-between">
+
+            <div>
+
+                <p class="text-sm text-slate-500">
+                    Maximum Users
+                </p>
+
+                <h2 class="text-3xl font-bold text-slate-900 mt-2">
+                    {{ organization.max_users }}
+                </h2>
 
             </div>
 
-            <div class="p-8">
+            <div class="w-14 h-14 rounded-2xl bg-sky-100 flex items-center justify-center">
 
-                {% if organization.logo %}
+                👥
 
-                <div class="mb-8">
+            </div>
 
-                    <img
-                        src="{{ organization.logo.url }}"
-                        alt="{{ organization.name }}"
-                        class="w-24 h-24 rounded-xl object-cover border border-gray-300"
-                    >
+        </div>
 
-                </div>
+    </div>
+
+
+
+    <!-- Projects -->
+
+    <div class="bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl transition duration-300 p-6">
+
+        <div class="flex items-center justify-between">
+
+            <div>
+
+                <p class="text-sm text-slate-500">
+                    Maximum Projects
+                </p>
+
+                <h2 class="text-3xl font-bold text-slate-900 mt-2">
+                    {{ organization.max_projects }}
+                </h2>
+
+            </div>
+
+            <div class="w-14 h-14 rounded-2xl bg-violet-100 flex items-center justify-center">
+
+                📁
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Storage -->
+
+    <div class="bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl transition duration-300 p-6">
+
+        <div class="flex items-center justify-between">
+
+            <div>
+
+                <p class="text-sm text-slate-500">
+                    Storage Limit
+                </p>
+
+                <h2 class="text-3xl font-bold text-slate-900 mt-2">
+                    {{ organization.storage_limit_gb }} GB
+                </h2>
+
+            </div>
+
+            <div class="w-14 h-14 rounded-2xl bg-emerald-100 flex items-center justify-center">
+
+                💾
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Created -->
+
+    <div class="bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl transition duration-300 p-6">
+
+        <div class="flex items-center justify-between">
+
+            <div>
+
+                <p class="text-sm text-slate-500">
+                    Created
+                </p>
+
+                <h2 class="text-lg font-bold text-slate-900 mt-2">
+                    {{ organization.created_at|date:"d M Y" }}
+                </h2>
+
+            </div>
+
+            <div class="w-14 h-14 rounded-2xl bg-amber-100 flex items-center justify-center">
+
+                📅
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Information Grid -->
+
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-8 mt-8">
+
+    <!-- Organization Information -->
+
+    <div class="bg-white rounded-3xl border border-slate-200 shadow-sm">
+
+        <div class="px-8 py-6 border-b border-slate-200">
+
+            <h2 class="text-xl font-bold text-slate-900">
+                Organization Information
+            </h2>
+
+            <p class="text-sm text-slate-500 mt-1">
+                Basic workspace information.
+            </p>
+
+        </div>
+
+        <div class="p-8 space-y-6">
+
+            <div class="flex justify-between items-center">
+
+                <span class="text-slate-500">
+                    Organization Name
+                </span>
+
+                <span class="font-semibold text-slate-900">
+                    {{ organization.name }}
+                </span>
+
+            </div>
+
+            <div class="border-t border-slate-100"></div>
+
+            <div class="flex justify-between items-center">
+
+                <span class="text-slate-500">
+                    Domain
+                </span>
+
+                <span class="font-semibold text-slate-900">
+                    {{ organization.domain|default:"Not Provided" }}
+                </span>
+
+            </div>
+
+            <div class="border-t border-slate-100"></div>
+
+            <div class="flex justify-between items-center">
+
+                <span class="text-slate-500">
+                    Subscription Plan
+                </span>
+
+                <span class="px-3 py-1 rounded-full bg-cyan-100 text-cyan-700 text-sm font-semibold">
+                    {{ organization.plan }}
+                </span>
+
+            </div>
+
+            <div class="border-t border-slate-100"></div>
+
+            <div class="flex justify-between items-center">
+
+                <span class="text-slate-500">
+                    Status
+                </span>
+
+                {% if organization.status == "ACTIVE" %}
+
+                <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold">
+                    Active
+                </span>
+
+                {% else %}
+
+                <span class="px-3 py-1 rounded-full bg-red-100 text-red-700 text-sm font-semibold">
+                    Inactive
+                </span>
 
                 {% endif %}
 
-                <div class="grid md:grid-cols-2 gap-6">
+            </div>
 
-                    <div>
-                        <p class="text-sm text-gray-500">Organization Name</p>
-                        <p class="text-lg font-semibold text-gray-900">
-                            {{ organization.name }}
-                        </p>
-                    </div>
+        </div>
 
-                    <div>
-                        <p class="text-sm text-gray-500">Domain</p>
-                        <p class="text-lg font-semibold text-gray-900">
-                            {{ organization.domain }}
-                        </p>
-                    </div>
+    </div>
 
-                    <div>
-                        <p class="text-sm text-gray-500">Email</p>
-                        <p class="text-lg font-semibold text-gray-900">
-                            {{ organization.contact_email }}
-                        </p>
-                    </div>
 
-                    <div>
-                        <p class="text-sm text-gray-500">Phone</p>
-                        <p class="text-lg font-semibold text-gray-900">
-                            {{ organization.contact_phone }}
-                        </p>
-                    </div>
 
-                    <div>
-                        <p class="text-sm text-gray-500">Plan</p>
-                        <p class="text-lg font-semibold text-gray-900">
-                            {{ organization.plan }}
-                        </p>
-                    </div>
+    <!-- Contact Information -->
 
-                    <div>
-                        <p class="text-sm text-gray-500">Status</p>
+    <div class="bg-white rounded-3xl border border-slate-200 shadow-sm">
 
-                        {% if organization.status == "ACTIVE" %}
+        <div class="px-8 py-6 border-b border-slate-200">
 
-                        <span class="inline-block px-3 py-1 rounded-full bg-green-100 text-green-700 font-semibold">
-                            Active
-                        </span>
+            <h2 class="text-xl font-bold text-slate-900">
+                Contact Information
+            </h2>
 
-                        {% else %}
+            <p class="text-sm text-slate-500 mt-1">
+                Communication details.
+            </p>
 
-                        <span class="inline-block px-3 py-1 rounded-full bg-red-100 text-red-700 font-semibold">
-                            Inactive
-                        </span>
+        </div>
 
-                        {% endif %}
+        <div class="p-8 space-y-6">
 
-                    </div>
+            <div class="flex justify-between items-center">
 
-                    <div>
-                        <p class="text-sm text-gray-500">Maximum Users</p>
-                        <p class="text-lg font-semibold text-gray-900">
-                            {{ organization.max_users }}
-                        </p>
-                    </div>
+                <span class="text-slate-500">
+                    Email
+                </span>
 
-                    <div>
-                        <p class="text-sm text-gray-500">Maximum Projects</p>
-                        <p class="text-lg font-semibold text-gray-900">
-                            {{ organization.max_projects }}
-                        </p>
-                    </div>
+                <span class="font-semibold text-slate-900">
+                    {{ organization.contact_email }}
+                </span>
 
-                    <div>
-                        <p class="text-sm text-gray-500">Storage Limit</p>
-                        <p class="text-lg font-semibold text-gray-900">
-                            {{ organization.storage_limit_gb }} GB
-                        </p>
-                    </div>
+            </div>
 
-                    <div>
-                        <p class="text-sm text-gray-500">Created At</p>
-                        <p class="text-lg font-semibold text-gray-900">
-                            {{ organization.created_at }}
-                        </p>
-                    </div>
+            <div class="border-t border-slate-100"></div>
 
-                </div>
+            <div class="flex justify-between items-center">
 
-                {% if request.user.role.name == "Owner" or request.user.role.name == "Admin" %}
+                <span class="text-slate-500">
+                    Phone
+                </span>
 
-                <div class="flex flex-wrap gap-4 mt-10">
+                <span class="font-semibold text-slate-900">
+                    {{ organization.contact_phone|default:"Not Provided" }}
+                </span>
 
-                    <a
-                        href="{% url 'organization_update' organization.id %}"
-                        class="px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition"
-                    >
-                        Edit Organization
-                    </a>
+            </div>
 
-                    <a
-                        href="{% url 'organization_delete' organization.id %}"
-                        class="px-5 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition"
-                    >
-                        Delete Organization
-                    </a>
+            <div class="border-t border-slate-100"></div>
 
-                    <a
-                        href="{% url 'organization_toggle_status' organization.id %}"
-                        class="px-5 py-3 bg-gray-700 hover:bg-gray-800 text-white rounded-lg font-medium transition"
-                    >
-                        {% if organization.status == "ACTIVE" %}
-                            Deactivate Organization
-                        {% else %}
-                            Activate Organization
-                        {% endif %}
-                    </a>
+            <div class="flex justify-between items-center">
 
-                </div>
+                <span class="text-slate-500">
+                    Created
+                </span>
 
-                {% endif %}
+                <span class="font-semibold text-slate-900">
+                    {{ organization.created_at|date:"d M Y, h:i A" }}
+                </span>
+
+            </div>
+
+            <div class="border-t border-slate-100"></div>
+
+            <div class="flex justify-between items-center">
+
+                <span class="text-slate-500">
+                    Storage Limit
+                </span>
+
+                <span class="font-semibold text-slate-900">
+                    {{ organization.storage_limit_gb }} GB
+                </span>
 
             </div>
 

@@ -1,6 +1,12 @@
 from rest_framework import serializers
 from accounts.models import User
 from organizations.models import Organization
+from accounts.models import Role
+from accounts.models import Permission
+from accounts.models import UserProfile
+from .validators import validate_image_file
+
+
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -125,4 +131,121 @@ class UserStatusSerializer(serializers.ModelSerializer):
 
         fields = [
             "is_active",
+        ]
+
+
+
+class PermissionSerializer(serializers.ModelSerializer):
+
+    group = serializers.CharField(
+        source="group.name",
+        read_only=True,
+    )
+
+    class Meta:
+
+        model = Permission
+
+        fields = [
+            "id",
+            "name",
+            "codename",
+            "group",
+        ]
+
+
+class RoleSerializer(serializers.ModelSerializer):
+
+    permission_count = serializers.SerializerMethodField()
+
+    permissions = PermissionSerializer(
+        many=True,
+        read_only=True,
+    )
+
+    class Meta:
+
+        model = Role
+
+        fields = [
+            "id",
+            "name",
+            "description",
+            "is_system",
+            "is_editable",
+            "permission_count",
+            "permissions",      # ← Add this
+            "created_at",
+            "updated_at",
+        ]
+
+    def get_permission_count(self, obj):
+        return obj.permissions.count()
+
+
+class RoleCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+
+        model = Role
+
+        fields = [
+            "name",
+            "description",
+        ]
+
+
+class RoleUpdateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+
+        model = Role
+
+        fields = [
+            "name",
+            "description",
+        ]
+
+class RolePermissionSerializer(serializers.Serializer):
+
+    permissions = serializers.ListField(
+        child=serializers.IntegerField()
+    )
+
+class ProfileImageSerializer(
+    serializers.ModelSerializer
+):
+
+    profile_picture = serializers.ImageField(
+        validators=[
+            validate_image_file
+        ]
+    )
+
+
+    class Meta:
+
+        model = UserProfile
+
+        fields = [
+            "profile_picture",
+        ]
+
+class OrganizationLogoSerializer(
+    serializers.ModelSerializer
+):
+
+    logo = serializers.ImageField(
+        validators=[
+            validate_image_file
+        ]
+    )
+
+
+    class Meta:
+
+        model = Organization
+
+        fields = [
+            "logo",
         ]
