@@ -1,0 +1,373 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+
+<div class="min-h-screen bg-slate-50 py-10 px-6">
+
+
+<div class="max-w-3xl mx-auto">
+
+
+<div class="
+bg-white
+rounded-3xl
+border
+border-slate-200
+shadow-xl
+overflow-hidden
+">
+
+
+<div class="
+h-1.5
+bg-gradient-to-r
+from-emerald-500
+via-cyan-500
+to-indigo-500
+">
+</div>
+
+
+
+<div class="p-8">
+
+
+
+<!-- Header -->
+
+
+<div class="flex items-center gap-5">
+
+
+<div class="
+w-20
+h-20
+rounded-full
+bg-indigo-100
+flex
+items-center
+justify-center
+text-3xl
+font-bold
+text-indigo-700
+">
+
+{{ user.username|first|upper }}
+
+</div>
+
+
+
+
+<div>
+
+<h1 class="
+text-3xl
+font-extrabold
+text-slate-900
+">
+
+{{ user.username }}
+
+</h1>
+
+
+<p class="
+text-slate-500
+mt-1
+">
+
+User Details
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- Information -->
+
+
+<div class="
+grid
+md:grid-cols-2
+gap-6
+mt-10
+">
+
+
+
+<div class="
+bg-slate-50
+rounded-2xl
+p-5
+border
+border-slate-200
+">
+
+<p class="
+text-sm
+text-slate-500
+">
+
+Email
+
+</p>
+
+<p class="
+font-semibold
+text-slate-900
+mt-1
+">
+
+{{ user.email }}
+
+</p>
+
+</div>
+
+
+
+
+
+<div class="
+bg-slate-50
+rounded-2xl
+p-5
+border
+border-slate-200
+">
+
+<p class="
+text-sm
+text-slate-500
+">
+
+Role
+
+</p>
+
+
+<p class="
+font-semibold
+text-slate-900
+mt-1
+">
+
+{{ user.role.name }}
+
+</p>
+
+
+</div>
+
+
+
+
+
+
+<div class="
+bg-slate-50
+rounded-2xl
+p-5
+border
+border-slate-200
+">
+
+
+<p class="
+text-sm
+text-slate-500
+">
+
+Organization
+
+</p>
+
+
+<p class="
+font-semibold
+text-slate-900
+mt-1
+">
+
+{{ user.organization.name }}
+
+</p>
+
+
+</div>
+
+
+
+
+
+
+<div class="
+bg-slate-50
+rounded-2xl
+p-5
+border
+border-slate-200
+">
+
+
+<p class="
+text-sm
+text-slate-500
+">
+
+Joined Date
+
+</p>
+
+
+<p class="
+font-semibold
+text-slate-900
+mt-1
+">
+
+{{ user.date_joined|date:"d M Y" }}
+
+</p>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- Status -->
+
+
+<div class="mt-8">
+
+
+<p class="
+text-sm
+text-slate-500
+mb-3
+">
+
+Account Status
+
+</p>
+
+
+
+{% if user.is_active %}
+
+<span class="
+px-4
+py-2
+rounded-xl
+bg-emerald-100
+text-emerald-700
+border
+border-emerald-200
+font-semibold
+">
+
+Active
+
+</span>
+
+
+{% else %}
+
+
+<span class="
+px-4
+py-2
+rounded-xl
+bg-red-100
+text-red-700
+border
+border-red-200
+font-semibold
+">
+
+Inactive
+
+</span>
+
+
+{% endif %}
+
+
+
+</div>
+
+
+
+
+
+
+
+<!-- Back Button -->
+
+
+<div class="mt-10">
+
+
+<a
+
+href="{% url 'invitation_list' %}"
+
+class="
+inline-flex
+px-6
+py-3
+rounded-xl
+bg-indigo-600
+hover:bg-indigo-700
+text-white
+font-semibold
+transition
+"
+
+>
+
+← Back To Invitations
+
+</a>
+
+
+</div>
+
+
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+{% endblock %}

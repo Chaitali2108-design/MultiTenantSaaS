@@ -25,6 +25,8 @@ from django.contrib.auth import get_user_model
 from .forms import AcceptInvitationForm
 from .models import UserInvitation
 from .utils import assign_default_permissions
+from django.db.models import Case, When, Value, IntegerField
+from .utils import send_invitation_email
 
 
 User = get_user_model()
@@ -157,10 +159,29 @@ def role_list(request):
 
     roles = Role.objects.filter(
         organization=request.user.organization
-    ).order_by("name")
+    ).annotate(
+        role_order=Case(
+            When(name="Owner", then=Value(1)),
+            When(name="Admin", then=Value(2)),
+            When(name="Manager", then=Value(3)),
+            When(name="Member", then=Value(4)),
+            When(name="Viewer", then=Value(5)),
+            default=Value(6),
+            output_field=IntegerField(),
+        )
+    ).order_by(
+    "role_order",
+    "name"
+    )
+
+    owner = User.objects.filter(
+        organization=request.user.organization,
+        role__name="Owner"
+    ).first()
 
     context = {
         "roles": roles,
+        "owner": owner,
     }
 
     return render(
@@ -533,6 +554,13 @@ from .forms import UserInvitationForm
 from .models import UserInvitation
 
 
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.urls import reverse
+
+from datetime import timedelta
+from django.utils import timezone
+
 @login_required
 def create_invitation(request):
 
@@ -546,29 +574,78 @@ def create_invitation(request):
 
         if form.is_valid():
 
-            invitation = form.save(
-                commit=False
-            )
+            invitation = form.save(commit=False)
 
 
-            invitation.organization = (
-                request.user.organization
-            )
+            invitation.organization = request.user.organization
+
+            invitation.expires_at = timezone.now() + timedelta(days=7)
 
 
             invitation.save()
 
 
-            from django.urls import reverse
 
             invitation_url = request.build_absolute_uri(
+
                 reverse(
                     "accept_invitation",
-                kwargs={
-                    "token": invitation.token
+                    kwargs={
+                        "token": invitation.token
+                    }
+                )
+
+            )
+
+
+
+            subject = (
+                f"Invitation to join {invitation.organization.name}"
+            )
+
+
+
+            email_html = render_to_string(
+                "accounts/invitation_email.html",
+                {
+                    "organization": invitation.organization,
+                    "role": invitation.role.name if invitation.role else "Member",
+                    "invitation_url": invitation_url,
                 }
             )
-        )
+
+
+
+            email = EmailMultiAlternatives(
+
+                subject,
+
+                f"""
+                You are invited to join 
+                {invitation.organization.name}
+
+                Accept here:
+                {invitation_url}
+                """,
+
+                "chandelechaitali@gmail.com",
+
+                [invitation.email],
+
+            )
+
+
+
+            email.attach_alternative(
+                email_html,
+                "text/html"
+            )
+
+
+
+            email.send()
+
+
 
             return render(
                 request,
@@ -580,6 +657,7 @@ def create_invitation(request):
             )
 
 
+
     else:
 
         form = UserInvitationForm(
@@ -587,14 +665,16 @@ def create_invitation(request):
         )
 
 
+
     return render(
         request,
         "accounts/create_invitation.html",
         {
-            "form": form
+            "form":form
         }
     )
 
+@never_cache
 def accept_invitation(request, token):
 
     invitation = get_object_or_404(
@@ -643,6 +723,8 @@ def accept_invitation(request, token):
 
             user.save()
 
+            invitation.user = user
+
             invitation.is_accepted = True
 
             invitation.accepted_at = timezone.now()
@@ -667,4 +749,225 @@ def accept_invitation(request, token):
             "form": form,
             "invitation": invitation,
         },
+    )
+
+@login_required
+def invitation_list(request):
+
+    invitations = UserInvitation.objects.filter(
+        organization=request.user.organization
+    ).order_by(
+        "-created_at"
+    )
+
+
+    return render(
+        request,
+        "accounts/invitation_list.html",
+        {
+            "invitations": invitations
+        }
+    )
+
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.urls import reverse
+
+
+
+def send_invitation_email(request, invitation):
+
+
+    invitation_url = request.build_absolute_uri(
+
+        reverse(
+            "accept_invitation",
+            kwargs={
+                "token": invitation.token
+            }
+        )
+
+    )
+
+
+
+    subject = (
+        f"Invitation to join {invitation.organization.name}"
+    )
+
+
+
+    html_content = render_to_string(
+
+        "accounts/invitation_email.html",
+
+        {
+            "organization": invitation.organization,
+            "role": invitation.role.name if invitation.role else "Member",
+            "invitation_url": invitation_url,
+        }
+
+    )
+
+
+
+    email = EmailMultiAlternatives(
+
+        subject,
+
+        f"""
+You are invited to join {invitation.organization.name}
+
+Accept invitation:
+{invitation_url}
+""",
+
+        "chandelechaitali@gmail.com",
+
+        [invitation.email],
+
+    )
+
+
+
+    email.attach_alternative(
+        html_content,
+        "text/html"
+    )
+
+
+    email.send()
+
+@login_required
+def resend_invitation(request,id):
+
+
+    invitation = get_object_or_404(
+
+        UserInvitation,
+
+        id=id,
+
+        organization=request.user.organization
+
+    )
+
+
+    if invitation.status == "Pending":
+
+        send_invitation_email(
+            request,
+            invitation
+        )
+
+
+        messages.success(
+            request,
+            "Invitation resent successfully."
+        )
+
+
+    else:
+
+        messages.error(
+            request,
+            "Only pending invitations can be resent."
+        )
+
+
+    return redirect(
+        "invitation_list"
+    )
+
+@login_required
+def regenerate_invitation(request,id):
+
+
+    invitation = get_object_or_404(
+
+        UserInvitation,
+
+        id=id,
+
+        organization=request.user.organization
+
+    )
+
+
+    if invitation.status == "Expired":
+
+
+        invitation.token = uuid.uuid4()
+
+
+        invitation.expires_at = (
+            timezone.now()
+            +
+            timezone.timedelta(days=7)
+        )
+
+
+        invitation.save()
+
+
+
+        send_invitation_email(
+            request,
+            invitation
+        )
+
+
+        messages.success(
+            request,
+            "Invitation regenerated successfully."
+        )
+
+
+    else:
+
+        messages.error(
+            request,
+            "Only expired invitations can be regenerated."
+        )
+
+
+    return redirect(
+        "invitation_list"
+    )
+
+@login_required
+def view_invited_user(request, pk):
+
+    invitation = get_object_or_404(
+        UserInvitation,
+        id=pk,
+        organization=request.user.organization
+    )
+
+
+    print("INVITATION:", invitation)
+    print("CONNECTED USER:", invitation.user)
+
+    user = invitation.user
+
+
+    if not user:
+
+        messages.error(
+            request,
+            "User account not found."
+        )
+
+        return redirect(
+            "invitation_list"
+        )
+
+
+    return render(
+        request,
+        "accounts/invited_user_detail.html",
+        {
+            "user": user,
+            "invitation": invitation
+        }
     )
