@@ -325,7 +325,7 @@ def update_task_status(request, task_id):
         action=f"{old_status} → {task.status}"
     )
 
-    return redirect('kanban_board')
+    return redirect('kanban')
 
 
 # ================= EXPORT CSV =================
@@ -438,7 +438,7 @@ def task_list(request):
     users = User.objects.filter(organization=user.organization)
 
 
-    return render(request, 'projects/project_task.html', {
+    return render(request, 'projects/project_task.html', {   
         'tasks': tasks,
         'projects': projects,
         'users': users,
@@ -573,7 +573,7 @@ def delete_task(request, task_id):
         )
 
         task.delete()
-        return redirect('task_list')
+        return redirect('tasks')
 
     return render(request, 'projects/delete_task.html', {
         'task': task

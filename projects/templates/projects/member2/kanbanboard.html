@@ -1,215 +1,560 @@
-{% extends 'base01.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
 
+
 <style>
 
-.kanban-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:20px;
+
+.kanban-page{
+
+    padding:25px;
+
 }
 
-.kanban-container{
-    display:flex;
+
+
+.page-title{
+
+    font-size:26px;
+    font-weight:700;
+    color:#1e293b;
+    margin-bottom:30px;
+
+}
+
+
+
+
+
+.project-board{
+
+    margin-bottom:35px;
+
+}
+
+
+
+.project-name{
+
+    font-size:20px;
+    font-weight:700;
+    color:#334155;
+    margin-bottom:15px;
+
+}
+
+
+
+
+.kanban-columns{
+
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
     gap:20px;
-    overflow-x:auto;
+
 }
 
-.kanban-column{
-    background:#f1f5f9;
-    padding:15px;
-    border-radius:10px;
-    width:300px;
-    flex-shrink:0;
+
+
+
+
+.column{
+
+    background:#f8fafc;
+    border:1px solid #e2e8f0;
+    border-radius:12px;
+    padding:18px;
+    min-height:250px;
+
 }
+
+
 
 .column-title{
-    font-weight:600;
-    margin-bottom:10px;
+
+    font-size:15px;
+    font-weight:700;
+    color:#475569;
+    margin-bottom:15px;
+
 }
+
+
+
+
 
 .task-card{
+
     background:white;
-    padding:12px;
-    border-radius:8px;
-    margin-bottom:10px;
-    box-shadow:0 3px 10px rgba(0,0,0,0.05);
+    border:1px solid #e2e8f0;
+    border-radius:10px;
+    padding:15px;
+    margin-bottom:12px;
+    box-shadow:0 3px 10px rgba(0,0,0,0.04);
+
 }
+
+
+
 
 .task-title{
+
     font-weight:600;
-    margin-bottom:5px;
+    color:#1e293b;
+    margin-bottom:12px;
+
 }
 
-.badge{
-    padding:4px 8px;
-    border-radius:12px;
-    font-size:12px;
-}
 
-.high{background:#fee2e2;color:#b91c1c;}
-.medium{background:#fef3c7;color:#92400e;}
-.low{background:#dcfce7;color:#166534;}
 
-.btn{
-    margin-top:8px;
-    padding:6px 10px;
-    border:none;
-    border-radius:5px;
+
+
+.move-btn{
+
     background:#2563eb;
     color:white;
+    border:none;
+    padding:7px 12px;
+    border-radius:6px;
     cursor:pointer;
-    font-size:12px;
-}
-
-.btn:hover{
-    background:#1d4ed8;
-}
-
-.progress-box{
-    margin-bottom:10px;
     font-size:13px;
-    font-weight:500;
+
 }
 
-.overdue{
-    color:red;
-    font-size:12px;
+
+
+.move-btn:hover{
+
+    background:#1d4ed8;
+
 }
+
+
+
+
+
+.back-btn{
+
+    background:#64748b;
+    color:white;
+    border:none;
+    padding:7px 12px;
+    border-radius:6px;
+    cursor:pointer;
+
+}
+
+
+
+.empty{
+
+    color:#94a3b8;
+    font-size:14px;
+
+}
+
+
+
+
+
+@media(max-width:900px){
+
+
+.kanban-columns{
+
+grid-template-columns:1fr;
+
+}
+
+
+}
+
+.task-title a{
+
+    color:#1e293b;
+    text-decoration:none;
+    font-weight:600;
+    cursor:pointer;
+
+}
+
+
+.task-title a:hover{
+
+    color:#2563eb;
+    text-decoration:underline;
+
+}
+
 
 </style>
 
-<div class="kanban-header">
-<h1>Kanban Board</h1>
-</div>
+
+
+
+
+
+
+<div class="kanban-page">
+
+
+
+
+
+<h1 class="page-title">
+
+Kanban Board
+
+</h1>
+
+
+
+
+
+
 
 {% for data in project_data %}
 
-<div class="card">
 
-<h2>{{ data.project.name }}</h2>
 
-<div class="progress-box">
-Completed: {{ data.completed_tasks }} / {{ data.total_tasks }}
-</div>
 
-{% if data.overdue_tasks %}
+<div class="project-board">
 
-<div class="overdue">
-Overdue Tasks: {{ data.overdue_tasks.count }}
-</div>
-{% endif %}
 
-<div class="kanban-container">
+
+
+
+<h2 class="project-name">
+
+{{ data.project.name }}
+
+</h2>
+
+
+
+
+
+
+
+<div class="kanban-columns">
+
+
+
+
+
+
+
 
 <!-- TODO -->
 
-<div class="kanban-column">
-<div class="column-title">To Do</div>
+<div class="column">
+
+
+<div class="column-title">
+
+To Do
+
+</div>
+
+
+
+
 
 {% for task in data.todo %}
 
+
+
 <div class="task-card">
 
+
 <div class="task-title">
+
 <a href="{% url 'task_detail' task.id %}">
-{{ task.title }}
+    {{ task.title }}
 </a>
+
 </div>
 
-<span class="badge {{ task.priority }}">
-{{ task.priority }}
-</span>
+
+
 
 <form method="POST" action="{% url 'update_task_status' task.id %}">
+
 {% csrf_token %}
+
 <input type="hidden" name="action" value="forward">
-<button class="btn">→ Move</button>
+
+
+<button class="move-btn">
+
+Move →
+
+</button>
+
+
 </form>
 
-</div>
-{% empty %}
-<p>No tasks</p>
-{% endfor %}
+
+
 
 </div>
+
+
+
+{% empty %}
+
+
+<p class="empty">
+
+No tasks
+
+</p>
+
+
+
+{% endfor %}
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
 
 <!-- IN PROGRESS -->
 
-<div class="kanban-column">
-<div class="column-title">In Progress</div>
+<div class="column">
+
+
+<div class="column-title">
+
+In Progress
+
+</div>
+
+
+
+
 
 {% for task in data.progress %}
 
+
+
 <div class="task-card">
 
+
 <div class="task-title">
+
 <a href="{% url 'task_detail' task.id %}">
-{{ task.title }}
+    {{ task.title }}
 </a>
+
 </div>
 
-<span class="badge {{ task.priority }}">
-{{ task.priority }}
-</span>
+
+
+
+
+<div style="display:flex;gap:8px;">
+
+
+
+
 
 <form method="POST" action="{% url 'update_task_status' task.id %}">
-{% csrf_token %}
-<input type="hidden" name="action" value="forward">
-<button class="btn">→ Done</button>
-</form>
 
-<form method="POST" action="{% url 'update_task_status' task.id %}">
 {% csrf_token %}
+
 <input type="hidden" name="action" value="backward">
-<button class="btn">← Back</button>
+
+
+<button class="back-btn">
+
+←
+
+</button>
+
+
 </form>
 
+
+
+
+
+
+
+
+<form method="POST" action="{% url 'update_task_status' task.id %}">
+
+{% csrf_token %}
+
+<input type="hidden" name="action" value="forward">
+
+
+<button class="move-btn">
+
+→
+
+</button>
+
+
+</form>
+
+
+
+
+
 </div>
+
+
+
+
+
+
+</div>
+
+
+
 {% empty %}
-<p>No tasks</p>
+
+
+<p class="empty">
+
+No tasks
+
+</p>
+
+
+
 {% endfor %}
 
+
+
+
 </div>
+
+
+
+
+
+
+
+
 
 <!-- DONE -->
 
-<div class="kanban-column">
-<div class="column-title">Done</div>
+<div class="column">
+
+
+<div class="column-title">
+
+Done
+
+</div>
+
+
+
+
 
 {% for task in data.done %}
 
+
+
 <div class="task-card">
 
+
 <div class="task-title">
+
 <a href="{% url 'task_detail' task.id %}">
-{{ task.title }}
+    {{ task.title }}
 </a>
+
 </div>
 
-<span class="badge {{ task.priority }}">
-{{ task.priority }}
-</span>
+
+
+
+
 
 <form method="POST" action="{% url 'update_task_status' task.id %}">
+
+
 {% csrf_token %}
+
 <input type="hidden" name="action" value="backward">
-<button class="btn">← Reopen</button>
+
+
+<button class="back-btn">
+
+← Move Back
+
+</button>
+
+
+
 </form>
 
+
+
+
+
 </div>
+
+
+
 {% empty %}
-<p>No tasks</p>
+
+
+<p class="empty">
+
+No tasks
+
+</p>
+
+
+
 {% endfor %}
 
-</div>
+
+
+
 
 </div>
 
+
+
+
+
+
+
 </div>
+
+
+
+
+
+
+</div>
+
+
+
+
 
 {% endfor %}
+
+
+
+
+
+</div>
+
+
 
 {% endblock %}
