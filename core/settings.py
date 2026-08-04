@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     "audit.apps.AuditConfig",
     'api',
     'rest_framework_simplejwt.token_blacklist',
-    
+    "reports",
 ]
 
 MIDDLEWARE = [

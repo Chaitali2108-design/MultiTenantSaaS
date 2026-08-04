@@ -38,6 +38,12 @@ path(
     "dashboard/",
     include("dashboard.urls"),
 ),
+
+path(
+    "reports/",
+    include("reports.urls"),
+),
+
  path("api/", include("api.urls"),),
 ]
 
