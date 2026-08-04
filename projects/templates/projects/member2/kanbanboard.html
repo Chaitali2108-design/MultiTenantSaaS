@@ -1,770 +1,355 @@
 {% extends 'base.html' %}
-
 {% block content %}
 
 <style>
 
-.kanban-folder-icon{
-
-    color:#f59e0b;
-
-    margin-right:8px;
-
-    font-size:18px;
-
-}
-
-
 .kanban-page{
-
     padding:25px;
-    background:#f8fafc;
-
+    background:#eef2f7;
 }
 
-
-
-.kanban-header{
-
-    margin-bottom:30px;
-
-}
-
-
+/* TITLE */
 .kanban-title{
-
     font-size:28px;
     font-weight:700;
     color:#0f172a;
-
+    margin-bottom:25px;
 }
 
-
-
-
-/* PROJECT BOARD */
-
+/* PROJECT */
 .project-board{
-
-    background:white;
-
+    background:#ffffff;
+    border-radius:16px;
     padding:22px;
-
-    border-radius:18px;
-
     margin-bottom:30px;
-
-    border:1px solid #e2e8f0;
-
-    box-shadow:0 8px 25px rgba(15,23,42,.06);
-
+    border:1px solid #dbeafe;
+    box-shadow:0 10px 25px rgba(0,0,0,0.05);
 }
-
-
-
 
 .project-name{
-
     font-size:20px;
-
     font-weight:700;
-
-    color:#0f172a;
-
+    color:#1e293b;
     margin-bottom:20px;
-
 }
-
-
-
-
 
 /* COLUMNS */
-
-
 .kanban-columns{
-
     display:grid;
-
     grid-template-columns:repeat(3,1fr);
-
-    gap:20px;
-
+    gap:18px;
 }
 
-
-
-
-
+/* COLUMN */
 .column{
-
     background:#f8fafc;
-
-    border-radius:15px;
-
-    padding:18px;
-
-    min-height:300px;
-
+    padding:16px;
+    border-radius:14px;
     border:1px solid #e2e8f0;
-
 }
 
-
-
-
+/* HEADER */
 .column-header{
-
     display:flex;
-
     justify-content:space-between;
-
-    align-items:center;
-
-    margin-bottom:15px;
-
+    margin-bottom:14px;
 }
-
-
-
 
 .column-title{
-
     font-size:15px;
-
     font-weight:700;
-
     color:#334155;
-
 }
-
-
 
 .task-count{
-
-    background:#e2e8f0;
-
-    padding:4px 10px;
-
-    border-radius:20px;
-
     font-size:12px;
-
-    font-weight:700;
-
+    background:#e2e8f0;
+    padding:4px 10px;
+    border-radius:8px;
 }
 
-
-
-
-
-
-/* TASK CARD */
-
-
+/* 🔥 CARD IMPROVED */
 .task-card{
-
-    background:white;
-
-    padding:16px;
-
-    border-radius:12px;
-
+    background:linear-gradient(135deg,#ffffff,#f1f5f9);
     border:1px solid #e2e8f0;
-
+    border-radius:12px;
+    padding:14px;
     margin-bottom:12px;
-
-    box-shadow:0 4px 12px rgba(0,0,0,.04);
-
-    transition:.2s;
-
+    transition:.25s;
 }
-
-
-
 
 .task-card:hover{
-
-    transform:translateY(-3px);
-
-    box-shadow:0 8px 20px rgba(0,0,0,.08);
-
+    transform:translateY(-4px);
+    box-shadow:0 10px 22px rgba(0,0,0,0.08);
 }
 
-
-
-
-
+/* 🔥 TITLE BIGGER */
 .task-title a{
-
-    text-decoration:none;
-
-    font-size:15px;
-
+    font-size:16px;
     font-weight:700;
-
     color:#0f172a;
-
+    text-decoration:none;
 }
 
-
-
-.task-title a:hover{
-
-    color:#2563eb;
-
-}
-
-
-
-
-
-/* BUTTONS */
-
-
-.task-actions{
-
+/* META ROW */
+.meta{
     display:flex;
-
-    gap:8px;
-
-    margin-top:15px;
-
-}
-
-
-
-
-
-.move-btn,
-.back-btn{
-
-
-    width:36px;
-
-    height:36px;
-
-    border:none;
-
-    border-radius:8px;
-
-    display:flex;
-
-    justify-content:center;
-
+    justify-content:space-between;
     align-items:center;
-
-    cursor:pointer;
-
-    font-size:15px;
-
+    margin-top:8px;
 }
 
+/* USER */
+.user{
+    font-size:12px;
+    padding:4px 10px;
+    background:#dbeafe;
+    color:#1d4ed8;
+    border-radius:8px;
+    font-weight:600;
+}
 
+/* PRIORITY */
+.priority{
+    font-size:12px;
+    padding:4px 10px;
+    border-radius:8px;
+    font-weight:600;
+}
 
+.high{
+    background:#fee2e2;
+    color:#dc2626;
+}
+
+.medium{
+    background:#fef3c7;
+    color:#92400e;
+}
+
+.low{
+    background:#dcfce7;
+    color:#166534;
+}
+
+/* DATE */
+.date{
+    font-size:11px;
+    margin-top:6px;
+    color:#64748b;
+}
+
+/* 🔥 STRONG BUTTONS */
+.task-actions{
+    margin-top:10px;
+    display:flex;
+    gap:8px;
+}
+
+.move-btn, .back-btn{
+    width:32px;
+    height:32px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
 
 .move-btn{
-
-    background:#dbeafe;
-
-    color:#2563eb;
-
+    background:#2563eb;
+    color:white;
 }
-
-
-
 
 .back-btn{
-
-    background:#e2e8f0;
-
-    color:#475569;
-
+    background:#64748b;
+    color:white;
 }
-
-
-
 
 .move-btn:hover{
-
-    background:#bfdbfe;
-
+    background:#1d4ed8;
 }
-
-
 
 .back-btn:hover{
-
-    background:#cbd5e1;
-
+    background:#475569;
 }
-
-
-
-
 
 .empty{
-
-    color:#94a3b8;
-
     text-align:center;
-
-    font-size:14px;
-
-    padding:20px;
-
+    color:#94a3b8;
+    font-size:13px;
 }
-
-
-
-
-
-@media(max-width:900px){
-
-
-.kanban-columns{
-
-grid-template-columns:1fr;
-
-}
-
-
-}
-
-
 
 </style>
 
-
-
-
-
-
-
 <div class="kanban-page">
 
-
-
-
-
-<div class="kanban-header">
-
-<h1 class="kanban-title">
-
-<i class="fa-solid fa-table-columns"></i>
-
-Kanban Board
-
-</h1>
-
-
-</div>
-
-
-
-
-
-
-
-
+<h2 class="kanban-title">Kanban Board</h2>
 
 {% for data in project_data %}
 
-
-
-
-
 <div class="project-board">
 
-
-
-
-
-<h2 class="project-name">
-
-<i class="fa-solid fa-folder kanban-folder-icon"></i>
-
-{{ data.project.name }}
-
-</h2>
-
-
-
-
-
-
+<div class="project-name">📁 {{ data.project.name }}</div>
 
 <div class="kanban-columns">
 
-
-
-
-
-
 <!-- TODO -->
-
 <div class="column">
-
-
 <div class="column-header">
-
-
-<div class="column-title">
-
-To Do
-
+<div class="column-title">To Do</div>
+<div class="task-count">{{ data.todo|length }}</div>
 </div>
-
-
-<div class="task-count">
-
-{{ data.todo|length }}
-
-</div>
-
-
-</div>
-
-
-
-
-
-
 
 {% for task in data.todo %}
-
-
-
 <div class="task-card">
 
-
 <div class="task-title">
-
-
 <a href="{% url 'task_detail' task.id %}">
-
 {{ task.title }}
-
 </a>
-
-
 </div>
 
+<div class="meta">
+<div class="user">
+👤 {{ task.assigned_to.username|default:"Not Assigned" }}
+</div>
 
+<div class="priority 
+{% if task.priority == 'high' %}high
+{% elif task.priority == 'medium' %}medium
+{% else %}low{% endif %}">
+{{ task.priority|title }}
+</div>
+</div>
 
-
-
-
+{% if task.due_date %}
+<div class="date">📅 {{ task.due_date }}</div>
+{% endif %}
 
 <div class="task-actions">
-
-
 <form method="POST" action="{% url 'update_task_status' task.id %}">
-
 {% csrf_token %}
-
 <input type="hidden" name="action" value="forward">
-
-
-<button class="move-btn" title="Move Forward">
-
-<i class="fa-solid fa-arrow-right"></i>
-
-</button>
-
-
+<button class="move-btn">→</button>
 </form>
-
-
 </div>
 
-
-
-
-
 </div>
-
-
-
 {% empty %}
-
-<p class="empty">
-
-No tasks
-
-</p>
-
+<div class="empty">No tasks</div>
 {% endfor %}
-
-
-
-
 </div>
-
-
-
-
-
-
-
-
 
 <!-- PROGRESS -->
-
 <div class="column">
-
-
 <div class="column-header">
-
-
-<div class="column-title">
-
-In Progress
-
+<div class="column-title">In Progress</div>
+<div class="task-count">{{ data.progress|length }}</div>
 </div>
-
-
-<div class="task-count">
-
-{{ data.progress|length }}
-
-</div>
-
-
-</div>
-
-
-
-
-
-
 
 {% for task in data.progress %}
-
-
-
 <div class="task-card">
 
-
 <div class="task-title">
-
-
 <a href="{% url 'task_detail' task.id %}">
-
 {{ task.title }}
-
 </a>
-
-
 </div>
 
+<div class="meta">
+<div class="user">
+👤 {{ task.assigned_to.username|default:"Not Assigned" }}
+</div>
 
+<div class="priority 
+{% if task.priority == 'high' %}high
+{% elif task.priority == 'medium' %}medium
+{% else %}low{% endif %}">
+{{ task.priority|title }}
+</div>
+</div>
 
-
-
-
+{% if task.due_date %}
+<div class="date">📅 {{ task.due_date }}</div>
+{% endif %}
 
 <div class="task-actions">
 
-
-
 <form method="POST" action="{% url 'update_task_status' task.id %}">
-
 {% csrf_token %}
-
 <input type="hidden" name="action" value="backward">
-
-
-<button class="back-btn" title="Move Back">
-
-<i class="fa-solid fa-arrow-left"></i>
-
-</button>
-
-
+<button class="back-btn">←</button>
 </form>
-
-
-
-
 
 <form method="POST" action="{% url 'update_task_status' task.id %}">
-
 {% csrf_token %}
-
 <input type="hidden" name="action" value="forward">
-
-
-<button class="move-btn" title="Move Forward">
-
-<i class="fa-solid fa-arrow-right"></i>
-
-</button>
-
-
+<button class="move-btn">→</button>
 </form>
 
-
-
-
 </div>
 
-
-
-
-
 </div>
-
-
-
 {% empty %}
-
-<p class="empty">
-
-No tasks
-
-</p>
-
+<div class="empty">No tasks</div>
 {% endfor %}
-
-
-
 </div>
-
-
-
-
-
-
-
-
 
 <!-- DONE -->
-
 <div class="column">
-
-
 <div class="column-header">
-
-
-<div class="column-title">
-
-Done
-
+<div class="column-title">Done</div>
+<div class="task-count">{{ data.done|length }}</div>
 </div>
-
-
-<div class="task-count">
-
-{{ data.done|length }}
-
-</div>
-
-
-</div>
-
-
-
-
-
-
 
 {% for task in data.done %}
-
-
-
 <div class="task-card">
 
-
 <div class="task-title">
-
-
 <a href="{% url 'task_detail' task.id %}">
-
 {{ task.title }}
-
 </a>
-
-
 </div>
 
+<div class="meta">
+<div class="user">
+👤 {{ task.assigned_to.username|default:"Not Assigned" }}
+</div>
 
+<div class="priority 
+{% if task.priority == 'high' %}high
+{% elif task.priority == 'medium' %}medium
+{% else %}low{% endif %}">
+{{ task.priority|title }}
+</div>
+</div>
 
-
-
+{% if task.due_date %}
+<div class="date">📅 {{ task.due_date }}</div>
+{% endif %}
 
 <div class="task-actions">
-
-
 <form method="POST" action="{% url 'update_task_status' task.id %}">
-
 {% csrf_token %}
-
 <input type="hidden" name="action" value="backward">
-
-
-<button class="back-btn" title="Move Back">
-
-<i class="fa-solid fa-arrow-left"></i>
-
-</button>
-
-
+<button class="back-btn">←</button>
 </form>
-
-
 </div>
 
-
-
-
-
 </div>
-
-
-
 {% empty %}
+<div class="empty">No tasks</div>
+{% endfor %}
+</div>
 
-<p class="empty">
-
-No tasks
-
-</p>
+</div>
+</div>
 
 {% endfor %}
 
-
-
-
-
 </div>
-
-
-
-
-
-
-
-</div>
-
-
-
-</div>
-
-
-
-
-
-{% endfor %}
-
-
-
-
-
-
-
-</div>
-
-
 
 {% endblock %}

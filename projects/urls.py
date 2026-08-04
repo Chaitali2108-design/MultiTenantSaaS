@@ -8,6 +8,7 @@ urlpatterns = [
 
     path('', views.project_list, name='project_list'),
 
+
     path(
         'create/',
         views.create_project,
@@ -30,6 +31,12 @@ urlpatterns = [
         '<int:project_id>/',
         views.project_detail,
         name='project_detail'
+    ),
+
+    path(
+    'project/<int:project_id>/members/',
+    views.get_project_members,
+    name='project_members'
     ),
 
 
@@ -80,5 +87,25 @@ urlpatterns = [
         views.export_tasks_csv,
         name='export_tasks_csv'
     ),
+
+# ================= NOTIFICATIONS =================
+
+path(
+    'notifications/api/',
+    views.get_notifications,
+    name='get_notifications'
+),
+
+path(
+    'notifications/count/',
+    views.notification_count,
+    name='notification_count'
+),
+
+path(
+    'notifications/read/<int:notification_id>/',
+    views.mark_notification_read,
+    name='mark_notification_read'
+),
 
 ]

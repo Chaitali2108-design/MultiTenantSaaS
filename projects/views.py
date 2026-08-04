@@ -1,18 +1,27 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q, Case, When, IntegerField
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib import messages
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 import csv
 from datetime import datetime, date
 
-from .models import Project, Task, ActivityLog
+from .models import Project, Task, ActivityLog, Notification
 from accounts.models import User
 
 
+def create_notification(user, message):
+    if user:
+        Notification.objects.create(
+            user=user,
+            message=message
+        )
+
 # ================= REMINDER CHECK =================
+
 def check_reminders(request):
+
     now = timezone.now()
 
     tasks = Task.objects.filter(
@@ -20,26 +29,44 @@ def check_reminders(request):
         reminder_sent=False
     )
 
+
     for task in tasks:
 
-        print("REMINDER FOUND:", task.title)
-
         if task.priority == "high":
+
             message = f"🚨 HIGH PRIORITY Reminder: {task.title}"
 
         elif task.priority == "medium":
+
             message = f"⚠️ Reminder: {task.title}"
 
         else:
+
             message = f"🔔 Reminder: {task.title}"
 
-        messages.warning(
-            request,
-            message
-        )
+
+        # Save notification in database
+        if task.assigned_to:
+
+            create_notification(
+                task.assigned_to,
+                message
+            )
+
+
+            # Optional UI message
+            if task.assigned_to == request.user:
+                messages.warning(
+                    request,
+                    message
+                )
+
 
         task.reminder_sent = True
         task.save()
+
+
+    return redirect(request.META.get('HTTP_REFERER', '/'))
 # ================= PROJECT =================
 
 @login_required(login_url='/accounts/login/')
@@ -59,9 +86,10 @@ def project_list(request):
 @login_required(login_url='/accounts/login/')
 def create_project(request):
     user = request.user
+    users = User.objects.filter(organization=user.organization)
 
     if request.method == "POST":
-        Project.objects.create(
+        project=Project.objects.create(
             name=request.POST.get("name"),
             description=request.POST.get("description"),
             status=request.POST.get("status"),
@@ -71,10 +99,15 @@ def create_project(request):
             organization=user.organization
         )
 
+        member_ids = request.POST.getlist('members')
+        project.members.set(member_ids)
+
+
         return redirect('project_list')
 
-    return render(request, 'projects/create_project.html')
-
+    return render(request, 'projects/create_project.html', {
+        'users': users   
+    })
 
 @login_required(login_url='/accounts/login/')
 def update_project(request, project_id):
@@ -94,6 +127,14 @@ def update_project(request, project_id):
         project.due_date = request.POST.get("due_date") or None
 
         project.save()
+
+        # 🔔 Notification: Project Updated
+        for member in project.members.all():
+            create_notification(
+                 member,
+                 f"Project updated: {project.name}"
+            )
+
         return redirect('project_list')
 
     return render(request, 'projects/update_project.html', {
@@ -133,9 +174,7 @@ def create_task(request):
 
     print(projects)
 
-    users = User.objects.filter(
-        organization=request.user.organization
-    )
+    users = User.objects.none()   # initially empty
 
     tasks = Task.objects.filter(
         project__organization=request.user.organization
@@ -187,12 +226,11 @@ def create_task(request):
             organization=user.organization
         )
 
+        users = project.members.all()
+
         assigned_to = None
         if assigned_to_id:
-            assigned_to = User.objects.filter(
-                id=assigned_to_id,
-                organization=user.organization
-            ).first()
+            assigned_to = project.members.filter(id=assigned_to_id).first()
 
         dependency = None
         if dependency_id:
@@ -219,6 +257,13 @@ def create_task(request):
             user=user,
             action="Task Created"
         )
+
+        # 🔔 Notification: Task Assigned
+        if assigned_to:
+            create_notification(
+                assigned_to,
+                f"You have been assigned a new task: {task.title}"
+            )
 
         return redirect('tasks_list')
 
@@ -324,6 +369,13 @@ def update_task_status(request, task_id):
         user=user,
         action=f"{old_status} → {task.status}"
     )
+
+    # 🔔 Notification: Status Change
+    if task.assigned_to:
+        create_notification(
+            task.assigned_to,
+            f"Task moved from {old_status} to {task.status}: {task.title}"
+      )
 
     return redirect('kanban')
 
@@ -499,11 +551,9 @@ def update_task(request, task_id):
         # ✅ ASSIGNED USER
         assigned_to_id = request.POST.get("assigned_to")
         if assigned_to_id:
-            task.assigned_to = get_object_or_404(
-                User,
-                id=assigned_to_id,
-                organization=user.organization
-            )
+            task.assigned_to = task.project.members.filter(
+                id=assigned_to_id
+            ).first()
         else:
             task.assigned_to = None
 
@@ -535,11 +585,19 @@ def update_task(request, task_id):
             action="Task Updated"
         )
 
+        # 🔔 Notification: Task Updated
+        if task.assigned_to:
+            create_notification(
+                task.assigned_to,
+                f"Task updated: {task.title}"
+            )
+
         return redirect("task_detail", task.id)
 
     # GET REQUEST
     projects = Project.objects.filter(organization=user.organization)
-    users = User.objects.filter(organization=user.organization)
+    users = task.project.members.all()    
+
     tasks = Task.objects.filter(
         project__organization=user.organization
     ).exclude(id=task.id)
@@ -579,4 +637,116 @@ def delete_task(request, task_id):
 
     return render(request, 'projects/delete_task.html', {
         'task': task
+    })
+
+from django.http import JsonResponse
+
+@login_required(login_url='/accounts/login/')
+def get_project_members(request, project_id):
+    project = get_object_or_404(
+        Project,
+        id=project_id,
+        organization=request.user.organization
+    )
+
+    members = project.members.all()
+
+    data = [
+        {"id": m.id, "username": m.username}
+        for m in members
+    ]
+
+    return JsonResponse(data, safe=False)
+
+
+# ================= NOTIFICATIONS =================
+
+@login_required(login_url='/accounts/login/')
+def notification_list(request):
+
+    notifications = Notification.objects.filter(
+        user=request.user
+    ).order_by('-created_at')
+
+
+    return render(
+        request,
+        'projects/notifications.html',
+        {
+            'notifications': notifications
+        }
+    )
+
+# ================= NOTIFICATIONS API =================
+
+
+@login_required(login_url='/accounts/login/')
+def get_notifications(request):
+
+    notifications = Notification.objects.filter(
+        user=request.user
+    ).order_by('-created_at')
+
+
+    data = []
+
+    for notification in notifications:
+
+        data.append({
+
+            "id": notification.id,
+
+            "message": notification.message,
+
+            "is_read": notification.is_read,
+
+            "created_at": notification.created_at.strftime(
+                "%d %b %Y %H:%M"
+            )
+
+        })
+
+
+    return JsonResponse(
+        data,
+        safe=False
+    )
+
+
+
+@login_required(login_url='/accounts/login/')
+def notification_count(request):
+
+    count = Notification.objects.filter(
+        user=request.user,
+        is_read=False
+    ).count()
+
+
+    return JsonResponse({
+
+        "count": count
+
+    })
+
+
+
+@login_required(login_url='/accounts/login/')
+def mark_notification_read(request, notification_id):
+
+    notification = get_object_or_404(
+        Notification,
+        id=notification_id,
+        user=request.user
+    )
+
+
+    notification.is_read = True
+    notification.save()
+
+
+    return JsonResponse({
+
+        "status": "success"
+
     })

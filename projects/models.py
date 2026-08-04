@@ -1,5 +1,5 @@
 from django.db import models
-from accounts.models import User
+from django.conf import settings
 from organizations.models import Organization
 from django.utils import timezone
 
@@ -18,19 +18,22 @@ PRIORITY_CHOICES = [
 
 
 class Project(models.Model):
-
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
 
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='todo')
     priority = models.CharField(max_length=20, choices=PRIORITY_CHOICES, default='medium')
 
     due_date = models.DateField(null=True, blank=True)
 
-    members = models.ManyToManyField(User, related_name='project_members', blank=True)
+    members = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        related_name='project_members',
+        blank=True
+    )
 
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -46,19 +49,15 @@ class Project(models.Model):
 
 
 class Task(models.Model):
-
     title = models.CharField(max_length=255)
-    description = models.TextField(blank=True, null=True)
-
     description = models.TextField(blank=True, null=True)
 
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
 
-    # ✅ FIXED HERE
     assigned_to = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
         null=True,
         blank=True
     )
@@ -100,12 +99,21 @@ class Task(models.Model):
 
 
 class ActivityLog(models.Model):
-
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     action = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.user} - {self.action}"
+
+
+class Notification(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    message = models.TextField()
+    is_read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Notification for {self.user}"
