@@ -1,0 +1,1242 @@
+{% extends "public_base.html" %}
+
+{% block content %}
+
+<!-- ================= USER MANAGEMENT HERO ================= -->
+<section class="relative overflow-hidden pt-36 pb-14">
+
+    <div class="absolute inset-0 -z-10">
+        <div class="absolute -top-24 -right-24 w-96 h-96 bg-[#069494]/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 w-[28rem] h-[28rem] bg-[#0F766E]/5 rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-6">
+
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+
+            <!-- LEFT CONTENT -->
+            <section data-aos-section>
+
+                <div class="reveal from-left">
+
+                    <span class="inline-flex px-4 py-2 rounded-full bg-[#E8F8F7] text-[#0F766E] text-sm font-semibold">
+                        User Management
+                    </span>
+
+                    <h1 class="mt-6 text-5xl lg:text-6xl font-extrabold leading-tight text-[#102A2A]">
+                        Manage every user with complete control
+                    </h1>
+
+                    <p class="mt-5 text-lg leading-8 text-[#425466] max-w-xl">
+                        Add members, organize teams, assign roles and monitor user activity from one centralized workspace designed for modern organizations.
+                    </p>
+
+                    <div class="mt-8 flex flex-wrap gap-4">
+
+                        <a href="{% url 'signup' %}"
+                           class="px-7 py-3 rounded-xl bg-[#0F766E] hover:bg-[#115E59] text-white font-semibold transition shadow-lg hover:-translate-y-1">
+                            Create Workspace
+                        </a>
+
+                        <a href="{% url 'features' %}"
+                           class="px-7 py-3 rounded-xl border border-[#D5E8E7] text-[#0F766E] hover:bg-[#E8F8F7] transition font-semibold">
+                            View Features
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- RIGHT USER PANEL -->
+            <section data-aos-section>
+
+                <div class="reveal from-right">
+
+                    <div class="bg-white rounded-[32px] border border-[#E5E7EB] shadow-2xl overflow-hidden">
+
+                        <div class="flex items-center justify-between px-6 py-5 bg-[#FAFBF9] border-b border-[#E5E7EB]">
+
+                            <div>
+                                <h3 class="font-bold text-[#102A2A]">
+                                    Team Workspace
+                                </h3>
+
+                                <p class="text-sm text-[#718096]">
+                                    User overview
+                                </p>
+                            </div>
+
+                            <span class="px-3 py-1 rounded-full bg-[#E8F8F7] text-[#0F766E] text-xs font-semibold">
+                                Active
+                            </span>
+
+                        </div>
+
+
+                        <div class="p-6 space-y-5">
+
+
+                            <div class="flex items-center gap-4 p-4 rounded-2xl bg-[#FAFBF9] border border-[#E5E7EB]">
+
+                                <div class="w-12 h-12 rounded-2xl bg-[#0F766E] text-white flex items-center justify-center font-bold">
+                                    U
+                                </div>
+
+                                <div class="flex-1">
+
+                                    <p class="font-semibold text-[#102A2A]">
+                                        Organization User
+                                    </p>
+
+                                    <p class="text-sm text-[#718096]">
+                                        Member
+                                    </p>
+
+                                </div>
+
+                                <span class="text-sm text-emerald-600 font-semibold">
+                                    Online
+                                </span>
+
+                            </div>
+
+
+                            <div class="grid grid-cols-2 gap-4">
+
+                                <div class="rounded-2xl bg-[#FAFBF9] border border-[#E5E7EB] p-5">
+
+                                    <p class="text-sm text-[#718096]">
+                                        Total Users
+                                    </p>
+
+                                    <h3 class="mt-2 text-3xl font-bold text-[#102A2A]">
+                                        {{ user_count }}
+                                    </h3>
+
+                                </div>
+
+
+                                <div class="rounded-2xl bg-[#FAFBF9] border border-[#E5E7EB] p-5">
+
+                                    <p class="text-sm text-[#718096]">
+                                        Roles
+                                    </p>
+
+                                    <h3 class="mt-2 text-3xl font-bold text-[#102A2A]">
+                                        {{ role_count }}
+                                    </h3>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="rounded-2xl bg-[#102A2A] p-5 text-white">
+
+                                <p class="text-sm text-slate-300">
+                                    Access Management
+                                </p>
+
+                                <h3 class="mt-2 text-xl font-bold">
+                                    Role Based Control Enabled
+                                </h3>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= USER LIFECYCLE FLOW ================= -->
+<section class="py-14 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6">
+
+        <section data-aos-section>
+            <div class="reveal from-bottom text-center max-w-3xl mx-auto">
+
+                <span class="inline-flex px-4 py-2 rounded-full bg-[#E8F8F7] text-[#0F766E] text-sm font-semibold">
+                    User Lifecycle
+                </span>
+
+                <h2 class="mt-5 text-4xl lg:text-5xl font-extrabold text-[#102A2A]">
+                    From invitation to collaboration
+                </h2>
+
+                <p class="mt-5 text-lg leading-8 text-[#425466]">
+                    Manage every stage of the user journey with a structured workflow that keeps teams organized and secure.
+                </p>
+
+            </div>
+        </section>
+
+
+        <section data-aos-section class="mt-14">
+
+            <div class="reveal from-bottom">
+
+                <div class="relative">
+
+                    <div class="hidden lg:block absolute top-20 left-0 right-0 h-px bg-[#069494]/20"></div>
+
+
+                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+
+
+                        <!-- Step 1 -->
+
+                        <div class="relative bg-white border border-[#E5E7EB] rounded-[28px] p-7 premium-card">
+
+                            <div class="w-16 h-16 rounded-3xl bg-[#E8F8F7] flex items-center justify-center text-3xl">
+                                ✉️
+                            </div>
+
+                            <span class="absolute top-7 right-7 text-4xl font-extrabold text-[#E5E7EB]">
+                                01
+                            </span>
+
+                            <h3 class="mt-6 text-xl font-bold text-[#102A2A]">
+                                Invite Users
+                            </h3>
+
+                            <p class="mt-3 text-[#425466] leading-7">
+                                Add employees and collaborators into your organization workspace.
+                            </p>
+
+                        </div>
+
+
+                        <!-- Step 2 -->
+
+                        <div class="relative bg-white border border-[#E5E7EB] rounded-[28px] p-7 premium-card">
+
+                            <div class="w-16 h-16 rounded-3xl bg-[#E8F8F7] flex items-center justify-center text-3xl">
+                                🛡️
+                            </div>
+
+                            <span class="absolute top-7 right-7 text-4xl font-extrabold text-[#E5E7EB]">
+                                02
+                            </span>
+
+                            <h3 class="mt-6 text-xl font-bold text-[#102A2A]">
+                                Assign Roles
+                            </h3>
+
+                            <p class="mt-3 text-[#425466] leading-7">
+                                Provide the correct access level using organization roles.
+                            </p>
+
+                        </div>
+
+
+                        <!-- Step 3 -->
+
+                        <div class="relative bg-white border border-[#E5E7EB] rounded-[28px] p-7 premium-card">
+
+                            <div class="w-16 h-16 rounded-3xl bg-[#E8F8F7] flex items-center justify-center text-3xl">
+                                🤝
+                            </div>
+
+                            <span class="absolute top-7 right-7 text-4xl font-extrabold text-[#E5E7EB]">
+                                03
+                            </span>
+
+                            <h3 class="mt-6 text-xl font-bold text-[#102A2A]">
+                                Collaborate
+                            </h3>
+
+                            <p class="mt-3 text-[#425466] leading-7">
+                                Users work together through projects, tasks and shared resources.
+                            </p>
+
+                        </div>
+
+
+                        <!-- Step 4 -->
+
+                        <div class="relative bg-white border border-[#E5E7EB] rounded-[28px] p-7 premium-card">
+
+                            <div class="w-16 h-16 rounded-3xl bg-[#E8F8F7] flex items-center justify-center text-3xl">
+                                📊
+                            </div>
+
+                            <span class="absolute top-7 right-7 text-4xl font-extrabold text-[#E5E7EB]">
+                                04
+                            </span>
+
+                            <h3 class="mt-6 text-xl font-bold text-[#102A2A]">
+                                Track Activity
+                            </h3>
+
+                            <p class="mt-3 text-[#425466] leading-7">
+                                Monitor user actions and maintain organization visibility.
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+</section>
+
+<!-- ================= TEAM DIRECTORY PREVIEW ================= -->
+<section class="py-14 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6">
+
+        <section data-aos-section>
+            <div class="reveal from-bottom text-center max-w-3xl mx-auto">
+
+                <span class="inline-flex px-4 py-2 rounded-full bg-[#E8F8F7] text-[#0F766E] text-sm font-semibold">
+                    Team Directory
+                </span>
+
+                <h2 class="mt-5 text-4xl lg:text-5xl font-extrabold text-[#102A2A]">
+                    Complete visibility of your organization members
+                </h2>
+
+                <p class="mt-5 text-lg leading-8 text-[#425466]">
+                    View users, roles, responsibilities and activity status from a centralized team management interface.
+                </p>
+
+            </div>
+        </section>
+
+
+        <section data-aos-section class="mt-12">
+
+            <div class="reveal from-bottom">
+
+                <div class="bg-white border border-[#E5E7EB] rounded-[32px] shadow-xl overflow-hidden">
+
+                    <!-- Header -->
+
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 px-8 py-6 border-b border-[#E5E7EB] bg-[#FAFBF9]">
+
+                        <div>
+                            <h3 class="text-xl font-bold text-[#102A2A]">
+                                Organization Members
+                            </h3>
+
+                            <p class="text-sm text-[#718096]">
+                                Manage users and permissions
+                            </p>
+                        </div>
+
+                        <button class="px-5 py-2.5 rounded-xl bg-[#0F766E] text-white font-semibold hover:bg-[#115E59] transition">
+                            Add Member
+                        </button>
+
+                    </div>
+
+
+                    <!-- User List -->
+
+                    <div class="p-6 space-y-4">
+
+
+                        {% for user in users %}
+
+                        <div class="premium-card flex flex-col md:flex-row md:items-center gap-5 justify-between rounded-2xl border border-[#E5E7EB] bg-white p-5">
+
+
+                            <div class="flex items-center gap-4">
+
+                                <div class="w-12 h-12 rounded-2xl bg-[#E8F8F7] text-[#0F766E] flex items-center justify-center font-bold">
+
+                                    {{ user.first_name|first|default:user.username|first|upper }}
+
+                                </div>
+
+
+                                <div>
+
+                                    <h4 class="font-bold text-[#102A2A]">
+
+                                        {{ user.get_full_name|default:user.username }}
+
+                                    </h4>
+
+
+                                    <p class="text-sm text-[#718096]">
+
+                                        {{ user.email }}
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="flex flex-wrap items-center gap-4">
+
+
+                                <span class="px-4 py-2 rounded-full bg-[#FAFBF9] border border-[#E5E7EB] text-sm text-[#425466]">
+
+                                    {{ user.role.name|default:"Member" }}
+
+                                </span>
+
+
+                                <span class="px-4 py-2 rounded-full bg-[#E8F8F7] text-[#0F766E] text-sm font-semibold">
+
+                                    Active
+
+                                </span>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                        {% empty %}
+
+
+                        <div class="text-center py-10">
+
+                            <p class="text-[#718096]">
+                                No users available
+                            </p>
+
+                        </div>
+
+
+                        {% endfor %}
+
+
+                    </div>
+
+
+                    <!-- Summary -->
+
+                    <div class="grid md:grid-cols-3 gap-5 p-8 border-t border-[#E5E7EB] bg-[#FAFBF9]">
+
+
+                        <div class="rounded-2xl bg-white border border-[#E5E7EB] p-5">
+
+                            <p class="text-sm text-[#718096]">
+                                Total Members
+                            </p>
+
+                            <h3 class="mt-2 text-3xl font-bold text-[#102A2A]">
+                                {{ user_count }}
+                            </h3>
+
+                        </div>
+
+
+                        <div class="rounded-2xl bg-white border border-[#E5E7EB] p-5">
+
+                            <p class="text-sm text-[#718096]">
+                                Available Roles
+                            </p>
+
+                            <h3 class="mt-2 text-3xl font-bold text-[#102A2A]">
+                                {{ role_count }}
+                            </h3>
+
+                        </div>
+
+
+                        <div class="rounded-2xl bg-white border border-[#E5E7EB] p-5">
+
+                            <p class="text-sm text-[#718096]">
+                                Organization
+                            </p>
+
+                            <h3 class="mt-2 text-xl font-bold text-[#102A2A]">
+                                {{ organization.name|default:"Workspace" }}
+                            </h3>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+</section>
+
+<!-- ================= USER PROFILE & ACTIVITY VIEW ================= -->
+<section class="py-14 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6">
+
+        <section data-aos-section>
+
+            <div class="reveal from-bottom text-center max-w-3xl mx-auto">
+
+                <span class="inline-flex px-4 py-2 rounded-full bg-[#E8F8F7] text-[#0F766E] text-sm font-semibold">
+                    User Activity
+                </span>
+
+                <h2 class="mt-5 text-4xl lg:text-5xl font-extrabold text-[#102A2A]">
+                    Understand every user's role and contribution
+                </h2>
+
+                <p class="mt-5 text-lg leading-8 text-[#425466]">
+                    Give administrators a complete view of user profiles, assigned responsibilities and workspace activity.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <section data-aos-section class="mt-12">
+
+            <div class="reveal from-bottom grid lg:grid-cols-3 gap-8">
+
+
+                <!-- Profile Card -->
+
+                <div class="bg-white border border-[#E5E7EB] rounded-[32px] p-8 shadow-xl">
+
+                    <div class="flex items-center gap-5">
+
+                        <div class="w-20 h-20 rounded-3xl bg-[#0F766E] flex items-center justify-center text-white text-3xl font-bold">
+                            {{ profile_user.first_name|first|default:"U"|upper }}
+                        </div>
+
+
+                        <div>
+
+                            <h3 class="text-xl font-bold text-[#102A2A]">
+                                {{ profile_user.get_full_name|default:"Organization User" }}
+                            </h3>
+
+                            <p class="text-sm text-[#718096]">
+                                {{ profile_user.email|default:"user@example.com" }}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="mt-8 space-y-4">
+
+
+                        <div class="flex justify-between items-center rounded-xl bg-[#FAFBF9] border border-[#E5E7EB] px-4 py-3">
+
+                            <span class="text-sm text-[#718096]">
+                                Role
+                            </span>
+
+                            <span class="font-semibold text-[#102A2A]">
+                                {{ profile_user.role.name|default:"Member" }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="flex justify-between items-center rounded-xl bg-[#FAFBF9] border border-[#E5E7EB] px-4 py-3">
+
+                            <span class="text-sm text-[#718096]">
+                                Status
+                            </span>
+
+                            <span class="font-semibold text-[#0F766E]">
+                                Active
+                            </span>
+
+                        </div>
+
+
+                        <div class="flex justify-between items-center rounded-xl bg-[#FAFBF9] border border-[#E5E7EB] px-4 py-3">
+
+                            <span class="text-sm text-[#718096]">
+                                Joined
+                            </span>
+
+                            <span class="font-semibold text-[#102A2A]">
+                                {{ profile_user.created_at|date:"M Y"|default:"Recently" }}
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Responsibility Panel -->
+
+                <div class="lg:col-span-2 bg-[#102A2A] rounded-[32px] p-8 shadow-xl text-white">
+
+
+                    <div class="flex justify-between items-center">
+
+                        <div>
+
+                            <h3 class="text-2xl font-bold">
+                                User Responsibilities
+                            </h3>
+
+                            <p class="mt-2 text-slate-300">
+                                Connected workspace activities
+                            </p>
+
+                        </div>
+
+
+                        <div class="w-14 h-14 rounded-2xl bg-[#0F766E] flex items-center justify-center text-2xl">
+                            📌
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="mt-8 grid md:grid-cols-2 gap-5">
+
+
+                        <div class="rounded-2xl bg-white/10 border border-white/10 p-5">
+
+                            <p class="text-sm text-slate-300">
+                                Assigned Projects
+                            </p>
+
+                            <h4 class="mt-3 text-3xl font-bold">
+                                {{ assigned_project_count|default:0 }}
+                            </h4>
+
+                        </div>
+
+
+                        <div class="rounded-2xl bg-white/10 border border-white/10 p-5">
+
+                            <p class="text-sm text-slate-300">
+                                Assigned Tasks
+                            </p>
+
+                            <h4 class="mt-3 text-3xl font-bold">
+                                {{ assigned_task_count|default:0 }}
+                            </h4>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <div class="mt-8 rounded-2xl bg-white/10 border border-white/10 p-5">
+
+
+                        <p class="text-sm text-slate-300">
+                            Latest Activity
+                        </p>
+
+
+                        <p class="mt-3 text-lg font-semibold">
+                            User activity tracking enabled
+                        </p>
+
+
+                        <p class="mt-2 text-sm text-slate-300">
+                            Monitor collaboration and workspace engagement securely.
+                        </p>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+    </div>
+</section>
+
+<!-- ================= PERMISSION ASSIGNMENT INTERFACE ================= -->
+<section class="py-14 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6">
+
+        <section data-aos-section>
+
+            <div class="reveal from-bottom text-center max-w-3xl mx-auto">
+
+                <span class="inline-flex px-4 py-2 rounded-full bg-[#E8F8F7] text-[#0F766E] text-sm font-semibold">
+                    Permission Management
+                </span>
+
+                <h2 class="mt-5 text-4xl lg:text-5xl font-extrabold text-[#102A2A]">
+                    Control access with flexible role permissions
+                </h2>
+
+                <p class="mt-5 text-lg leading-8 text-[#425466]">
+                    Assign the right permissions to every user and maintain complete control over organization resources.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <section data-aos-section class="mt-12">
+
+            <div class="reveal from-bottom bg-white border border-[#E5E7EB] rounded-[36px] shadow-xl overflow-hidden">
+
+
+                <!-- Header -->
+
+                <div class="px-8 py-6 border-b border-[#E5E7EB] bg-[#FAFBF9] flex flex-col md:flex-row justify-between gap-4">
+
+                    <div>
+
+                        <h3 class="text-2xl font-bold text-[#102A2A]">
+                            Role Permission Matrix
+                        </h3>
+
+                        <p class="text-sm text-[#718096] mt-1">
+                            Manage access levels across your workspace
+                        </p>
+
+                    </div>
+
+
+                    <span class="inline-flex items-center px-4 py-2 rounded-full bg-[#E8F8F7] text-[#0F766E] text-sm font-semibold">
+                        RBAC Enabled
+                    </span>
+
+                </div>
+
+
+
+                <!-- Permission Layout -->
+
+                <div class="p-8">
+
+
+                    <div class="grid lg:grid-cols-4 gap-6">
+
+
+                        <!-- Roles -->
+
+                        <div class="space-y-4">
+
+
+                            <h4 class="font-bold text-[#102A2A]">
+                                Roles
+                            </h4>
+
+
+                            {% for role in roles %}
+
+                            <div class="rounded-2xl border border-[#E5E7EB] bg-[#FAFBF9] px-5 py-4 hover:border-[#069494] transition">
+
+                                <p class="font-semibold text-[#102A2A]">
+                                    {{ role.name }}
+                                </p>
+
+                                <p class="text-sm text-[#718096] mt-1">
+                                    Organization Role
+                                </p>
+
+                            </div>
+
+
+                            {% empty %}
+
+
+                            <div class="rounded-2xl border border-[#E5E7EB] p-5 text-[#718096]">
+                                No roles available
+                            </div>
+
+
+                            {% endfor %}
+
+
+                        </div>
+
+
+
+                        <!-- Permission Cards -->
+
+                        <div class="lg:col-span-3 grid md:grid-cols-2 gap-5">
+
+
+                            <div class="rounded-2xl border border-[#E5E7EB] p-6">
+
+                                <div class="flex justify-between items-center">
+
+                                    <h4 class="font-bold text-[#102A2A]">
+                                        Users
+                                    </h4>
+
+                                    <span class="w-10 h-10 rounded-xl bg-[#E8F8F7] flex items-center justify-center">
+                                        👥
+                                    </span>
+
+                                </div>
+
+
+                                <div class="mt-5 space-y-3">
+
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-[#425466]">
+                                            View Users
+                                        </span>
+
+                                        <span class="text-[#0F766E] font-semibold">
+                                            Enabled
+                                        </span>
+                                    </div>
+
+
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-[#425466]">
+                                            Manage Users
+                                        </span>
+
+                                        <span class="text-[#0F766E] font-semibold">
+                                            Enabled
+                                        </span>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <div class="rounded-2xl border border-[#E5E7EB] p-6">
+
+                                <div class="flex justify-between items-center">
+
+                                    <h4 class="font-bold text-[#102A2A]">
+                                        Projects
+                                    </h4>
+
+                                    <span class="w-10 h-10 rounded-xl bg-[#E8F8F7] flex items-center justify-center">
+                                        📁
+                                    </span>
+
+                                </div>
+
+
+                                <div class="mt-5 space-y-3">
+
+                                    <div class="flex justify-between text-sm">
+
+                                        <span class="text-[#425466]">
+                                            Create Projects
+                                        </span>
+
+                                        <span class="text-[#0F766E] font-semibold">
+                                            Enabled
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="flex justify-between text-sm">
+
+                                        <span class="text-[#425466]">
+                                            Edit Projects
+                                        </span>
+
+                                        <span class="text-[#0F766E] font-semibold">
+                                            Enabled
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <div class="rounded-2xl border border-[#E5E7EB] p-6">
+
+                                <div class="flex justify-between items-center">
+
+                                    <h4 class="font-bold text-[#102A2A]">
+                                        Tasks
+                                    </h4>
+
+                                    <span class="w-10 h-10 rounded-xl bg-[#E8F8F7] flex items-center justify-center">
+                                        ✅
+                                    </span>
+
+                                </div>
+
+
+                                <div class="mt-5 space-y-3">
+
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-[#425466]">
+                                            Assign Tasks
+                                        </span>
+
+                                        <span class="text-[#0F766E] font-semibold">
+                                            Enabled
+                                        </span>
+                                    </div>
+
+
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-[#425466]">
+                                            Track Progress
+                                        </span>
+
+                                        <span class="text-[#0F766E] font-semibold">
+                                            Enabled
+                                        </span>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <div class="rounded-2xl border border-[#E5E7EB] p-6">
+
+                                <div class="flex justify-between items-center">
+
+                                    <h4 class="font-bold text-[#102A2A]">
+                                        Reports
+                                    </h4>
+
+                                    <span class="w-10 h-10 rounded-xl bg-[#E8F8F7] flex items-center justify-center">
+                                        📊
+                                    </span>
+
+                                </div>
+
+
+                                <div class="mt-5 space-y-3">
+
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-[#425466]">
+                                            View Analytics
+                                        </span>
+
+                                        <span class="text-[#0F766E] font-semibold">
+                                            Enabled
+                                        </span>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+    </div>
+</section>
+
+<!-- ================= USER SECURITY CONTROLS ================= -->
+<section class="py-14 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6">
+
+        <section data-aos-section>
+
+            <div class="reveal from-bottom text-center max-w-3xl mx-auto">
+
+                <span class="inline-flex px-4 py-2 rounded-full bg-[#E8F8F7] text-[#0F766E] text-sm font-semibold">
+                    User Security
+                </span>
+
+                <h2 class="mt-5 text-4xl lg:text-5xl font-extrabold text-[#102A2A]">
+                    Keep every account secure and controlled
+                </h2>
+
+                <p class="mt-5 text-lg leading-8 text-[#425466]">
+                    Protect your organization with secure user management, controlled access and transparent account activity.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <section data-aos-section class="mt-12">
+
+            <div class="reveal from-bottom grid lg:grid-cols-2 gap-10 items-center">
+
+
+                <!-- Security Panel -->
+
+                <div class="bg-[#102A2A] rounded-[36px] p-8 lg:p-10 shadow-2xl text-white">
+
+                    <div class="flex items-center justify-between">
+
+                        <div>
+
+                            <h3 class="text-2xl font-bold">
+                                Account Protection
+                            </h3>
+
+                            <p class="mt-2 text-slate-300">
+                                Enterprise security controls
+                            </p>
+
+                        </div>
+
+
+                        <div class="w-14 h-14 rounded-2xl bg-[#0F766E] flex items-center justify-center text-2xl">
+                            🔒
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="mt-8 space-y-5">
+
+
+                        <div class="flex items-center justify-between rounded-2xl bg-white/10 border border-white/10 p-5">
+
+                            <div>
+                                <p class="font-semibold">
+                                    Authentication
+                                </p>
+
+                                <p class="text-sm text-slate-300">
+                                    Secure account access
+                                </p>
+                            </div>
+
+
+                            <span class="px-3 py-1 rounded-full bg-[#0F766E] text-xs font-semibold">
+                                Active
+                            </span>
+
+                        </div>
+
+
+
+                        <div class="flex items-center justify-between rounded-2xl bg-white/10 border border-white/10 p-5">
+
+                            <div>
+                                <p class="font-semibold">
+                                    Permission Control
+                                </p>
+
+                                <p class="text-sm text-slate-300">
+                                    Role based restrictions
+                                </p>
+                            </div>
+
+
+                            <span class="px-3 py-1 rounded-full bg-[#0F766E] text-xs font-semibold">
+                                Enabled
+                            </span>
+
+                        </div>
+
+
+
+                        <div class="flex items-center justify-between rounded-2xl bg-white/10 border border-white/10 p-5">
+
+                            <div>
+                                <p class="font-semibold">
+                                    Activity Monitoring
+                                </p>
+
+                                <p class="text-sm text-slate-300">
+                                    Track workspace actions
+                                </p>
+                            </div>
+
+
+                            <span class="px-3 py-1 rounded-full bg-[#0F766E] text-xs font-semibold">
+                                Running
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Features -->
+
+                <div class="space-y-6">
+
+
+                    <div class="bg-white border border-[#E5E7EB] rounded-[28px] p-7 premium-card">
+
+                        <div class="w-14 h-14 rounded-2xl bg-[#E8F8F7] flex items-center justify-center text-2xl">
+                            👤
+                        </div>
+
+
+                        <h3 class="mt-5 text-xl font-bold text-[#102A2A]">
+                            Profile Management
+                        </h3>
+
+
+                        <p class="mt-3 text-[#425466] leading-7">
+                            Maintain user information, account details and organization membership from one place.
+                        </p>
+
+                    </div>
+
+
+
+                    <div class="bg-white border border-[#E5E7EB] rounded-[28px] p-7 premium-card">
+
+                        <div class="w-14 h-14 rounded-2xl bg-[#E8F8F7] flex items-center justify-center text-2xl">
+                            ⚡
+                        </div>
+
+
+                        <h3 class="mt-5 text-xl font-bold text-[#102A2A]">
+                            User Activity Tracking
+                        </h3>
+
+
+                        <p class="mt-3 text-[#425466] leading-7">
+                            Understand collaboration patterns and maintain better workspace visibility.
+                        </p>
+
+                    </div>
+
+
+
+                    <div class="bg-white border border-[#E5E7EB] rounded-[28px] p-7 premium-card">
+
+                        <div class="w-14 h-14 rounded-2xl bg-[#E8F8F7] flex into-center text-2xl">
+                            🛡️
+                        </div>
+
+
+                        <h3 class="mt-5 text-xl font-bold text-[#102A2A]">
+                            Controlled Access
+                        </h3>
+
+
+                        <p class="mt-3 text-[#425466] leading-7">
+                            Ensure every user gets the right permissions without compromising security.
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+    </div>
+</section>
+
+<!-- ================= USER MANAGEMENT FINAL CTA ================= -->
+<section class="py-12">
+    <div class="max-w-7xl mx-auto px-6">
+
+        <section data-aos-section>
+
+            <div class="reveal from-bottom relative overflow-hidden rounded-[36px] bg-[#102A2A] px-8 py-12 lg:px-16">
+
+                <div class="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-[#069494]/20 blur-3xl"></div>
+
+                <div class="absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-[#0F766E]/20 blur-3xl"></div>
+
+
+                <div class="relative grid lg:grid-cols-2 gap-10 items-center">
+
+
+                    <div>
+
+                        <span class="inline-flex px-4 py-2 rounded-full bg-white/10 text-[#9FE7E2] text-sm font-semibold">
+                            Better Team Management
+                        </span>
+
+
+                        <h2 class="mt-5 text-4xl lg:text-5xl font-extrabold text-white leading-tight">
+                            Build organized teams with powerful user controls
+                        </h2>
+
+
+                        <p class="mt-5 text-lg leading-8 text-slate-300 max-w-xl">
+                            Manage members, roles and access from one secure workspace designed for growing organizations.
+                        </p>
+
+
+                    </div>
+
+
+
+                    <div class="flex flex-wrap lg:justify-end gap-4">
+
+
+                        <a href="{% url 'signup' %}"
+                           class="px-8 py-3.5 rounded-xl bg-[#0F766E] hover:bg-[#115E59] text-white font-semibold transition shadow-lg hover:-translate-y-1">
+                            Start Managing Users
+                        </a>
+
+
+                        <a href="{% url 'features' %}"
+                           class="px-8 py-3.5 rounded-xl border border-white/20 text-white hover:bg-white/10 transition font-semibold">
+                            Explore Features
+                        </a>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+    </div>
+</section>
+
+{% endblock %}

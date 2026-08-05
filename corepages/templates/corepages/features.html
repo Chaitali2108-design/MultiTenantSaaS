@@ -2,53 +2,199 @@
 
 {% block content %}
 
+<!-- ================= FEATURES HERO ================= -->
+<section class="relative pt-28 pb-12 overflow-hidden">
 
-<script src="https://cdn.tailwindcss.com"></script>
+<div class="absolute top-0 right-0 w-96 h-96 bg-[#069494]/10 blur-3xl rounded-full -z-10"></div>
 
+<div class="max-w-7xl mx-auto px-6">
 
-<div class="min-h-screen bg-slate-50 py-20 px-6">
-
-
-<div class="max-w-7xl mx-auto">
-
-
-
-<div class="text-center">
+<div class="grid lg:grid-cols-2 gap-10 items-center">
 
 
-<p class="text-emerald-600 font-semibold uppercase tracking-wide">
+<div data-aos-section>
 
+<div class="reveal from-bottom">
+
+
+<span class="px-4 py-2 rounded-full bg-[#E8F8F7] text-[#0F766E] text-sm font-semibold">
 Platform Features
-
-</p>
-
+</span>
 
 
-<h1 class="
-mt-5
-text-5xl
-font-extrabold
-text-slate-900
-">
-
-Powerful features built for
-modern organizations
-
+<h1 class="mt-5 text-5xl lg:text-6xl font-extrabold text-[#102A2A] leading-tight">
+Everything your organization needs to grow securely
 </h1>
 
 
+<p class="mt-5 text-lg text-[#425466] leading-8 max-w-xl">
+Manage organizations, users, permissions, projects and insights from one powerful SaaS platform.
+</p>
 
-<p class="
-mt-6
-max-w-3xl
-mx-auto
-text-lg
-text-slate-600
-">
 
-Everything you need to manage organizations,
-teams, permissions and workflows securely.
+<div class="mt-7 flex gap-4">
 
+
+<a href="{% url 'signup' %}"
+class="px-7 py-3 rounded-xl bg-[#0F766E] text-white font-semibold hover:bg-[#115E59] transition">
+Start Building
+</a>
+
+
+<a href="#features"
+class="px-7 py-3 rounded-xl border border-[#D5E8E7] text-[#0F766E] font-semibold hover:bg-[#E8F8F7] transition">
+Explore Capabilities
+</a>
+
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<div data-aos-section>
+
+<div class="reveal from-right">
+
+
+<div class="bg-white border border-[#E5E7EB] rounded-[32px] shadow-xl p-7">
+
+
+<div class="flex justify-between items-center">
+
+<div>
+
+<h3 class="font-bold text-[#102A2A]">
+MultiTenant Platform
+</h3>
+
+<p class="text-sm text-[#718096]">
+Complete workspace control
+</p>
+
+</div>
+
+
+<div class="w-12 h-12 rounded-2xl bg-[#E8F8F7] flex items-center justify-center text-xl">
+⚡
+</div>
+
+</div>
+
+
+
+<div class="mt-7 space-y-4">
+
+
+<div class="flex items-center gap-4 p-4 rounded-2xl bg-[#FAFBF9] border border-[#E5E7EB]">
+
+<div class="w-10 h-10 rounded-xl bg-[#E8F8F7] flex items-center justify-center">
+🏢
+</div>
+
+<div>
+
+<h4 class="font-semibold text-[#102A2A]">
+Organization Management
+</h4>
+
+<p class="text-sm text-[#718096]">
+Independent workspaces
+</p>
+
+</div>
+
+</div>
+
+
+
+<div class="flex items-center gap-4 p-4 rounded-2xl bg-[#FAFBF9] border border-[#E5E7EB]">
+
+<div class="w-10 h-10 rounded-xl bg-[#E8F8F7] flex items-center justify-center">
+🛡️
+</div>
+
+<div>
+
+<h4 class="font-semibold text-[#102A2A]">
+Role Based Access
+</h4>
+
+<p class="text-sm text-[#718096]">
+Controlled permissions
+</p>
+
+</div>
+
+</div>
+
+
+
+<div class="flex items-center gap-4 p-4 rounded-2xl bg-[#FAFBF9] border border-[#E5E7EB]">
+
+<div class="w-10 h-10 rounded-xl bg-[#E8F8F7] flex items-center justify-center">
+📊
+</div>
+
+<div>
+
+<h4 class="font-semibold text-[#102A2A]">
+Reports & Analytics
+</h4>
+
+<p class="text-sm text-[#718096]">
+Actionable insights
+</p>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= CORE CAPABILITIES ================= -->
+<section id="features" class="py-12 overflow-hidden">
+
+<div class="max-w-7xl mx-auto px-6">
+
+
+<section data-aos-section>
+
+<div class="reveal from-bottom text-center max-w-3xl mx-auto">
+
+
+<span class="px-4 py-2 rounded-full bg-[#EEF2FF] text-indigo-600 text-sm font-semibold">
+Core Capabilities
+</span>
+
+
+<h2 class="mt-5 text-4xl font-extrabold text-[#102A2A]">
+Powerful tools for complete workspace control
+</h2>
+
+
+<p class="mt-4 text-[#425466]">
+Explore the features designed to simplify organization management and team collaboration.
 </p>
 
 
@@ -56,134 +202,234 @@ teams, permissions and workflows securely.
 
 
 
+<div class="mt-10 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
 
 
-<div class="grid md:grid-cols-3 gap-8 mt-16">
+<a href="{% url 'organization_management' %}"
+class="reveal from-left bg-white border border-[#E5E7EB] rounded-[28px] p-6 premium-card">
 
 
+<div class="w-12 h-12 rounded-xl bg-[#E8F8F7] flex items-center justify-center text-xl">
+🏢
+</div>
 
 
-
-<div class="bg-white rounded-3xl border p-8 shadow-sm">
-
-
-<h3 class="text-xl font-bold text-slate-900">
-
-🏢 Organization Management
-
+<h3 class="mt-5 text-xl font-bold text-[#102A2A]">
+Organization Management
 </h3>
 
 
-<p class="mt-4 text-slate-600">
-
-Create isolated organization workspaces
-with independent configuration and data.
-
+<p class="mt-3 text-sm text-[#718096]">
+Create and manage isolated organizational workspaces.
 </p>
 
 
+<span class="inline-block mt-4 text-sm font-semibold text-[#0F766E]">
+Explore →
+</span>
+
+
+</a>
+
+
+
+<a href="{% url 'user_management' %}"
+class="reveal from-bottom bg-white border border-[#E5E7EB] rounded-[28px] p-6 premium-card">
+
+
+<div class="w-12 h-12 rounded-xl bg-[#ECFEFF] flex items-center justify-center text-xl">
+👥
 </div>
 
 
-
-
-
-
-
-<div class="bg-white rounded-3xl border p-8 shadow-sm">
-
-
-<h3 class="text-xl font-bold text-slate-900">
-
-👥 User Management
-
+<h3 class="mt-5 text-xl font-bold text-[#102A2A]">
+User Management
 </h3>
 
 
-<p class="mt-4 text-slate-600">
-
-Manage members, profiles and organization users
-from a centralized dashboard.
-
+<p class="mt-3 text-sm text-[#718096]">
+Manage members, profiles and team access.
 </p>
 
 
+<span class="inline-block mt-4 text-sm font-semibold text-[#0F766E]">
+Explore →
+</span>
+
+
+</a>
+
+
+
+<a href="{% url 'role_based_access' %}"
+class="reveal from-right bg-white border border-[#E5E7EB] rounded-[28px] p-6 premium-card">
+
+
+<div class="w-12 h-12 rounded-xl bg-[#EEF2FF] flex items-center justify-center text-xl">
+🛡️
 </div>
 
 
-
-
-
-
-
-<div class="bg-white rounded-3xl border p-8 shadow-sm">
-
-
-<h3 class="text-xl font-bold text-slate-900">
-
-🔐 Role Based Access Control
-
+<h3 class="mt-5 text-xl font-bold text-[#102A2A]">
+Role Based Access
 </h3>
 
 
-<p class="mt-4 text-slate-600">
-
-Assign roles and permissions to control
-who can access specific resources.
-
+<p class="mt-3 text-sm text-[#718096]">
+Control permissions with flexible roles.
 </p>
 
 
+<span class="inline-block mt-4 text-sm font-semibold text-[#0F766E]">
+Explore →
+</span>
+
+
+</a>
+
+
+
+<a href="{% url 'project_management' %}"
+class="reveal from-left bg-white border border-[#E5E7EB] rounded-[28px] p-6 premium-card">
+
+
+<div class="w-12 h-12 rounded-xl bg-[#E8F8F7] flex items-center justify-center text-xl">
+📁
 </div>
 
 
-
-
-
-
-
-<div class="bg-white rounded-3xl border p-8 shadow-sm">
-
-
-<h3 class="text-xl font-bold text-slate-900">
-
-✉️ Invitation System
-
+<h3 class="mt-5 text-xl font-bold text-[#102A2A]">
+Project Management
 </h3>
 
 
-<p class="mt-4 text-slate-600">
-
-Invite users, track invitation status
-and manage onboarding.
-
+<p class="mt-3 text-sm text-[#718096]">
+Plan projects and track team workflows.
 </p>
 
 
+<span class="inline-block mt-4 text-sm font-semibold text-[#0F766E]">
+Explore →
+</span>
+
+
+</a>
+
+
+
+<a href="{% url 'reports_analytics' %}"
+class="reveal from-right bg-white border border-[#E5E7EB] rounded-[28px] p-6 premium-card">
+
+
+<div class="w-12 h-12 rounded-xl bg-[#ECFEFF] flex items-center justify-center text-xl">
+📊
 </div>
 
 
-
-
-
-
-
-<div class="bg-white rounded-3xl border p-8 shadow-sm">
-
-
-<h3 class="text-xl font-bold text-slate-900">
-
-📂 Project Management
-
+<h3 class="mt-5 text-xl font-bold text-[#102A2A]">
+Reports & Analytics
 </h3>
 
 
-<p class="mt-4 text-slate-600">
-
-Create projects, assign members and
-organize team workflows.
-
+<p class="mt-3 text-sm text-[#718096]">
+Convert workspace activity into insights.
 </p>
+
+
+<span class="inline-block mt-4 text-sm font-semibold text-[#0F766E]">
+Explore →
+</span>
+
+
+</a>
+
+
+</div>
+
+
+</section>
+
+
+</div>
+
+</section>
+
+<!-- ================= SECURITY HIGHLIGHT ================= -->
+<section class="py-12 overflow-hidden">
+
+<div class="max-w-7xl mx-auto px-6">
+
+
+<section data-aos-section>
+
+<div class="grid lg:grid-cols-2 gap-10 items-center">
+
+
+<div class="reveal from-left">
+
+
+<div class="relative bg-[#102A2A] rounded-[32px] p-8 overflow-hidden">
+
+
+<div class="absolute -top-20 -right-20 w-64 h-64 bg-[#069494]/30 blur-3xl rounded-full"></div>
+
+
+<div class="relative">
+
+
+<span class="px-4 py-2 rounded-full bg-white/10 text-[#9FE7E2] text-sm font-semibold">
+Enterprise Security
+</span>
+
+
+<h2 class="mt-5 text-3xl lg:text-4xl font-extrabold text-white">
+Built for secure multi-tenant environments
+</h2>
+
+
+<p class="mt-4 text-slate-300 leading-7">
+Protect organization data with isolated workspaces, controlled access and secure permission management.
+</p>
+
+
+
+<div class="mt-7 flex gap-4 flex-wrap">
+
+
+<div class="px-5 py-3 rounded-xl bg-white/10 border border-white/10">
+
+<p class="text-xs text-slate-300">
+Data Isolation
+</p>
+
+<p class="mt-1 font-semibold text-white">
+Enabled
+</p>
+
+</div>
+
+
+
+<div class="px-5 py-3 rounded-xl bg-white/10 border border-white/10">
+
+<p class="text-xs text-slate-300">
+Access Control
+</p>
+
+<p class="mt-1 font-semibold text-white">
+Protected
+</p>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</div>
 
 
 </div>
@@ -191,24 +437,23 @@ organize team workflows.
 
 
 
+<div class="reveal from-right space-y-5">
 
 
+<div>
 
-<div class="bg-white rounded-3xl border p-8 shadow-sm">
+<span class="px-4 py-2 rounded-full bg-[#E8F8F7] text-[#0F766E] text-sm font-semibold">
+Why It Matters
+</span>
 
 
-<h3 class="text-xl font-bold text-slate-900">
-
-📝 Audit Logs
-
+<h3 class="mt-5 text-3xl font-extrabold text-[#102A2A]">
+Designed for growing organizations
 </h3>
 
 
-<p class="mt-4 text-slate-600">
-
-Monitor important activities and
-maintain system transparency.
-
+<p class="mt-4 text-[#425466] leading-7">
+Every feature works together to provide flexibility, security and better team management.
 </p>
 
 
@@ -216,6 +461,111 @@ maintain system transparency.
 
 
 
+<div class="border-l-4 border-[#069494] pl-5">
+
+<h4 class="font-bold text-[#102A2A]">
+Independent Workspaces
+</h4>
+
+<p class="mt-1 text-sm text-[#718096]">
+Keep each organization's data separate and organized.
+</p>
+
+</div>
+
+
+
+<div class="border-l-4 border-[#069494] pl-5">
+
+<h4 class="font-bold text-[#102A2A]">
+Flexible Permissions
+</h4>
+
+<p class="mt-1 text-sm text-[#718096]">
+Assign access based on team responsibilities.
+</p>
+
+</div>
+
+
+
+<div class="border-l-4 border-[#069494] pl-5">
+
+<h4 class="font-bold text-[#102A2A]">
+Scalable Architecture
+</h4>
+
+<p class="mt-1 text-sm text-[#718096]">
+Support organizations as they grow.
+</p>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+</div>
+
+</section>
+
+<!-- ================= FEATURES CTA ================= -->
+<section class="py-10">
+
+<div class="max-w-7xl mx-auto px-6">
+
+
+<section data-aos-section>
+
+<div class="reveal from-bottom relative overflow-hidden rounded-[32px] bg-white border border-[#E5E7EB] shadow-lg px-8 py-10 lg:px-14">
+
+
+<div class="absolute right-0 top-0 w-80 h-80 bg-[#069494]/10 rounded-full blur-3xl"></div>
+
+
+<div class="relative flex flex-col lg:flex-row items-center justify-between gap-8">
+
+
+<div>
+
+<span class="px-4 py-2 rounded-full bg-[#E8F8F7] text-[#0F766E] text-sm font-semibold">
+Get Started
+</span>
+
+
+<h2 class="mt-5 text-3xl lg:text-4xl font-extrabold text-[#102A2A]">
+Build a smarter organization platform
+</h2>
+
+
+<p class="mt-3 text-[#425466] max-w-xl">
+Bring teams, projects and workflows together with a secure multi-tenant SaaS solution.
+</p>
+
+
+</div>
+
+
+
+<div class="flex gap-4">
+
+
+<a href="{% url 'signup' %}"
+class="px-7 py-3 rounded-xl bg-[#0F766E] text-white font-semibold hover:bg-[#115E59] transition shadow-md">
+Create Organization
+</a>
+
+
+<a href="#"
+class="px-7 py-3 rounded-xl border border-[#D5E8E7] text-[#0F766E] font-semibold hover:bg-[#E8F8F7] transition">
+Contact Us
+</a>
 
 
 </div>
@@ -226,5 +576,12 @@ maintain system transparency.
 
 </div>
 
+
+</section>
+
+
+</div>
+
+</section>
 
 {% endblock %}

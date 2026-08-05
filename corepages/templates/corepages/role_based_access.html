@@ -1,0 +1,725 @@
+{% extends "public_base.html" %}
+
+{% block content %}
+
+<!-- ================= RBAC HERO ================= -->
+<section class="relative pt-36 pb-12 overflow-hidden">
+
+<div class="absolute top-0 right-0 w-96 h-96 bg-[#069494]/10 blur-3xl rounded-full -z-10"></div>
+
+<div class="max-w-7xl mx-auto px-6">
+
+<div class="grid lg:grid-cols-2 gap-10 items-center">
+
+<div data-aos-section>
+<div class="reveal from-bottom">
+
+<span class="px-4 py-2 rounded-full bg-[#E8F8F7] text-[#0F766E] text-sm font-semibold">
+Role Based Access
+</span>
+
+<h1 class="mt-5 text-5xl lg:text-6xl font-extrabold text-[#102A2A] leading-tight">
+Give every user the right level of access
+</h1>
+
+<p class="mt-5 text-lg text-[#425466] leading-8 max-w-xl">
+Create roles, manage permissions and keep your organization secure with flexible access control.
+</p>
+
+<div class="mt-7 flex gap-4">
+
+<a href="{% url 'signup' %}"
+class="px-7 py-3 rounded-xl bg-[#0F766E] text-white font-semibold hover:bg-[#115E59] transition">
+Create Workspace
+</a>
+
+<a href="{% url 'features' %}"
+class="px-7 py-3 rounded-xl border border-[#D5E8E7] text-[#0F766E] font-semibold hover:bg-[#E8F8F7] transition">
+Explore Features
+</a>
+
+</div>
+
+</div>
+</div>
+
+
+<div data-aos-section>
+<div class="reveal from-right">
+
+<div class="bg-white border border-[#E5E7EB] rounded-[32px] shadow-xl p-7">
+
+<div class="flex justify-between items-center">
+
+<h3 class="font-bold text-[#102A2A]">
+Access Control
+</h3>
+
+<span class="text-sm text-[#0F766E]">
+Active
+</span>
+
+</div>
+
+
+<div class="mt-7 space-y-4">
+
+<div class="flex items-center justify-between bg-[#FAFBF9] border border-[#E5E7EB] rounded-2xl p-4">
+
+<div>
+<p class="font-semibold text-[#102A2A]">
+Owner
+</p>
+<p class="text-sm text-[#718096]">
+Full Platform Control
+</p>
+</div>
+
+<span>🔑</span>
+
+</div>
+
+
+<div class="flex items-center justify-between bg-[#FAFBF9] border border-[#E5E7EB] rounded-2xl p-4">
+
+<div>
+<p class="font-semibold text-[#102A2A]">
+Admin
+</p>
+<p class="text-sm text-[#718096]">
+Manage Organization
+</p>
+</div>
+
+<span>⚙️</span>
+
+</div>
+
+
+<div class="flex items-center justify-between bg-[#FAFBF9] border border-[#E5E7EB] rounded-2xl p-4">
+
+<div>
+<p class="font-semibold text-[#102A2A]">
+Member
+</p>
+<p class="text-sm text-[#718096]">
+Work On Assigned Tasks
+</p>
+</div>
+
+<span>👤</span>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= ROLE HIERARCHY ================= -->
+<section class="py-12 overflow-hidden">
+
+<div class="max-w-7xl mx-auto px-6">
+
+
+<section data-aos-section>
+
+<div class="reveal from-bottom text-center max-w-3xl mx-auto">
+
+<span class="px-4 py-2 rounded-full bg-[#E8F8F7] text-[#0F766E] text-sm font-semibold">
+Role Structure
+</span>
+
+<h2 class="mt-5 text-4xl lg:text-5xl font-extrabold text-[#102A2A]">
+A clear access hierarchy for every team
+</h2>
+
+<p class="mt-4 text-[#425466] text-lg">
+Define responsibilities and keep permissions organized across your organization.
+</p>
+
+</div>
+
+</section>
+
+
+
+<section data-aos-section class="mt-10">
+
+<div class="grid lg:grid-cols-3 gap-6 items-center">
+
+
+<!-- Owner -->
+
+<div class="reveal from-left bg-white border border-[#E5E7EB] rounded-[28px] p-6 shadow-lg">
+
+<div class="w-14 h-14 rounded-2xl bg-[#E8F8F7] flex items-center justify-center text-2xl">
+👑
+</div>
+
+<h3 class="mt-5 text-xl font-bold text-[#102A2A]">
+Owner
+</h3>
+
+<p class="mt-2 text-[#425466]">
+Complete organization control and system management.
+</p>
+
+<div class="mt-5 space-y-2 text-sm">
+
+<div class="px-4 py-2 rounded-xl bg-[#FAFBF9]">
+Manage Organization
+</div>
+
+<div class="px-4 py-2 rounded-xl bg-[#FAFBF9]">
+Manage Billing
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- Center -->
+
+<div class="reveal from-bottom bg-[#102A2A] rounded-[32px] p-8 text-white shadow-xl text-center">
+
+<div class="w-20 h-20 mx-auto rounded-full bg-[#0F766E] flex items-center justify-center text-3xl">
+🛡️
+</div>
+
+<h3 class="mt-5 text-2xl font-bold">
+Permission Engine
+</h3>
+
+<p class="mt-3 text-slate-300">
+Controls access between users and organization resources.
+</p>
+
+
+<div class="mt-6 flex justify-center gap-2 flex-wrap">
+
+<span class="px-3 py-1 rounded-full bg-white/10 text-sm">
+Users
+</span>
+
+<span class="px-3 py-1 rounded-full bg-white/10 text-sm">
+Projects
+</span>
+
+<span class="px-3 py-1 rounded-full bg-white/10 text-sm">
+Reports
+</span>
+
+</div>
+
+</div>
+
+
+
+<!-- Member -->
+
+<div class="reveal from-right bg-white border border-[#E5E7EB] rounded-[28px] p-6 shadow-lg">
+
+<div class="w-14 h-14 rounded-2xl bg-[#E8F8F7] flex center items-center justify-center text-2xl">
+👥
+</div>
+
+<h3 class="mt-5 text-xl font-bold text-[#102A2A]">
+Member
+</h3>
+
+<p class="mt-2 text-[#425466]">
+Access assigned resources and collaborate securely.
+</p>
+
+<div class="mt-5 space-y-2 text-sm">
+
+<div class="px-4 py-2 rounded-xl bg-[#FAFBF9]">
+View Projects
+</div>
+
+<div class="px-4 py-2 rounded-xl bg-[#FAFBF9]">
+Complete Tasks
+</div>
+
+</div>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+</div>
+
+</section>
+
+
+<!-- ================= PERMISSION CONTROL SHOWCASE ================= -->
+<section class="py-12 overflow-hidden">
+
+<div class="max-w-7xl mx-auto px-6">
+
+
+<section data-aos-section>
+
+<div class="grid lg:grid-cols-2 gap-10 items-center">
+
+
+<!-- Interface -->
+
+<div class="reveal from-left">
+
+<div class="bg-white border border-[#E5E7EB] rounded-[32px] shadow-xl overflow-hidden">
+
+
+<div class="px-6 py-5 bg-[#FAFBF9] border-b border-[#E5E7EB] flex justify-between items-center">
+
+<div>
+<h3 class="font-bold text-[#102A2A]">
+Permission Settings
+</h3>
+
+<p class="text-sm text-[#718096]">
+Control resource access
+</p>
+</div>
+
+<span class="px-3 py-1 rounded-full bg-[#E8F8F7] text-[#0F766E] text-xs font-semibold">
+Secure
+</span>
+
+</div>
+
+
+<div class="p-6 space-y-4">
+
+
+<div class="flex items-center justify-between p-4 rounded-2xl border border-[#E5E7EB]">
+
+<div>
+<h4 class="font-semibold text-[#102A2A]">
+Users
+</h4>
+
+<p class="text-sm text-[#718096]">
+Create and manage users
+</p>
+</div>
+
+<div class="w-11 h-6 rounded-full bg-[#0F766E] relative">
+
+<div class="absolute right-1 top-1 w-4 h-4 bg-white rounded-full"></div>
+
+</div>
+
+</div>
+
+
+
+<div class="flex items-center justify-between p-4 rounded-2xl border border-[#E5E7EB]">
+
+<div>
+<h4 class="font-semibold text-[#102A2A]">
+Projects
+</h4>
+
+<p class="text-sm text-[#718096]">
+Manage project resources
+</p>
+</div>
+
+<div class="w-11 h-6 rounded-full bg-[#0F766E] relative">
+
+<div class="absolute right-1 top-1 w-4 h-4 bg-white rounded-full"></div>
+
+</div>
+
+</div>
+
+
+
+<div class="flex items-center justify-between p-4 rounded-2xl border border-[#E5E7EB]">
+
+<div>
+<h4 class="font-semibold text-[#102A2A]">
+Reports
+</h4>
+
+<p class="text-sm text-[#718096]">
+View analytics data
+</p>
+</div>
+
+<div class="w-11 h-6 rounded-full bg-[#D5E8E7] relative">
+
+<div class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full"></div>
+
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- Content -->
+
+<div data-aos-section>
+
+<div class="reveal from-right">
+
+
+<span class="px-4 py-2 rounded-full bg-[#EEF2FF] text-indigo-600 text-sm font-semibold">
+Fine Grained Access
+</span>
+
+
+<h2 class="mt-5 text-4xl font-extrabold text-[#102A2A]">
+Give teams access without losing control
+</h2>
+
+
+<p class="mt-5 text-lg leading-8 text-[#425466]">
+Assign permissions based on responsibilities. Every user gets the tools they need while sensitive resources stay protected.
+</p>
+
+
+<div class="mt-7 space-y-4">
+
+
+<div class="flex gap-4">
+
+<div class="w-10 h-10 rounded-xl bg-[#E8F8F7] flex items-center justify-center">
+✓
+</div>
+
+<p class="text-[#425466]">
+Custom role permissions
+</p>
+
+</div>
+
+
+<div class="flex gap-4">
+
+<div class="w-10 h-10 rounded-xl bg-[#E8F8F7] flex items-center justify-center">
+✓
+</div>
+
+<p class="text-[#425466]">
+Resource level control
+</p>
+
+</div>
+
+
+<div class="flex gap-4">
+
+<div class="w-10 h-10 rounded-xl bg-[#E8F8F7] flex items-center justify-center">
+✓
+</div>
+
+<p class="text-[#425466]">
+Secure collaboration
+</p>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+</div>
+
+</section>
+
+<!-- ================= ACCESS WORKFLOW ================= -->
+<section class="py-12 overflow-hidden">
+
+<div class="max-w-7xl mx-auto px-6">
+
+
+<section data-aos-section>
+
+<div class="reveal from-bottom text-center">
+
+<span class="px-4 py-2 rounded-full bg-[#E8F8F7] text-[#0F766E] text-sm font-semibold">
+Access Workflow
+</span>
+
+<h2 class="mt-5 text-4xl font-extrabold text-[#102A2A]">
+How secure access works
+</h2>
+
+</div>
+
+
+<div class="mt-10 grid md:grid-cols-4 gap-5">
+
+
+<div class="reveal from-left bg-white border border-[#E5E7EB] rounded-3xl p-6 text-center premium-card">
+
+<div class="w-14 h-14 mx-auto rounded-2xl bg-[#E8F8F7] flex items-center justify-center text-2xl">
+👤
+</div>
+
+<h3 class="mt-4 font-bold text-[#102A2A]">
+User
+</h3>
+
+<p class="mt-2 text-sm text-[#718096]">
+Member joins workspace
+</p>
+
+</div>
+
+
+
+<div class="reveal from-bottom bg-white border border-[#E5E7EB] rounded-3xl p-6 text-center premium-card">
+
+<div class="w-14 h-14 mx-auto rounded-2xl bg-[#E8F8F7] flex items-center justify-center text-2xl">
+🏷️
+</div>
+
+<h3 class="mt-4 font-bold text-[#102A2A]">
+Role
+</h3>
+
+<p class="mt-2 text-sm text-[#718096]">
+Access level assigned
+</p>
+
+</div>
+
+
+
+<div class="reveal from-bottom bg-white border border-[#E5E7EB] rounded-3xl p-6 text-center premium-card">
+
+<div class="w-14 h-14 mx-auto rounded-2xl bg-[#E8F8F7] flex items-center justify-center text-2xl">
+⚙️
+</div>
+
+<h3 class="mt-4 font-bold text-[#102A2A]">
+Permission
+</h3>
+
+<p class="mt-2 text-sm text-[#718096]">
+Rules are applied
+</p>
+
+</div>
+
+
+
+<div class="reveal from-right bg-white border border-[#E5E7EB] rounded-3xl p-6 text-center premium-card">
+
+<div class="w-14 h-14 mx-auto rounded-2xl bg-[#E8F8F7] flex items-center justify-center text-2xl">
+📂
+</div>
+
+<h3 class="mt-4 font-bold text-[#102A2A]">
+Resource
+</h3>
+
+<p class="mt-2 text-sm text-[#718096]">
+Secure access granted
+</p>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+</div>
+
+</section>
+
+<!-- ================= SECURITY SUMMARY ================= -->
+<section class="py-10 overflow-hidden">
+
+<div class="max-w-7xl mx-auto px-6">
+
+
+<section data-aos-section>
+
+<div class="reveal from-bottom bg-[#FAFBF9] border border-[#E5E7EB] rounded-[32px] p-8 lg:p-10">
+
+
+<div class="grid lg:grid-cols-3 gap-8 items-center">
+
+
+<div class="lg:col-span-1">
+
+<span class="px-4 py-2 rounded-full bg-[#E8F8F7] text-[#0F766E] text-sm font-semibold">
+Enterprise Security
+</span>
+
+<h2 class="mt-5 text-3xl font-extrabold text-[#102A2A]">
+Built for controlled collaboration
+</h2>
+
+</div>
+
+
+
+<div class="lg:col-span-2 grid md:grid-cols-3 gap-5">
+
+
+<div class="reveal from-left bg-white border border-[#E5E7EB] rounded-2xl p-5">
+
+<div class="text-2xl">
+🔐
+</div>
+
+<h3 class="mt-3 font-bold text-[#102A2A]">
+Secure Access
+</h3>
+
+<p class="mt-2 text-sm text-[#718096]">
+Protect sensitive resources.
+</p>
+
+</div>
+
+
+
+<div class="reveal from-bottom bg-white border border-[#E5E7EB] rounded-2xl p-5">
+
+<div class="text-2xl">
+🛡️
+</div>
+
+<h3 class="mt-3 font-bold text-[#102A2A]">
+Role Isolation
+</h3>
+
+<p class="mt-2 text-sm text-[#718096]">
+Separate user responsibilities.
+</p>
+
+</div>
+
+
+
+<div class="reveal from-right bg-white border border-[#E5E7EB] rounded-2xl p-5">
+
+<div class="text-2xl">
+📊
+</div>
+
+<h3 class="mt-3 font-bold text-[#102A2A]">
+Visibility
+</h3>
+
+<p class="mt-2 text-sm text-[#718096]">
+Monitor access control.
+</p>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+</section>
+
+
+</div>
+
+</section>
+
+<!-- ================= RBAC CTA ================= -->
+<section class="py-10">
+
+<div class="max-w-7xl mx-auto px-6">
+
+
+<section data-aos-section>
+
+<div class="reveal from-bottom relative overflow-hidden rounded-[32px] bg-[#102A2A] px-8 py-10 lg:px-14">
+
+
+<div class="absolute right-0 top-0 w-72 h-72 bg-[#069494]/20 rounded-full blur-3xl"></div>
+
+
+<div class="relative flex flex-col lg:flex-row justify-between items-center gap-8">
+
+
+<div>
+
+<h2 class="text-3xl lg:text-4xl font-extrabold text-white">
+Create secure teams with smarter access control
+</h2>
+
+<p class="mt-3 text-slate-300">
+Manage roles and permissions from one powerful platform.
+</p>
+
+</div>
+
+
+<div class="flex gap-4">
+
+<a href="{% url 'signup' %}"
+class="px-7 py-3 rounded-xl bg-[#0F766E] text-white font-semibold hover:bg-[#115E59] transition">
+Get Started
+</a>
+
+
+<a href="{% url 'features' %}"
+class="px-7 py-3 rounded-xl border border-white/20 text-white hover:bg-white/10 transition">
+View Features
+</a>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+</section>
+
+
+</div>
+
+</section>
+
+{% endblock %}
