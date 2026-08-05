@@ -170,6 +170,7 @@ duration-300
 
 </a>
 
+{% if request.user.role.name == "Owner" %}
 <a
 href="{% url 'invitation_list' %}"
 class="
@@ -187,7 +188,7 @@ Invitations
 
 </a>
 
-
+{% endif %}
 </div>
 
 

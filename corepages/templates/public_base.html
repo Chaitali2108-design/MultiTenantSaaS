@@ -1,0 +1,399 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>
+{% block title %}
+MultiTenant SaaS
+{% endblock %}
+</title>
+
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+
+<link
+href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+rel="stylesheet">
+
+
+<style>
+
+body{
+
+font-family:'Plus Jakarta Sans',sans-serif;
+
+}
+
+</style>
+
+
+</head>
+
+
+
+<body class="bg-slate-50">
+
+
+
+<!-- Public Navbar -->
+
+<nav
+id="navbar"
+class="fixed top-0 left-0 w-full z-50 transition-all duration-300">
+
+<div class="max-w-7xl mx-auto">
+
+<div class="flex items-center justify-between px-8 py-5">
+
+<!-- Logo -->
+
+<a href="/" class="flex items-center gap-3">
+
+<div class="w-11 h-11 rounded-2xl bg-emerald-600 flex items-center justify-center text-white font-bold text-lg shadow-lg">
+
+M
+
+</div>
+
+<div>
+
+<h1 class="text-xl font-extrabold text-slate-900">
+
+MultiTenant
+
+</h1>
+
+<p class="text-xs text-slate-500">
+
+Enterprise SaaS
+
+</p>
+
+</div>
+
+</a>
+
+<!-- Menu -->
+
+<!-- Navigation Menu -->
+
+<div class="hidden lg:flex items-center gap-8">
+
+
+<a href="{% url 'home' %}" 
+class="font-medium text-slate-600 hover:text-emerald-600 transition">
+Home
+</a>
+
+
+
+<!-- Features Dropdown -->
+
+<div class="relative group">
+
+
+<button
+class="
+font-medium
+text-slate-600
+hover:text-emerald-600
+transition
+flex
+items-center
+gap-1
+py-5
+">
+
+Features
+
+<span class="text-xs">
+▼
+</span>
+
+</button>
+
+
+
+<!-- Invisible hover bridge -->
+
+<div class="
+absolute
+top-full
+left-0
+w-full
+h-3
+">
+</div>
+
+
+
+
+<div class="
+absolute
+hidden
+group-hover:block
+top-full
+mt-2
+left-0
+w-64
+bg-white
+rounded-2xl
+shadow-xl
+border
+border-slate-200
+p-4
+z-50
+">
+
+
+
+<a href="{% url 'features' %}"
+
+class="
+block
+px-4
+py-3
+rounded-xl
+font-semibold
+text-emerald-600
+hover:bg-slate-50
+">
+
+View All Features →
+
+</a>
+
+
+
+<a href="#"
+
+class="
+block
+px-4
+py-3
+rounded-xl
+hover:bg-slate-50
+">
+
+Organization Management
+
+</a>
+
+
+
+<a href="#"
+
+class="
+block
+px-4
+py-3
+rounded-xl
+hover:bg-slate-50
+">
+
+User Management
+
+</a>
+
+
+
+<a href="#"
+
+class="
+block
+px-4
+py-3
+rounded-xl
+hover:bg-slate-50
+">
+
+Role Based Access
+
+</a>
+
+
+
+<a href="#"
+
+class="
+block
+px-4
+py-3
+rounded-xl
+hover:bg-slate-50
+">
+
+Project Management
+
+</a>
+
+
+
+<a href="#"
+
+class="
+block
+px-4
+py-3
+rounded-xl
+hover:bg-slate-50
+">
+
+Reports & Analytics
+
+</a>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+<!-- Solutions Dropdown -->
+
+
+<div class="relative group">
+
+
+<button class="font-medium text-slate-600 hover:text-emerald-600 transition flex items-center gap-1">
+
+Solutions
+
+<span class="text-xs">
+▼
+</span>
+
+</button>
+
+
+
+<div class="
+absolute
+hidden
+group-hover:block
+top-8
+left-0
+w-64
+bg-white
+rounded-2xl
+shadow-xl
+border
+border-slate-200
+p-4
+">
+
+
+<a href="#" class="block px-4 py-3 rounded-xl hover:bg-slate-50">
+
+Enterprise Teams
+
+</a>
+
+
+<a href="#" class="block px-4 py-3 rounded-xl hover:bg-slate-50">
+
+Startups
+
+</a>
+
+
+<a href="#" class="block px-4 py-3 rounded-xl hover:bg-slate-50">
+
+Educational Organizations
+
+</a>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<a href="#" 
+class="font-medium text-slate-600 hover:text-emerald-600 transition">
+Pricing
+</a>
+
+
+
+<a href="#" 
+class="font-medium text-slate-600 hover:text-emerald-600 transition">
+About
+</a>
+
+
+
+<a href="#" 
+class="font-medium text-slate-600 hover:text-emerald-600 transition">
+Contact
+</a>
+
+
+
+</div>
+
+<!-- Buttons -->
+
+<div class="flex items-center gap-3">
+
+<a
+href="{% url 'login' %}"
+class="px-5 py-2.5 rounded-xl border border-slate-300 text-slate-700 font-semibold hover:bg-slate-100 transition">
+
+Login
+
+</a>
+
+<a
+href="{% url 'signup' %}"
+class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold shadow-lg transition">
+
+Get Started
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</nav>
+
+
+
+
+
+{% block content %}
+
+{% endblock %}
+
+
+
+
+
+<!-- Footer will be added here -->
+
+
+
+</body>
+
+</html>

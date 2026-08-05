@@ -30,12 +30,14 @@ INSTALLED_APPS = [
     "organizations.apps.OrganizationsConfig",
     'dashboard',
     'projects',
+    'corepages',
 
     'rest_framework',
     'system_settings',
     "audit.apps.AuditConfig",
     'api',
     'rest_framework_simplejwt.token_blacklist',
+    
     
 ]
 
@@ -59,7 +61,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [BASE_DIR / 'templates',
-            BASE_DIR / 'projects' / 'templates',],
+            BASE_DIR / 'projects' / 'templates',
+            BASE_DIR / 'corepages' / 'templates',],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -269,16 +272,3 @@ SECURE_REFERRER_POLICY = (
 
 SECURE_BROWSER_XSS_FILTER = True
 
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-
-EMAIL_HOST = "smtp.gmail.com"
-
-EMAIL_PORT = 587
-
-EMAIL_USE_TLS = True
-
-EMAIL_HOST_USER = "chandelechaitali@gmail.com"
-
-EMAIL_HOST_PASSWORD = "izvpfpkrkrehhzls"
-
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
