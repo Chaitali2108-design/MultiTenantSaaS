@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block title %}
+Reports
+{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-container">
+
+    <div class="page-header">
+        <h2>Reports Dashboard</h2>
+        <p>View project and task reports.</p>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="cards">
+
+        <div class="card">
+            <h3>Total Projects</h3>
+            <h2>{{ total_projects }}</h2>
+        </div>
+
+        <div class="card">
+            <h3>Total Tasks</h3>
+            <h2>{{ total_tasks }}</h2>
+        </div>
+
+        <div class="card">
+            <h3>Completed Tasks</h3>
+            <h2>{{ completed_tasks }}</h2>
+        </div>
+
+        <div class="card">
+            <h3>Pending Tasks</h3>
+            <h2>{{ pending_tasks }}</h2>
+        </div>
+
+    </div>
+
+    <br>
+
+    <!-- Project Report -->
+    <div class="table-container">
+
+        <h3>Project Report</h3>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Project</th>
+                    <th>Organization</th>
+                    <th>Status</th>
+                    <th>Priority</th>
+                    <th>Due Date</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+            {% for project in projects %}
+
+                <tr>
+                    <td>{{ project.name }}</td>
+                    <td>{{ project.organization }}</td>
+                    <td>{{ project.get_status_display }}</td>
+                    <td>{{ project.get_priority_display }}</td>
+                    <td>{{ project.due_date|default:"-" }}</td>
+                </tr>
+
+            {% empty %}
+
+                <tr>
+                    <td colspan="5">No projects found.</td>
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <br>
+
+    <!-- Task Report -->
+    <div class="table-container">
+
+        <h3>Task Report</h3>
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Task</th>
+                    <th>Project</th>
+                    <th>Assigned To</th>
+                    <th>Status</th>
+                    <th>Priority</th>
+                    <th>Due Date</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+            {% for task in tasks %}
+
+                <tr>
+
+                    <td>{{ task.title }}</td>
+                    <td>{{ task.project.name }}</td>
+                    <td>{{ task.assigned_to }}</td>
+                    <td>{{ task.get_status_display }}</td>
+                    <td>{{ task.get_priority_display }}</td>
+                    <td>{{ task.due_date|default:"-" }}</td>
+
+                </tr>
+
+            {% empty %}
+
+                <tr>
+                    <td colspan="6">No tasks found.</td>
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <br>
+
+    <!-- Export Buttons -->
+    <div class="export-buttons">
+
+        <button class="btn btn-primary">
+            Export PDF
+        </button>
+
+        <button class="btn btn-success">
+            Export Excel
+        </button>
+
+        <button class="btn btn-secondary">
+            Export CSV
+        </button>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -39,6 +39,14 @@ urlpatterns = [
         include("api.urls"),
     ),
 
+
+
+path(
+    "reports/",
+    include("reports.urls"),
+),
+
+
 ]
 
 if settings.DEBUG:
