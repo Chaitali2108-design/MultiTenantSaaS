@@ -574,78 +574,29 @@ def create_invitation(request):
 
         if form.is_valid():
 
-            invitation = form.save(commit=False)
+            invitation = form.save(
+                commit=False
+            )
 
 
-            invitation.organization = request.user.organization
-
-            invitation.expires_at = timezone.now() + timedelta(days=7)
+            invitation.organization = (
+                request.user.organization
+            )
 
 
             invitation.save()
 
 
+            from django.urls import reverse
 
             invitation_url = request.build_absolute_uri(
-
                 reverse(
                     "accept_invitation",
-                    kwargs={
-                        "token": invitation.token
-                    }
-                )
-
-            )
-
-
-
-            subject = (
-                f"Invitation to join {invitation.organization.name}"
-            )
-
-
-
-            email_html = render_to_string(
-                "accounts/invitation_email.html",
-                {
-                    "organization": invitation.organization,
-                    "role": invitation.role.name if invitation.role else "Member",
-                    "invitation_url": invitation_url,
+                kwargs={
+                    "token": invitation.token
                 }
             )
-
-
-
-            email = EmailMultiAlternatives(
-
-                subject,
-
-                f"""
-                You are invited to join 
-                {invitation.organization.name}
-
-                Accept here:
-                {invitation_url}
-                """,
-
-                "chandelechaitali@gmail.com",
-
-                [invitation.email],
-
-            )
-
-
-
-            email.attach_alternative(
-                email_html,
-                "text/html"
-            )
-
-
-
-            email.send()
-
-
+        )
 
             return render(
                 request,
@@ -657,7 +608,6 @@ def create_invitation(request):
             )
 
 
-
     else:
 
         form = UserInvitationForm(
@@ -665,16 +615,14 @@ def create_invitation(request):
         )
 
 
-
     return render(
         request,
         "accounts/create_invitation.html",
         {
-            "form":form
+            "form": form
         }
     )
 
-@never_cache
 def accept_invitation(request, token):
 
     invitation = get_object_or_404(
@@ -751,6 +699,7 @@ def accept_invitation(request, token):
         },
     )
 
+
 @login_required
 def invitation_list(request):
 
@@ -760,214 +709,208 @@ def invitation_list(request):
         "-created_at"
     )
 
+    context = {
+    "total_invitations": invitations.count(),
+    "invitations": invitations,
+}
+
 
     return render(
         request,
         "accounts/invitation_list.html",
-        {
-            "invitations": invitations
-        }
+        context,
     )
 
-from django.core.mail import EmailMultiAlternatives
-from django.template.loader import render_to_string
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.shortcuts import get_object_or_404, redirect, render
+
+@login_required
+def view_invited_user(request, id):
+
+    invitation = get_object_or_404(
+        UserInvitation,
+        id=id,
+        organization=request.user.organization,
+    )
+
+    print("INVITATION:", invitation)
+    print("ACCEPTED:", invitation.is_accepted)
+    print("CONNECTED USER:", invitation.user)
+
+    if not invitation.is_accepted or invitation.user is None:
+
+        messages.error(
+            request,
+            "This invitation has not been accepted yet."
+        )
+
+        return redirect("invitation_list")
+
+    return render(
+        request,
+        "accounts/invited_user_detail.html",
+        {
+            "invitation": invitation,
+            "user": invitation.user,
+        },
+    )
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 
+@login_required
+def resend_invitation(request, id):
 
-
-def send_invitation_email(request, invitation):
-
+    invitation = get_object_or_404(
+        UserInvitation,
+        id=id,
+        organization=request.user.organization,
+    )
 
     invitation_url = request.build_absolute_uri(
-
         reverse(
             "accept_invitation",
             kwargs={
                 "token": invitation.token
             }
         )
-
     )
 
-
-
-    subject = (
-        f"Invitation to join {invitation.organization.name}"
-    )
-
-
-
-    html_content = render_to_string(
-
-        "accounts/invitation_email.html",
-
+    return render(
+        request,
+        "accounts/invitation_detail.html",
         {
-            "organization": invitation.organization,
-            "role": invitation.role.name if invitation.role else "Member",
+            "invitation": invitation,
             "invitation_url": invitation_url,
-        }
-
+            "page_title": "Resend Invitation",
+            "button_text": "Resend Invitation",
+            "button_url": reverse(
+                "resend_invitation_confirm",
+                args=[invitation.id]
+            ),
+        },
     )
-
-
-
-    email = EmailMultiAlternatives(
-
-        subject,
-
-        f"""
-You are invited to join {invitation.organization.name}
-
-Accept invitation:
-{invitation_url}
-""",
-
-        "chandelechaitali@gmail.com",
-
-        [invitation.email],
-
-    )
-
-
-
-    email.attach_alternative(
-        html_content,
-        "text/html"
-    )
-
-
-    email.send()
 
 @login_required
-def resend_invitation(request,id):
-
+def regenerate_invitation(request, id):
 
     invitation = get_object_or_404(
-
         UserInvitation,
-
         id=id,
+        organization=request.user.organization,
+    )
 
-        organization=request.user.organization
+    invitation_url = request.build_absolute_uri(
+        reverse(
+            "accept_invitation",
+            kwargs={
+                "token": invitation.token
+            }
+        )
+    )
 
+    return render(
+        request,
+        "accounts/invitation_detail.html",
+        {
+            "invitation": invitation,
+            "invitation_url": invitation_url,
+            "page_title": "Regenerate Invitation",
+            "button_text": "Generate New Link",
+            "button_url": reverse(
+                "regenerate_invitation_confirm",
+                args=[invitation.id]
+            ),
+        },
+    )
+
+from django.contrib import messages
+
+@login_required
+def resend_invitation_confirm(request, id):
+
+    invitation = get_object_or_404(
+        UserInvitation,
+        id=id,
+        organization=request.user.organization,
+    )
+
+    messages.success(
+        request,
+        "Invitation is ready to share again."
+    )
+
+    return redirect(
+        "resend_invitation",
+        id=invitation.id
+    )
+
+import uuid
+
+@login_required
+def regenerate_invitation_confirm(request, id):
+
+    invitation = get_object_or_404(
+        UserInvitation,
+        id=id,
+        organization=request.user.organization,
+    )
+
+    invitation.token = uuid.uuid4()
+    invitation.save()
+
+    messages.success(
+        request,
+        "Invitation link regenerated successfully."
+    )
+
+    return redirect(
+        "regenerate_invitation",
+        id=invitation.id
+    )
+
+from django.contrib import messages
+from django.shortcuts import get_object_or_404, redirect, render
+
+
+@login_required
+def delete_invitation(request, id):
+
+    invitation = get_object_or_404(
+        UserInvitation,
+        id=id,
+        organization=request.user.organization,
     )
 
 
-    if invitation.status == "Pending":
+    if invitation.is_accepted:
 
-        send_invitation_email(
+        messages.error(
             request,
-            invitation
+            "Accepted invitations cannot be deleted."
         )
 
+        return redirect("invitation_list")
+
+
+    if request.method == "POST":
+
+        invitation.delete()
 
         messages.success(
             request,
-            "Invitation resent successfully."
+            "Invitation deleted successfully."
         )
 
-
-    else:
-
-        messages.error(
-            request,
-            "Only pending invitations can be resent."
-        )
-
-
-    return redirect(
-        "invitation_list"
-    )
-
-@login_required
-def regenerate_invitation(request,id):
-
-
-    invitation = get_object_or_404(
-
-        UserInvitation,
-
-        id=id,
-
-        organization=request.user.organization
-
-    )
-
-
-    if invitation.status == "Expired":
-
-
-        invitation.token = uuid.uuid4()
-
-
-        invitation.expires_at = (
-            timezone.now()
-            +
-            timezone.timedelta(days=7)
-        )
-
-
-        invitation.save()
-
-
-
-        send_invitation_email(
-            request,
-            invitation
-        )
-
-
-        messages.success(
-            request,
-            "Invitation regenerated successfully."
-        )
-
-
-    else:
-
-        messages.error(
-            request,
-            "Only expired invitations can be regenerated."
-        )
-
-
-    return redirect(
-        "invitation_list"
-    )
-
-@login_required
-def view_invited_user(request, pk):
-
-    invitation = get_object_or_404(
-        UserInvitation,
-        id=pk,
-        organization=request.user.organization
-    )
-
-
-    print("INVITATION:", invitation)
-    print("CONNECTED USER:", invitation.user)
-
-    user = invitation.user
-
-
-    if not user:
-
-        messages.error(
-            request,
-            "User account not found."
-        )
-
-        return redirect(
-            "invitation_list"
-        )
+        return redirect("invitation_list")
 
 
     return render(
         request,
-        "accounts/invited_user_detail.html",
+        "accounts/delete_invitation_confirm.html",
         {
-            "user": user,
-            "invitation": invitation
-        }
+            "invitation": invitation,
+        },
     )

@@ -213,7 +213,7 @@ class UserProfile(models.Model):
 
 
 from django.utils import timezone
-
+from datetime import timedelta
 
 class UserInvitation(models.Model):
 
@@ -265,6 +265,14 @@ class UserInvitation(models.Model):
         null=True,
         blank=True,
     )
+
+    def save(self, *args, **kwargs):
+        
+        if not self.expires_at:
+            self.expires_at = timezone.now() + timedelta(days=7)
+
+
+        super().save(*args, **kwargs)
 
 
     @property

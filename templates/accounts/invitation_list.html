@@ -121,6 +121,10 @@ Created
 Status
 </th>
 
+<th class="px-6 py-4">
+Expiry Date
+</th>
+
 
 <th class="px-6 py-4">
 Action
@@ -141,13 +145,13 @@ Action
 
 {% for invitation in invitations %}
 
-
-
-<tr class="
+<tr
+class="
 border-t
 border-slate-200
 hover:bg-slate-50
 transition
+{% if forloop.counter > 7 %}extra-row hidden{% endif %}
 ">
 
 
@@ -291,7 +295,21 @@ font-semibold
 </td>
 
 
+<td class="px-6 py-4 text-sm text-slate-600">
 
+{% if invitation.is_accepted %}
+
+<span class="text-green-600 font-semibold">
+Accepted
+</span>
+
+{% else %}
+
+{{ invitation.expires_at|date:"d M Y" }}
+
+{% endif %}
+
+</td>
 
 
 
@@ -358,7 +376,16 @@ Regenerate
 
 {% endif %}
 
+{% if not invitation.is_accepted %}
 
+<a
+href="{% url 'delete_invitation' invitation.id %}"
+class="px-3 py-2 rounded-lg bg-red-100 text-red-700 hover:bg-red-200"
+>
+Delete
+</a>
+
+{% endif %}
 
 
 </td>
@@ -371,7 +398,7 @@ Regenerate
 </tr>
 
 
-
+</tr>
 
 {% empty %}
 
@@ -395,7 +422,6 @@ No invitations found.
 </tr>
 
 
-
 {% endfor %}
 
 
@@ -405,6 +431,33 @@ No invitations found.
 
 </table>
 
+{% if total_invitations > 7 %}
+
+<div class="flex justify-center mt-8">
+
+<button
+id="toggleButton"
+onclick="toggleRows()"
+class="
+px-6
+py-3
+rounded-xl
+bg-violet-100
+text-violet-700
+font-semibold
+hover:bg-violet-200
+transition
+"
+>
+
+▼ Show All Invitations
+
+</button>
+
+</div>
+
+{% endif %}
+
 
 </div>
 
@@ -419,5 +472,37 @@ No invitations found.
 
 </div>
 
+<script>
+
+let expanded = false;
+
+function toggleRows(){
+
+const rows = document.querySelectorAll(".extra-row");
+
+const button = document.getElementById("toggleButton");
+
+expanded = !expanded;
+
+rows.forEach(row => {
+
+    row.classList.toggle("hidden");
+
+});
+
+if(expanded){
+
+    button.innerHTML = "▲ Show Less";
+
+}
+else{
+
+    button.innerHTML = "▼ Show All Invitations";
+
+}
+
+}
+
+</script>
 
 {% endblock %}

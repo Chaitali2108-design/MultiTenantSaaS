@@ -1,0 +1,2877 @@
+{% extends "public_base.html" %}
+
+{% block content %}
+
+<div class="min-h-screen bg-slate-50 py-20 px-6">
+
+
+<!-- ================= HERO ================= -->
+<section class="relative overflow-hidden">
+    <!-- Background -->
+    <div class="absolute inset-0 -z-10">
+        <div class="absolute top-20 left-20 w-72 h-72 bg-emerald-200/40 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-10 right-10 w-96 h-96 bg-cyan-200/40 rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-8 lg:px-12 pt-16 pb-24">
+
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+            <!-- LEFT -->
+            <div>
+                <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm font-semibold">
+                    Enterprise Ready Platform
+                </span>
+                <h1 class="mt-8 text-5xl lg:text-7xl font-extrabold leading-tight text-slate-900">
+                    Enterprise
+                    <br>
+                    <span class="text-emerald-600">
+                        Multi-Tenant
+                    </span>
+                    <br>
+                    SaaS Platform
+                </h1>
+                <p class="mt-8 text-xl leading-9 text-slate-600 max-w-xl">
+                    Build secure organizations, manage users, projects and permissions from one powerful cloud platform designed for modern teams.
+                </p>
+                <div class="flex flex-wrap gap-4 mt-10">
+                    <a href="{% url 'signup' %}"
+                       class="px-8 py-4 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-xl transition">
+                        Create Organization
+                    </a>
+                    <a href="{% url 'login' %}"
+                       class="px-8 py-4 rounded-2xl border border-slate-300 bg-white hover:bg-slate-100 text-slate-800 font-bold transition">
+                        Login
+                    </a>
+                </div>
+                <!-- Stats -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-5 mt-14">
+                    <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+                        <h3 class="text-3xl font-extrabold text-slate-900">
+                            99.9%
+                        </h3>
+                        <p class="mt-2 text-sm text-slate-500">
+                            Platform Uptime
+                        </p>
+                    </div>
+
+                    <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+                        <h3 class="text-3xl font-extrabold text-slate-900">
+                            RBAC
+                        </h3>
+                        <p class="mt-2 text-sm text-slate-500">
+
+                            Secure Permissions
+
+                        </p>
+
+                    </div>
+
+                    <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+
+                        <h3 class="text-3xl font-extrabold text-slate-900">
+
+                            Multi
+
+                        </h3>
+
+                        <p class="mt-2 text-sm text-slate-500">
+
+                            Tenant Isolation
+
+                        </p>
+
+                    </div>
+
+                    <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+
+                        <h3 class="text-3xl font-extrabold text-slate-900">
+
+                            Cloud
+
+                        </h3>
+
+                        <p class="mt-2 text-sm text-slate-500">
+
+                            Ready
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- RIGHT -->
+
+          <div id="workspace-preview" class="relative hidden lg:block">
+
+    <!-- Main Window -->
+
+    <div class="bg-white rounded-[32px] border border-slate-200 shadow-2xl overflow-hidden">
+
+        <!-- Top -->
+
+        <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center">
+
+            <div>
+
+                <h3 class="font-bold text-slate-900 text-lg">
+
+                    Organization Workspace
+
+                </h3>
+
+                <p class="text-sm text-slate-500">
+
+                    MultiTenant SaaS
+
+                </p>
+
+            </div>
+
+            <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-semibold">
+
+                LIVE
+
+            </span>
+
+        </div>
+
+        <!-- Stats -->
+
+        <div class="grid grid-cols-2 gap-4 p-6">
+
+            <div class="rounded-2xl bg-slate-50 p-5 border border-slate-200">
+
+                <p class="text-slate-500 text-sm">
+
+                    Organizations
+
+                </p>
+
+                <h2 class="text-3xl font-extrabold mt-2">
+
+                    18
+
+                </h2>
+
+            </div>
+
+            <div class="rounded-2xl bg-slate-50 p-5 border border-slate-200">
+
+                <p class="text-slate-500 text-sm">
+
+                    Active Users
+
+                </p>
+
+                <h2 class="text-3xl font-extrabold mt-2">
+
+                    246
+
+                </h2>
+
+            </div>
+
+            <div class="rounded-2xl bg-slate-50 p-5 border border-slate-200">
+
+                <p class="text-slate-500 text-sm">
+
+                    Projects
+
+                </p>
+
+                <h2 class="text-3xl font-extrabold mt-2">
+
+                    52
+
+                </h2>
+
+            </div>
+
+            <div class="rounded-2xl bg-slate-50 p-5 border border-slate-200">
+
+                <p class="text-slate-500 text-sm">
+
+                    Tasks
+
+                </p>
+
+                <h2 class="text-3xl font-extrabold mt-2">
+
+                    187
+
+                </h2>
+
+            </div>
+
+        </div>
+
+        <!-- Activity -->
+
+        <div class="px-6 pb-6">
+
+            <h4 class="font-bold text-slate-900 mb-4">
+
+                Recent Activity
+
+            </h4>
+
+            <div class="space-y-3">
+
+                <div class="flex justify-between items-center p-4 rounded-xl bg-slate-50">
+
+                    <div>
+
+                        <p class="font-semibold">
+
+                            New Organization Created
+
+                        </p>
+
+                        <p class="text-sm text-slate-500">
+
+                            TechNova Solutions
+
+                        </p>
+
+                    </div>
+
+                    <span class="text-xs text-slate-400">
+
+                        2m ago
+
+                    </span>
+
+                </div>
+
+                <div class="flex justify-between items-center p-4 rounded-xl bg-slate-50">
+
+                    <div>
+
+                        <p class="font-semibold">
+
+                            Member Invited
+
+                        </p>
+
+                        <p class="text-sm text-slate-500">
+
+                            Project Manager
+
+                        </p>
+
+                    </div>
+
+                    <span class="text-xs text-slate-400">
+
+                        8m ago
+
+                    </span>
+
+                </div>
+
+                <div class="flex justify-between items-center p-4 rounded-xl bg-slate-50">
+
+                    <div>
+
+                        <p class="font-semibold">
+
+                            New Project Started
+
+                        </p>
+
+                        <p class="text-sm text-slate-500">
+
+                            ERP Migration
+
+                        </p>
+
+                    </div>
+
+                    <span class="text-xs text-slate-400">
+
+                        1h ago
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Floating Card -->
+
+    <div class="absolute -left-12 top-20 bg-white rounded-3xl shadow-xl border border-slate-200 p-5 w-60">
+
+        <p class="text-slate-500 text-sm">
+
+            Security
+
+        </p>
+
+        <h3 class="text-3xl font-extrabold mt-2 text-emerald-600">
+
+            100%
+
+        </h3>
+
+        <p class="text-sm mt-2 text-slate-500">
+
+            Tenant Isolation Enabled
+
+        </p>
+
+    </div>
+
+    <!-- Floating Card -->
+
+    <div class="absolute -right-10 bottom-10 bg-white rounded-3xl shadow-xl border border-slate-200 p-5 w-56">
+
+        <p class="text-slate-500 text-sm">
+
+            Active Roles
+
+        </p>
+
+        <div class="mt-3 flex flex-wrap gap-2">
+
+            <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-semibold">Owner</span>
+
+            <span class="px-3 py-1 rounded-full bg-cyan-100 text-cyan-700 text-xs font-semibold">Admin</span>
+
+            <span class="px-3 py-1 rounded-full bg-violet-100 text-violet-700 text-xs font-semibold">Manager</span>
+
+            <span class="px-3 py-1 rounded-full bg-amber-100 text-amber-700 text-xs font-semibold">Member</span>
+
+        </div>
+
+    </div>
+
+</div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= TRUST SECTION ================= -->
+
+<section class="py-20 bg-white">
+
+    <div class="max-w-7xl mx-auto px-8 lg:px-12">
+
+
+        <div class="text-center">
+
+            <p class="text-emerald-600 font-semibold tracking-wide uppercase text-sm">
+                Built For Modern Teams
+            </p>
+
+
+            <h2 class="mt-4 text-4xl lg:text-5xl font-extrabold text-slate-900">
+
+                Everything you need to manage
+                <br>
+                your organization
+
+            </h2>
+
+
+            <p class="mt-5 max-w-2xl mx-auto text-slate-600 text-lg">
+
+                A secure multi-tenant architecture that helps organizations manage users,
+                permissions, projects and collaboration from a single platform.
+
+            </p>
+
+
+        </div>
+
+
+
+        <!-- Highlight Cards -->
+
+
+        <div class="grid md:grid-cols-4 gap-6 mt-14">
+
+
+            <div class="p-6 rounded-3xl bg-slate-50 border border-slate-200 hover:shadow-xl transition">
+
+
+                <div class="w-12 h-12 rounded-2xl bg-emerald-100 flex items-center justify-center text-2xl">
+
+                    🏢
+
+                </div>
+
+
+                <h3 class="mt-5 font-bold text-xl text-slate-900">
+
+                    Organizations
+
+                </h3>
+
+
+                <p class="mt-3 text-slate-500 text-sm leading-6">
+
+                    Create and manage independent organization workspaces.
+
+                </p>
+
+
+            </div>
+
+
+
+
+
+            <div class="p-6 rounded-3xl bg-slate-50 border border-slate-200 hover:shadow-xl transition">
+
+
+                <div class="w-12 h-12 rounded-2xl bg-cyan-100 flex items-center justify-center text-2xl">
+
+                    🔐
+
+                </div>
+
+
+                <h3 class="mt-5 font-bold text-xl text-slate-900">
+
+                    Secure Access
+
+                </h3>
+
+
+                <p class="mt-3 text-slate-500 text-sm leading-6">
+
+                    Control user permissions with role based access.
+
+                </p>
+
+
+            </div>
+
+
+
+
+
+            <div class="p-6 rounded-3xl bg-slate-50 border border-slate-200 hover:shadow-xl transition">
+
+
+                <div class="w-12 h-12 rounded-2xl bg-violet-100 flex items-center justify-center text-2xl">
+
+                    👥
+
+                </div>
+
+
+                <h3 class="mt-5 font-bold text-xl text-slate-900">
+
+                    Team Management
+
+                </h3>
+
+
+                <p class="mt-3 text-slate-500 text-sm leading-6">
+
+                    Invite members and manage teams efficiently.
+
+                </p>
+
+
+            </div>
+
+
+
+
+
+            <div class="p-6 rounded-3xl bg-slate-50 border border-slate-200 hover:shadow-xl transition">
+
+
+                <div class="w-12 h-12 rounded-2xl bg-amber-100 flex items-center justify-center text-2xl">
+
+                    📊
+
+                </div>
+
+
+                <h3 class="mt-5 font-bold text-xl text-slate-900">
+
+                    Analytics
+
+                </h3>
+
+
+                <p class="mt-3 text-slate-500 text-sm leading-6">
+
+                    Track projects, activities and organization growth.
+
+                </p>
+
+
+            </div>
+
+
+
+        </div>
+
+
+    </div>
+
+</section>
+
+<!-- ================= FEATURES ================= -->
+
+<section class="py-24 bg-slate-50">
+
+<div class="max-w-7xl mx-auto px-8 lg:px-12">
+
+
+    <div class="text-center">
+
+
+        <p class="text-cyan-600 font-semibold uppercase tracking-wide text-sm">
+            Platform Features
+        </p>
+
+
+        <h2 class="mt-4 text-4xl lg:text-5xl font-extrabold text-slate-900">
+
+            Powerful tools for
+            <br>
+            organization management
+
+        </h2>
+
+
+        <p class="mt-5 max-w-2xl mx-auto text-slate-600 text-lg">
+
+            Designed with enterprise-ready architecture to simplify
+            collaboration, security and productivity.
+
+        </p>
+
+
+    </div>
+
+
+
+    <div class="grid md:grid-cols-3 gap-8 mt-16">
+
+
+
+        <!-- Feature 1 -->
+
+        <div class="bg-white rounded-3xl border border-slate-200 p-8 hover:-translate-y-2 hover:shadow-xl transition">
+
+
+            <div class="w-14 h-14 rounded-2xl bg-emerald-100 flex items-center justify-center text-3xl">
+
+                🏢
+
+            </div>
+
+
+            <h3 class="mt-6 text-2xl font-bold text-slate-900">
+
+                Multi-Tenant Architecture
+
+            </h3>
+
+
+            <p class="mt-4 text-slate-500 leading-7">
+
+                Manage multiple organizations with complete tenant isolation
+                and secure data separation.
+
+            </p>
+
+
+        </div>
+
+
+
+
+
+        <!-- Feature 2 -->
+
+        <div class="bg-white rounded-3xl border border-slate-200 p-8 hover:-translate-y-2 hover:shadow-xl transition">
+
+
+            <div class="w-14 w-14 h-14 rounded-2xl bg-cyan-100 flex items-center justify-center text-3xl">
+
+                🔐
+
+            </div>
+
+
+            <h3 class="mt-6 text-2xl font-bold text-slate-900">
+
+                Role Based Access
+
+            </h3>
+
+
+            <p class="mt-4 text-slate-500 leading-7">
+
+                Assign roles and permissions to control what each
+                organization member can access.
+
+            </p>
+
+
+        </div>
+
+
+
+
+
+        <!-- Feature 3 -->
+
+        <div class="bg-white rounded-3xl border border-slate-200 p-8 hover:-translate-y-2 hover:shadow-xl transition">
+
+
+            <div class="w-14 h-14 rounded-2xl bg-violet-100 flex items-center justify-center text-3xl">
+
+                👥
+
+            </div>
+
+
+            <h3 class="mt-6 text-2xl font-bold text-slate-900">
+
+                User Management
+
+            </h3>
+
+
+            <p class="mt-4 text-slate-500 leading-7">
+
+                Invite users, manage profiles and organize teams
+                from one central dashboard.
+
+            </p>
+
+
+        </div>
+
+
+
+
+
+        <!-- Feature 4 -->
+
+        <div class="bg-white rounded-3xl border border-slate-200 p-8 hover:-translate-y-2 hover:shadow-xl transition">
+
+
+            <div class="w-14 h-14 rounded-2xl bg-orange-100 flex items-center justify-center text-3xl">
+
+                📁
+
+            </div>
+
+
+            <h3 class="mt-6 text-2xl font-bold text-slate-900">
+
+                Project Management
+
+            </h3>
+
+
+            <p class="mt-4 text-slate-500 leading-7">
+
+                Create projects, assign responsibilities and
+                track progress efficiently.
+
+            </p>
+
+
+        </div>
+
+
+
+
+
+        <!-- Feature 5 -->
+
+        <div class="bg-white rounded-3xl border border-slate-200 p-8 hover:-translate-y-2 hover:shadow-xl transition">
+
+
+            <div class="w-14 h-14 rounded-2xl bg-pink-100 flex items-center justify-center text-3xl">
+
+                ✅
+
+            </div>
+
+
+            <h3 class="mt-6 text-2xl font-bold text-slate-900">
+
+                Task Tracking
+
+            </h3>
+
+
+            <p class="mt-4 text-slate-500 leading-7">
+
+                Manage tasks, assignments and team workflow
+                with better visibility.
+
+            </p>
+
+
+        </div>
+
+
+
+
+
+        <!-- Feature 6 -->
+
+        <div class="bg-white rounded-3xl border border-slate-200 p-8 hover:-translate-y-2 hover:shadow-xl transition">
+
+
+            <div class="w-14 h-14 rounded-2xl bg-yellow-100 flex items-center justify-center text-3xl">
+
+                📈
+
+            </div>
+
+
+            <h3 class="mt-6 text-2xl font-bold text-slate-900">
+
+                Reports & Analytics
+
+            </h3>
+
+
+            <p class="mt-4 text-slate-500 leading-7">
+
+                Monitor activities, productivity and organization
+                performance.
+
+            </p>
+
+
+        </div>
+
+
+
+    </div>
+
+
+</div>
+
+
+</section>
+
+<!-- ================= HOW IT WORKS ================= -->
+
+<section class="py-24 bg-white">
+
+<div class="max-w-7xl mx-auto px-8 lg:px-12">
+
+
+    <div class="text-center">
+
+
+        <p class="text-violet-600 font-semibold uppercase tracking-wide text-sm">
+
+            Simple Workflow
+
+        </p>
+
+
+        <h2 class="mt-4 text-4xl lg:text-5xl font-extrabold text-slate-900">
+
+            Start managing your organization
+            <br>
+            in a few steps
+
+        </h2>
+
+
+        <p class="mt-5 max-w-2xl mx-auto text-slate-600 text-lg">
+
+            From creating your workspace to managing teams,
+            everything works through a simple and secure process.
+
+        </p>
+
+
+    </div>
+
+
+
+
+    <div class="relative mt-20">
+
+
+        <!-- Connecting Line -->
+
+        <div class="hidden lg:block absolute top-16 left-20 right-20 h-1 bg-slate-200">
+
+        </div>
+
+
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-10 relative">
+
+
+
+            <!-- Step 1 -->
+
+            <div class="text-center">
+
+
+                <div class="w-32 h-32 mx-auto rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center">
+
+
+                    <span class="text-4xl font-extrabold text-emerald-600">
+
+                        01
+
+                    </span>
+
+
+                </div>
+
+
+                <h3 class="mt-7 text-xl font-bold text-slate-900">
+
+                    Create Organization
+
+                </h3>
+
+
+                <p class="mt-3 text-slate-500 text-sm leading-6">
+
+                    Register your workspace and configure your organization.
+
+                </p>
+
+
+            </div>
+
+
+
+
+
+
+            <!-- Step 2 -->
+
+            <div class="text-center">
+
+
+                <div class="w-32 h-32 mx-auto rounded-full bg-cyan-50 border border-cyan-200 flex items-center justify-center">
+
+
+                    <span class="text-4xl font-extrabold text-cyan-600">
+
+                        02
+
+                    </span>
+
+
+                </div>
+
+
+                <h3 class="mt-7 text-xl font-bold text-slate-900">
+
+                    Invite Members
+
+                </h3>
+
+
+                <p class="mt-3 text-slate-500 text-sm leading-6">
+
+                    Add your team members into your organization.
+
+                </p>
+
+
+            </div>
+
+
+
+
+
+
+            <!-- Step 3 -->
+
+            <div class="text-center">
+
+
+                <div class="w-32 h-32 mx-auto rounded-full bg-violet-50 border border-violet-200 flex items-center justify-center">
+
+
+                    <span class="text-4xl font-extrabold text-violet-600">
+
+                        03
+
+                    </span>
+
+
+                </div>
+
+
+                <h3 class="mt-7 text-xl font-bold text-slate-900">
+
+                    Assign Roles
+
+                </h3>
+
+
+                <p class="mt-3 text-slate-500 text-sm leading-6">
+
+                    Control access using role-based permissions.
+
+                </p>
+
+
+            </div>
+
+
+
+
+
+
+            <!-- Step 4 -->
+
+            <div class="text-center">
+
+
+                <div class="w-32 h-32 mx-auto rounded-full bg-orange-50 border border-orange-200 flex items-center justify-center">
+
+
+                    <span class="text-4xl font-extrabold text-orange-600">
+
+                        04
+
+                    </span>
+
+
+                </div>
+
+
+                <h3 class="mt-7 text-xl font-bold text-slate-900">
+
+                    Manage Projects
+
+                </h3>
+
+
+                <p class="mt-3 text-slate-500 text-sm leading-6">
+
+                    Create projects and collaborate with your team.
+
+                </p>
+
+
+            </div>
+
+
+
+
+
+
+            <!-- Step 5 -->
+
+            <div class="text-center">
+
+
+                <div class="w-32 h-32 mx-auto rounded-full bg-indigo-50 border border-indigo-200 flex items-center justify-center">
+
+
+                    <span class="text-4xl font-extrabold text-indigo-600">
+
+                        05
+
+                    </span>
+
+
+                </div>
+
+
+                <h3 class="mt-7 text-xl font-bold text-slate-900">
+
+                    Track Growth
+
+                </h3>
+
+
+                <p class="mt-3 text-slate-500 text-sm leading-6">
+
+                    Analyze activity and improve organization workflow.
+
+                </p>
+
+
+            </div>
+
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+</section>
+
+<!-- ================= WHY CHOOSE US ================= -->
+
+<section class="py-24 bg-slate-50">
+
+<div class="max-w-7xl mx-auto px-8 lg:px-12">
+
+
+    <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+
+
+        <!-- Left Content -->
+
+        <div>
+
+
+            <p class="text-emerald-600 font-semibold uppercase tracking-wide text-sm">
+
+                Why Choose Us
+
+            </p>
+
+
+            <h2 class="mt-5 text-4xl lg:text-5xl font-extrabold text-slate-900 leading-tight">
+
+                Built for secure and
+                scalable organizations
+
+            </h2>
+
+
+            <p class="mt-6 text-lg text-slate-600 leading-8">
+
+                MultiTenant SaaS provides a reliable foundation for managing
+                organizations, teams and workflows with enterprise-level security.
+
+            </p>
+
+
+
+            <div class="mt-10 space-y-6">
+
+
+
+                <!-- Item -->
+
+                <div class="flex gap-5">
+
+
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-100 flex items-center justify-center flex-shrink-0">
+
+                        🔒
+
+                    </div>
+
+
+                    <div>
+
+                        <h3 class="text-xl font-bold text-slate-900">
+
+                            Secure Tenant Isolation
+
+                        </h3>
+
+
+                        <p class="mt-2 text-slate-500">
+
+                            Each organization gets completely separated data
+                            and protected workspace access.
+
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+
+
+
+
+                <div class="flex gap-5">
+
+
+                    <div class="w-12 h-12 rounded-2xl bg-cyan-100 flex items-center justify-center flex-shrink-0">
+
+                        ⚡
+
+                    </div>
+
+
+                    <div>
+
+                        <h3 class="text-xl font-bold text-slate-900">
+
+                            Easy Team Management
+
+                        </h3>
+
+
+                        <p class="mt-2 text-slate-500">
+
+                            Invite users, assign roles and manage teams
+                            without complexity.
+
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+
+
+
+
+                <div class="flex gap-5">
+
+
+                    <div class="w-12 h-12 rounded-2xl bg-violet-100 flex items-center justify-center flex-shrink-0">
+
+                        📈
+
+                    </div>
+
+
+                    <div>
+
+                        <h3 class="text-xl font-bold text-slate-900">
+
+                            Designed To Scale
+
+                        </h3>
+
+
+                        <p class="mt-2 text-slate-500">
+
+                            Architecture designed for multiple organizations
+                            and growing workloads.
+
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+        </div>
+
+
+
+
+
+        <!-- Right Visual -->
+
+        <div class="relative">
+
+
+            <div class="bg-white rounded-[32px] border border-slate-200 shadow-xl p-8">
+
+
+                <div class="flex justify-between items-center">
+
+
+                    <h3 class="text-xl font-bold text-slate-900">
+
+                        Security Overview
+
+                    </h3>
+
+
+                    <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold">
+
+                        Protected
+
+                    </span>
+
+
+                </div>
+
+
+
+                <div class="mt-8 space-y-5">
+
+
+
+                    <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200">
+
+
+                        <div class="flex justify-between">
+
+                            <span class="text-slate-500">
+
+                                Authentication
+
+                            </span>
+
+                            <span class="font-bold text-emerald-600">
+
+                                Active
+
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+
+
+
+                    <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200">
+
+
+                        <div class="flex justify-between">
+
+                            <span class="text-slate-500">
+
+                                Role Permissions
+
+                            </span>
+
+                            <span class="font-bold text-emerald-600">
+
+                                Enabled
+
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+
+
+
+                    <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200">
+
+
+                        <div class="flex justify-between">
+
+                            <span class="text-slate-500">
+
+                                Tenant Isolation
+
+                            </span>
+
+                            <span class="font-bold text-emerald-600">
+
+                                Secured
+
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+            <!-- Floating Badge -->
+
+            <div class="absolute -bottom-8 -left-8 bg-white rounded-3xl shadow-xl border border-slate-200 p-6">
+
+
+                <p class="text-sm text-slate-500">
+
+                    System Status
+
+                </p>
+
+
+                <h3 class="mt-2 text-3xl font-extrabold text-emerald-600">
+
+                    Online
+
+                </h3>
+
+
+            </div>
+
+
+
+        </div>
+
+
+
+    </div>
+
+
+</div>
+
+</section>
+
+<!-- ================= MODULES SHOWCASE ================= -->
+
+<section class="py-24 bg-white">
+
+<div class="max-w-7xl mx-auto px-8 lg:px-12">
+
+
+    <div class="text-center">
+
+
+        <p class="text-cyan-600 font-semibold uppercase tracking-wide text-sm">
+
+            Platform Modules
+
+        </p>
+
+
+        <h2 class="mt-5 text-4xl lg:text-5xl font-extrabold text-slate-900">
+
+            Everything connected in
+            one ecosystem
+
+        </h2>
+
+
+        <p class="mt-5 max-w-2xl mx-auto text-lg text-slate-600">
+
+            Manage your complete organization workflow through
+            powerful integrated modules.
+
+        </p>
+
+
+    </div>
+
+
+
+
+
+    <div class="grid md:grid-cols-3 gap-8 mt-16">
+
+
+
+
+
+        <!-- Module -->
+
+        <div class="group rounded-3xl border border-slate-200 bg-slate-50 p-8 hover:bg-white hover:shadow-xl transition">
+
+
+            <div class="w-14 h-14 rounded-2xl bg-emerald-100 flex items-center justify-center text-3xl">
+
+                🏢
+
+            </div>
+
+
+            <h3 class="mt-6 text-xl font-bold text-slate-900">
+
+                Organization Management
+
+            </h3>
+
+
+            <p class="mt-3 text-slate-500 leading-7">
+
+                Create and configure isolated organization
+                workspaces with independent settings.
+
+            </p>
+
+
+        </div>
+
+
+
+
+
+        <div class="group rounded-3xl border border-slate-200 bg-slate-50 p-8 hover:bg-white hover:shadow-xl transition">
+
+
+            <div class="w-14 h-14 rounded-2xl bg-violet-100 flex items-center justify-center text-3xl">
+
+                👤
+
+            </div>
+
+
+            <h3 class="mt-6 text-xl font-bold text-slate-900">
+
+                User Management
+
+            </h3>
+
+
+            <p class="mt-3 text-slate-500 leading-7">
+
+                Manage members, profiles and organization users
+                efficiently.
+
+            </p>
+
+
+        </div>
+
+
+
+
+
+        <div class="group rounded-3xl border border-slate-200 bg-slate-50 p-8 hover:bg-white hover:shadow-xl transition">
+
+
+            <div class="w-14 h-14 rounded-2xl bg-cyan-100 flex items-center justify-center text-3xl">
+
+                ✉️
+
+            </div>
+
+
+            <h3 class="mt-6 text-xl font-bold text-slate-900">
+
+                Invitations
+
+            </h3>
+
+
+            <p class="mt-3 text-slate-500 leading-7">
+
+                Invite new members and track invitation
+                lifecycle.
+
+            </p>
+
+
+        </div>
+
+
+
+
+
+        <div class="group rounded-3xl border border-slate-200 bg-slate-50 p-8 hover:bg-white hover:shadow-xl transition">
+
+
+            <div class="w-14 h-14 rounded-2xl bg-orange-100 flex items-center justify-center text-3xl">
+
+                🔐
+
+            </div>
+
+
+            <h3 class="mt-6 text-xl font-bold text-slate-900">
+
+                Roles & Permissions
+
+            </h3>
+
+
+            <p class="mt-3 text-slate-500 leading-7">
+
+                Control access using flexible RBAC permission
+                management.
+
+            </p>
+
+
+        </div>
+
+
+
+
+
+        <div class="group rounded-3xl border border-slate-200 bg-slate-50 p-8 hover:bg-white hover:shadow-xl transition">
+
+
+            <div class="w-14 h-14 rounded-2xl bg-indigo-100 flex items-center justify-center text-3xl">
+
+                📂
+
+            </div>
+
+
+            <h3 class="mt-6 text-xl font-bold text-slate-900">
+
+                Project Management
+
+            </h3>
+
+
+            <p class="mt-3 text-slate-500 leading-7">
+
+                Create projects, assign members and
+                organize workflows.
+
+            </p>
+
+
+        </div>
+
+
+
+
+
+        <div class="group rounded-3xl border border-slate-200 bg-slate-50 p-8 hover:bg-white hover:shadow-xl transition">
+
+
+            <div class="w-14 h-14 rounded-2xl bg-yellow-100 flex items-center justify-center text-3xl">
+
+                ✓
+
+            </div>
+
+
+            <h3 class="mt-6 text-xl font-bold text-slate-900">
+
+                Task Management
+
+            </h3>
+
+
+            <p class="mt-3 text-slate-500 leading-7">
+
+                Track tasks, assignments and team progress
+                in real time.
+
+            </p>
+
+
+        </div>
+
+
+
+
+
+        <div class="group rounded-3xl border border-slate-200 bg-slate-50 p-8 hover:bg-white hover:shadow-xl transition">
+
+
+            <div class="w-14 h-14 rounded-2xl bg-pink-100 flex items-center justify-center text-3xl">
+
+                📊
+
+            </div>
+
+
+            <h3 class="mt-6 text-xl font-bold text-slate-900">
+
+                Reports
+
+            </h3>
+
+
+            <p class="mt-3 text-slate-500 leading-7">
+
+                Analyze organization activities and
+                performance insights.
+
+            </p>
+
+
+        </div>
+
+
+
+
+
+        <div class="group rounded-3xl border border-slate-200 bg-slate-50 p-8 hover:bg-white hover:shadow-xl transition">
+
+
+            <div class="w-14 h-14 rounded-2xl bg-red-100 flex items-center justify-center text-3xl">
+
+                📝
+
+            </div>
+
+
+            <h3 class="mt-6 text-xl font-bold text-slate-900">
+
+                Audit Logs
+
+            </h3>
+
+
+            <p class="mt-3 text-slate-500 leading-7">
+
+                Monitor important system activities and
+                security events.
+
+            </p>
+
+
+        </div>
+
+
+
+
+
+        <div class="group rounded-3xl border border-slate-200 bg-slate-50 p-8 hover:bg-white hover:shadow-xl transition">
+
+
+            <div class="w-14 h-14 rounded-2xl bg-teal-100 flex items-center justify-center text-3xl">
+
+                🔗
+
+            </div>
+
+
+            <h3 class="mt-6 text-xl font-bold text-slate-900">
+
+                API Integration
+
+            </h3>
+
+
+            <p class="mt-3 text-slate-500 leading-7">
+
+                Connect your applications using secure
+                API services.
+
+            </p>
+
+
+        </div>
+
+
+
+    </div>
+
+
+</div>
+
+</section>
+
+<!-- ================= PRICING ================= -->
+
+<section class="py-24 bg-slate-50">
+
+<div class="max-w-7xl mx-auto px-8 lg:px-12">
+
+
+    <div class="text-center">
+
+
+        <p class="text-emerald-600 font-semibold uppercase tracking-wide text-sm">
+
+            Pricing Plans
+
+        </p>
+
+
+        <h2 class="mt-5 text-4xl lg:text-5xl font-extrabold text-slate-900">
+
+            Simple plans for every organization
+
+        </h2>
+
+
+        <p class="mt-5 max-w-2xl mx-auto text-lg text-slate-600">
+
+            Choose a plan that fits your team's requirements
+            and scale as your organization grows.
+
+        </p>
+
+
+    </div>
+
+
+
+
+
+    <div class="grid lg:grid-cols-3 gap-8 mt-16">
+
+
+
+
+
+        <!-- Free Plan -->
+
+
+        <div class="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
+
+
+            <h3 class="text-2xl font-bold text-slate-900">
+
+                Free
+
+            </h3>
+
+
+            <p class="mt-3 text-slate-500">
+
+                For small teams exploring the platform.
+
+            </p>
+
+
+
+            <div class="mt-8">
+
+                <span class="text-5xl font-extrabold text-slate-900">
+
+                    ₹0
+
+                </span>
+
+                <span class="text-slate-500">
+
+                    /month
+
+                </span>
+
+            </div>
+
+
+
+            <ul class="mt-8 space-y-4 text-slate-600">
+
+
+                <li class="flex gap-3">
+
+                    <span class="text-emerald-600">✓</span>
+
+                    1 Organization
+
+                </li>
+
+
+                <li class="flex gap-3">
+
+                    <span class="text-emerald-600">✓</span>
+
+                    Basic User Management
+
+                </li>
+
+
+                <li class="flex gap-3">
+
+                    <span class="text-emerald-600">✓</span>
+
+                    Limited Projects
+
+                </li>
+
+
+            </ul>
+
+
+
+            <a href="{% url 'signup' %}"
+
+            class="
+            block
+            text-center
+            mt-10
+            px-6
+            py-3
+            rounded-xl
+            border
+            border-slate-300
+            font-semibold
+            hover:bg-slate-100
+            transition
+            ">
+
+                Get Started
+
+            </a>
+
+
+
+        </div>
+
+
+
+
+
+
+
+
+        <!-- Professional -->
+
+
+        <div class="
+        bg-white
+        rounded-3xl
+        border-2
+        border-emerald-500
+        p-8
+        shadow-xl
+        relative
+        ">
+
+
+            <div class="
+            absolute
+            top-5
+            right-5
+            px-3
+            py-1
+            rounded-full
+            bg-emerald-100
+            text-emerald-700
+            text-sm
+            font-semibold
+            ">
+
+                Popular
+
+            </div>
+
+
+
+            <h3 class="text-2xl font-bold text-slate-900">
+
+                Professional
+
+            </h3>
+
+
+            <p class="mt-3 text-slate-500">
+
+                For growing organizations and teams.
+
+            </p>
+
+
+
+            <div class="mt-8">
+
+                <span class="text-5xl font-extrabold text-slate-900">
+
+                    ₹999
+
+                </span>
+
+                <span class="text-slate-500">
+
+                    /month
+
+                </span>
+
+            </div>
+
+
+
+            <ul class="mt-8 space-y-4 text-slate-600">
+
+
+                <li class="flex gap-3">
+
+                    <span class="text-emerald-600">✓</span>
+
+                    Multiple Users
+
+                </li>
+
+
+                <li class="flex gap-3">
+
+                    <span class="text-emerald-600">✓</span>
+
+                    Role Based Access
+
+                </li>
+
+
+                <li class="flex gap-3">
+
+                    <span class="text-emerald-600">✓</span>
+
+                    Project Management
+
+                </li>
+
+
+                <li class="flex gap-3">
+
+                    <span class="text-emerald-600">✓</span>
+
+                    Reports & Analytics
+
+                </li>
+
+
+            </ul>
+
+
+
+            <a href="{% url 'signup' %}"
+
+            class="
+            block
+            text-center
+            mt-10
+            px-6
+            py-3
+            rounded-xl
+            bg-emerald-600
+            hover:bg-emerald-700
+            text-white
+            font-semibold
+            transition
+            ">
+
+                Start Professional
+
+            </a>
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <!-- Enterprise -->
+
+
+        <div class="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
+
+
+            <h3 class="text-2xl font-bold text-slate-900">
+
+                Enterprise
+
+            </h3>
+
+
+            <p class="mt-3 text-slate-500">
+
+                For large organizations requiring scale.
+
+            </p>
+
+
+
+            <div class="mt-8">
+
+                <span class="text-5xl font-extrabold text-slate-900">
+
+                    Custom
+
+                </span>
+
+            </div>
+
+
+
+            <ul class="mt-8 space-y-4 text-slate-600">
+
+
+                <li class="flex gap-3">
+
+                    <span class="text-emerald-600">✓</span>
+
+                    Unlimited Organizations
+
+                </li>
+
+
+                <li class="flex gap-3">
+
+                    <span class="text-emerald-600">✓</span>
+
+                    Advanced Security
+
+                </li>
+
+
+                <li class="flex gap-3">
+
+                    <span class="text-emerald-600">✓</span>
+
+                    Priority Support
+
+                </li>
+
+
+            </ul>
+
+
+
+            <a href="#"
+
+            class="
+            block
+            text-center
+            mt-10
+            px-6
+            py-3
+            rounded-xl
+            border
+            border-slate-300
+            font-semibold
+            hover:bg-slate-100
+            transition
+            ">
+
+                Contact Sales
+
+            </a>
+
+
+
+        </div>
+
+
+
+
+    </div>
+
+
+</div>
+
+</section>
+
+<!-- ================= FAQ ================= -->
+
+<section class="py-24 bg-white">
+
+<div class="max-w-5xl mx-auto px-8">
+
+
+    <div class="text-center">
+
+
+        <p class="text-violet-600 font-semibold uppercase tracking-wide text-sm">
+
+            Frequently Asked Questions
+
+        </p>
+
+
+        <h2 class="mt-5 text-4xl lg:text-5xl font-extrabold text-slate-900">
+
+            Common questions about
+            MultiTenant SaaS
+
+        </h2>
+
+
+    </div>
+
+
+
+
+    <div class="mt-14 space-y-5">
+
+
+
+        <!-- FAQ 1 -->
+
+        <details class="
+        group
+        bg-slate-50
+        border
+        border-slate-200
+        rounded-2xl
+        p-6
+        ">
+
+
+            <summary class="
+            cursor-pointer
+            list-none
+            flex
+            justify-between
+            items-center
+            font-bold
+            text-lg
+            text-slate-900
+            ">
+
+
+                What is a multi-tenant SaaS platform?
+
+
+                <span class="text-violet-600 text-xl group-open:rotate-180 transition">
+
+                    ▼
+
+                </span>
+
+
+            </summary>
+
+
+
+            <p class="mt-4 text-slate-600 leading-7">
+
+                A multi-tenant SaaS platform allows multiple organizations
+                to use the same application while keeping their data
+                completely isolated and secure.
+
+            </p>
+
+
+
+        </details>
+
+
+
+
+
+
+
+        <!-- FAQ 2 -->
+
+
+        <details class="
+        group
+        bg-slate-50
+        border
+        border-slate-200
+        rounded-2xl
+        p-6
+        ">
+
+
+            <summary class="
+            cursor-pointer
+            list-none
+            flex
+            justify-between
+            items-center
+            font-bold
+            text-lg
+            text-slate-900
+            ">
+
+
+                How does organization data remain secure?
+
+
+                <span class="text-violet-600 text-xl group-open:rotate-180 transition">
+
+                    ▼
+
+                </span>
+
+
+            </summary>
+
+
+
+            <p class="mt-4 text-slate-600 leading-7">
+
+                Each organization has isolated data access using tenant
+                based filtering and authentication controls.
+
+            </p>
+
+
+
+        </details>
+
+
+
+
+
+
+
+
+        <!-- FAQ 3 -->
+
+
+        <details class="
+        group
+        bg-slate-50
+        border
+        border-slate-200
+        rounded-2xl
+        p-6
+        ">
+
+
+            <summary class="
+            cursor-pointer
+            list-none
+            flex
+            justify-between
+            items-center
+            font-bold
+            text-lg
+            text-slate-900
+            ">
+
+
+                Can administrators control user permissions?
+
+
+                <span class="text-violet-600 text-xl group-open:rotate-180 transition">
+
+                    ▼
+
+                </span>
+
+
+            </summary>
+
+
+
+            <p class="mt-4 text-slate-600 leading-7">
+
+                Yes. The platform provides role-based access control
+                where administrators can assign roles and permissions.
+
+            </p>
+
+
+
+        </details>
+
+
+
+
+
+
+
+
+        <!-- FAQ 4 -->
+
+
+        <details class="
+        group
+        bg-slate-50
+        border
+        border-slate-200
+        rounded-2xl
+        p-6
+        ">
+
+
+            <summary class="
+            cursor-pointer
+            list-none
+            flex
+            justify-between
+            items-center
+            font-bold
+            text-lg
+            text-slate-900
+            ">
+
+
+                What technologies are used to build this platform?
+
+
+                <span class="text-violet-600 text-xl group-open:rotate-180 transition">
+
+                    ▼
+
+                </span>
+
+
+            </summary>
+
+
+
+            <p class="mt-4 text-slate-600 leading-7">
+
+                The platform is developed using Django, Python,
+                MySQL/SQLite database, Tailwind CSS and modern web
+                development practices.
+
+            </p>
+
+
+
+        </details>
+
+
+
+
+
+
+        <!-- FAQ 5 -->
+
+
+        <details class="
+        group
+        bg-slate-50
+        border
+        border-slate-200
+        rounded-2xl
+        p-6
+        ">
+
+
+            <summary class="
+            cursor-pointer
+            list-none
+            flex
+            justify-between
+            items-center
+            font-bold
+            text-lg
+            text-slate-900
+            ">
+
+
+                Can organizations scale as they grow?
+
+
+                <span class="text-violet-600 text-xl group-open:rotate-180 transition">
+
+                    ▼
+
+                </span>
+
+
+            </summary>
+
+
+
+            <p class="mt-4 text-slate-600 leading-7">
+
+                Yes. The architecture is designed to support growing
+                teams, users and organization workloads.
+
+            </p>
+
+
+
+        </details>
+
+
+
+
+    </div>
+
+
+</div>
+
+</section>
+
+<!-- ================= CTA SECTION ================= -->
+
+<section class="py-24 bg-slate-900">
+
+<div class="max-w-7xl mx-auto px-8 lg:px-12">
+
+
+    <div class="
+    rounded-[40px]
+    bg-gradient-to-br
+    from-slate-800
+    to-slate-900
+    border
+    border-slate-700
+    p-10
+    lg:p-16
+    text-center
+    ">
+
+
+
+        <p class="text-emerald-400 font-semibold uppercase tracking-wide text-sm">
+
+            Get Started Today
+
+        </p>
+
+
+
+        <h2 class="
+        mt-5
+        text-4xl
+        lg:text-6xl
+        font-extrabold
+        text-white
+        leading-tight
+        ">
+
+            Build your organization's
+            <br>
+            secure workspace
+
+        </h2>
+
+
+
+        <p class="
+        mt-6
+        max-w-2xl
+        mx-auto
+        text-lg
+        text-slate-300
+        leading-8
+        ">
+
+            Create your account, invite your team and manage
+            everything from one powerful SaaS platform.
+
+        </p>
+
+
+
+
+        <div class="mt-10 flex flex-col sm:flex-row justify-center gap-5">
+
+
+
+            <a href="{% url 'signup' %}"
+
+            class="
+            px-8
+            py-4
+            rounded-2xl
+            bg-emerald-500
+            hover:bg-emerald-600
+            text-white
+            font-bold
+            shadow-xl
+            transition
+            ">
+
+                Create Account
+
+            </a>
+
+
+
+
+
+            <a href="{% url 'login' %}"
+
+            class="
+            px-8
+            py-4
+            rounded-2xl
+            border
+            border-slate-600
+            hover:bg-slate-800
+            text-white
+            font-bold
+            transition
+            ">
+
+                Login
+
+            </a>
+
+
+
+        </div>
+
+
+
+
+    </div>
+
+
+</div>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="bg-slate-950 text-slate-300">
+
+
+<div class="max-w-7xl mx-auto px-8 lg:px-12 py-16">
+
+
+
+<div class="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
+
+
+
+
+
+<!-- Brand -->
+
+<div>
+
+
+<h3 class="
+text-2xl
+font-extrabold
+text-white
+">
+
+MultiTenant SaaS
+
+</h3>
+
+
+
+<p class="
+mt-5
+text-slate-400
+leading-7
+">
+
+A secure multi-tenant platform
+for managing organizations,
+teams and workflows.
+
+</p>
+
+
+
+</div>
+
+
+
+
+
+
+
+<!-- Product -->
+
+
+<div>
+
+
+<h4 class="
+text-lg
+font-bold
+text-white
+">
+
+Product
+
+</h4>
+
+
+
+<ul class="mt-5 space-y-3">
+
+
+<li>
+
+<a href="#" class="hover:text-emerald-400 transition">
+
+Features
+
+</a>
+
+</li>
+
+
+
+<li>
+
+<a href="#" class="hover:text-emerald-400 transition">
+
+Solutions
+
+</a>
+
+</li>
+
+
+
+<li>
+
+<a href="#" class="hover:text-emerald-400 transition">
+
+Pricing
+
+</a>
+
+</li>
+
+
+
+<li>
+
+<a href="#" class="hover:text-emerald-400 transition">
+
+Security
+
+</a>
+
+</li>
+
+
+</ul>
+
+
+
+</div>
+
+
+
+
+
+
+
+<!-- Company -->
+
+
+<div>
+
+
+<h4 class="
+text-lg
+font-bold
+text-white
+">
+
+Company
+
+</h4>
+
+
+
+<ul class="mt-5 space-y-3">
+
+
+<li>
+
+<a href="#" class="hover:text-emerald-400 transition">
+
+About Us
+
+</a>
+
+</li>
+
+
+
+<li>
+
+<a href="#" class="hover:text-emerald-400 transition">
+
+Contact
+
+</a>
+
+</li>
+
+
+
+<li>
+
+<a href="#" class="hover:text-emerald-400 transition">
+
+Documentation
+
+</a>
+
+</li>
+
+
+
+<li>
+
+<a href="#" class="hover:text-emerald-400 transition">
+
+Support
+
+</a>
+
+</li>
+
+
+</ul>
+
+
+
+</div>
+
+
+
+
+
+
+
+<!-- Account -->
+
+
+<div>
+
+
+<h4 class="
+text-lg
+font-bold
+text-white
+">
+
+Account
+
+</h4>
+
+
+
+<ul class="mt-5 space-y-3">
+
+
+<li>
+
+<a href="{% url 'login' %}" 
+class="hover:text-emerald-400 transition">
+
+Login
+
+</a>
+
+</li>
+
+
+
+<li>
+
+<a href="{% url 'signup' %}" 
+class="hover:text-emerald-400 transition">
+
+Create Account
+
+</a>
+
+</li>
+
+
+
+<li>
+
+<a href="#" 
+class="hover:text-emerald-400 transition">
+
+Privacy Policy
+
+</a>
+
+</li>
+
+
+
+<li>
+
+<a href="#" 
+class="hover:text-emerald-400 transition">
+
+Terms
+
+</a>
+
+</li>
+
+
+</ul>
+
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+<!-- Bottom -->
+
+
+<div class="
+mt-14
+pt-8
+border-t
+border-slate-800
+flex
+flex-col
+md:flex-row
+justify-between
+gap-4
+text-sm
+">
+
+
+<p>
+
+© 2026 MultiTenant SaaS. All rights reserved.
+
+</p>
+
+
+
+<p>
+
+Built with Django + Tailwind CSS
+
+</p>
+
+
+
+</div>
+
+
+
+</div>
+
+
+</footer>
+
+<script>
+
+const navbar = document.getElementById("navbar");
+
+window.addEventListener("scroll",()=>{
+
+if(window.scrollY>20){
+
+navbar.classList.add(
+"bg-white",
+"shadow-lg",
+"backdrop-blur-md"
+);
+
+}else{
+
+navbar.classList.remove(
+"bg-white",
+"shadow-lg",
+"backdrop-blur-md"
+);
+
+}
+
+});
+
+</script>
+
+</div>
+
+{% endblock %}

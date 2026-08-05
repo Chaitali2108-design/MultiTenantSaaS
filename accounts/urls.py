@@ -23,7 +23,10 @@ from .views import (
     invitation_list,
     resend_invitation,
     regenerate_invitation,
+    resend_invitation_confirm,
+    regenerate_invitation_confirm,
     view_invited_user,
+    delete_invitation,
     
 )
 
@@ -178,27 +181,40 @@ path(
 path(
     "invitations/",
     invitation_list,
-    name="invitation_list"
+    name="invitation_list",
+),
+path(
+    "invitations/<int:id>/view/",
+    view_invited_user,
+    name="view_invited_user",
 ),
 path(
     "invitations/<int:id>/resend/",
     resend_invitation,
-    name="resend_invitation"
+    name="resend_invitation",
 ),
 
+path(
+    "invitations/<int:id>/resend/confirm/",
+    resend_invitation_confirm,
+    name="resend_invitation_confirm",
+),
 
 path(
     "invitations/<int:id>/regenerate/",
     regenerate_invitation,
-    name="regenerate_invitation"
+    name="regenerate_invitation",
 ),
-
 
 path(
-    "invitations/<int:pk>/view/",
-    view_invited_user,
-    name="view_invited_user"
+    "invitations/<int:id>/regenerate/confirm/",
+    regenerate_invitation_confirm,
+    name="regenerate_invitation_confirm",
 ),
-
+path(
+    "invitations/<int:id>/delete/",
+    delete_invitation,
+    name="delete_invitation",
+),
 
 ]
