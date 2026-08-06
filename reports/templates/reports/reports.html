@@ -6,137 +6,291 @@ Reports
 
 {% block content %}
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
 <div class="dashboard-container">
 
-    <div class="page-header">
-        <h2>Reports Dashboard</h2>
-        <p>View project and task reports.</p>
+    <!-- Report Header -->
+    <div class="report-header">
+
+        <div class="report-title">
+            <h2>📊 Reports & Analytics</h2>
+            <p>
+                Monitor project performance, visualize trends and generate professional reports.
+            </p>
+        </div>
+
+        <div class="report-actions">
+
+            <select class="report-select">
+                <option>All Projects</option>
+            </select>
+
+            <select class="report-select">
+                <option>This Month</option>
+            </select>
+
+            <button class="btn btn-success">
+                ⬇ Export Report
+            </button>
+
+        </div>
+
     </div>
+
 
     <!-- Summary Cards -->
-    <div class="cards">
 
-        <div class="card">
-            <h3>Total Projects</h3>
-            <h2>{{ total_projects }}</h2>
+    <div class="report-summary">
+
+        <div class="summary-card teal">
+
+            <div class="summary-icon">
+                📁
+            </div>
+
+            <div>
+
+                <h4>Total Projects</h4>
+
+                <h2>{{ total_projects }}</h2>
+
+            </div>
+
         </div>
 
-        <div class="card">
-            <h3>Total Tasks</h3>
-            <h2>{{ total_tasks }}</h2>
+        <div class="summary-card blue">
+
+            <div class="summary-icon">
+                ✅
+            </div>
+
+            <div>
+
+                <h4>Total Tasks</h4>
+
+                <h2>{{ total_tasks }}</h2>
+
+            </div>
+
         </div>
 
-        <div class="card">
-            <h3>Completed Tasks</h3>
-            <h2>{{ completed_tasks }}</h2>
+        <div class="summary-card green">
+
+            <div class="summary-icon">
+                ✔
+            </div>
+
+            <div>
+
+                <h4>Completed</h4>
+
+                <h2>{{ completed_tasks }}</h2>
+
+            </div>
+
         </div>
 
-        <div class="card">
-            <h3>Pending Tasks</h3>
-            <h2>{{ pending_tasks }}</h2>
+        <div class="summary-card orange">
+
+            <div class="summary-icon">
+                ⏳
+            </div>
+
+            <div>
+
+                <h4>Pending</h4>
+
+                <h2>{{ pending_tasks }}</h2>
+
+            </div>
+
         </div>
 
     </div>
 
     <br>
 
-    <!-- Project Report -->
-    <div class="table-container">
 
-        <h3>Project Report</h3>
+    <!-- Charts -->
 
-        <table>
+    <div class="charts">
 
-            <thead>
-                <tr>
-                    <th>Project</th>
-                    <th>Organization</th>
-                    <th>Status</th>
-                    <th>Priority</th>
-                    <th>Due Date</th>
-                </tr>
-            </thead>
+        <div class="chart-card modern-card">
 
-            <tbody>
+            <div class="modern-header">
 
-            {% for project in projects %}
+                <h3>Monthly Projects</h3>
 
-                <tr>
-                    <td>{{ project.name }}</td>
-                    <td>{{ project.organization }}</td>
-                    <td>{{ project.get_status_display }}</td>
-                    <td>{{ project.get_priority_display }}</td>
-                    <td>{{ project.due_date|default:"-" }}</td>
-                </tr>
+                <span>📈</span>
 
-            {% empty %}
+            </div>
 
-                <tr>
-                    <td colspan="5">No projects found.</td>
-                </tr>
+            <div class="chart-box large-chart">
 
-            {% endfor %}
+                <canvas id="monthlyProjectsChart"></canvas>
 
-            </tbody>
+            </div>
 
-        </table>
+        </div>
+
+
+        <div class="chart-card modern-card">
+
+            <div class="modern-header">
+
+                <h3>Monthly Tasks</h3>
+
+                <span>📊</span>
+
+            </div>
+
+            <div class="chart-box large-chart">
+
+                <canvas id="monthlyTasksChart"></canvas>
+
+            </div>
+
+        </div>
+
+
+        <div class="chart-card modern-card">
+
+            <div class="modern-header">
+
+                <h3>Projects vs Tasks</h3>
+
+                <span>📈</span>
+
+            </div>
+
+            <div class="chart-box small-chart">
+
+                <canvas id="projectsTasksChart"></canvas>
+
+            </div>
+
+        </div>
+
+
+        <div class="chart-card modern-card">
+
+            <div class="modern-header">
+
+                <h3>Priority Distribution</h3>
+
+                <span>🔥</span>
+
+            </div>
+
+            <div class="chart-box small-chart">
+
+                <canvas id="priorityChart"></canvas>
+
+            </div>
+
+        </div>
+
+
+        <div class="chart-card modern-card">
+
+            <div class="modern-header">
+
+                <h3>Tasks Per User</h3>
+
+                <span>👤</span>
+
+            </div>
+
+            <div class="chart-box large-chart">
+
+                <canvas id="userChart"></canvas>
+
+            </div>
+
+        </div>
+
+
+        <div class="chart-card modern-card">
+
+            <div class="modern-header">
+
+                <h3>Tasks Per Project</h3>
+
+                <span>📂</span>
+
+            </div>
+
+            <div class="chart-box large-chart">
+
+                <canvas id="projectChart"></canvas>
+
+            </div>
+
+        </div>
+
+
+        <div class="chart-card modern-card">
+
+            <div class="modern-header">
+
+                <h3>Due vs Completed</h3>
+
+                <span>🎯</span>
+
+            </div>
+
+            <div class="chart-box small-chart">
+
+                <canvas id="dueChart"></canvas>
+
+            </div>
+
+        </div>
+
+
+        <div class="chart-card modern-card">
+
+            <div class="modern-header">
+
+                <h3>Completion Trend</h3>
+
+                <span>📉</span>
+
+            </div>
+
+            <div class="chart-box large-chart">
+
+                <canvas id="completionChart"></canvas>
+
+            </div>
+
+        </div>
+
+
+        <div class="chart-card modern-card">
+
+            <div class="modern-header">
+
+                <h3>Task Status</h3>
+
+                <span>📋</span>
+
+            </div>
+
+            <div class="chart-box small-chart">
+
+                <canvas id="statusChart"></canvas>
+
+            </div>
+
+        </div>
 
     </div>
 
     <br>
 
-    <!-- Task Report -->
-    <div class="table-container">
-
-        <h3>Task Report</h3>
-
-        <table>
-
-            <thead>
-
-                <tr>
-                    <th>Task</th>
-                    <th>Project</th>
-                    <th>Assigned To</th>
-                    <th>Status</th>
-                    <th>Priority</th>
-                    <th>Due Date</th>
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-            {% for task in tasks %}
-
-                <tr>
-
-                    <td>{{ task.title }}</td>
-                    <td>{{ task.project.name }}</td>
-                    <td>{{ task.assigned_to }}</td>
-                    <td>{{ task.get_status_display }}</td>
-                    <td>{{ task.get_priority_display }}</td>
-                    <td>{{ task.due_date|default:"-" }}</td>
-
-                </tr>
-
-            {% empty %}
-
-                <tr>
-                    <td colspan="6">No tasks found.</td>
-                </tr>
-
-            {% endfor %}
-
-            </tbody>
-
-        </table>
-
-    </div>
-
-    <br>
-
-    <!-- Export Buttons -->
     <div class="export-buttons">
 
         <button class="btn btn-primary">
@@ -154,5 +308,893 @@ Reports
     </div>
 
 </div>
+
+<script>
+    Chart.register(ChartDataLabels);
+
+//======================
+// Monthly Projects
+//======================
+
+const projectCtx = document.getElementById("monthlyProjectsChart").getContext("2d");
+
+const projectGradient = projectCtx.createLinearGradient(0,0,0,350);
+projectGradient.addColorStop(0,"rgba(15,118,110,.45)");
+projectGradient.addColorStop(1,"rgba(15,118,110,0)");
+
+new Chart(projectCtx,{
+    type:"line",
+
+    data:{
+        labels:{{ project_months|safe }},
+        datasets:[{
+            label:"Projects",
+            data:{{ project_counts|safe }},
+
+            borderColor:"#0f766e",
+            backgroundColor:projectGradient,
+
+            fill:true,
+            borderWidth:4,
+
+            tension:0.35,
+
+            pointRadius:5,
+            pointHoverRadius:8,
+            pointBackgroundColor:"#0f766e",
+            pointBorderColor:"#ffffff",
+            pointBorderWidth:2
+        }]
+    },
+
+    options:{
+        responsive:true,
+        maintainAspectRatio:false,
+
+        plugins:{
+            legend:{
+                display:true,
+                position:"top"
+            },
+            tooltip:{
+                enabled:true
+            },
+            datalabels:{
+                display:false
+            }
+        },
+
+        scales:{
+            x:{
+                grid:{
+                    display:false
+                }
+            },
+
+            y:{
+                beginAtZero:true,
+                grid:{
+                    color:"#edf2f7"
+                }
+            }
+        }
+    }
+});
+
+
+//======================
+// Monthly Tasks
+//======================
+
+const taskCtx = document.getElementById("monthlyTasksChart").getContext("2d");
+
+const taskGradient = taskCtx.createLinearGradient(0,0,0,350);
+taskGradient.addColorStop(0,"rgba(37,99,235,.45)");
+taskGradient.addColorStop(1,"rgba(37,99,235,0)");
+
+new Chart(taskCtx,{
+    type:"line",
+
+    data:{
+        labels:{{ months|safe }},
+        datasets:[{
+            label:"Tasks",
+            data:{{ task_counts|safe }},
+
+            borderColor:"#2563eb",
+            backgroundColor:taskGradient,
+
+            fill:true,
+            borderWidth:4,
+
+            tension:0.35,
+
+            pointRadius:5,
+            pointHoverRadius:8,
+
+            pointBackgroundColor:"#2563eb",
+            pointBorderColor:"#ffffff",
+            pointBorderWidth:2
+        }]
+    },
+
+    options:{
+        responsive:true,
+        maintainAspectRatio:false,
+
+        plugins:{
+            legend:{
+                display:true,
+                position:"top"
+            },
+
+            tooltip:{
+                enabled:true
+            },
+
+            datalabels:{
+                display:false
+            }
+        },
+
+        scales:{
+            x:{
+                grid:{
+                    display:false
+                }
+            },
+
+            y:{
+                beginAtZero:true,
+                grid:{
+                    color:"#edf2f7"
+                }
+            }
+        }
+    }
+});
+//======================
+// Projects vs Tasks
+//======================
+
+new Chart(document.getElementById("projectsTasksChart"),{
+
+    type:"doughnut",
+
+    data:{
+        labels:["Projects","Tasks"],
+
+        datasets:[{
+            label:"Count",
+
+            data:[{{ total_projects }}, {{ total_tasks }}],
+
+            backgroundColor:[
+                "#0f766e",
+                "#2563eb"
+            ],
+
+            borderColor:"#ffffff",
+            borderWidth:4,
+
+            hoverOffset:15
+        }]
+    },
+
+    options:{
+        responsive:true,
+        maintainAspectRatio:false,
+
+        cutout:"60%",
+
+        plugins:{
+
+            legend:{
+                display:true,
+                position:"bottom",
+
+                labels:{
+                    usePointStyle:true,
+                    pointStyle:"circle",
+                    padding:20,
+                    font:{
+                        size:13,
+                        weight:"bold"
+                    }
+                }
+            },
+
+            tooltip:{
+                enabled:true
+            },
+
+            datalabels:{
+
+                color:"#ffffff",
+
+                font:{
+                    size:16,
+                    weight:"bold"
+                },
+
+
+                formatter:(value, context)=>{
+                    let total = context.dataset.data.reduce((a,b)=>a+b,0);
+                    let percentage = ((value/total)*100).toFixed(1);
+                    return value + " (" + percentage + "%)";
+                }
+
+            }
+
+        }
+
+    }
+
+});
+
+
+
+//======================
+// Priority Distribution
+//======================
+
+new Chart(document.getElementById("priorityChart"),{
+
+    type:"pie",
+
+    data:{
+        labels:{{ priority_labels|safe }},
+
+        datasets:[{
+
+            label:"Tasks",
+
+            data:{{ priority_counts|safe }},
+
+            backgroundColor:[
+                "#ef4444",   // High
+                "#f59e0b",   // Medium
+                "#22c55e"    // Low
+            ],
+
+            borderColor:"#ffffff",
+            borderWidth:4,
+
+            hoverOffset:18
+
+        }]
+    },
+
+    options:{
+        responsive:true,
+        maintainAspectRatio:false,
+
+        plugins:{
+
+            legend:{
+                display:true,
+                position:"bottom",
+
+                labels:{
+                    usePointStyle:true,
+                    pointStyle:"circle",
+                    padding:18,
+
+                    font:{
+                        size:13,
+                        weight:"bold"
+                    }
+                }
+            },
+
+            tooltip:{
+                enabled:true
+            },
+
+            datalabels:{
+
+                color:"#ffffff",
+
+                font:{
+                    size:16,
+                    weight:"bold"
+                },
+
+                formatter:(value, context)=>{
+                    let total = context.dataset.data.reduce((a,b)=>a+b,0);
+                    let percentage = ((value/total)*100).toFixed(1);
+                    return value + " (" + percentage + "%)";
+                }
+
+            }
+
+        }
+
+    }
+
+});
+
+//======================
+// Tasks Per User
+//======================
+
+const userCtx = document.getElementById("userChart").getContext("2d");
+
+const userGradient = userCtx.createLinearGradient(0,0,700,0);
+
+userGradient.addColorStop(0,"#0f766e");
+userGradient.addColorStop(1,"#14b8a6");
+
+new Chart(userCtx,{
+
+    type:"bar",
+
+    data:{
+
+        labels:{{ user_labels|safe }},
+
+        datasets:[{
+
+            label:"Tasks Assigned",
+
+            data:{{ user_counts|safe }},
+
+            backgroundColor:userGradient,
+
+            borderRadius:15,
+
+            borderSkipped:false,
+
+            maxBarThickness:35
+
+        }]
+
+    },
+
+    options:{
+
+        responsive:true,
+
+        maintainAspectRatio:false,
+
+        indexAxis:"y",
+
+        animation:{
+            duration:1800,
+            easing:"easeOutQuart"
+        },
+
+        plugins:{
+
+            legend:{
+                display:true,
+                position:"top",
+
+                labels:{
+                    usePointStyle:true,
+                    pointStyle:"circle",
+
+                    font:{
+                        size:13,
+                        weight:"bold"
+                    }
+                }
+            },
+
+            tooltip:{
+                enabled:true
+            },
+
+            datalabels:{
+
+                anchor:"end",
+
+                align:"right",
+
+                color:"#0f172a",
+
+                font:{
+                    size:13,
+                    weight:"bold"
+                },
+
+                formatter:(value)=>{
+                    return value;
+                }
+
+            }
+
+        },
+
+        scales:{
+
+            x:{
+
+                beginAtZero:true,
+
+                grid:{
+                    color:"#e2e8f0"
+                },
+
+                ticks:{
+                    precision:0
+                }
+
+            },
+
+            y:{
+
+                grid:{
+                    display:false
+                }
+
+            }
+
+        }
+
+    }
+
+});
+
+
+
+//======================
+// Tasks Per Project
+//======================
+
+const projectTaskCtx = document.getElementById("projectChart").getContext("2d");
+
+const projectTaskGradient = projectTaskCtx.createLinearGradient(0,0,0,350);
+
+projectTaskGradient.addColorStop(0,"#2563eb");
+projectTaskGradient.addColorStop(1,"#60a5fa");
+
+new Chart(projectTaskCtx,{
+
+    type:"bar",
+
+    data:{
+
+        labels:{{ project_labels|safe }},
+
+        datasets:[{
+
+            label:"Tasks Per Project",
+            data:{{ project_task_counts|safe }},
+            backgroundColor: projectTaskGradient,
+            borderRadius:15,
+            borderSkipped:false,
+            maxBarThickness:45
+        }]
+
+    },
+
+    options:{
+
+        responsive:true,
+
+        maintainAspectRatio:false,
+
+        animation:{
+            duration:1800,
+            easing:"easeOutQuart"
+        },
+
+        plugins:{
+
+            legend:{
+                display:true,
+                position:"top",
+
+                labels:{
+                    usePointStyle:true,
+                    pointStyle:"circle",
+
+                    font:{
+                        size:13,
+                        weight:"bold"
+                    }
+                }
+            },
+
+            tooltip:{
+                enabled:true
+            },
+
+            ticks:{
+                autoSkip:false,
+                maxRotation:45,
+                minRotation:45
+            },
+
+            datalabels:{
+
+                anchor:"end",
+
+                align:"top",
+
+                color:"#1e293b",
+
+                font:{
+                    size:13,
+                    weight:"bold"
+                },
+
+                formatter:(value)=>{
+                    return value;
+                }
+
+            }
+
+        },
+
+        scales:{
+
+            x:{
+
+                grid:{
+                    display:false
+                },
+
+                ticks:{
+                    maxRotation:30,
+                    minRotation:0
+                }
+
+            },
+
+            y:{
+
+                beginAtZero:true,
+
+                grid:{
+                    color:"#e2e8f0"
+                },
+
+                ticks:{
+                    precision:0
+                }
+
+            }
+
+        }
+
+    }
+
+});
+
+
+
+//======================
+// Due vs Completed
+//======================
+
+new Chart(document.getElementById("dueChart"),{
+
+    type:"doughnut",
+
+    data:{
+
+        labels:["Due","Completed"],
+
+        datasets:[{
+
+            label:"Tasks",
+
+            data:[{{ due_tasks }}, {{ completed_tasks }}],
+
+            backgroundColor:[
+
+                "#ef4444",
+                "#22c55e"
+
+            ],
+
+            borderColor:"#ffffff",
+            borderWidth:4,
+
+            hoverOffset:18
+
+        }]
+
+    },
+
+    options:{
+
+        responsive:true,
+        maintainAspectRatio:false,
+
+        cutout:"65%",
+
+        animation:{
+            duration:1800,
+            easing:"easeOutQuart"
+        },
+
+        plugins:{
+
+            legend:{
+
+                display:true,
+                position:"bottom",
+
+                labels:{
+                    usePointStyle:true,
+                    pointStyle:"circle",
+                    padding:18,
+
+                    font:{
+                        size:13,
+                        weight:"bold"
+                    }
+                }
+
+            },
+
+            tooltip:{
+                enabled:true
+            },
+
+            datalabels:{
+
+                color:"#ffffff",
+
+                font:{
+                    size:16,
+                    weight:"bold"
+                },
+
+                formatter:(value,context)=>{
+
+                    let total=context.dataset.data.reduce((a,b)=>a+b,0);
+
+                    let percentage=((value/total)*100).toFixed(1);
+
+                    return value+"\n("+percentage+"%)";
+
+                }
+
+            }
+
+        }
+
+    }
+
+});
+
+
+
+//======================
+// Completion Trend
+//======================
+
+const completionCtx = document.getElementById("completionChart").getContext("2d");
+
+const completionGradient = completionCtx.createLinearGradient(0,0,0,350);
+
+completionGradient.addColorStop(0,"rgba(20,184,166,.45)");
+completionGradient.addColorStop(1,"rgba(20,184,166,0)");
+
+new Chart(completionCtx,{
+
+    type:"line",
+
+    data:{
+
+        labels:["Pending","Completed"],
+
+        datasets:[{
+
+            label:"Tasks",
+
+            data:[{{ pending_tasks }},{{ completed_tasks }}],
+
+            borderColor:"#14b8a6",
+
+            backgroundColor:completionGradient,
+
+            fill:true,
+
+            borderWidth:4,
+
+            tension:.35,
+
+            pointRadius:6,
+
+            pointHoverRadius:9,
+
+            pointBackgroundColor:"#14b8a6",
+
+            pointBorderColor:"#ffffff",
+
+            pointBorderWidth:3
+
+        }]
+
+    },
+
+    options:{
+
+        responsive:true,
+
+        maintainAspectRatio:false,
+
+        animation:{
+            duration:1800,
+            easing:"easeOutQuart"
+        },
+
+        plugins:{
+
+            legend:{
+                display:true,
+                position:"top",
+
+                labels:{
+                    usePointStyle:true,
+                    pointStyle:"circle",
+
+                    font:{
+                        size:13,
+                        weight:"bold"
+                    }
+                }
+            },
+
+            tooltip:{
+                enabled:true
+            },
+
+            datalabels:{
+
+                align:"top",
+
+                anchor:"end",
+
+                color:"#0f172a",
+
+                font:{
+                    size:13,
+                    weight:"bold"
+                },
+
+                formatter:(value)=>{
+                    return value;
+                }
+
+            }
+
+        },
+
+        scales:{
+
+            x:{
+
+                grid:{
+                    display:false
+                }
+
+            },
+
+            y:{
+
+                beginAtZero:true,
+
+                grid:{
+                    color:"#e2e8f0"
+                },
+
+                ticks:{
+                    precision:0
+                }
+
+            }
+
+        }
+
+    }
+
+});
+
+
+
+//======================
+// Task Status
+//======================
+
+new Chart(document.getElementById("statusChart"),{
+
+    type:"doughnut",
+
+    data:{
+
+        labels:{{ status_labels|safe }},
+
+        datasets:[{
+
+            label:"Tasks",
+
+            data:{{ status_counts|safe }},
+
+            backgroundColor:[
+
+                "#ef4444",   // Todo
+                "#f59e0b",   // In Progress
+                "#22c55e"    // Completed
+
+            ],
+
+            borderColor:"#ffffff",
+
+            borderWidth:4,
+
+            hoverOffset:18
+
+        }]
+
+    },
+
+    options:{
+
+        responsive:true,
+
+        maintainAspectRatio:false,
+
+        cutout:"65%",
+
+        animation:{
+            duration:1800,
+            easing:"easeOutQuart"
+        },
+
+        plugins:{
+
+            legend:{
+                display:true,
+                position:"bottom",
+
+                labels:{
+                    usePointStyle:true,
+                    pointStyle:"circle",
+                    padding:18,
+
+                    font:{
+                        size:13,
+                        weight:"bold"
+                    }
+                }
+            },
+
+            tooltip:{
+                enabled:true
+            },
+
+            datalabels:{
+
+                color:"#ffffff",
+
+                font:{
+                    size:15,
+                    weight:"bold"
+                },
+
+                formatter:(value,context)=>{
+
+                    let total=context.dataset.data.reduce((a,b)=>a+b,0);
+
+                    let percentage=((value/total)*100).toFixed(1);
+
+                    return value + "\n(" + percentage + "%)";
+
+                }
+
+            }
+
+        }
+
+    }
+
+});
+</script>
 
 {% endblock %}
