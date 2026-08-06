@@ -38,6 +38,21 @@ class AuditLog(models.Model):
         blank=True,
     )
 
+    project = models.ForeignKey(
+    "projects.Project",
+    null=True,
+    blank=True,
+    on_delete=models.SET_NULL,
+    related_name="activity_logs"
+)
+    task = models.ForeignKey(
+    "projects.Task",
+    null=True,
+    blank=True,
+    on_delete=models.SET_NULL,
+    related_name="activity_logs"
+)
+
 
     action = models.CharField(
         max_length=20,

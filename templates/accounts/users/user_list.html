@@ -18,34 +18,34 @@ body{
 </style>
 
 
-
-<div class="min-h-screen bg-slate-50 py-10 px-6">
+<div class="min-h-screen py-10 px-6">
 
 
 <div class="max-w-7xl mx-auto">
 
 
 
-<!-- Main Card -->
-
 <div class="
 bg-white
-rounded-3xl
-border
-border-slate-200
-shadow-xl
+rounded-[34px]
+border border-[#b597e8]
+shadow-[0_30px_80px_rgba(88,28,135,0.12)]
 overflow-hidden
 ">
 
 
 
-<div class="h-1 bg-gradient-to-r from-cyan-500 via-sky-500 to-indigo-500"></div>
-
 
 
 <!-- Header -->
 
-<div class="px-8 py-7 border-b border-slate-200">
+<div class="
+px-8
+py-8
+bg-[#EBD6FB]
+border-b
+border-[#E8D8FF]
+">
 
 
 <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
@@ -55,45 +55,59 @@ overflow-hidden
 <div>
 
 
+
 <div class="
 inline-flex
 items-center
 gap-2
-px-3
-py-1
+px-4
+py-2
 rounded-full
-bg-cyan-50
-text-cyan-700
+bg-[#EDE9FE]
+text-[#6D28D9]
 border
-border-cyan-200
+border-[#DDD6FE]
 text-sm
-font-semibold
+font-bold
 ">
 
-👥 User Management
+
+<i class="fa-solid fa-users"></i>
+
+User Management
+
 
 </div>
 
 
 
+
+
 <h1 class="
-mt-4
-text-3xl
+mt-5
+text-4xl
 font-extrabold
-text-slate-900
+text-[#211533]
 ">
 
+
 Organization Users
+
 
 </h1>
 
 
+
+
+
 <p class="
 mt-2
-text-slate-500
+text-[#64748B]
 ">
 
+
 Manage members, roles, and access permissions.
+
 
 </p>
 
@@ -105,489 +119,595 @@ Manage members, roles, and access permissions.
 
 
 
-<div class="flex gap-3">
+
+
+
+<div class="flex flex-wrap gap-3">
+
 
 
 {% if request.user.role.name == "Owner" %}
 
 
+
 <a
 href="{% url 'create_invitation' %}"
 class="
-inline-flex
-items-center
-gap-2
 px-5
-py-2.5
+py-3
 rounded-xl
-bg-gradient-to-r
-from-cyan-500
-to-teal-600
+bg-[#408175]
 text-white
-text-sm
 font-semibold
-shadow-md
-shadow-cyan-200
-hover:shadow-lg
-hover:scale-105
+shadow-[0_10px_25px_rgba(37,99,235,0.25)]
+hover:bg-[#408175]
 transition
-duration-300
 ">
 
+
 + Create User
+
 
 </a>
 
 
 {% endif %}
+
+
 
 
 
 <a
 href="{% url 'role_list' %}"
 class="
-inline-flex
-items-center
-gap-2
 px-5
-py-2.5
+py-3
 rounded-xl
-bg-gradient-to-r
-from-blue-500
-to-indigo-600
+bg-[#3291B6]
 text-white
-text-sm
 font-semibold
-shadow-md
-shadow-blue-200
-hover:shadow-lg
-hover:scale-105
+shadow-[0_10px_25px_rgba(147,51,234,0.25)]
+hover:bg-[#7E22CE]
 transition
-duration-300
 ">
+
 
 ⚡ Roles
 
+
 </a>
 
+
+
+
+
+
 {% if request.user.role.name == "Owner" %}
+
+
+
 <a
 href="{% url 'invitation_list' %}"
 class="
 px-5
-py-2.5
-bg-purple-600
-hover:bg-purple-700
+py-3
+rounded-xl
+bg-[#8F0177]
 text-white
-rounded-lg
 font-semibold
+shadow-[0_10px_25px_rgba(234,88,12,0.25)]
+hover:bg-[#D552A3]
 transition
 ">
+
 
 Invitations
 
+
 </a>
 
+
 {% endif %}
+
+
+
+
+</div>
+
+
+
 </div>
 
 
 </div>
 
-
-</div>
-
-
-
-
-
-<!-- Users Cards -->
+<!-- Users Section -->
 
 <div class="p-8">
 
-    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
 
+<div class="space-y-4">
 
-        {% for user in users %}
 
 
-        <div class="
-            bg-white
-            border
-            border-slate-200
-            rounded-3xl
-            p-6
-            shadow-sm
-            hover:shadow-xl
-            transition
-            duration-300
-        ">
+{% for user in users %}
 
-
-            <!-- User Header -->
-
-            <div class="flex items-center gap-4">
-
-
-                {% if user.profile.profile_picture %}
-
-                <img
-                src="{{ user.profile.profile_picture.url }}"
-                class="
-                w-16
-                h-16
-                rounded-2xl
-                object-cover
-                border
-                border-slate-200
-                "
-                >
-
-                {% else %}
-
-
-                <div
-                class="
-                w-16
-                h-16
-                rounded-2xl
-                bg-cyan-100
-                text-cyan-700
-                flex
-                items-center
-                justify-center
-                text-2xl
-                font-bold
-                "
-                >
-
-                    {{ user.username|first|upper }}
-
-                </div>
-
-
-                {% endif %}
-
-
-
-                <div>
-
-                    <h3 class="
-                    text-lg
-                    font-bold
-                    text-slate-900
-                    ">
-
-                        {{ user.username }}
-
-                    </h3>
-
-
-                    <p class="
-                    text-sm
-                    text-slate-500
-                    ">
-
-                        {{ user.email }}
-
-                    </p>
-
-
-                </div>
-
-
-            </div>
-
-
-
-
-            <!-- User Info -->
-
-
-            <div class="
-            mt-6
-            space-y-4
-            ">
-
-
-                <div class="
-                flex
-                justify-between
-                items-center
-                ">
-
-                    <span class="text-sm text-slate-500">
-                        Role
-                    </span>
-
-
-                    {% if user.role %}
-
-                    <span
-                    class="
-                    px-3
-                    py-1
-                    rounded-full
-                    bg-emerald-100
-                    text-emerald-700
-                    text-xs
-                    font-semibold
-                    border
-                    border-emerald-200
-                    "
-                    >
-
-                        {{ user.role.name }}
-
-                    </span>
-
-
-                    {% else %}
-
-
-                    <span
-                    class="
-                    px-3
-                    py-1
-                    rounded-full
-                    bg-slate-100
-                    text-slate-500
-                    text-xs
-                    "
-                    >
-
-                        No Role
-
-                    </span>
-
-
-                    {% endif %}
-
-
-                </div>
-
-
-
-
-                <div class="
-                flex
-                justify-between
-                items-center
-                ">
-
-
-                    <span class="text-sm text-slate-500">
-                        Status
-                    </span>
-
-
-                    <span
-                    class="
-                    px-3
-                    py-1
-                    rounded-full
-                    bg-cyan-100
-                    text-cyan-700
-                    text-xs
-                    font-semibold
-                    "
-                    >
-
-                        Active
-
-                    </span>
-
-
-                </div>
-
-
-            </div>
-
-
-
-
-
-            <!-- Actions -->
-
-
-            <div class="
-            mt-6
-            flex
-            gap-3
-            ">
-
-
-            {% if request.user.role.name == "Owner" %}
-
-
-                {% if user != request.user %}
-
-
-                <a
-href="{% url 'assign_user_role' user.id %}"
+<div
 class="
-inline-flex
+grid
+grid-cols-1
+lg:grid-cols-[1fr_360px_220px]
 items-center
-gap-2
-px-4
-py-2
-text-sm
-font-semibold
-rounded-xl
-bg-gradient-to-r
-from-violet-500
-to-purple-600
-text-white
-shadow-md
-shadow-purple-200
-hover:shadow-lg
-hover:scale-105
-transition
-duration-300
+gap-10
+px-6
+py-5
+rounded-2xl
+border
+shadow-sm
+"
+
+
+style="
+{% if forloop.counter|divisibleby:3 %}
+background-color:#E8FFF8;
+border-color:#99F6E4;
+
+{% elif forloop.counter|divisibleby:2 %}
+background-color:#EAF4FF;
+border-color:#BFDBFE;
+
+{% else %}
+background-color:#FFF1E6;
+border-color:#FFD8B5;
+
+{% endif %}
+"
+>
+
+
+
+
+
+
+<!-- User Identity -->
+
+
+<div class="
+flex
+items-center
+gap-5
+min-w-0
 ">
 
-⚙ Assign Role
+
+
+{% if user.profile.profile_picture %}
+
+
+<img
+src="{{ user.profile.profile_picture.url }}"
+class="
+w-14
+h-14
+rounded-2xl
+object-cover
+border
+border-white
+shadow
+">
+
+
+{% else %}
+
+
+<div
+class="
+w-14
+h-14
+rounded-2xl
+bg-white
+text-[#6D28D9]
+flex
+items-center
+justify-center
+text-xl
+font-extrabold
+shadow
+">
+
+
+{{ user.username|first|upper }}
+
+
+</div>
+
+
+{% endif %}
+
+
+
+
+
+<div>
+
+
+<h3 class="
+text-lg
+font-extrabold
+text-[#211533]
+truncate
+">
+
+
+{{ user.username }}
+
+
+</h3>
+
+
+<p class="
+text-sm
+text-[#64748B]
+truncate
+">
+
+
+{{ user.email }}
+
+
+</p>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- Role + Status -->
+
+<div class="
+grid
+grid-cols-2
+gap-8
+items-center
+justify-items-center
+w-full
+">
+
+
+
+<div class="text-center">
+
+
+<p class="
+text-xs
+text-[#64748B]
+font-medium
+mb-1
+">
+
+Role
+
+</p>
+
+
+
+{% if user.role %}
+
+
+<span
+class="
+px-4
+py-1.5
+rounded-full
+bg-white
+text-[#7C3AED]
+text-sm
+font-bold
+shadow-sm
+whitespace-nowrap
+max-w-[180px]
+overflow-hidden
+text-ellipsis
+">
+{{ user.role.name }}
+</span>
+
+
+{% else %}
+
+
+<span
+class="
+px-4
+py-1.5
+rounded-full
+bg-white
+text-[#64748B]
+text-sm
+font-bold
+">
+
+
+No Role
+
+
+</span>
+
+
+{% endif %}
+
+
+</div>
+
+
+
+
+
+
+
+
+<div class="text-center">
+
+
+<p class="
+text-xs
+text-[#64748B]
+font-medium
+mb-1
+">
+
+Status
+
+</p>
+
+
+{% if user.is_active %}
+
+<span
+class="
+px-4
+py-1.5
+rounded-full
+bg-[#DCFCE7]
+text-[#15803D]
+text-sm
+font-bold
+whitespace-nowrap
+">
+● Active
+</span>
+
+{% else %}
+
+<span
+class="
+px-4
+py-1.5
+rounded-full
+bg-[#FFE4E6]
+text-[#BE123C]
+text-sm
+font-bold
+whitespace-nowrap
+">
+● Inactive
+</span>
+
+{% endif %}
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<!-- Actions -->
+
+
+<div class="
+flex
+justify-end
+gap-3
+w-full
+border-l
+border-[#E8D8FF]
+">
+
+
+
+{% if request.user.role.name == "Owner" %}
+
+
+
+{% if user != request.user %}
+
+
+
+<a
+href="{% url 'assign_user_role' user.id %}"
+class="
+px-5
+py-2.5
+rounded-xl
+bg-[#2563EB]
+text-white
+text-sm
+font-bold
+shadow-md
+hover:bg-[#1D4ED8]
+transition
+">
+
+
+⚙ Assign
+
 
 </a>
 
 
 
 
-                <form
-                method="POST"
-                action="{% url 'delete_user' user.id %}"
-                class="flex-1"
-                >
 
-                    {% csrf_token %}
+<form
+method="POST"
+action="{% url 'delete_user' user.id %}"
+>
 
 
-                   <button
+{% csrf_token %}
+
+
+<button
 type="submit"
 onclick="return confirm('Are you sure you want to delete this user?')"
 class="
-inline-flex
-items-center
-gap-2
-px-4
-py-2
-text-sm
-font-semibold
+px-5
+py-2.5
 rounded-xl
-bg-gradient-to-r
-from-rose-500
-to-red-600
+bg-[#F43F5E]
 text-white
+text-sm
+font-bold
 shadow-md
-shadow-red-200
-hover:shadow-lg
-hover:scale-105
+hover:bg-[#E11D48]
 transition
-duration-300
 ">
 
+
 🗑 Delete
+
 
 </button>
 
 
-                </form>
-
-
-                {% else %}
-
-
-                <div
-                class="
-                w-full
-                text-center
-                px-4
-                py-2.5
-                rounded-xl
-                bg-slate-100
-                text-slate-500
-                text-sm
-                font-semibold
-                "
-                >
-
-                    Current User
-
-                </div>
-
-
-                {% endif %}
+</form>
 
 
 
-            {% else %}
+{% else %}
 
 
 
-                <div
-                class="
-                w-full
-                text-center
-                px-4
-                py-2.5
-                rounded-xl
-                bg-slate-100
-                text-slate-500
-                text-sm
-                "
-                >
-
-                    View Only
-
-                </div>
+<span
+class="
+px-5
+py-2.5
+rounded-xl
+bg-white
+text-[#64748B]
+text-sm
+font-bold
+">
 
 
+Current User
 
-            {% endif %}
+
+</span>
 
 
 
-            </div>
+{% endif %}
 
 
 
-        </div>
+
+{% else %}
 
 
 
-        {% empty %}
+<span
+class="
+px-5
+py-2.5
+rounded-xl
+bg-white
+text-[#64748B]
+text-sm
+font-bold
+">
 
 
-        <div class="
-        col-span-full
-        text-center
-        py-10
-        text-slate-500
-        ">
-
-            No users found.
-
-        </div>
+View Only
 
 
-        {% endfor %}
+</span>
 
 
 
-    </div>
-
-
-</div>
+{% endif %}
 
 
 
 </div>
 
 
+
+
+
+
+
+</div>
+
+
+
+
+
+{% empty %}
+
+
+
+<div class="
+text-center
+py-12
+text-[#64748B]
+font-semibold
+">
+
+
+No users found.
+
+
+</div>
+
+
+
+{% endfor %}
+
+
+
+
 </div>
 
 
 </div>
 
+
+
+
+
+</div>
+
+
+</div>
 
 {% endblock %}

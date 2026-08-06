@@ -72,6 +72,7 @@ def project_audit(sender, instance, created, **kwargs):
         model_name="Project",
         object_id=instance.id,
         description=f"{action.capitalize()}d project: {instance.name}",
+        project=instance,
     )
 
 
@@ -83,6 +84,7 @@ def project_delete_audit(sender, instance, **kwargs):
         model_name="Project",
         object_id=instance.id,
         description=f"Deleted project: {instance.name}",
+        project=instance,
     )
 
 
@@ -100,6 +102,8 @@ def task_audit(sender, instance, created, **kwargs):
         model_name="Task",
         object_id=instance.id,
         description=f"{action.capitalize()}d task: {instance.title}",
+        project=instance.project,
+        task=instance,
     )
 
 
@@ -111,6 +115,8 @@ def task_delete_audit(sender, instance, **kwargs):
         model_name="Task",
         object_id=instance.id,
         description=f"Deleted task: {instance.title}",
+        project=instance.project,
+        task=instance,
     )
 
 

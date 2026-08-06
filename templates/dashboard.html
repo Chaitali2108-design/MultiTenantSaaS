@@ -621,7 +621,8 @@ Completed
 
 <!-- Quick Actions -->
 
-<div class="rounded-[32px] bg-gradient-to-br from-[#102A2A] to-[#0F766E] p-7 text-white shadow-xl">
+<div class="rounded-[32px] bg-gradient-to-br from-[#102A2A] to-[#0F766E] p-7 text-white shadow-xl shadow-[0_30px_80px_rgba(15,23,42,0.22)]
+hover:shadow-[0_35px_90px_rgba(15,23,42,0.28)]">
 
 <h2 class="text-xl font-bold mb-6 text-white">
 ⚡ Quick Actions
@@ -693,101 +694,186 @@ Invite Member
 
 <!-- Recent Activity -->
 
-<div class="rounded-[32px] bg-white border border-[#E5E7EB] p-7 shadow-sm">
+<div class="rounded-[34px] bg-[#FDF0D5] p-6 border border-[#F4D9A5] shadow-[0_25px_70px_rgba(15,23,42,0.18)] hover:shadow-[0_35px_90px_rgba(15,23,42,0.25)] transition-all duration-300">
 
+    <!-- Header -->
+    <div class="mb-6">
 
-<h2 class="text-xl font-bold text-[#102A2A] mb-6">
-🔔 Recent Activity
-</h2>
+<div class="flex items-center justify-center h-14 rounded-2xl bg-[#FDF0D5] shadow-[0_0_18px_rgba(15,23,42,0.12),0_8px_20px_rgba(15,23,42,0.10)]">
 
-
-
-<div class="space-y-5">
-
-
-{% for activity in recent_activities %}
-
-
-<div class="flex gap-4">
-
-
-<div class="w-11 h-11 rounded-2xl bg-[#E8F8F7] text-[#069494] flex items-center justify-center shrink-0">
-
-
-{% if activity.action|lower == "created" %}
-
-<i class="fa-solid fa-plus"></i>
-
-
-{% elif activity.action|lower == "updated" %}
-
-<i class="fa-solid fa-pen"></i>
-
-
-{% elif activity.action|lower == "deleted" %}
-
-<i class="fa-solid fa-trash"></i>
-
-
-{% else %}
-
-<i class="fa-solid fa-clock"></i>
-
-
-{% endif %}
-
+    <h2 class="text-xl font-bold tracking-wide text-[#5A3E1B]">
+        🔔 Recent Activity
+    </h2>
 
 </div>
 
-
-
-<div>
-
-<p class="text-sm text-[#425466]">
-
-<strong class="text-[#102A2A]">
-{{ activity.user.username }}
-</strong>
-
-{{ activity.action }}
-
-</p>
-
-
-{% if activity.task %}
-
-<p class="text-sm text-[#718096]">
-{{ activity.task.title }}
-</p>
-
-{% endif %}
+    </div>
 
 
 
-<p class="text-xs text-[#94A3B8] mt-1">
-{{ activity.created_at|date:"d M Y • H:i" }}
-</p>
+    <!-- Two Columns -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
 
-</div>
 
 
-</div>
+        <!-- ================= PROJECT HISTORY ================= -->
+
+        <div class="bg-[#FFF8E8] rounded-3xl border border-[#F3D9A6] p-5">
+
+            <div class="flex items-center justify-between mb-5">
+
+                <h3 class="text-lg font-bold text-[#6B4F2A]">
+                    📂 Project History
+                </h3>
+
+                <span class="text-xs font-semibold px-3 py-1 rounded-full bg-[#FFE7B8] text-[#A56B00]">
+                    {{ project_history|length }}
+                </span>
+
+            </div>
 
 
-{% empty %}
+
+            <div class="space-y-3 max-h-80 overflow-y-auto scrollbar-hide pr-1">
+
+                {% for activity in project_history %}
+
+                <div class="bg-white rounded-2xl border border-[#F3E2BB] px-4 py-4 hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+
+                    <div class="flex items-center gap-3">
+
+                        <div class="w-10 h-10 rounded-xl bg-[#FFE7B8] flex items-center justify-center text-[#A56B00]">
+
+                            <i class="fa-solid fa-folder-tree"></i>
+
+                        </div>
+
+                        <div class="flex-1">
+
+                            <p class="text-sm font-semibold text-[#5A3E1B]">
+
+                                {{ activity.project.name }}
+
+                            </p>
+
+                            <p class="text-sm text-[#8A6A34]">
+
+                                <strong>{{ activity.user.username }}</strong>
+
+                                {{ activity.action }}
+
+                            </p>
+
+                            <p class="text-xs text-[#B08B4B] mt-1">
+
+                                {{ activity.created_at|date:"d M Y • H:i" }}
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% empty %}
+
+                <div class="h-52 flex items-center justify-center text-[#927044]">
+
+                    No project history available.
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
 
 
-<p class="text-[#718096]">
-No recent activity available.
-</p>
 
 
-{% endfor %}
 
 
-</div>
 
+        <!-- ================= TASK HISTORY ================= -->
+
+        <div class="bg-[#FFF8E8] rounded-3xl border border-[#F3D9A6] p-5">
+
+            <div class="flex items-center justify-between mb-5">
+
+                <h3 class="text-lg font-bold text-[#6B4F2A]">
+                    📝 Task History
+                </h3>
+
+                <span class="text-xs font-semibold px-3 py-1 rounded-full bg-[#FFE7B8] text-[#A56B00]">
+                    {{ task_history|length }}
+                </span>
+
+            </div>
+
+
+
+            <div class="space-y-3 max-h-80 overflow-y-auto scrollbar-hide pr-1">
+
+                {% for activity in task_history %}
+
+                <div class="bg-white rounded-2xl border border-[#F3E2BB] px-4 py-4 hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+
+                    <div class="flex items-center gap-3">
+
+                        <div class="w-10 h-10 rounded-xl bg-[#FFE7B8] flex items-center justify-center text-[#A56B00]">
+
+                            <i class="fa-solid fa-list-check"></i>
+
+                        </div>
+
+                        <div class="flex-1">
+
+                            <p class="text-sm font-semibold text-[#5A3E1B]">
+
+                                {{ activity.task.title }}
+
+                            </p>
+
+                            <p class="text-sm text-[#8A6A34]">
+
+                                <strong>{{ activity.user.username }}</strong>
+
+                                {{ activity.action }}
+
+                            </p>
+
+                            <p class="text-xs text-[#B08B4B] mt-1">
+
+                                {{ activity.created_at|date:"d M Y • H:i" }}
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% empty %}
+
+                <div class="h-52 flex items-center justify-center text-[#927044]">
+
+                    No task history available.
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+
+    </div>
 
 </div>
 

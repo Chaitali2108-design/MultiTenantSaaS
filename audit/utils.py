@@ -22,6 +22,8 @@ def create_audit_log(
     model_name,
     description,
     object_id=None,
+    project=None,
+    task=None,
 ):
 
     request = get_current_request()
@@ -52,6 +54,10 @@ def create_audit_log(
         user=user,
 
         organization=organization,
+
+        project=project,
+
+        task=task,
 
         action=action,
 

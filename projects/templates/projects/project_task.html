@@ -2,655 +2,691 @@
 
 {% block content %}
 
-<style>
+<script src="https://cdn.tailwindcss.com"></script>
 
-.task-page-wrapper{
-    padding:25px;
-    background:#f8fafc;
-}
+<link 
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" 
+rel="stylesheet">
 
+<div class="min-h-screen bg-[#FBF8F3] px-6 py-10">
 
-/* HEADER */
 
-.task-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:25px;
-}
+<div class="max-w-7xl mx-auto">
 
-.task-title{
-    font-size:28px;
-    font-weight:700;
-    color:#0f172a;
-}
 
 
-.create-task-btn{
-    background:#2563eb;
-    color:white;
-    padding:10px 18px;
-    border-radius:8px;
-    text-decoration:none;
-    font-size:14px;
-}
+<!-- HEADER -->
 
+<div class="
+relative
+flex
+flex-col
+md:flex-row
+justify-between
+items-start
+md:items-center
+gap-6
+mb-10
+">
 
-/* GRID */
 
-.task-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-    gap:22px;
-}
 
+<div>
 
 
-/* CARD */
+<div class="
+inline-flex
+items-center
+gap-2
+px-4
+py-2
+rounded-full
+bg-[#EDE9FE]
+text-[#6D28D9]
+text-sm
+font-bold
+border
+border-[#DDD6FE]
+">
 
-.task-card{
 
-    background:white;
-    border-radius:14px;
-    padding:20px;
+<i class="fa-solid fa-list-check"></i>
 
-    border:1px solid #e2e8f0;
+Task Workspace
 
-    box-shadow:0 4px 12px rgba(15,23,42,0.05);
 
-    transition:.25s;
+</div>
 
-}
 
 
-.task-card:hover{
 
-    transform:translateY(-4px);
+<h1 class="
+mt-5
+text-4xl
+font-extrabold
+tracking-tight
+text-[#18181B]
+">
 
-    box-shadow:0 8px 20px rgba(15,23,42,0.10);
+Tasks
 
-}
 
-
-/* PRIORITY SIDE */
-
-.task-card.high{
-    border-left:4px solid #ef4444;
-}
-
-.task-card.medium{
-    border-left:4px solid #f59e0b;
-}
-
-.task-card.low{
-    border-left:4px solid #22c55e;
-}
-
-
-
-/* TITLE */
-
-.task-card-title{
-
-    font-size:19px;
-    font-weight:700;
-    color:#111827;
-
-    margin-bottom:6px;
-
-}
-
-
-.project-name{
-
-    font-size:13px;
-    color:#64748b;
-
-    margin-bottom:15px;
-
-}
-
-
-
-/* USER */
-
-.user-box{
-
-    display:inline-block;
-
-    background:#f1f5f9;
-
-    color:#334155;
-
-    padding:5px 10px;
-
-    border-radius:20px;
-
-    font-size:12px;
-
-    margin-bottom:15px;
-
-}
-
-
-
-/* INFO ROW */
-
-.task-info{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    margin-bottom:12px;
-
-}
-
-
-
-/* STATUS */
-
-
-.status-box{
-
-    padding:4px 10px;
-
-    border-radius:20px;
-
-    font-size:11px;
-
-    font-weight:600;
-
-}
-
-
-.status-todo{
-
-    background:#f1f5f9;
-    color:#475569;
-
-}
-
-
-.status-progress{
-
-    background:#eff6ff;
-    color:#2563eb;
-
-}
-
-
-.status-done{
-
-    background:#f0fdf4;
-    color:#15803d;
-
-}
-
-
-
-.priority-text{
-
-    font-size:12px;
-    color:#64748b;
-
-}
-
-
-
-/* DATE */
-
-.due-date{
-
-    font-size:12px;
-
-    color:#64748b;
-
-    margin-bottom:12px;
-
-}
-
-
-
-/* PROGRESS */
-
-
-.progress-track{
-
-    height:5px;
-
-    background:#e2e8f0;
-
-    border-radius:10px;
-
-}
-
-
-.progress-fill{
-
-    height:5px;
-
-    background:#2563eb;
-
-    border-radius:10px;
-
-}
-
-
-
-/* ACTION ICONS */
-
-
-.task-actions{
-
-    display:flex;
-
-    justify-content:flex-end;
-
-    gap:12px;
-
-    margin-top:18px;
-
-}
-
-
-.task-actions a{
-
-    width:32px;
-
-    height:32px;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    border-radius:8px;
-
-    text-decoration:none;
-
-    font-size:14px;
-
-    transition:.2s;
-
-}
-
-
-
-.view-btn{
-
-    background:#eff6ff;
-
-    color:#2563eb;
-
-}
-
-
-.edit-btn{
-
-    background:#f0fdf4;
-
-    color:#16a34a;
-
-}
-
-
-.delete-btn{
-
-    background:#fef2f2;
-
-    color:#dc2626;
-
-}
-
-
-
-.task-actions a:hover{
-
-    transform:scale(1.1);
-
-}
-
-
-
-/* EMPTY */
-
-
-.empty-task{
-
-    background:white;
-
-    padding:25px;
-
-    text-align:center;
-
-    color:#64748b;
-
-}
-
-
-/* ================= TASK SUMMARY ================= */
-
-.task-summary{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-    gap:18px;
-    margin-bottom:25px;
-}
-
-
-.summary-card{
-
-    background:white;
-    padding:18px;
-
-    border-radius:12px;
-
-    border:1px solid #e2e8f0;
-
-}
-
-
-.summary-title{
-
-    font-size:13px;
-    color:#64748b;
-
-}
-
-
-.summary-number{
-
-    font-size:26px;
-    font-weight:700;
-
-    color:#0f172a;
-
-}
-
-
-
-/* ================= FILTER ================= */
-
-
-.filter-box{
-
-    background:white;
-
-    padding:18px;
-
-    border-radius:12px;
-
-    border:1px solid #e2e8f0;
-
-    margin-bottom:25px;
-
-}
-
-
-.filter-form{
-
-    display:flex;
-
-    flex-wrap:wrap;
-
-    gap:12px;
-
-}
-
-
-.filter-form input,
-.filter-form select{
-
-    padding:9px 12px;
-
-    border:1px solid #cbd5e1;
-
-    border-radius:8px;
-
-    font-size:13px;
-
-}
-
-
-
-.filter-btn{
-
-    background:#2563eb;
-
-    color:white;
-
-    border:none;
-
-    padding:9px 18px;
-
-    border-radius:8px;
-
-    cursor:pointer;
-
-}
-
-
-.clear-btn{
-
-    background:#f1f5f9;
-
-    color:#334155;
-
-    padding:9px 18px;
-
-    border-radius:8px;
-
-    text-decoration:none;
-
-}
-
-
-</style>
-
-
-
-<div class="task-page-wrapper">
-
-
-<div class="task-header">
-
-<h1 class="task-title">
-    Tasks
 </h1>
 
 
-<a href="{% url 'create_task' %}" class="create-task-btn">
 
-<i class="fa-solid fa-plus"></i>
+<p class="
+mt-2
+text-[#64748B]
+max-w-xl
+">
+
+Track execution, deadlines, assignments and project workflow.
+
+</p>
+
+
+
+</div>
+
+
+
+
+
+
+<a href="{% url 'create_task' %}"
+
+class="
+group
+inline-flex
+items-center
+gap-3
+px-6
+py-3.5
+rounded-2xl
+bg-[#7C3AED]
+text-white
+font-bold
+shadow-lg
+shadow-purple-200
+hover:bg-[#6D28D9]
+hover:-translate-y-1
+transition
+duration-300
+">
+
+
+<i class="
+fa-solid
+fa-plus
+group-hover:rotate-90
+transition
+">
+
+</i>
+
+
 Create Task
+
 
 </a>
 
 
+
 </div>
 
 
-<!-- ================= SUMMARY ================= -->
-
-<div class="task-summary">
 
 
-<div class="summary-card">
 
-<div class="summary-title">
+
+
+
+
+<!-- SUMMARY SECTION -->
+
+
+<div class="
+grid
+grid-cols-1
+sm:grid-cols-2
+xl:grid-cols-3
+gap-6
+mb-10
+">
+
+
+
+
+
+
+<!-- TOTAL -->
+
+
+<div class="
+relative
+overflow-hidden
+rounded-3xl
+p-6
+bg-[#EEF2FF]
+border
+border-[#C7D2FE]
+">
+
+
+<div class="
+absolute
+right-5
+top-5
+w-12
+h-12
+rounded-xl
+bg-[#C7D2FE]
+text-[#4338CA]
+flex
+items-center
+justify-center
+text-xl
+">
+
+<i class="fa-solid fa-list-check"></i>
+
+</div>
+
+
+
+<p class="
+text-sm
+font-bold
+text-[#4338CA]
+">
+
 Total Tasks
-</div>
 
-<div class="summary-number">
+</p>
+
+
+
+<h2 class="
+mt-3
+text-4xl
+font-extrabold
+text-[#312E81]
+">
+
 {{ tasks|length }}
-</div>
+
+</h2>
+
+
 
 </div>
 
 
 
-<div class="summary-card">
 
-<div class="summary-title">
+
+
+
+
+<!-- COMPLETED -->
+
+
+<div class="
+relative
+overflow-hidden
+rounded-3xl
+p-6
+bg-[#ECFDF5]
+border
+border-[#A7F3D0]
+">
+
+
+
+<div class="
+absolute
+right-5
+top-5
+w-12
+h-12
+rounded-xl
+bg-[#BBF7D0]
+text-[#15803D]
+flex
+items-center
+justify-center
+text-xl
+">
+
+<i class="fa-solid fa-circle-check"></i>
+
+</div>
+
+
+
+
+<p class="
+text-sm
+font-bold
+text-[#047857]
+">
+
 Completed
-</div>
 
-<div class="summary-number">
+</p>
+
+
+
+
+<h2 class="
+mt-3
+text-4xl
+font-extrabold
+text-[#065F46]
+">
+
 {{ tasks|dictsort:"status"|length }}
-</div>
+
+</h2>
+
+
+
 
 </div>
 
 
 
-<div class="summary-card">
 
-<div class="summary-title">
+
+
+
+
+<!-- OVERDUE -->
+
+
+<div class="
+relative
+overflow-hidden
+rounded-3xl
+p-6
+bg-[#FFF1F2]
+border
+border-[#FECDD3]
+">
+
+
+
+<div class="
+absolute
+right-5
+top-5
+w-12
+h-12
+rounded-xl
+bg-[#FECDD3]
+text-[#BE123C]
+flex
+items-center
+justify-center
+text-xl
+">
+
+<i class="fa-solid fa-clock"></i>
+
+</div>
+
+
+
+
+<p class="
+text-sm
+font-bold
+text-[#BE123C]
+">
+
 Overdue
-</div>
 
-<div class="summary-number">
+</p>
+
+
+
+<h2 class="
+mt-3
+text-4xl
+font-extrabold
+text-[#881337]
+">
+
 {{ overdue_tasks|length }}
-</div>
+
+</h2>
+
+
+
 
 </div>
 
 
+
+
+
 </div>
 
 
 
-<!-- ================= FILTER ================= -->
 
 
-<div class="filter-box">
 
 
-<form method="GET" class="filter-form">
 
 
-<input 
+<!-- FILTER BAR -->
+
+
+<div class="
+rounded-3xl
+bg-white
+border
+border-[#E7E5E4]
+p-6
+mb-10
+shadow-sm
+">
+
+
+
+<form method="GET"
+
+class="
+flex
+flex-wrap
+gap-4
+">
+
+
+
+
+
+<input
+
 type="text"
+
 name="search"
+
 placeholder="Search task..."
+
 value="{{request.GET.search}}"
+
+class="
+flex-1
+min-w-[220px]
+px-4
+py-3
+rounded-xl
+border
+border-[#D6D3D1]
+bg-[#FFFCF7]
+text-sm
+outline-none
+focus:border-[#7C3AED]
+focus:ring-2
+focus:ring-purple-100
+"
+
 >
 
 
 
-<select name="status">
+
+
+
+
+<select name="status"
+
+class="
+px-4
+py-3
+rounded-xl
+border
+border-[#D6D3D1]
+bg-[#FFFCF7]
+text-sm
+outline-none
+">
+
 
 <option value="">
+
 Status
+
 </option>
+
 
 <option value="todo">
+
 To Do
+
 </option>
+
 
 <option value="progress">
+
 In Progress
+
 </option>
+
 
 <option value="done">
+
 Done
+
 </option>
+
 
 </select>
 
 
 
-<select name="priority">
+
+
+
+<select name="priority"
+
+class="
+px-4
+py-3
+rounded-xl
+border
+border-[#D6D3D1]
+bg-[#FFFCF7]
+text-sm
+">
+
 
 <option value="">
+
 Priority
+
 </option>
+
 
 <option value="high">
+
 High
+
 </option>
+
 
 <option value="medium">
+
 Medium
+
 </option>
 
+
 <option value="low">
+
 Low
+
 </option>
+
 
 </select>
 
 
 
 
-<select name="project">
+
+
+<select name="project"
+
+class="
+px-4
+py-3
+rounded-xl
+border
+border-[#D6D3D1]
+bg-[#FFFCF7]
+text-sm
+">
+
 
 <option value="">
+
 Project
+
 </option>
+
 
 {% for project in projects %}
 
+
 <option value="{{project.id}}">
+
 {{project.name}}
+
 </option>
 
+
 {% endfor %}
+
 
 </select>
 
 
 
-<select name="member">
+
+
+
+<select name="member"
+
+class="
+px-4
+py-3
+rounded-xl
+border
+border-[#D6D3D1]
+bg-[#FFFCF7]
+text-sm
+">
+
 
 <option value="">
+
 Member
+
 </option>
+
 
 
 {% for user in users %}
 
+
 <option value="{{user.id}}">
+
 {{user.username}}
+
 </option>
+
+
 
 {% endfor %}
 
+
 </select>
 
 
 
-<select name="sort">
+
+
+<select name="sort"
+
+class="
+px-4
+py-3
+rounded-xl
+border
+border-[#D6D3D1]
+bg-[#FFFCF7]
+text-sm
+">
+
 
 <option value="">
+
 Sort
+
 </option>
+
 
 <option value="new">
+
 Newest
+
 </option>
+
 
 <option value="old">
+
 Oldest
+
 </option>
+
 
 <option value="priority">
+
 Priority
+
 </option>
 
+
 <option value="due">
+
 Due Date
+
 </option>
+
 
 </select>
 
 
 
-<button class="filter-btn">
+
+
+
+<button
+
+class="
+px-6
+py-3
+rounded-xl
+bg-[#0891B2]
+text-white
+font-bold
+hover:bg-[#0E7490]
+transition
+">
 
 <i class="fa-solid fa-filter"></i>
 
@@ -660,11 +696,26 @@ Apply
 
 
 
-<a href="{% url 'tasks_list' %}" class="clear-btn">
+
+
+<a href="{% url 'tasks_list' %}"
+
+class="
+px-6
+py-3
+rounded-xl
+bg-[#F5F5F4]
+text-[#44403C]
+font-bold
+hover:bg-[#E7E5E4]
+transition
+">
 
 Clear
 
 </a>
+
+
 
 
 
@@ -675,34 +726,292 @@ Clear
 
 
 
-<div class="task-grid">
+
+
+<!-- TASK GRID -->
+
+
+<div class="
+grid
+grid-cols-1
+md:grid-cols-2
+xl:grid-cols-3
+gap-6
+">
 
 
 {% for task in tasks %}
 
 
-<div class="task-card {{task.priority}}">
+
+<div class="
+
+rounded-[32px]
+p-6
+border
+transition
+duration-300
 
 
-<div class="task-card-title">
+shadow-[0_20px_45px_rgba(15,23,42,0.10)]
+hover:shadow-[0_30px_70px_rgba(15,23,42,0.18)]
+
+
+{% if task.progress <= 25 %}
+
+bg-[#FFF1F2]
+border-[#FDA4AF]
+shadow-[0_20px_45px_rgba(244,63,94,0.15)]
+
+{% elif task.progress <= 50 %}
+
+bg-[#FFF7ED]
+border-[#FDBA74]
+shadow-[0_20px_45px_rgba(249,115,22,0.15)]
+
+{% elif task.progress <= 75 %}
+
+bg-[#EFF6FF]
+border-[#93C5FD]
+shadow-[0_20px_45px_rgba(59,130,246,0.15)]
+
+{% else %}
+
+bg-[#ECFDF5]
+border-[#86EFAC]
+shadow-[0_20px_45px_rgba(16,185,129,0.18)]
+
+{% endif %}
+
+">
+
+
+
+
+<!-- TOP LINE -->
+
+
+<div class="
+absolute
+top-0
+left-0
+w-full
+h-1
+rounded-t-3xl
+
+
+{% if task.priority == 'High' %}
+
+bg-[#E11D48]
+
+{% elif task.priority == 'Medium' %}
+
+bg-[#F59E0B]
+
+{% else %}
+
+bg-[#0891B2]
+
+{% endif %}
+
+">
+
+</div>
+
+
+
+
+
+
+
+<!-- TITLE + PRIORITY -->
+
+
+<div class="
+flex
+justify-between
+items-start
+gap-3
+mt-2
+">
+
+
+<h3 class="
+text-xl
+font-extrabold
+text-[#18181B]
+leading-tight
+">
 
 {{task.title}}
 
+</h3>
+
+
+
+
+
+{% if task.priority == "High" %}
+
+
+<span class="
+px-3
+py-1
+rounded-full
+text-xs
+font-bold
+bg-[#FFE4E6]
+text-[#BE123C]
+">
+
+High
+
+</span>
+
+
+
+{% elif task.priority == "Medium" %}
+
+
+
+<span class="
+px-3
+py-1
+rounded-full
+text-xs
+font-bold
+bg-[#FEF3C7]
+text-[#92400E]
+">
+
+Medium
+
+</span>
+
+
+
+{% else %}
+
+
+
+<span class="
+px-3
+py-1
+rounded-full
+text-xs
+font-bold
+bg-[#CCFBF1]
+text-[#0F766E]
+">
+
+Low
+
+</span>
+
+
+
+{% endif %}
+
+
+
 </div>
 
 
-<div class="project-name">
 
-<i class="fa-solid fa-folder"></i>
+
+
+
+
+
+
+<!-- PROJECT -->
+
+
+<div class="
+mt-4
+flex
+items-center
+gap-2
+text-sm
+font-semibold
+text-[#64748B]
+">
+
+
+<i class="fa-solid fa-folder text-[#7C3AED]"></i>
+
+
 {{task.project.name}}
 
+
 </div>
 
 
 
-<div class="user-box">
+
+
+
+
+
+
+<!-- ASSIGNED USER -->
+
+
+<div class="
+mt-5
+flex
+items-center
+gap-3
+px-4
+py-3
+rounded-2xl
+bg-white
+border
+border-[#E7E5E4]
+">
+
+
+<div class="
+w-9
+h-9
+rounded-xl
+bg-[#EDE9FE]
+text-[#7C3AED]
+flex
+items-center
+justify-center
+font-bold
+">
+
 
 <i class="fa-solid fa-user"></i>
+
+
+</div>
+
+
+
+<div>
+
+
+<p class="
+text-xs
+text-[#78716C]
+font-semibold
+">
+
+Assigned To
+
+</p>
+
+
+
+<p class="
+text-sm
+font-bold
+text-[#292524]
+">
+
 
 {% if task.assigned_to %}
 
@@ -714,12 +1023,33 @@ Not Assigned
 
 {% endif %}
 
+
+</p>
+
+
+</div>
+
+
+
 </div>
 
 
 
 
-<div class="task-info">
+
+
+
+
+
+<!-- STATUS -->
+
+
+<div class="
+mt-5
+flex
+justify-between
+items-center
+">
 
 
 <div>
@@ -727,57 +1057,119 @@ Not Assigned
 
 {% if task.status == "done" %}
 
-<span class="status-box status-done">
-Done
+
+<span class="
+px-4
+py-1.5
+rounded-full
+text-xs
+font-bold
+bg-[#DCFCE7]
+text-[#166534]
+">
+
+✓ Done
+
 </span>
+
 
 
 {% elif task.status == "progress" %}
 
 
-<span class="status-box status-progress">
-In Progress
+
+<span class="
+px-4
+py-1.5
+rounded-full
+text-xs
+font-bold
+bg-[#CFFAFE]
+text-[#0E7490]
+">
+
+◉ In Progress
+
 </span>
+
 
 
 {% else %}
 
 
-<span class="status-box status-todo">
-To Do
+
+<span class="
+px-4
+py-1.5
+rounded-full
+text-xs
+font-bold
+bg-[#E7E5E4]
+text-[#57534E]
+">
+
+○ To Do
+
 </span>
+
 
 
 {% endif %}
 
 
+
 </div>
 
 
 
-<div class="priority-text">
+
+<div class="
+text-xs
+font-bold
+text-[#78716C]
+">
 
 <i class="fa-solid fa-flag"></i>
 
 {{task.priority|title}}
 
+
 </div>
 
 
+
 </div>
+
+
+
+
+
 
 
 
 
 {% if task.due_date %}
 
-<div class="due-date">
 
-<i class="fa-regular fa-calendar"></i>
+<div class="
+mt-5
+flex
+items-center
+gap-2
+text-sm
+font-semibold
+text-[#64748B]
+">
 
-Due {{task.due_date}}
+
+<i class="fa-regular fa-calendar text-[#D97706]"></i>
+
+
+Due {{ task.due_date }}
+
 
 </div>
+
 
 {% endif %}
 
@@ -785,67 +1177,246 @@ Due {{task.due_date}}
 
 
 
-<div class="progress-track">
 
-<div class="progress-fill"
+
+
+
+<!-- PROGRESS -->
+
+
+<div class="mt-6">
+
+
+
+<div class="
+w-full
+h-2.5
+rounded-full
+bg-[#E7E5E4]
+overflow-hidden
+">
+
+
+<div
+
+class="
+h-full
+rounded-full
+transition-all
+duration-700
+
+
+{% if task.progress <= 25 %}
+
+bg-[#F43F5E]
+
+{% elif task.progress <= 50 %}
+
+bg-[#F97316]
+
+{% elif task.progress <= 75 %}
+
+bg-[#6366F1]
+
+{% else %}
+
+bg-[#10B981]
+
+{% endif %}
+
+"
+
 style="width:{{task.progress}}%">
+
+
 </div>
 
+
 </div>
 
 
 
 
 
-<div class="task-actions">
+<div class="
+mt-2
+flex
+justify-between
+text-xs
+font-bold
+text-[#78716C]
+">
+
+
+<span>
+
+Progress
+
+</span>
+
+
+
+<span>
+
+{{task.progress}}%
+
+</span>
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ACTIONS -->
+
+
+<div class="
+mt-7
+flex
+justify-end
+gap-3
+">
+
+
+
 
 
 <a href="{% url 'task_detail' task.id %}"
-class="view-btn"
+
+class="
+w-11
+h-11
+flex
+items-center
+justify-center
+rounded-xl
+bg-[#EDE9FE]
+text-[#7C3AED]
+hover:bg-[#DDD6FE]
+hover:scale-110
+transition
+"
+
 title="View">
+
 
 <i class="fa-solid fa-eye"></i>
 
+
 </a>
+
+
+
+
 
 
 
 <a href="{% url 'update_task' task.id %}"
-class="edit-btn"
+
+class="
+w-11
+h-11
+flex
+items-center
+justify-center
+rounded-xl
+bg-[#CFFAFE]
+text-[#0891B2]
+hover:bg-[#A5F3FC]
+hover:scale-110
+transition
+"
+
 title="Edit">
+
 
 <i class="fa-solid fa-pen"></i>
 
+
 </a>
+
+
+
+
 
 
 
 <a href="{% url 'delete_task' task.id %}"
-class="delete-btn"
+
+class="
+w-11
+h-11
+flex
+items-center
+justify-center
+rounded-xl
+bg-[#FFE4E6]
+text-[#E11D48]
+hover:bg-[#FECDD3]
+hover:scale-110
+transition
+"
+
 title="Delete"
+
 onclick="return confirmDelete();">
 
+
 <i class="fa-solid fa-trash"></i>
+
 
 </a>
 
 
+
+
 </div>
 
 
 
+
+
+
+
 </div>
+
+
 
 
 
 {% empty %}
 
 
-<div class="empty-task">
+
+<div class="
+col-span-full
+rounded-3xl
+bg-white
+border
+border-[#E7E5E4]
+p-12
+text-center
+text-[#78716C]
+font-bold
+">
+
 
 No Tasks Found
 
+
 </div>
+
+
 
 
 {% endfor %}
@@ -855,19 +1426,31 @@ No Tasks Found
 </div>
 
 
+
+
 </div>
+
+
+</div>
+
+
+
+
+
+
 
 <script>
 
 function confirmDelete(){
 
-    return confirm(
-        "Are you sure you want to delete this task?"
-    );
+return confirm(
+"Are you sure you want to delete this task?"
+);
 
 }
 
 </script>
+
 
 
 {% endblock %}

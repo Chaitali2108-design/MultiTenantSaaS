@@ -10,135 +10,566 @@
     }
   }
 </script>
+
 <script src="https://cdn.tailwindcss.com"></script>
+
 <link href="https://cdn.jsdelivr.net/npm/flowbite/dist/flowbite.min.css" rel="stylesheet" />
+
 <script src="https://cdn.jsdelivr.net/npm/flowbite/dist/flowbite.min.js"></script>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
 
-<div class="bg-gray-50 min-h-screen p-6">
+<div class="min-h-screen bg-[#F8FAFC] p-8">
 
-    <!-- HEADER -->
-    <div class="flex justify-between items-center mb-8">
-        <h1 class="text-2xl font-bold text-gray-800">Projects</h1>
 
-        <a href="{% url 'create_project' %}"
-           class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 shadow">
-           + New Project
-        </a>
-    </div>
+<div class="max-w-7xl mx-auto">
 
-    <!-- GRID -->
-    <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
 
-    {% for project in projects %}
 
-        <div class="bg-white rounded-2xl shadow hover:shadow-xl transition p-6 border-l-4
-        {% if project.priority == 'high' %} border-red-500
-        {% elif project.priority == 'medium' %} border-yellow-400
-        {% else %} border-green-500 {% endif %}">
+<!-- HEADER -->
 
-            <!-- TOP -->
-            <div class="flex justify-between items-center">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-5 mb-10">
 
-                <a href="{% url 'project_detail' project.id %}"
-                   class="text-xl font-semibold text-gray-800 hover:text-blue-600">
-                   {{ project.name }}
-                </a>
 
-                {% if project.status == "todo" %}
-                    <span class="text-xs px-3 py-1 rounded-full bg-gray-100 text-gray-700 font-medium">
-                        To Do
-                    </span>
-                {% elif project.status == "progress" %}
-                    <span class="text-xs px-3 py-1 rounded-full bg-blue-100 text-blue-700 font-medium">
-                        In Progress
-                    </span>
-                {% elif project.status == "done" %}
-                    <span class="text-xs px-3 py-1 rounded-full bg-green-100 text-green-700 font-medium">
-                        Done
-                    </span>
-                {% endif %}
+<div>
 
-            </div>
 
-            <!-- DESCRIPTION -->
-            <p class="text-sm text-gray-500 mt-4 leading-relaxed">
-                {{ project.description|default:"No description"|truncatechars:90 }}
-            </p>
+<div class="
+inline-flex
+items-center
+gap-2
+px-4
+py-2
+rounded-full
+bg-[#EDE9FE]
+text-[#6D28D9]
+font-bold
+text-sm
+">
 
-            <!-- PROGRESS -->
-            <div class="mt-5">
-                <div class="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
-                    <div class="bg-green-500 h-full"
-                         style="width: {{ project.progress }}%"></div>
-                </div>
-                <p class="text-xs text-gray-500 mt-1">
-                    {{ project.progress }}% completed
-                </p>
-            </div>
+<i class="bi bi-kanban"></i>
 
-            <!-- FOOTER -->
-            <div class="mt-6 flex justify-between items-center">
-
-                <!-- PRIORITY -->
-                <div>
-                    {% if project.priority == "high" %}
-                        <span class="text-xs font-semibold px-3 py-1 rounded-md bg-red-50 text-red-600 border border-red-200">
-                            High
-                        </span>
-                    {% elif project.priority == "medium" %}
-                        <span class="text-xs font-semibold px-3 py-1 rounded-md bg-yellow-50 text-yellow-600 border border-yellow-200">
-                            Medium
-                        </span>
-                    {% elif project.priority == "low" %}
-                        <span class="text-xs font-semibold px-3 py-1 rounded-md bg-green-50 text-green-600 border border-green-200">
-                            Low
-                        </span>
-                    {% endif %}
-                </div>
-
-                <!-- ACTIONS -->
-                <div class="flex gap-4 text-lg items-center">
-
-                    <!-- VIEW -->
-                    <a href="{% url 'project_detail' project.id %}"
-                       class="text-blue-500 hover:text-blue-700 transition transform hover:scale-110"
-                       title="View">
-                        <i class="bi bi-eye"></i>
-                    </a>
-
-                    <!-- EDIT -->
-                    <a href="{% url 'update_project' project.id %}"
-                       class="text-yellow-500 hover:text-yellow-600 transition transform hover:scale-110"
-                       title="Edit">
-                        <i class="bi bi-pencil-square"></i>
-                    </a>
-
-                    <!-- DELETE -->
-                    <a href="{% url 'delete_project' project.id %}"
-                       class="text-red-500 hover:text-red-700 transition transform hover:scale-110"
-                       title="Delete">
-                        <i class="bi bi-trash"></i>
-                    </a>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    {% empty %}
-
-        <div class="col-span-3 text-center py-16 text-gray-500">
-            No Projects Available
-        </div>
-
-    {% endfor %}
-
-    </div>
+Project Management
 
 </div>
+
+
+
+<h1 class="
+mt-4
+text-4xl
+font-extrabold
+text-[#172033]
+">
+
+Projects
+
+</h1>
+
+
+
+<p class="
+mt-2
+text-[#64748B]
+">
+
+Manage projects, track progress and organize workflow.
+
+</p>
+
+
+</div>
+
+
+
+
+
+<a href="{% url 'create_project' %}"
+
+class="
+px-6
+py-3
+rounded-xl
+bg-[#2563EB]
+text-white
+font-bold
+shadow-[0_12px_25px_rgba(37,99,235,0.25)]
+hover:bg-[#1D4ED8]
+hover:-translate-y-0.5
+transition
+">
+
+<i class="bi bi-plus-lg"></i>
+
+New Project
+
+</a>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- PROJECT GRID -->
+
+
+<div class="grid md:grid-cols-2 xl:grid-cols-3 gap-7">
+
+
+{% for project in projects %}
+
+
+
+<div class="
+
+rounded-[32px]
+p-6
+border
+transition
+duration-300
+hover:-translate-y-1
+
+shadow-[0_20px_45px_rgba(15,23,42,0.10)]
+hover:shadow-[0_30px_70px_rgba(15,23,42,0.18)]
+
+
+{% if project.progress <= 25 %}
+
+bg-[#FFF1F2]
+border-[#FDA4AF]
+shadow-[0_20px_45px_rgba(244,63,94,0.15)]
+
+{% elif project.progress <= 50 %}
+
+bg-[#FFF7ED]
+border-[#FDBA74]
+shadow-[0_20px_45px_rgba(249,115,22,0.15)]
+
+{% elif project.progress <= 75 %}
+
+bg-[#EFF6FF]
+border-[#93C5FD]
+shadow-[0_20px_45px_rgba(59,130,246,0.15)]
+
+{% else %}
+
+bg-[#ECFDF5]
+border-[#86EFAC]
+shadow-[0_20px_45px_rgba(16,185,129,0.18)]
+
+{% endif %}
+
+">
+
+
+
+
+
+
+
+<!-- TOP -->
+
+
+<div class="flex justify-between items-start gap-4">
+
+
+<a href="{% url 'project_detail' project.id %}"
+
+class="
+text-xl
+font-extrabold
+text-[#172033]
+hover:text-[#2563EB]
+transition
+">
+
+{{ project.name }}
+
+</a>
+
+
+
+
+{% if project.status == "todo" %}
+
+<span class="
+px-3
+py-1
+rounded-full
+bg-[#F1F5F9]
+text-[#475569]
+text-xs
+font-bold
+">
+
+To Do
+
+</span>
+
+
+{% elif project.status == "progress" %}
+
+<span class="
+px-3
+py-1
+rounded-full
+bg-[#DBEAFE]
+text-[#1D4ED8]
+text-xs
+font-bold
+">
+
+In Progress
+
+</span>
+
+
+{% elif project.status == "done" %}
+
+<span class="
+px-3
+py-1
+rounded-full
+bg-[#DCFCE7]
+text-[#15803D]
+text-xs
+font-bold
+">
+
+Done
+
+</span>
+
+
+{% endif %}
+
+
+</div>
+
+
+
+
+
+
+
+<!-- DESCRIPTION -->
+
+
+<p class="
+mt-5
+text-sm
+text-[#64748B]
+leading-relaxed
+">
+
+{{ project.description|default:"No description"|truncatechars:90 }}
+
+</p>
+
+
+
+
+
+
+
+
+<!-- PROGRESS -->
+
+
+<div class="mt-6">
+
+
+<div class="flex justify-between mb-2">
+
+
+<span class="
+text-xs
+font-semibold
+text-[#64748B]
+">
+
+Progress
+
+</span>
+
+
+<span class="
+text-xs
+font-bold
+text-[#2563EB]
+">
+
+{{ project.progress }}%
+
+</span>
+
+
+</div>
+
+
+
+
+
+<div class="
+w-full
+h-3
+rounded-full
+bg-white
+overflow-hidden
+border
+border-[#E2E8F0]
+">
+
+
+<div
+
+class="
+h-full
+rounded-full
+
+{% if project.progress <= 25 %}
+
+bg-[#F43F5E]
+
+{% elif project.progress <= 50 %}
+
+bg-[#F97316]
+
+{% elif project.progress <= 75 %}
+
+bg-[#3B82F6]
+
+{% else %}
+
+bg-[#10B981]
+
+{% endif %}
+
+"
+
+style="width: {{ project.progress }}%">
+
+</div>
+
+
+</div>
+
+
+<p class="
+text-xs
+text-[#64748B]
+mt-2
+">
+
+{{ project.progress }}% completed
+
+</p>
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- FOOTER -->
+
+
+<div class="
+mt-7
+flex
+justify-between
+items-center
+">
+
+
+
+
+
+<!-- PRIORITY -->
+
+
+<div>
+
+
+{% if project.priority == "high" %}
+
+<span class="
+px-3
+py-1
+rounded-lg
+bg-[#FEE2E2]
+text-[#B91C1C]
+text-xs
+font-bold
+border
+border-[#FECACA]
+">
+
+High
+
+</span>
+
+
+{% elif project.priority == "medium" %}
+
+<span class="
+px-3
+py-1
+rounded-lg
+bg-[#FEF3C7]
+text-[#B45309]
+text-xs
+font-bold
+border
+border-[#FCD34D]
+">
+
+Medium
+
+</span>
+
+
+{% elif project.priority == "low" %}
+
+<span class="
+px-3
+py-1
+rounded-lg
+bg-[#CCFBF1]
+text-[#0F766E]
+text-xs
+font-bold
+border
+border-[#99F6E4]
+">
+
+Low
+
+</span>
+
+
+{% endif %}
+
+
+</div>
+
+
+
+
+
+
+
+<!-- ACTIONS -->
+
+
+<div class="
+flex
+gap-4
+text-lg
+">
+
+
+
+<a href="{% url 'project_detail' project.id %}"
+
+class="
+text-[#2563EB]
+hover:text-[#1D4ED8]
+hover:scale-110
+transition
+"
+
+title="View">
+
+<i class="bi bi-eye"></i>
+
+</a>
+
+
+
+
+
+<a href="{% url 'update_project' project.id %}"
+
+class="
+text-[#D97706]
+hover:text-[#B45309]
+hover:scale-110
+transition
+"
+
+title="Edit">
+
+<i class="bi bi-pencil-square"></i>
+
+</a>
+
+
+
+
+
+<a href="{% url 'delete_project' project.id %}"
+
+class="
+text-[#E11D48]
+hover:text-[#BE123C]
+hover:scale-110
+transition
+"
+
+title="Delete">
+
+<i class="bi bi-trash"></i>
+
+</a>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+
+{% empty %}
+
+
+<div class="col-span-3 text-center py-16 text-[#64748B] font-semibold">
+
+No Projects Available
+
+</div>
+
+
+{% endfor %}
+
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
 
 {% endblock %}

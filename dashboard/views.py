@@ -5,6 +5,7 @@ from projects.models import Project, Task, ActivityLog
 from accounts.models import User, Role
 from django.utils import timezone
 from django.db.models import Q
+from audit.models import AuditLog
 @login_required
 def dashboard(request):
 
@@ -84,6 +85,23 @@ def dashboard(request):
         task__organization=organization
     ).order_by("-created_at")[:5]
 
+    project_history = AuditLog.objects.filter(
+        organization=request.user.organization,
+        project__isnull=False
+        ).select_related(
+            "user",
+            "project"
+        ).order_by("-created_at")[:10]
+
+
+    task_history = AuditLog.objects.filter(
+        organization=request.user.organization,
+        task__isnull=False
+        ).select_related(
+            "user",
+        "task"
+    ).order_by("-created_at")[:10]
+
     context = {
         "total_projects": total_projects,
         "active_projects": active_projects,
@@ -95,7 +113,8 @@ def dashboard(request):
         "team_members": team_members,
         "progress_projects": progress_projects,
         "completion_percentage": completion_percentage,
-        "recent_activities": recent_activities,
+        "project_history": project_history,
+        "task_history": task_history,
         "now": timezone.now(),
         "search": search,
         "notification_count": recent_activities.count(),
