@@ -8,575 +8,1584 @@ Dashboard
 {% block content %}
 
 
-    <div class="dashboard-title">
+<!-- ================= DASHBOARD HERO ================= -->
+<section data-aos-section>
 
-    <div>
-        <h1>Dashboard</h1>
-        <p>Overview of your organization, projects and activities.</p>
-    </div>
+<div class="reveal from-bottom relative overflow-hidden rounded-[32px] bg-gradient-to-br from-[#102A2A] via-[#0F766E] to-[#069494] text-white p-8 shadow-xl">
 
-</div>
+<div class="absolute -right-20 -top-20 w-72 h-72 bg-white/10 rounded-full blur-3xl"></div>
 
-    <div class="welcome-banner">
+<div class="relative flex flex-col md:flex-row justify-between gap-6 items-center">
 
-    <div>
+<div>
+<p class="text-sm text-[#CCFBF1] font-semibold">Welcome Back</p>
 
-        <h2>👋 Welcome Back, {{ request.user.first_name|default:request.user.username }}</h2>
-
-        <p>
-            Manage your projects, monitor team progress, and stay productive.
-        </p>
-
-    </div>
-
-    <a href="{% url 'create_project' %}" class="btn btn-primary">
-    + New Project
-</a>
-
-</div>
-<div class="dashboard-toolbar">
-
-    <div class="toolbar-left">
-        <form method="GET" class="search-form">
-
-            <input
-                type="text"
-                name="search"
-                class="search-box"
-                placeholder="🔍 Search projects or tasks..."
-                value="{{ request.GET.search }}"
-            >
-
-            <button type="submit" class="toolbar-btn">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-
-        </form>
-    </div>
-
-    <div class="toolbar-right">
-
-        <div class="notification-wrapper">
-
-    <button class="toolbar-btn">
-
-        <i class="fa-solid fa-bell"></i>
-
-    </button>
-
-    {% if notification_count > 0 %}
-        <span class="notification-badge">
-            {{ notification_count }}
-        </span>
-    {% endif %}
-
-</div>
-
-        <button class="toolbar-btn">
-            <i class="fa-solid fa-gear"></i>
-        </button>
-
-    </div>
-
-</div>
-<div class="overview-bar">
-
-    <div class="overview-item">
-        <i class="fa-solid fa-calendar-days"></i>
-        <div>
-            <h4>Today's Date</h4>
-            <p>{{ now|date:"d M Y" }}</p>
-        </div>
-    </div>
-
-    <div class="overview-item">
-        <i class="fa-solid fa-clock"></i>
-        <div>
-            <h4>Current Time</h4>
-            <p>{{ now|time:"H:i" }}</p>
-        </div>
-    </div>
-
-    <div class="overview-item">
-        <i class="fa-solid fa-user"></i>
-        <div>
-            <h4>Logged in as</h4>
-            <p>{{ request.user.username }}</p>
-        </div>
-    </div>
-
-</div>
-
-<h2 class="section-title">
-    Dashboard Statistics
+<h2 class="mt-2 text-3xl font-extrabold text-white">
+{{ request.user.first_name|default:request.user.username }}
 </h2>
 
-<div class="cards">
+<p class="mt-3 text-white/80 max-w-xl">
+Manage your projects, monitor team progress, and stay productive.
+</p>
+</div>
 
-    <a href="{% url 'project_list' %}" class="dashboard-link">
-        <div class="card blue">
-
-    <div class="card-header">
-        <h3>Total Projects</h3>
-        <i class="fa-solid fa-folder"></i>
-    </div>
-
-    <div class="card-body">
-        <p>{{ total_projects }}</p>
-    </div>
-
-    <div class="card-footer">
-        <span>+2 this week</span>
-    </div>
+<a href="{% url 'create_project' %}"
+class="primary-btn px-6 py-3 rounded-xl bg-white text-[#0F766E] font-bold hover:bg-[#E8F8F7] transition">
++ New Project
+</a>
 
 </div>
-    </a>
 
-    <a href="{% url 'project_list' %}" class="dashboard-link">
+</div>
 
-        <div class="card green">
+</section>
 
-            <div class="card-header">
-                <h3>Active Projects</h3>
-                <i class="fa-solid fa-chart-line"></i>
-            </div>
 
-            <div class="card-body">
-                <p>{{ active_projects }}</p>
-            </div>
 
-            <div class="card-footer">
-                <div class="mini-progress">
-            <div class="mini-fill green-fill" style="width:100%;"></div>
-        </div>
+<div data-aos-section class="reveal from-left mt-6 flex flex-col lg:flex-row gap-4">
 
-        <span>{{ active_projects }} Active Projects</span>
-    </div>
+<form method="GET" class="flex-1">
+
+<div class="flex items-center gap-3 bg-white border border-[#E5E7EB] rounded-2xl px-5 py-3 shadow-sm">
+
+<i class="fa-solid fa-search text-[#718096]"></i>
+
+<input type="text"
+name="search"
+placeholder="Search projects or tasks..."
+value="{{ request.GET.search }}"
+class="w-full outline-none border-none text-[#425466]">
+
+<button class="text-[#069494]">
+<i class="fa-solid fa-arrow-right"></i>
+</button>
+
+</div>
+
+</form>
+
+
+<div class="flex gap-3">
+
+<button class="w-12 h-12 rounded-xl bg-[#E8F8F7] text-[#069494]">
+<i class="fa-solid fa-bell">
+</i>
+
+
+
+</button>
+
+
+<button class="w-12 h-12 rounded-xl bg-[#EEF2FF] text-[#4F46E5]">
+<i class="fa-solid fa-gear"></i>
+</button>
+
+</div>
+
+
+</div>
+
+<!-- ================= OVERVIEW BAR ================= -->
+
+<section data-aos-section class="mt-8">
+
+<div class="reveal from-bottom">
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+
+<!-- Date -->
+
+<div class="
+flex
+items-center
+gap-5
+rounded-3xl
+bg-[#D3EFED]
+border
+border-[#A9DCD8]
+px-6
+py-5
+shadow-[0_15px_35px_rgba(6,148,148,0.18)]
+hover:shadow-[0_20px_45px_rgba(6,148,148,0.28)]
+transition
+">
+
+
+<div class="
+w-14
+h-14
+rounded-2xl
+bg-white
+text-[#069494]
+flex
+items-center
+justify-center
+text-xl
+shadow-md
+">
+
+<i class="fa-solid fa-calendar-days"></i>
+
+</div>
+
+
+<div>
+
+<p class="text-sm font-medium text-[#425466]">
+Today's Date
+</p>
+
+<h4 class="mt-1 text-xl font-extrabold text-[#102A2A]">
+{{ now|date:"d M Y" }}
+</h4>
+
+</div>
+
+
+</div>
+
+
+
+
+
+<!-- Time -->
+
+
+<div class="
+flex
+items-center
+gap-5
+rounded-3xl
+bg-[#D3EFED]
+border
+border-[#A9DCD8]
+px-6
+py-5
+shadow-[0_15px_35px_rgba(6,148,148,0.18)]
+hover:shadow-[0_20px_45px_rgba(6,148,148,0.28)]
+transition
+">
+
+
+<div class="
+w-14
+h-14
+rounded-2xl
+bg-white
+text-[#069494]
+flex
+items-center
+justify-center
+text-xl
+shadow-md
+">
+
+<i class="fa-solid fa-clock"></i>
+
+</div>
+
+
+<div>
+
+<p class="text-sm font-medium text-[#425466]">
+Current Time
+</p>
+
+<h4 class="mt-1 text-xl font-extrabold text-[#102A2A]">
+{{ now|time:"H:i" }}
+</h4>
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+<!-- User -->
+
+
+<div class="
+flex
+items-center
+gap-5
+rounded-3xl
+bg-[#D3EFED]
+border
+border-[#A9DCD8]
+px-6
+py-5
+shadow-[0_15px_35px_rgba(6,148,148,0.18)]
+hover:shadow-[0_20px_45px_rgba(6,148,148,0.28)]
+transition
+">
+
+
+<div class="
+w-14
+h-14
+rounded-2xl
+bg-white
+text-[#069494]
+flex
+items-center
+justify-center
+text-xl
+shadow-md
+">
+
+<i class="fa-solid fa-user"></i>
+
+</div>
+
+
+<div>
+
+<p class="text-sm font-medium text-[#425466]">
+Logged in as
+</p>
+
+<h4 class="mt-1 text-xl font-extrabold text-[#102A2A]">
+{{ request.user.username }}
+</h4>
+
+</div>
+
+
+</div>
+
+
+
+</div>
+
+</div>
+
+</section>
+<section data-aos-section class="mt-8">
+
+<div class="grid xl:grid-cols-3 gap-8">
+
+
+
+
+<!-- LEFT -->
+
+<div class="xl:col-span-2 reveal from-left">
+
+<div class="
+rounded-[34px]
+bg-white
+border
+border-[#E5E7EB]
+overflow-hidden
+shadow-[0_30px_80px_rgba(15,23,42,0.22)]
+hover:shadow-[0_35px_90px_rgba(15,23,42,0.28)]
+transition-all
+duration-300
+">
+
+
+<div class="px-8 py-4 border-b border-[#E5E7EB]">
+
+
+<h2 class="text-2xl font-bold text-[#102A2A]">
+Organization Overview
+</h2>
+
+
+<p class="text-[#718096] mt-1">
+Real-time overview of your workspace.
+</p>
+
+
+</div>
+
+
+
+
+
+<div class="grid sm:grid-cols-2 gap-4 p-5">
+
+
+
+<!-- Projects -->
+
+<a href="{% url 'project_list' %}" class="group">
+
+<div class="
+rounded-3xl
+bg-[#EEF2FF]
+border
+border-[#C7D2FE]
+p-4
+transition
+group-hover:-translate-y-1
+group-hover:shadow-lg
+">
+
+
+<div class="
+w-10
+h-10
+rounded-2xl
+bg-white
+text-[#4F46E5]
+flex
+items-center
+justify-center
+text-lg
+shadow-sm
+">
+
+<i class="fa-solid fa-folder-open"></i>
+
+</div>
+
+
+<p class="mt-3 text-sm text-[#64748B]">
+Projects
+</p>
+
+
+<h3 class="text-3xl font-extrabold mt-2 text-[#312E81]">
+{{ total_projects }}
+</h3>
+
 
 </div>
 
 </a>
 
-    <a href="{% url 'tasks_list' %}" class="dashboard-link">
 
-<div class="card purple">
 
-    <div class="card-header">
-        <h3>Completed Tasks</h3>
-        <i class="fa-solid fa-circle-check"></i>
-    </div>
 
-    <div class="card-body">
-        <p>{{ completed_tasks }}</p>
-    </div>
 
-    <div class="card-footer">
-        <div class="mini-progress">
-            <div class="mini-fill purple-fill"
-                style="width:{{ completion_percentage }}%;">
-            </div>
-        </div>
 
-        <span>{{ completion_percentage }}% Completed</span>
-    </div>
+<!-- Active Projects -->
+
+<a href="{% url 'project_list' %}" class="group">
+
+<div class="
+rounded-3xl
+bg-[#ECFDF5]
+border
+border-[#A7F3D0]
+p-4
+transition
+group-hover:-translate-y-1
+group-hover:shadow-lg
+">
+
+
+<div class="
+w-10
+h-10
+rounded-2xl
+bg-white
+text-[#059669]
+flex
+items-center
+justify-center
+text-lg
+shadow-sm
+">
+
+<i class="fa-solid fa-chart-line"></i>
+
+</div>
+
+
+<p class="mt-3 text-sm text-[#64748B]">
+Active Projects
+</p>
+
+
+<h3 class="text-3xl font-extrabold mt-2 text-[#047857]">
+{{ active_projects }}
+</h3>
+
 
 </div>
 
 </a>
 
-    <a href="{% url 'tasks_list' %}" class="dashboard-link">
 
-<div class="card orange">
 
-    <div class="card-header">
-        <h3>Pending Tasks</h3>
-        <i class="fa-solid fa-hourglass-half"></i>
-    </div>
 
-    <div class="card-body">
-        <p>{{ pending_tasks }}</p>
-    </div>
 
-    <div class="card-footer">
-        <div class="mini-progress">
-            <div class="mini-fill orange-fill" style="width:40%;"></div>
-        </div>
 
-        <span>{{ pending_tasks }} Tasks&nbsp;Remaining</span>
-    </div>
+
+<!-- Pending Tasks -->
+
+<a href="{% url 'tasks_list' %}" class="group">
+
+<div class="
+rounded-3xl
+bg-[#FFF7ED]
+border
+border-[#FED7AA]
+p-4
+transition
+group-hover:-translate-y-1
+group-hover:shadow-lg
+">
+
+
+<div class="
+w-10
+h-10
+rounded-2xl
+bg-white
+text-[#EA580C]
+flex
+items-center
+justify-center
+text-lg
+shadow-sm
+">
+
+<i class="fa-solid fa-hourglass-half"></i>
+
+</div>
+
+
+<p class="mt-3 text-sm text-[#64748B]">
+Pending Tasks
+</p>
+
+
+<h3 class="text-3xl font-extrabold mt-2 text-[#C2410C]">
+{{ pending_tasks }}
+</h3>
+
 
 </div>
 
 </a>
 
-    <a href="{% url 'tasks_list' %}" class="dashboard-link">
 
-<div class="card red">
 
-    <div class="card-header">
-        <h3>Overdue Tasks</h3>
-        <i class="fa-solid fa-triangle-exclamation"></i>
-    </div>
 
-    <div class="card-body">
-        <p>{{ overdue_tasks }}</p>
-    </div>
 
-    <div class="card-footer">
-        <div class="mini-progress">
-            <div class="mini-fill red-fill" style="width:15%;"></div>
-        </div>
 
-        <span>{{ overdue_tasks }} Overdue</span>
-    </div>
+
+
+<!-- Team Members -->
+
+<a href="{% url 'team_members' %}" class="group">
+
+<div class="
+rounded-3xl
+bg-[#FDF2F8]
+border
+border-[#FBCFE8]
+p-4
+transition
+group-hover:-translate-y-1
+group-hover:shadow-lg
+">
+
+
+<div class="
+w-10
+h-10
+rounded-2xl
+bg-white
+text-[#DB2777]
+flex
+items-center
+justify-center
+text-lg
+shadow-sm
+">
+
+<i class="fa-solid fa-users"></i>
 
 </div>
+
+
+<p class="mt-3 text-sm text-[#64748B]">
+Team Members
+</p>
+
+
+<h3 class="text-3xl font-extrabold mt-2 text-[#BE185D]">
+{{ team_members }}
+</h3>
+
+
+</div>
+
 </a>
 
-    <a href="{% url 'team_members' %}" class="dashboard-link">
 
-<div class="card teal">
-
-    <div class="card-header">
-        <h3>Team Members</h3>
-        <i class="fa-solid fa-users"></i>
-    </div>
-
-    <div class="card-body">
-        <p>{{ team_members }}</p>
-    </div>
-
-    <div class="card-footer">
-        <span>Active Members</span>
-    </div>
 
 </div>
+
+</div>
+
+</div>
+
+
+
+
+
+
+<!-- RIGHT -->
+
+<div class="reveal from-right">
+
+<div class="rounded-[34px] bg-gradient-to-br from-[#102A2A] to-[#0F766E] p-8 text-white h-full flex flex-col justify-between">
+
+<div>
+
+<p class="uppercase tracking-wider text-white/70 text-sm">
+Completion
+</p>
+
+<h3 class="text-3xl font-bold mt-3">
+Overall Progress
+</h3>
+
+</div>
+
+
+
+<div class="flex justify-center py-8">
+
+<div class="relative w-44 h-44 rounded-full border-[12px] border-white/20 flex items-center justify-center">
+
+<div class="absolute inset-0 rounded-full border-[12px] border-[#22C55E]"
+style="clip-path: inset(0 {{ completion_percentage }}% 0 0);">
+</div>
+
+<div class="text-center">
+
+<div class="text-5xl font-extrabold">
+
+{{ completion_percentage }}%
+
+</div>
+
+<div class="text-sm text-white/70">
+
+Completed
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="space-y-3 text-sm">
+
+<div class="flex justify-between">
+
+<span>Completed Tasks</span>
+
+<strong>{{ completed_tasks }}</strong>
+
+</div>
+
+<div class="flex justify-between">
+
+<span>Overdue Tasks</span>
+
+<strong>{{ overdue_tasks }}</strong>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<section data-aos-section class="mt-8">
+
+<div class="reveal from-bottom grid grid-cols-1 xl:grid-cols-2 gap-6">
+
+
+
+<!-- Quick Actions -->
+
+<div class="rounded-[32px] bg-gradient-to-br from-[#102A2A] to-[#0F766E] p-7 text-white shadow-xl">
+
+<h2 class="text-xl font-bold mb-6 text-white">
+⚡ Quick Actions
+</h2>
+
+
+<div class="space-y-3">
+
+
+<a href="{% url 'create_project' %}"
+class="flex justify-between items-center px-5 py-3 rounded-xl bg-white/15 hover:bg-white/25 transition">
+
+<span>
++ Add Project
+</span>
+
+<i class="fa-solid fa-arrow-right"></i>
 
 </a>
 
-</div>
 
 
-<div class="dashboard-top-row">
+<a href="{% url 'create_task' %}"
+class="flex justify-between items-center px-5 py-3 rounded-xl bg-white/15 hover:bg-white/25 transition">
 
-    <div class="quick-actions">
+<span>
++ Add Task
+</span>
 
-    <h2>⚡ Quick Actions</h2>
+<i class="fa-solid fa-arrow-right"></i>
 
-    <a href="{% url 'create_project' %}" class="btn btn-primary">
-        + Add Project
-    </a>
+</a>
 
-    <a href="{% url 'create_task' %}" class="btn btn-primary">
-        + Add Task
-    </a>
 
-    <a href="{% url 'audit:activity_report' %}" class="btn btn-primary">
-        Create Report
-    </a>
 
-    <a href="{% url 'team_members' %}" class="btn btn-primary">
-        Invite Member
-    </a>
+<a href="{% url 'audit:activity_report' %}"
+class="flex justify-between items-center px-5 py-3 rounded-xl bg-white/15 hover:bg-white/25 transition">
 
-    </div>
+<span>
+Create Report
+</span>
 
-    <div class="recent-activity">
+<i class="fa-solid fa-arrow-right"></i>
 
-    <h2>🔔 Recent Activity</h2>
-    <div class="activity-list">
+</a>
 
-    {% for activity in recent_activities %}
 
-        <div class="activity-card">
 
-            <div class="activity-icon">
+<a href="{% url 'team_members' %}"
+class="flex justify-between items-center px-5 py-3 rounded-xl bg-white/15 hover:bg-white/25 transition">
 
-                {% if activity.action|lower == "created" %}
-                    <i class="fa-solid fa-circle-plus"></i>
+<span>
+Invite Member
+</span>
 
-                {% elif activity.action|lower == "updated" %}
-                    <i class="fa-solid fa-pen"></i>
+<i class="fa-solid fa-arrow-right"></i>
 
-                {% elif activity.action|lower == "deleted" %}
-                    <i class="fa-solid fa-trash"></i>
+</a>
 
-                {% else %}
-                    <i class="fa-solid fa-clock-rotate-left"></i>
-                {% endif %}
-
-            </div>
-
-            <div class="activity-content">
-
-                <strong>{{ activity.user.username }}</strong>
-
-                {{ activity.action }}
-
-                {% if activity.task %}
-                    <br>
-                    <span>{{ activity.task.title }}</span>
-                {% endif %}
-
-                <small>
-                    {{ activity.created_at|date:"d M Y • H:i" }}
-                </small>
-
-            </div>
-
-        </div>
-
-        {% empty %}
-
-        <p>No recent activity available.</p>
-
-        {% endfor %}
-    </div>
 
 </div>
-<div class="progress-card">
-        <h2>Project Progress</h2>
-
-        {% for project in progress_projects %}
-
-            <p>{{ project.name }}</p>
-
-            <p class="progress-percent">{{ project.progress }}%</p>
-
-            <div class="progress">
-                <div class="progress-fill blue-fill"
-                    style="width:{{ project.progress }}%;">
-                </div>
-            </div>
-
-        {% empty %}
-            <p>No projects available.</p>
-        {% endfor %}
-
-    </div>
 
 </div>
 
 
 
 
-<div class="dashboard-table-column">
-    <div class="table-section">
-    <h2 class="section-title">
-        Recent Projects
-    </h2>
 
-    <div class="table-card">
-    <table>
 
-    <thead>
+<!-- Recent Activity -->
 
-        <tr>
+<div class="rounded-[32px] bg-white border border-[#E5E7EB] p-7 shadow-sm">
 
-            <th style="width:25%;">Project</th>
-            <th style="width:15%;">Owner</th>
-            <th style="width:15%;">Status</th>
-            <th style="width:15%;">Priority</th>
-            <th style="width:15%;">Due Date</th>
-            <th style="width:15%;">Action</th>
 
-        </tr>
+<h2 class="text-xl font-bold text-[#102A2A] mb-6">
+🔔 Recent Activity
+</h2>
 
-    </thead>
 
-    <tbody>
+
+<div class="space-y-5">
+
+
+{% for activity in recent_activities %}
+
+
+<div class="flex gap-4">
+
+
+<div class="w-11 h-11 rounded-2xl bg-[#E8F8F7] text-[#069494] flex items-center justify-center shrink-0">
+
+
+{% if activity.action|lower == "created" %}
+
+<i class="fa-solid fa-plus"></i>
+
+
+{% elif activity.action|lower == "updated" %}
+
+<i class="fa-solid fa-pen"></i>
+
+
+{% elif activity.action|lower == "deleted" %}
+
+<i class="fa-solid fa-trash"></i>
+
+
+{% else %}
+
+<i class="fa-solid fa-clock"></i>
+
+
+{% endif %}
+
+
+</div>
+
+
+
+<div>
+
+<p class="text-sm text-[#425466]">
+
+<strong class="text-[#102A2A]">
+{{ activity.user.username }}
+</strong>
+
+{{ activity.action }}
+
+</p>
+
+
+{% if activity.task %}
+
+<p class="text-sm text-[#718096]">
+{{ activity.task.title }}
+</p>
+
+{% endif %}
+
+
+
+<p class="text-xs text-[#94A3B8] mt-1">
+{{ activity.created_at|date:"d M Y • H:i" }}
+</p>
+
+
+</div>
+
+
+</div>
+
+
+{% empty %}
+
+
+<p class="text-[#718096]">
+No recent activity available.
+</p>
+
+
+{% endfor %}
+
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- Project Progress Graph -->
+
+<div class="xl:col-span-1 reveal from-right 
+bg-[#F8FAFC] 
+border border-[#D9E7E7]
+rounded-[32px]
+mt-6
+p-7
+shadow-[0_20px_50px_rgba(15,23,42,0.12)]">
+
+
+<h2 class="text-xl font-bold text-[#102A2A] mb-5">
+📈 Project Progress
+</h2>
+
+
+<div class="h-72">
+
+<canvas id="projectProgressChart"></canvas>
+
+</div>
+
+
+</div>
+
+<section data-aos-section class="mt-8 space-y-8">
+
+
+<!-- Recent Projects -->
+
+<div class="reveal from-left rounded-[32px] bg-white border border-[#E5E7EB] shadow-sm overflow-hidden">
+
+
+<div class="px-7 py-5 bg-gradient-to-r from-[#E8F8F7] to-white border-b">
+
+<h2 class="text-xl font-bold text-[#102A2A]">
+📁 Recent Projects
+</h2>
+
+</div>
+
+
+
+<div class="overflow-x-auto">
+
+
+<table class="w-full text-sm">
+
+
+<thead class="bg-[#FAFBF9] text-[#425466]">
+
+
+<tr>
+
+<th class="px-6 py-4 text-left">Project</th>
+<th class="px-6 py-4 text-left">Owner</th>
+<th class="px-6 py-4 text-left">Status</th>
+<th class="px-6 py-4 text-left">Priority</th>
+<th class="px-6 py-4 text-left">Date</th>
+<th class="px-6 py-4 text-left">Action</th>
+
+</tr>
+
+
+</thead>
+
+
+
+<tbody class="divide-y">
+
 
 {% for project in recent_projects %}
 
-<tr>
 
-    <td>{{ project.name }}</td>
+<tr class="hover:bg-[#FAFBF9] transition">
 
-    <td>{{ project.created_by.username }}</td>
 
-<td>
-    {% if project.status == "done" %}
-        <span class="status completed">Completed</span>
-
-    {% elif project.status == "progress" %}
-        <span class="status in-progress">In Progress</span>
-
-    {% else %}
-        <span class="status pending">To Do</span>
-    {% endif %}
+<td class="px-6 py-4 font-semibold text-[#102A2A]">
+{{ project.name }}
 </td>
 
-<td>
-    {% if project.priority == "high" %}
-        <span class="priority high">High</span>
-    {% elif project.priority == "medium" %}
-        <span class="priority medium">Medium</span>
-    {% else %}
-        <span class="priority low">Low</span>
-    {% endif %}
+
+<td class="px-6 py-4 text-[#718096]">
+{{ project.created_by.username }}
 </td>
 
-    <td>{{ project.created_at|date:"d M Y" }}</td>
 
-    <td class="actions">
 
-    <a href="{% url 'project_detail' project.id %}" title="View">
-        <i class="fa-solid fa-eye"></i>
-    </a>
+<td class="px-6 py-4">
 
-    <a href="{% url 'update_project' project.id %}" title="Edit">
-        <i class="fa-solid fa-pen"></i>
-    </a>
 
-    <a href="{% url 'delete_project' project.id %}" title="Delete">
-        <i class="fa-solid fa-trash"></i>
-    </a>
+{% if project.status == "done" %}
+
+<span class="px-3 py-1 rounded-full bg-[#DCFCE7] text-[#15803D] text-xs font-semibold">
+Completed
+</span>
+
+
+{% elif project.status == "progress" %}
+
+
+<span class="px-3 py-1 rounded-full bg-[#DBEAFE] text-[#2563EB] text-xs font-semibold">
+In Progress
+</span>
+
+
+{% else %}
+
+
+<span class="px-3 py-1 rounded-full bg-[#FEF3C7] text-[#B45309] text-xs font-semibold">
+To Do
+</span>
+
+
+{% endif %}
+
 
 </td>
+
+
+
+
+<td class="px-6 py-4">
+
+
+{% if project.priority == "high" %}
+
+<span class="text-[#DC2626] font-semibold">
+High
+</span>
+
+
+{% elif project.priority == "medium" %}
+
+
+<span class="text-[#D97706] font-semibold">
+Medium
+</span>
+
+
+{% else %}
+
+
+<span class="text-[#16A34A] font-semibold">
+Low
+</span>
+
+
+{% endif %}
+
+
+</td>
+
+
+
+
+<td class="px-6 py-4 text-[#718096]">
+{{ project.created_at|date:"d M Y" }}
+</td>
+
+
+
+<td class="px-6 py-4 flex gap-3">
+
+
+<a href="{% url 'project_detail' project.id %}"
+class="text-[#069494] hover:scale-110 transition">
+
+<i class="fa-solid fa-eye"></i>
+
+</a>
+
+
+<a href="{% url 'update_project' project.id %}"
+class="text-[#4F46E5] hover:scale-110 transition">
+
+<i class="fa-solid fa-pen"></i>
+
+</a>
+
+
+<a href="{% url 'delete_project' project.id %}"
+class="text-[#DC2626] hover:scale-110 transition">
+
+<i class="fa-solid fa-trash"></i>
+
+</a>
+
+
+</td>
+
+
 </tr>
+
+
 
 {% empty %}
 
+
 <tr>
-    <td colspan="6">No projects found.</td>
+
+<td colspan="6" class="px-6 py-6 text-center text-[#718096]">
+
+No projects found.
+
+</td>
+
 </tr>
+
 
 {% endfor %}
 
+
 </tbody>
+
+
 </table>
+
+
 </div>
+
+
 </div>
 
 
-<div class="table-section">
 
-    <h2 class="section-title">
-        Recent Tasks
-    </h2>
 
-<div class="table-card">
-<table>
 
-    <thead>
 
-        <tr>
 
-            <th style="width:22%;">Task</th>
-            <th style="width:18%;">Project</th>
-            <th style="width:18%;">Assigned To</th>
-            <th style="width:14%;">Status</th>
-            <th style="width:14%;">Priority</th>
-            <th style="width:14%;">Action</th>
 
-        </tr>
+<!-- Recent Tasks -->
 
-    </thead>
 
-<tbody>
+<div class="reveal from-right rounded-[32px] bg-white border border-[#E5E7EB] shadow-sm overflow-hidden">
+
+
+<div class="px-7 py-5 bg-gradient-to-r from-[#EEF2FF] to-white border-b">
+
+
+<h2 class="text-xl font-bold text-[#102A2A]">
+✅ Recent Tasks
+</h2>
+
+
+</div>
+
+
+
+<div class="overflow-x-auto">
+
+
+<table class="w-full text-sm">
+
+
+<thead class="bg-[#FAFBF9] text-[#425466]">
+
+
+<tr>
+
+<th class="px-6 py-4 text-left">Task</th>
+<th class="px-6 py-4 text-left">Project</th>
+<th class="px-6 py-4 text-left">Assigned To</th>
+<th class="px-6 py-4 text-left">Status</th>
+<th class="px-6 py-4 text-left">Priority</th>
+<th class="px-6 py-4 text-left">Action</th>
+
+</tr>
+
+
+</thead>
+
+
+
+
+<tbody class="divide-y">
+
 
 {% for task in recent_tasks %}
 
+
+
+<tr class="hover:bg-[#FAFBF9] transition">
+
+
+<td class="px-6 py-4 font-semibold text-[#102A2A]">
+{{ task.title }}
+</td>
+
+
+<td class="px-6 py-4 text-[#718096]">
+{{ task.project.name }}
+</td>
+
+
+<td class="px-6 py-4 text-[#718096]">
+{{ task.assigned_to.username }}
+</td>
+
+
+
+
+<td class="px-6 py-4">
+
+
+{% if task.status == "done" %}
+
+
+<span class="px-3 py-1 rounded-full bg-[#DCFCE7] text-[#15803D] text-xs font-semibold">
+Completed
+</span>
+
+
+{% elif task.status == "progress" %}
+
+
+<span class="px-3 py-1 rounded-full bg-[#DBEAFE] text-[#2563EB] text-xs font-semibold">
+In Progress
+</span>
+
+
+{% else %}
+
+
+<span class="px-3 py-1 rounded-full bg-[#FEF3C7] text-[#B45309] text-xs font-semibold">
+Pending
+</span>
+
+
+{% endif %}
+
+
+</td>
+
+
+
+
+<td class="px-6 py-4">
+
+
+{% if task.priority == "high" %}
+
+<span class="text-[#DC2626] font-semibold">
+High
+</span>
+
+
+{% elif task.priority == "medium" %}
+
+
+<span class="text-[#D97706] font-semibold">
+Medium
+</span>
+
+
+{% else %}
+
+
+<span class="text-[#16A34A] font-semibold">
+Low
+</span>
+
+
+{% endif %}
+
+
+</td>
+
+
+
+<td class="px-6 py-4 flex gap-3">
+
+
+<a href="{% url 'task_detail' task.id %}"
+class="text-[#069494]">
+
+<i class="fa-solid fa-eye"></i>
+
+</a>
+
+
+<a href="{% url 'update_task' task.id %}"
+class="text-[#4F46E5]">
+
+<i class="fa-solid fa-pen"></i>
+
+</a>
+
+
+<a href="{% url 'delete_task' task.id %}"
+class="text-[#DC2626]">
+
+<i class="fa-solid fa-trash"></i>
+
+</a>
+
+
+</td>
+
+
+
+</tr>
+
+
+
+{% empty %}
+
+
 <tr>
 
-    <td>{{ task.title }}</td>
+<td colspan="6" class="px-6 py-6 text-center text-[#718096]">
 
-    <td>{{ task.project.name }}</td>
-
-    <td>{{ task.assigned_to.username }}</td>
-
-    <td>
-
-        {% if task.status == "done" %}
-            <span class="status completed">Completed</span>
-
-        {% elif task.status == "progress" %}
-            <span class="status in-progress">In Progress</span>
-
-        {% else %}
-            <span class="status pending">Pending</span>
-        {% endif %}
-
-    </td>
-
-    <td>
-
-        {% if task.priority == "high" %}
-            <span class="priority high">High</span>
-
-        {% elif task.priority == "medium" %}
-            <span class="priority medium">Medium</span>
-
-        {% else %}
-            <span class="priority low">Low</span>
-        {% endif %}
-
-    </td>
-
-    <td class="actions">
-
-    <a href="{% url 'task_detail' task.id %}" title="View">
-        <i class="fa-solid fa-eye"></i>
-    </a>
-
-    <a href="{% url 'update_task' task.id %}" title="Edit">
-        <i class="fa-solid fa-pen"></i>
-    </a>
-
-    <a href="{% url 'delete_task' task.id %}" title="Delete">
-        <i class="fa-solid fa-trash"></i>
-    </a>
+No tasks found.
 
 </td>
 
 </tr>
 
-{% empty %}
-
-<tr>
-    <td colspan="6">No tasks found.</td>
-</tr>
 
 {% endfor %}
 
+
+
 </tbody>
 
+
 </table>
-</div>
-</div>
+
+
 </div>
 
 
-<div class="section-card">
+</div>
 
-<h2 class="section-title">
-Dashboard Charts
+
+
+</section>
+
+<section data-aos-section class="mt-8 mb-10">
+
+
+<div class="reveal from-bottom rounded-[32px] bg-gradient-to-br from-[#102A2A] to-[#0F766E] p-7 shadow-xl">
+
+
+<div class="flex items-center justify-between mb-8">
+
+
+<div>
+
+<h2 class="text-2xl font-extrabold text-white">
+Analytics Overview
 </h2>
 
-<div class="charts-section">
 
-    <div class="chart-card">
-        <h3>Projects Status</h3>
-        <canvas id="projectChart"></canvas>
-    </div>
+<p class="text-sm text-white/70 mt-1">
+Visual insights about your organization activity
+</p>
 
-    <div class="chart-card">
-        <h3>Tasks Priority</h3>
-        <canvas id="priorityChart"></canvas>
-    </div>
 
-    <div class="chart-card">
-        <h3>Monthly Tasks</h3>
-        <canvas id="lineChart"></canvas>
-    </div>
-
-    <div class="chart-card">
-        <h3>Completed vs Pending</h3>
-        <canvas id="progressChart"></canvas>
-    </div>
 </div>
+
+
+<div class="w-12 h-12 rounded-2xl bg-white/15 flex items-center justify-center text-white text-xl">
+
+<i class="fa-solid fa-chart-pie"></i>
+
 </div>
+
+
+</div>
+
+
+
+
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+
+
+
+
+<div class="bg-white rounded-3xl p-6 shadow-sm">
+
+<div class="flex items-center justify-between mb-5">
+
+<h3 class="font-bold text-[#102A2A]">
+Projects Status
+</h3>
+
+<span class="text-[#069494]">
+<i class="fa-solid fa-folder"></i>
+</span>
+
+</div>
+
+
+<canvas id="projectChart"></canvas>
+
+
+</div>
+
+
+
+
+
+
+<div class="bg-white rounded-3xl p-6 shadow-sm">
+
+
+<div class="flex items-center justify-between mb-5">
+
+<h3 class="font-bold text-[#102A2A]">
+Tasks Priority
+</h3>
+
+
+<span class="text-[#F59E0B]">
+<i class="fa-solid fa-list-check"></i>
+</span>
+
+
+</div>
+
+
+<canvas id="priorityChart"></canvas>
+
+
+</div>
+
+
+
+
+
+
+<div class="bg-white rounded-3xl p-6 shadow-sm">
+
+
+<div class="flex items-center justify-between mb-5">
+
+
+<h3 class="font-bold text-[#102A2A]">
+Monthly Tasks
+</h3>
+
+
+<span class="text-[#4F46E5]">
+
+<i class="fa-solid fa-chart-line"></i>
+
+</span>
+
+
+</div>
+
+
+<canvas id="lineChart"></canvas>
+
+
+</div>
+
+
+
+
+
+
+<div class="bg-white rounded-3xl p-6 shadow-sm">
+
+
+<div class="flex items-center justify-between mb-5">
+
+
+<h3 class="font-bold text-[#102A2A]">
+Completed vs Pending
+</h3>
+
+
+<span class="text-[#DC2626]">
+
+<i class="fa-solid fa-chart-column"></i>
+
+</span>
+
+
+</div>
+
+
+<canvas id="progressChart"></canvas>
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+</div>
+
 
 <script src="{% static 'js/dashboard_charts.js' %}"></script>
+
+
 </section>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<script>
+
+const projectNames = [
+{% for project in progress_projects %}
+"{{ project.name }}",
+{% endfor %}
+];
+
+
+const projectProgress = [
+{% for project in progress_projects %}
+{{ project.progress }},
+{% endfor %}
+];
+
+
+
+new Chart(document.getElementById("projectProgressChart"),{
+
+
+type:"line",
+
+
+data:{
+
+
+labels:projectNames,
+
+
+datasets:[{
+
+label:"Completion",
+
+data:projectProgress,
+
+
+borderColor:"#069494",
+
+backgroundColor:"rgba(6,148,148,0.12)",
+
+
+fill:true,
+
+
+/* zig-zag effect */
+tension:0,
+
+
+borderWidth:3,
+
+
+pointRadius:6,
+
+
+pointHoverRadius:8,
+
+
+pointBackgroundColor:"#0F766E",
+
+
+pointBorderColor:"#ffffff",
+
+pointBorderWidth:3
+
+
+}]
+
+
+},
+
+
+
+options:{
+
+
+responsive:true,
+
+
+maintainAspectRatio:false,
+
+
+
+plugins:{
+
+
+legend:{
+
+
+display:false
+
+
+}
+
+
+},
+
+
+
+scales:{
+
+
+
+x:{
+
+
+ticks:{
+
+
+color:"#64748B",
+
+font:{
+
+
+weight:"600"
+
+
+}
+
+},
+
+
+grid:{
+
+
+display:false
+
+
+}
+
+
+},
+
+
+
+y:{
+
+
+beginAtZero:true,
+
+
+max:100,
+
+
+ticks:{
+
+
+color:"#64748B",
+
+
+callback:function(value){
+
+return value+"%";
+
+}
+
+},
+
+
+grid:{
+
+
+color:"rgba(148,163,184,0.15)"
+
+
+}
+
+
+}
+
+
+}
+
+
+
+}
+
+
+
+});
+
+</script>
 {% endblock %}

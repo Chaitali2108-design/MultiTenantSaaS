@@ -15,136 +15,17 @@ body{
 
 /* Navbar */
 
-nav{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
 
-    height: 80px;
 
-    background: #1f3a93;
-    color: white;
 
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    padding: 0 30px;
-
-    z-index: 1000;
-}
-
-nav h2{
-    font-size:28px;
-    font-weight:bold;
-    color:white;
-}
-
-.nav-right{
-    display:flex;
-    align-items:center;
-    gap:25px;
-}
-
-.nav-right a{
-    color:white;
-    text-decoration:none;
-    font-size:18px;
-}
-
-.nav-right a:hover{
-    color:#ffd54f;
-}
 
 .org-name{
     font-size:22px;
     font-weight:600;
     margin-right:30px;
 }
-/* Sidebar */
 
-aside{
-    width:220px;
-    background:#2c3e50;
-    color:white;
-
-    height:calc(100vh - 120px);
-
-    overflow-y:auto;
-
-    flex-shrink:0;
-}
-
-aside ul{
-    list-style:none;
-}
-
-aside li{
-    padding:10px;
-    margin:10px 0;
-    background-color:#34495e;
-    cursor:pointer;
-}
-
-aside li:hover{
-    background-color:#1abc9c;
-}
-
-aside h3{
-    text-align:center;
-    padding:18px 0;
-    font-size:24px;
-}
-
-/* ========================= */
-/* Main Layout */
-/* ========================= */
-
-
-
-/* Dashboard Cards */
-
-
-
-/* ========================= */
-/* Tables */
-/* ========================= */
-
-
-
-aside ul{
-    list-style:none;
-}
-
-aside ul li{
-    margin:10px 0;
-}
-
-aside ul li a{
-
-    display:block;
-
-    text-decoration:none;
-
-    color:white;
-
-    background:#34495e;
-
-    padding:12px;
-
-    border-radius:6px;
-
-    transition:0.3s;
-
-}
-
-aside ul li a:hover{
-
-    background:#1abc9c;
-
-}
-
+*/
 /* ========================= */
 /* Form Controls */
 /* ========================= */
@@ -445,15 +326,6 @@ section h2{
 
 }
 
-aside ul li a i{
-    width:25px;
-    margin-right:8px;
-    text-align:center;
-}
-
-/* ========================= */
-/* Status Badges */
-/* ========================= */
 
 
 
@@ -857,47 +729,41 @@ body{
 }
 
 /* Navbar */
-nav{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:70px;
-    z-index:1000;
-}
+
 
 /* Footer */
-footer{
+
+/* footer{
     position:fixed;
     bottom:0;
     left:0;
     width:100%;
     height:50px;
     z-index:1000;
-}
-
+} */
 /* Layout between navbar and footer */
 .layout{
     display:flex;
-    margin-top:70px;
     height:calc(100vh - 102px);
 }
 
-/* Sidebar */
-aside{
-    width:220px;
-    height:100%;
-    overflow-y:auto;
-    flex-shrink:0;
-}
-
-/* Main content */
 .main-content{
-    flex:1;
+    margin-left:272px;
+    width:calc(100% - 272px);
     height:100%;
     overflow-y:auto;
     overflow-x:hidden;
     padding:25px;
-    background:#f4f6f9;
-    padding-bottom: 45px;
+    padding-bottom:45px;
+    background:#FAFBF9;
+}
+
+/* =========================
+   SaaS Theme Override
+========================= */
+
+body{
+    font-family:'Plus Jakarta Sans',sans-serif;
+    background:#FAFBF9;
+    color:#102A2A;
 }

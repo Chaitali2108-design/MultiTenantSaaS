@@ -1,92 +1,309 @@
-<aside>
+<aside class="
+w-60
+fixed
+top-24
+left-4
+h-[calc(100vh-120px)]
+bg-white
+rounded-3xl
+border
+border-[#E5E7EB]
+px-4
+py-5
+overflow-y-auto
+shadow-[0_20px_50px_rgba(15,23,42,0.18)]
+scrollbar-hide
+"
+>
 
-    <h3>MENU</h3>
 
-    <hr>
+<div class="mb-4 px-3">
 
-    <ul>
+<p class="
+text-xs
+font-bold
+tracking-widest
+text-[#718096]
+">
+MAIN MENU
+</p>
 
-    <li>
-        <a href="{% url 'dashboard' %}">
-            <i class="fa-solid fa-house"></i>
-            Dashboard
-        </a>
-    </li>
+</div>
 
-    <li>
-    <a href="{% url 'my_organization' %}">
-        <i class="fa-solid fa-building"></i>
-        <span>Organization</span>
-    </a>
+
+
+<ul class="space-y-1">
+
+
+<li>
+<a href="{% url 'dashboard' %}"
+class="
+group flex items-center gap-3 px-4 py-2.5 rounded-2xl
+text-[#425466] font-semibold
+hover:bg-[#E8F8F7] hover:text-[#0F766E]
+transition-all duration-300
+">
+
+<span class="
+w-9 h-9 rounded-xl
+bg-[#E8F8F7]
+flex items-center justify-center
+group-hover:bg-[#069494]
+group-hover:text-white
+transition
+">
+
+<i class="fa-solid fa-house"></i>
+
+</span>
+
+Dashboard
+
+</a>
+</li>
+
+
+
+<li>
+<a href="{% url 'my_organization' %}"
+class="
+group flex items-center gap-3 px-4 py-2.5 rounded-2xl
+text-[#425466] font-semibold
+hover:bg-[#E8F8F7] hover:text-[#0F766E]
+transition-all duration-300
+">
+
+<span class="
+w-9 h-9 rounded-xl
+bg-[#E8F8F7]
+flex items-center justify-center
+group-hover:bg-[#069494]
+group-hover:text-white
+transition
+">
+
+<i class="fa-solid fa-building"></i>
+
+</span>
+
+Organization
+
+</a>
+</li>
+
+
+
+<li>
+<a href="{% url 'user_list' %}"
+class="
+group flex items-center gap-3 px-4 py-2.5 rounded-2xl
+text-[#425466] font-semibold
+hover:bg-[#E8F8F7] hover:text-[#0F766E]
+transition-all duration-300
+">
+
+<span class="
+w-9 h-9 rounded-xl
+bg-[#E8F8F7]
+flex items-center justify-center
+group-hover:bg-[#069494]
+group-hover:text-white
+transition
+">
+
+<i class="fa-solid fa-users"></i>
+
+</span>
+
+Users
+
+</a>
+</li>
+
+
+
+
+<li>
+<a href="{% url 'project_list' %}"
+class="
+group flex items-center gap-3 px-4 py-2.5 rounded-2xl
+text-[#425466] font-semibold
+hover:bg-[#E8F8F7] hover:text-[#0F766E]
+transition-all duration-300
+">
+
+<span class="
+w-9 h-9 rounded-xl
+bg-[#E8F8F7]
+flex items-center justify-center
+group-hover:bg-[#069494]
+group-hover:text-white
+transition
+">
+
+<i class="fa-solid fa-diagram-project"></i>
+
+</span>
+
+Projects
+
+</a>
+</li>
+
+
+
+
+<li>
+<a href="{% url 'tasks' %}"
+class="
+group flex items-center gap-3 px-4 py-2.5 rounded-2xl
+text-[#425466] font-semibold
+hover:bg-[#E8F8F7] hover:text-[#0F766E]
+transition-all duration-300
+">
+
+<span class="
+w-9 h-9 rounded-xl
+bg-[#E8F8F7]
+flex items-center justify-center
+group-hover:bg-[#069494]
+group-hover:text-white
+transition
+">
+
+<i class="fa-solid fa-list-check"></i>
+
+</span>
+
+Tasks
+
+</a>
+</li>
+
+
+
+
+<li>
+<a href="{% url 'kanban' %}"
+class="
+group flex items-center gap-3 px-4 py-2.5 rounded-2xl
+text-[#425466] font-semibold
+hover:bg-[#E8F8F7] hover:text-[#0F766E]
+transition-all duration-300
+">
+
+<span class="
+w-9 h-9 rounded-xl
+bg-[#E8F8F7]
+flex items-center justify-center
+group-hover:bg-[#069494]
+group-hover:text-white
+transition
+">
+
+<i class="fa-solid fa-table-columns"></i>
+
+</span>
+
+Kanban
+
+</a>
+</li>
+
+
+
+
+<li>
+<a href="{% url 'reports' %}"
+class="
+group flex items-center gap-3 px-4 py-2.5 rounded-2xl
+text-[#425466] font-semibold
+hover:bg-[#E8F8F7] hover:text-[#0F766E]
+transition-all duration-300
+">
+
+<span class="
+w-9 h-9 rounded-xl
+bg-[#E8F8F7]
+flex items-center justify-center
+group-hover:bg-[#069494]
+group-hover:text-white
+transition
+">
+
+<i class="fa-solid fa-chart-column"></i>
+
+</span>
+
+Reports
+
+</a>
+</li>
+
+
+
+
+<li>
+<a href="{% url 'team_members' %}"
+class="
+group flex items-center gap-3 px-4 py-2.5 rounded-2xl
+text-[#425466] font-semibold
+hover:bg-[#E8F8F7] hover:text-[#0F766E]
+transition-all duration-300
+">
+
+<span class="
+w-9 h-9 rounded-xl
+bg-[#E8F8F7]
+flex items-center justify-center
+group-hover:bg-[#069494]
+group-hover:text-white
+transition
+">
+
+<i class="fa-solid fa-user-group"></i>
+
+</span>
+
+Team Members
+
+</a>
 </li>
 
 <li>
-    <a href="{% url 'user_list' %}">
-        <i class="fa-solid fa-building"></i>
-        <span>Users</span>
-    </a>
+<a href="{% url 'settings' %}"
+class="
+group flex items-center gap-3 px-4 py-2.5 rounded-2xl
+text-[#425466] font-semibold
+hover:bg-[#E8F8F7] hover:text-[#0F766E]
+transition-all duration-300
+">
+
+<span class="
+w-9 h-9 rounded-xl
+bg-[#E8F8F7]
+flex items-center justify-center
+group-hover:bg-[#069494]
+group-hover:text-white
+transition
+">
+
+<i class="fa-solid fa-gear"></i>
+
+</span>
+
+Settings
+
+</a>
 </li>
 
-    <li>
-        <a href="{% url 'project_list' %}">
-            <i class="fa-solid fa-diagram-project"></i>
-            Projects
-        </a>
-    </li>
 
-   
-
-    <li>
-        <a href="{% url 'tasks' %}">
-            <i class="fa-solid fa-list-check"></i>
-            Tasks
-        </a>
-    </li>
-
-    <li>
-        <a href="{% url 'kanban' %}">
-            <i class="fa-solid fa-table-columns"></i>
-            Kanban Board
-        </a>
-    </li>
-
-    <li>
-        <a href="{% url 'reports' %}">
-            <i class="fa-solid fa-chart-column"></i>
-            Reports
-        </a>
-    </li>
-
-    <li>
-        <a href="{% url 'team_members' %}">
-            <i class="fa-solid fa-users"></i>
-            Team Members
-        </a>
-    </li>
-
-    <li>
-        <a href="{% url 'profile' %}">
-            <i class="fa-solid fa-user"></i>
-            Profile
-        </a>
-    </li>
-
-    <li>
-        <a href="{% url 'settings' %}">
-            <i class="fa-solid fa-gear"></i>
-            Settings
-        </a>
-    </li>
-
-    <li>
-        <a href="{% url 'logout' %}">
-            <i class="fa-solid fa-right-from-bracket"></i>
-            Logout
-        </a>
-    </li>
 
 </ul>
 
-    <hr>
+
+
+
+
 
 </aside>
