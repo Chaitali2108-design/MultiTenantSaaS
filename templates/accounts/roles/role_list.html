@@ -1,108 +1,499 @@
 {% extends "base.html" %}
-
 {% block content %}
 
 <script src="https://cdn.tailwindcss.com"></script>
 
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-<link
-href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-rel="stylesheet">
+<div class="min-h-screen bg-[linear-gradient(to_bottom,#F8FAFC,#F5F3FF,#F8FAFC)] py-10 px-6" style="font-family:'Plus Jakarta Sans',sans-serif;">
 
-
-<style>
-
-body{
-    font-family:'Plus Jakarta Sans',sans-serif;
-}
-
-</style>
-
-
-
-<div class="
-min-h-screen
-bg-slate-50
-py-10
-px-6
-">
-
-
-<div class="
-max-w-7xl
-mx-auto
-">
-
+<div class="max-w-7xl mx-auto">
 
 
 <!-- HEADER -->
 
-<div class="
-bg-white
-rounded-3xl
-border
-border-slate-200
-shadow-sm
-p-8
-mb-8
-">
+<div class="mb-8 overflow-hidden rounded-[32px] border border-slate-200 bg-white shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+
+<div class="bg-gradient-to-r from-[#C8E8ED] via-[#A9D9E2] to-[#5FB7C5] px-8 py-8">
+
+<div class="flex flex-col justify-between gap-8 lg:flex-row">
 
 
-<div class="
-flex
-flex-col
-lg:flex-row
-justify-between
-items-center
-gap-6
-">
+<div class="flex gap-5">
+
+
+<div class="flex h-20 w-20 items-center justify-center rounded-3xl bg-[#069494]/10 text-4xl border border-[#069494]/20">
+🛡
+</div>
 
 
 
 <div>
 
 
-<div class="
-inline-flex
-items-center
-gap-2
-px-4
-py-2
-rounded-full
-bg-violet-50
-text-violet-700
-border
-border-violet-200
-text-sm
-font-semibold
-">
+<div class="inline-flex rounded-full bg-[#069494]/10 border border-[#069494]/20 px-4 py-2 text-sm font-bold text-[#069494]">
+ROLE MANAGEMENT
+</div>
 
-🛡 Role Management
+
+
+<h1 class="mt-5 text-5xl font-black text-slate-900">
+Organization Roles
+</h1>
+
+
+
+<p class="mt-3 max-w-xl text-slate-600">
+Create custom roles, control permissions and manage organization access with a modern permission system.
+</p>
+
+
+
+</div>
+
 
 </div>
 
 
 
-<h1 class="
-text-4xl
-font-extrabold
-text-slate-900
-mt-4
-">
 
-Organization Roles
-
-</h1>
+<div class="flex items-start gap-3">
 
 
+{% if request.user.role.name == "Owner" %}
 
-<p class="
-text-slate-500
-mt-2
-">
+<a href="{% url 'role_create' %}" 
+class="rounded-2xl bg-[#069494] px-6 py-3 font-bold text-white shadow-lg shadow-[#069494]/20 hover:scale-105 transition">
+＋ Create Role
+</a>
 
-Manage permissions, access levels and custom roles.
+{% endif %}
 
+
+
+<a href="{% url 'user_list' %}" 
+class="rounded-2xl border border-[#069494]/30 bg-white/60 px-6 py-3 font-bold text-[#069494] hover:bg-white transition">
+← Users
+</a>
+
+
+
+</div>
+
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<!-- STATS -->
+
+
+<div class="mb-8 rounded-[32px] border border-slate-200 bg-white shadow-sm">
+
+
+<div class="grid grid-cols-2 gap-6 p-8 xl:grid-cols-4">
+
+
+<div class="rounded-3xl border border-violet-200 bg-gradient-to-br from-violet-50 to-fuchsia-100 p-6">
+
+<div class="text-3xl">
+🛡
+</div>
+
+<p class="mt-4 text-sm font-bold uppercase text-slate-500">
+Total Roles
+</p>
+
+<p class="mt-2 text-4xl font-black text-violet-700">
+{{ roles|length }}
+</p>
+
+</div>
+
+
+
+<div class="rounded-3xl border border-indigo-200 bg-gradient-to-br from-indigo-50 to-sky-100 p-6">
+
+<div class="text-3xl">
+⚙
+</div>
+
+<p class="mt-4 text-sm font-bold uppercase text-slate-500">
+System Roles
+</p>
+
+<p class="mt-2 text-4xl font-black text-indigo-700">
+{{ system_roles_count }}
+</p>
+
+</div>
+
+
+
+<div class="rounded-3xl border border-emerald-200 bg-gradient-to-br from-emerald-50 to-teal-100 p-6">
+
+<div class="text-3xl">
+✨
+</div>
+
+<p class="mt-4 text-sm font-bold uppercase text-slate-500">
+Custom Roles
+</p>
+
+<p class="mt-2 text-4xl font-black text-emerald-700">
+{{ custom_roles_count }}
+</p>
+
+</div>
+
+
+
+<div class="rounded-3xl border border-amber-200 bg-gradient-to-br from-amber-50 to-orange-100 p-6">
+
+<div class="text-3xl">
+👥
+</div>
+
+<p class="mt-4 text-sm font-bold uppercase text-slate-500">
+Organization
+</p>
+
+<p class="mt-2 text-xl font-black text-orange-700">
+{{ request.user.organization.name }}
+</p>
+
+</div>
+
+
+
+</div>
+
+</div>
+
+<!-- MAIN ROLE AREA -->
+
+<div class="grid lg:grid-cols-12 gap-8 items-start">
+
+
+<!-- OWNER CARD -->
+
+<div class="lg:col-span-4">
+
+{% for role in roles %}
+
+{% if role.name == "Owner" %}
+
+
+
+<div class="h-[500px] relative rounded-[32px] bg-gradient-to-br from-[#CC3A63] via-[#A92F51] to-[#76213A] text-white shadow-[0_30px_80px_rgba(15,23,42,.45)] overflow-hidden">
+<div class="relative p-8">
+
+
+<div class="flex h-20 w-20 items-center justify-center rounded-3xl bg-white/20 text-5xl">
+👑
+</div>
+
+
+<h2 class="mt-8 text-4xl font-black">
+{{ role.name }}
+</h2>
+
+
+<div class="mt-4 inline-flex rounded-full bg-white/20 px-4 py-2 text-sm font-bold">
+Protected System Role
+</div>
+
+
+<p class="mt-6 leading-8 text-violet-100">
+{{ role.description|default:"Complete access to every feature inside the organization." }}
+</p>
+
+
+
+<div class="mt-8 rounded-3xl border border-white/20 bg-white/10 p-6">
+
+
+<div class="flex items-center gap-4">
+
+
+<div class="flex h-14 w-14 items-center justify-center rounded-full bg-white/20 text-2xl">
+👤
+</div>
+
+
+<div>
+
+<div class="text-sm text-violet-200">
+Organization Owner
+</div>
+
+
+<div class="text-xl font-black">
+{{ owner.first_name }} {{ owner.last_name }}
+</div>
+
+
+<div class="text-sm text-violet-200">
+{{ owner.email }}
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+<div class="absolute right-6 top-6 flex flex-wrap justify-end gap-2 w-48">
+
+<span class="rounded-full bg-white/15 px-3 py-2 text-xs">
+👥 Users
+</span>
+
+<span class="rounded-full bg-white/15 px-3 py-2 text-xs">
+🛡 Permissions
+</span>
+
+<span class="rounded-full bg-white/15 px-3 py-2 text-xs">
+📁 Projects
+</span>
+
+<span class="rounded-full bg-white/15 px-3 py-2 text-xs">
+📊 Reports
+</span>
+
+<span class="rounded-full bg-white/15 px-3 py-2 text-xs">
+⚙ Settings
+</span>
+
+</div>
+
+</div>
+
+
+
+{% endif %}
+
+{% endfor %}
+
+
+</div>
+
+
+
+<!-- RIGHT SIDE ROLE AREA -->
+
+<div class="lg:col-span-8">
+
+
+<div class="grid md:grid-cols-3 gap-5">
+
+{% for role in roles %}
+
+{% if role.name != "Owner" %}
+
+{% if forloop.counter <= 7 %}
+
+<div class="h-[240px] flex flex-col justify-between rounded-3xl border border-violet-200 bg-gradient-to-br from-violet-50 via-fuchsia-50 to-indigo-100 p-5 shadow-md transition hover:shadow-xl">
+
+<div class="flex items-start justify-between">
+
+
+<div class="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-100 via-fuchsia-100 to-indigo-100 text-xl">
+🛡
+</div>
+
+
+<div class="flex gap-2">
+
+{% if role.is_system %}
+
+<span class="rounded-full border border-indigo-200 bg-indigo-100 px-3 py-1 text-xs font-semibold text-indigo-700">
+System
+</span>
+
+{% else %}
+
+<span class="rounded-full border border-fuchsia-200 bg-fuchsia-100 px-3 py-1 text-xs font-semibold text-fuchsia-700">
+Custom
+</span>
+
+{% endif %}
+
+
+<span class="rounded-full border border-violet-300 bg-violet-200 px-3 py-1 text-xs font-semibold text-violet-800">
+{{ role.organization.name }}
+</span>
+
+
+</div>
+
+</div>
+
+
+
+<div>
+
+<h2 class="mt-4 text-xl font-bold text-slate-900">
+{{ role.name }}
+</h2>
+
+
+<p class="mt-2 line-clamp-2 text-sm text-slate-500">
+{{ role.description|default:"No description provided." }}
+</p>
+
+
+</div>
+
+
+
+<div class="flex gap-3">
+
+
+{% if request.user.role.name == "Owner" %}
+
+
+{% if not role.is_system %}
+
+
+<a href="{% url 'role_update' role.pk %}"
+class="flex-1 rounded-xl bg-amber-100 py-2 text-center text-sm font-semibold text-amber-700 hover:bg-amber-200">
+Edit
+</a>
+
+
+<a href="{% url 'role_delete' role.pk %}"
+class="flex-1 rounded-xl bg-rose-100 py-2 text-center text-sm font-semibold text-rose-700 hover:bg-rose-200">
+Delete
+</a>
+
+
+{% else %}
+
+
+<span class="w-full rounded-xl border border-indigo-200 bg-indigo-100 py-2 text-center text-sm font-semibold text-indigo-700">
+🛡 Protected
+</span>
+
+
+{% endif %}
+
+
+{% else %}
+
+
+<span class="w-full rounded-xl bg-slate-100 py-2 text-center text-sm font-semibold text-slate-500">
+View Only
+</span>
+
+
+{% endif %}
+
+
+</div>
+
+
+</div>
+
+{% endif %}
+{% endif %}
+
+{% endfor %}
+
+</div>
+
+
+</div>
+
+</div>
+
+<div class="mt-8 flex justify-center">
+
+
+</div>
+
+<!-- REMAINING ROLES -->
+
+<div class="mt-8 hidden" id="remainingRoles">
+
+<div class="grid md:grid-cols-2 xl:grid-cols-4 gap-5">
+
+
+{% for role in roles %}
+
+{% if role.name != "Owner" %}
+
+{% if forloop.counter > 7 %}
+
+
+<div class="h-[240px] flex flex-col justify-between rounded-3xl border border-violet-200 bg-gradient-to-br from-violet-50 via-fuchsia-50 to-indigo-100 p-5 shadow-md transition hover:shadow-xl">
+
+
+<div class="flex items-start justify-between">
+
+
+<div class="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-100 via-fuchsia-100 to-indigo-100 text-xl">
+🛡
+</div>
+
+
+
+<div class="flex gap-2">
+
+
+{% if role.is_system %}
+
+<span class="rounded-full border border-indigo-200 bg-indigo-100 px-3 py-1 text-xs font-semibold text-indigo-700">
+System
+</span>
+
+{% else %}
+
+<span class="rounded-full border border-fuchsia-200 bg-fuchsia-100 px-3 py-1 text-xs font-semibold text-fuchsia-700">
+Custom
+</span>
+
+{% endif %}
+
+
+<span class="rounded-full border border-violet-300 bg-violet-200 px-3 py-1 text-xs font-semibold text-violet-800">
+{{ role.organization.name }}
+</span>
+
+
+</div>
+
+
+</div>
+
+
+
+
+<div>
+
+
+<h2 class="mt-4 text-xl font-bold text-slate-900">
+{{ role.name }}
+</h2>
+
+
+<p class="mt-2 line-clamp-2 text-sm text-slate-500">
+{{ role.description|default:"No description provided." }}
 </p>
 
 
@@ -116,672 +507,107 @@ Manage permissions, access levels and custom roles.
 
 {% if request.user.role.name == "Owner" %}
 
-<a
-href="{% url 'role_create' %}"
-class="
-px-5
-py-3
-rounded-xl
-bg-violet-600
-hover:bg-violet-700
-text-white
-font-semibold
-shadow-lg
-transition
-">
-
-+ Create Role
-
-</a>
-
-{% endif %}
-
-
-
-<a
-href="{% url 'user_list' %}"
-class="
-px-5
-py-3
-rounded-xl
-bg-slate-100
-hover:bg-slate-200
-text-slate-700
-font-semibold
-transition
-">
-
-← Back Users
-
-</a>
-
-
-</div>
-
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-<!-- MAIN ROLE LAYOUT -->
-
-<div class="
-grid
-grid-cols-1
-lg:grid-cols-12
-gap-8
-">
-
-
-
-
-
-
-<!-- OWNER SECTION -->
-
-
-<div class="
-lg:col-span-4
-">
-
-
-{% for role in roles %}
-
-{% if role.name == "Owner" %}
-
-
-
-<div class="
-bg-gradient-to-br
-from-purple-700
-via-indigo-700
-to-slate-900
-rounded-3xl
-p-8
-text-white
-shadow-xl
-h-full
-">
-
-
-
-<div class="
-w-20
-h-20
-rounded-3xl
-bg-white/20
-flex
-items-center
-justify-center
-text-4xl
-">
-
-👑
-
-</div>
-
-
-
-
-<h2 class="
-text-3xl
-font-extrabold
-mt-6
-">
-
-{{ role.name }}
-
-</h2>
-
-
-
-<span class="
-inline-block
-mt-3
-px-4
-py-1
-rounded-full
-bg-white/20
-text-purple-100
-text-sm
-font-semibold
-">
-
-System Role
-
-</span>
-
-
-
-<p class="
-text-purple-100
-mt-5
-leading-relaxed
-">
-
-{{ role.description|default:"Complete organization access and control." }}
-
-</p>
-
-<div class="
-mt-6
-bg-white/10
-border
-border-white/20
-rounded-2xl
-p-5
-">
-
-<div class="flex items-center gap-4">
-
-
-<div class="
-w-14
-h-14
-rounded-full
-bg-white/20
-flex
-items-center
-justify-center
-text-2xl
-">
-
-👤
-
-</div>
-
-
-
-<div>
-
-<p class="
-text-sm
-text-purple-200
-">
-
-Owner
-
-</p>
-
-
-<p class="
-font-bold
-text-white
-text-lg
-">
-
-{{ owner.first_name }} {{ owner.last_name }}
-
-</p>
-
-
-<p class="
-text-sm
-text-purple-200
-">
-
-{{ owner.email }}
-
-</p>
-
-
-</div>
-
-
-</div>
-
-</div>
-
-
-
-<div class="
-mt-8
-space-y-4
-">
-
-
-<div class="
-bg-white/10
-rounded-xl
-p-4
-border
-border-white/10
-">
-
-<div class="font-semibold">
-
-👥 User Management
-
-</div>
-
-<p class="text-sm text-purple-100 mt-1">
-
-Manage organization members.
-
-</p>
-
-</div>
-
-
-
-
-<div class="
-bg-white/10
-rounded-xl
-p-4
-border
-border-white/10
-">
-
-<div class="font-semibold">
-
-🛡 Permission Control
-
-</div>
-
-<p class="text-sm text-purple-100 mt-1">
-
-Manage access levels.
-
-</p>
-
-</div>
-
-
-
-
-<div class="
-bg-white/10
-rounded-xl
-p-4
-border
-border-white/10
-">
-
-<div class="font-semibold">
-
-⚙ Organization Settings
-
-</div>
-
-<p class="text-sm text-purple-100 mt-1">
-
-Control workspace settings.
-
-</p>
-
-</div>
-
-
-
-</div>
-
-
-
-</div>
-
-
-
-{% endif %}
-
-{% endfor %}
-
-
-</div>
-
-
-
-
-
-
-<!-- OTHER ROLES -->
-
-<div class="
-lg:col-span-8
-grid
-md:grid-cols-2
-xl:grid-cols-3
-gap-5
-items-start
-">
-
-
-
-{% for role in roles %}
-
-
-{% if role.name != "Owner" %}
-
-<div class="
-bg-gradient-to-br
-from-violet-50
-via-fuchsia-50
-to-indigo-100
-rounded-3xl
-border
-border-violet-200
-shadow-md
-hover:shadow-xl
-transition
-duration-300
-p-5
-">
-
-
-
-<div class="
-flex
-justify-between
-items-start
-">
-
-
-
-<div class="
-w-12
-h-12
-rounded-xl
-bg-gradient-to-br
-from-purple-100
-via-fuchsia-100
-to-indigo-100
-flex
-items-center
-justify-center
-text-xl
-">
-
-🛡
-
-</div>
-
-
-
-
-
-<div class="flex items-center gap-2">
-
-
-{% if role.is_system %}
-
-<span class="
-px-3
-py-1
-rounded-full
-bg-indigo-100
-text-indigo-700
-border
-border-indigo-200
-text-xs
-font-semibold
-">
-
-System
-
-</span>
-
-
-{% else %}
-
-<span class="
-px-3
-py-1
-rounded-full
-bg-fuchsia-100
-text-fuchsia-700
-border
-border-fuchsia-200
-text-xs
-font-semibold
-">
-
-Custom
-
-</span>
-
-
-{% endif %}
-
-
-
-<span class="
-px-3
-py-1
-rounded-full
-bg-violet-200
-text-violet-800
-border
-border-violet-300
-text-xs
-font-semibold
-">
-{{ role.organization.name }}
-</span>
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-<h2 class="
-text-xl
-font-bold
-text-slate-900
-mt-4
-">
-
-{{ role.name }}
-
-</h2>
-
-
-
-
-
-<p class="
-text-sm
-text-slate-500
-mt-1
-min-h-[30px]
-">
-
-{{ role.description|default:"No description provided." }}
-
-</p>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="
-mt-4
-flex
-gap-3
-">
-
-
-
-{% if request.user.role.name == "Owner" %}
-
-
 
 {% if not role.is_system %}
 
 
-
-<a
-href="{% url 'role_update' role.pk %}"
-class="
-flex-1
-text-center
-px-4
-py-2
-rounded-xl
-bg-amber-100
-text-amber-700
-hover:bg-amber-200
-font-semibold
-text-sm
-transition
-">
-
+<a href="{% url 'role_update' role.pk %}"
+class="flex-1 rounded-xl bg-amber-100 py-2 text-center text-sm font-semibold text-amber-700 hover:bg-amber-200">
 Edit
-
 </a>
 
 
-
-
-
-<a
-href="{% url 'role_delete' role.pk %}"
-class="
-flex-1
-text-center
-px-4
-py-2
-rounded-xl
-bg-rose-100
-text-rose-700
-hover:bg-rose-200
-font-semibold
-text-sm
-transition
-">
-
+<a href="{% url 'role_delete' role.pk %}"
+class="flex-1 rounded-xl bg-rose-100 py-2 text-center text-sm font-semibold text-rose-700 hover:bg-rose-200">
 Delete
-
 </a>
 
 
-
-
 {% else %}
 
 
-<span class="
-w-full
-text-center
-px-4
-py-2.5
-rounded-xl
-bg-gradient-to-r
-from-indigo-100
-to-violet-100
-text-indigo-700
-border
-border-indigo-200
-text-sm
-font-semibold
-shadow-sm
-">
-    🛡 Protected
+<span class="w-full rounded-xl border border-indigo-200 bg-indigo-100 py-2 text-center text-sm font-semibold text-indigo-700">
+🛡 Protected
 </span>
-
 
 
 {% endif %}
 
 
-
-
-
 {% else %}
 
 
-
-<span class="
-w-full
-text-center
-px-4
-py-2
-rounded-xl
-bg-slate-100
-text-slate-500
-text-sm
-font-semibold
-">
-
+<span class="w-full rounded-xl bg-slate-100 py-2 text-center text-sm font-semibold text-slate-500">
 View Only
-
 </span>
 
 
-
 {% endif %}
-
 
 
 </div>
 
 
-
 </div>
-
 
 
 {% endif %}
 
+{% endif %}
 
 {% endfor %}
 
 
-
 </div>
 
-
 </div>
-
-
 
 
 
 {% if not roles %}
 
-<div class="
-bg-white
-rounded-3xl
-border
-border-slate-200
-p-10
-text-center
-text-slate-500
-">
-
+<div class="rounded-3xl border border-slate-200 bg-white p-10 text-center text-slate-500">
 No roles found.
-
 </div>
 
 {% endif %}
 
 
-
 </div>
 
+<div class="flex justify-center mt-8">
+
+<button 
+onclick="toggleRoles()"
+id="viewRolesBtn"
+class="rounded-2xl bg-violet-600 px-8 py-3 font-bold text-white shadow-lg transition hover:bg-violet-700">
+View All Roles
+</button>
 
 </div>
+</div>
 
+<script>
+
+function toggleRoles(){
+
+let roles = document.getElementById("remainingRoles");
+let button = document.getElementById("viewRolesBtn");
+
+if(roles.classList.contains("hidden")){
+
+roles.classList.remove("hidden");
+button.innerHTML = "Show Less";
+
+}else{
+
+roles.classList.add("hidden");
+button.innerHTML = "View All Roles";
+
+}
+
+}
+
+</script>
 
 {% endblock %}

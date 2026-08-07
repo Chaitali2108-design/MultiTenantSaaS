@@ -144,12 +144,12 @@ def update_project(request, project_id):
 
 @login_required(login_url='/accounts/login/')
 def delete_project(request, project_id):
-    user = request.user
+    
 
     project = get_object_or_404(
         Project,
         id=project_id,
-        organization=user.organization
+        organization=request.user.organization
     )
 
     project.delete()
@@ -174,7 +174,9 @@ def create_task(request):
 
     print(projects)
 
-    users = User.objects.none()   # initially empty
+    users = User.objects.filter(
+    organization=request.user.organization
+)   
 
     tasks = Task.objects.filter(
         project__organization=request.user.organization
@@ -226,11 +228,22 @@ def create_task(request):
             organization=user.organization
         )
 
-        users = project.members.all()
+        print("POST ORGANIZATION:", user.organization)
 
+        users = User.objects.filter(
+            organization=user.organization
+        )
+
+        print("POST USERS:", list(users))
+        print("POST USER COUNT:", users.count())
+
+       
         assigned_to = None
         if assigned_to_id:
-            assigned_to = project.members.filter(id=assigned_to_id).first()
+            assigned_to = User.objects.filter(
+        id=assigned_to_id,
+        organization=user.organization
+    ).first()
 
         dependency = None
         if dependency_id:

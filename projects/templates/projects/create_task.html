@@ -235,8 +235,7 @@ value="{% if task.reminder_date %}{{ task.reminder_date|date:'Y-m-d\\TH:i' }}{% 
 
 {% for user in users %}
 
-<option value="{{ user.id }}"
-{% if task.assigned_to.id == user.id %}selected{% endif %}>
+<option value="{{ user.id }}">
 
 {{ user.username }}
 
@@ -424,45 +423,6 @@ return true;
 
 </script>
 
-<script>
-document.addEventListener("DOMContentLoaded", function () {
 
-    const projectDropdown = document.getElementById("project");
-    const userDropdown = document.getElementById("assigned_to");
-
-    projectDropdown.addEventListener("change", function () {
-
-        const projectId = this.value;
-
-        console.log("Selected Project ID:", projectId);
-
-        if (!projectId) return;
-
-        fetch(`/projects/project/${projectId}/members/`)
-            .then(response => response.json())
-            .then(data => {
-
-                console.log("Members:", data);
-
-                userDropdown.innerHTML = "<option value=''>Select Member</option>";
-
-                if (data.length === 0) {
-                    userDropdown.innerHTML = "<option>No members</option>";
-                    return;
-                }
-
-                data.forEach(user => {
-                    let option = document.createElement("option");
-                    option.value = user.id;
-                    option.textContent = user.username;
-                    userDropdown.appendChild(option);
-                });
-
-            })
-            .catch(error => console.error("Error:", error));
-    });
-
-});
-</script>
 
 {% endblock %}
