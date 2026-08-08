@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-
+from .views import team_members, create_team
 
 urlpatterns = [
 
@@ -34,10 +34,10 @@ urlpatterns = [
     ),
 
     path(
-    'project/<int:project_id>/members/',
-    views.get_project_members,
-    name='project_members'
-    ),
+    'tasks/project/<int:project_id>/team-members/',
+    views.get_project_team_members,
+    name='get_project_team_members'
+),
 
 
     # ================= TASK =================
@@ -108,4 +108,26 @@ path(
     name='mark_notification_read'
 ),
 
+path(
+    "team-members/",
+    team_members,
+    name="team_members"
+),
+
+path(
+    "team-members/create/",
+    create_team,
+    name="create_team"
+),
+
+path(
+    "teams/<int:team_id>/members/add/",
+    views.add_team_members,
+    name="add_team_members"
+),
+path(
+        "teams/<int:team_id>/",
+        views.team_detail,
+        name="team_detail"
+    ),
 ]

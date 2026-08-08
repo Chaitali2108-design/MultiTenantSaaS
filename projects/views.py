@@ -7,8 +7,10 @@ from django.contrib.auth.decorators import login_required
 import csv
 from datetime import datetime, date
 
-from .models import Project, Task, ActivityLog, Notification
 from accounts.models import User
+
+from .models import Project, Task, ActivityLog, Notification, ProjectMember, Team
+
 
 
 def create_notification(user, message):
@@ -163,64 +165,116 @@ def create_task(request):
 
     user = request.user
 
-    # 🔒 Multi-tenant safety (only current org data)
-
-    print("Current User:", request.user.username)
-    print("Organization:", request.user.organization)
-
     projects = Project.objects.filter(
-        organization=request.user.organization
-    )
-
-    print(projects)
-
-    users = User.objects.filter(
-    organization=request.user.organization
-)   
+        organization=user.organization
+    ).order_by("name")
 
     tasks = Task.objects.filter(
-        project__organization=request.user.organization
+        project__organization=user.organization
     )
 
-    print("Projects Count:", projects.count())
-    print("Users Count:", users.count())
-    print("Tasks Count:", tasks.count())
-  
+    # Selected project from GET or POST
+    selected_project_id = (
+        request.POST.get("project")
+        if request.method == "POST"
+        else request.GET.get("project")
+    )
+
+    selected_project = None
+    users = User.objects.none()
+
+    # =========================================================
+    # LOAD TEAM MEMBERS OF SELECTED PROJECT
+    # =========================================================
+
+    if selected_project_id:
+
+        selected_project = get_object_or_404(
+            Project,
+            id=selected_project_id,
+            organization=user.organization
+        )
+
+        users = User.objects.filter(
+            project_memberships__team__project=selected_project,
+            organization=user.organization,
+            is_active=True
+        ).distinct().select_related("role")
+
+    # =========================================================
+    # POST
+    # =========================================================
 
     if request.method == "POST":
 
-        title = request.POST.get('title')
-        status = request.POST.get('status') or 'todo'
-        priority = request.POST.get('priority') or 'medium'
-        due_date = request.POST.get('due_date') or None
+        title = request.POST.get("title")
+        status = request.POST.get("status") or "todo"
+        priority = request.POST.get("priority") or "medium"
+        due_date = request.POST.get("due_date") or None
 
-        reminder_raw = request.POST.get('reminder_date')
+        reminder_raw = request.POST.get("reminder_date")
         reminder_date = None
 
         if reminder_raw:
             reminder_date = timezone.make_aware(
                 datetime.fromisoformat(reminder_raw)
             )
-        # ✅ FIXED VALIDATION (INSIDE POST)
+
+        # -----------------------------------------------------
+        # DUE DATE
+        # -----------------------------------------------------
+
         if due_date:
-            due_date_obj = datetime.strptime(due_date, "%Y-%m-%d").date()
+
+            due_date_obj = datetime.strptime(
+                due_date,
+                "%Y-%m-%d"
+            ).date()
 
             if due_date_obj < date.today():
-                messages.error(request, "Due date cannot be in past")
-                return redirect('create_task')
+
+                messages.error(
+                    request,
+                    "Due date cannot be in past."
+                )
+
+                return redirect("create_task")
+
+        # -----------------------------------------------------
+        # REMINDER
+        # -----------------------------------------------------
 
         if reminder_date:
-            if reminder_date < timezone.now():
-                messages.error(request, "Reminder cannot be in past")
-                return redirect('create_task')
 
-        project_id = request.POST.get('project')
-        assigned_to_id = request.POST.get('assigned_to')
-        dependency_id = request.POST.get('dependency')
+            if reminder_date < timezone.now():
+
+                messages.error(
+                    request,
+                    "Reminder cannot be in past."
+                )
+
+                return redirect("create_task")
+
+        project_id = request.POST.get("project")
+        assigned_to_id = request.POST.get("assigned_to")
+        dependency_id = request.POST.get("dependency")
+
+        # -----------------------------------------------------
+        # VALIDATION
+        # -----------------------------------------------------
 
         if not title or not project_id:
-            messages.error(request, "Title and Project required")
-            return redirect('create_task')
+
+            messages.error(
+                request,
+                "Title and Project required."
+            )
+
+            return redirect("create_task")
+
+        # -----------------------------------------------------
+        # PROJECT
+        # -----------------------------------------------------
 
         project = get_object_or_404(
             Project,
@@ -228,29 +282,48 @@ def create_task(request):
             organization=user.organization
         )
 
-        print("POST ORGANIZATION:", user.organization)
+        # -----------------------------------------------------
+        # VERIFY ASSIGNED USER IS A TEAM MEMBER
+        # -----------------------------------------------------
 
-        users = User.objects.filter(
-            organization=user.organization
-        )
-
-        print("POST USERS:", list(users))
-        print("POST USER COUNT:", users.count())
-
-       
         assigned_to = None
+
         if assigned_to_id:
+
             assigned_to = User.objects.filter(
-        id=assigned_to_id,
-        organization=user.organization
-    ).first()
+                id=assigned_to_id,
+                organization=user.organization,
+                is_active=True,
+                project_memberships__team__project=project
+            ).distinct().first()
+
+            if not assigned_to:
+
+                messages.error(
+                    request,
+                    "Selected user is not a member of this project's team."
+                )
+
+                return redirect(
+                    f"/projects/tasks/create/?project={project.id}"
+                )
+
+        # -----------------------------------------------------
+        # DEPENDENCY
+        # -----------------------------------------------------
 
         dependency = None
+
         if dependency_id:
+
             dependency = Task.objects.filter(
                 id=dependency_id,
-                project__organization=user.organization
+                project=project
             ).first()
+
+        # -----------------------------------------------------
+        # CREATE TASK
+        # -----------------------------------------------------
 
         task = Task.objects.create(
             title=title,
@@ -265,28 +338,43 @@ def create_task(request):
             order=0
         )
 
+        # -----------------------------------------------------
+        # ACTIVITY LOG
+        # -----------------------------------------------------
+
         ActivityLog.objects.create(
             task=task,
             user=user,
             action="Task Created"
         )
 
-        # 🔔 Notification: Task Assigned
+        # -----------------------------------------------------
+        # NOTIFICATION
+        # -----------------------------------------------------
+
         if assigned_to:
+
             create_notification(
                 assigned_to,
                 f"You have been assigned a new task: {task.title}"
             )
 
-        return redirect('tasks_list')
+        return redirect("tasks_list")
 
-    return render(request, 'projects/create_task.html', {
+    # =========================================================
+    # GET
+    # =========================================================
 
-        'projects': projects,
-        'users': users,
-        'tasks': tasks
-    })
-
+    return render(
+        request,
+        "projects/create_task.html",
+        {
+            "projects": projects,
+            "users": users,
+            "tasks": tasks,
+            "selected_project": selected_project,
+        }
+    )
 
 # ================= KANBAN =================
 
@@ -549,11 +637,16 @@ def update_task(request, task_id):
     )
 
     if request.method == "POST":
+
         task.title = request.POST.get("title")
         task.description = request.POST.get("description")
 
-        # ✅ SAFE PROJECT UPDATE
+        # =========================
+        # SAFE PROJECT UPDATE
+        # =========================
+
         project_id = request.POST.get("project")
+
         if project_id:
             task.project = get_object_or_404(
                 Project,
@@ -561,36 +654,73 @@ def update_task(request, task_id):
                 organization=user.organization
             )
 
-        # ✅ ASSIGNED USER
+        # =========================
+        # ASSIGNED USER
+        # =========================
+
         assigned_to_id = request.POST.get("assigned_to")
+
         if assigned_to_id:
-            task.assigned_to = task.project.members.filter(
-                id=assigned_to_id
-            ).first()
+            task.assigned_to = get_object_or_404(
+                User,
+                id=assigned_to_id,
+                organization=user.organization
+            )
         else:
             task.assigned_to = None
 
-        # ✅ BASIC FIELDS
-        task.status = request.POST.get("status", task.status)
-        task.priority = request.POST.get("priority", task.priority)
-        task.due_date = request.POST.get("due_date") or None
+        # =========================
+        # BASIC FIELDS
+        # =========================
 
-        # ✅ REMINDER
+        task.status = request.POST.get(
+            "status",
+            task.status
+        )
+
+        task.priority = request.POST.get(
+            "priority",
+            task.priority
+        )
+
+        task.due_date = request.POST.get(
+            "due_date"
+        ) or None
+
+        # =========================
+        # REMINDER
+        # =========================
+
         reminder_raw = request.POST.get("reminder_date")
-        if reminder_raw:
-            task.reminder_date = datetime.fromisoformat(reminder_raw)
 
-        # ✅ DEPENDENCY
+        if reminder_raw:
+            task.reminder_date = datetime.fromisoformat(
+                reminder_raw
+            )
+        else:
+            task.reminder_date = None
+
+        # =========================
+        # DEPENDENCY
+        # =========================
+
         dependency_id = request.POST.get("dependency")
+
         if dependency_id:
             task.dependency = Task.objects.filter(
                 id=dependency_id,
                 project__organization=user.organization
+            ).exclude(
+                id=task.id
             ).first()
         else:
             task.dependency = None
 
         task.save()
+
+        # =========================
+        # ACTIVITY LOG
+        # =========================
 
         ActivityLog.objects.create(
             task=task,
@@ -598,22 +728,39 @@ def update_task(request, task_id):
             action="Task Updated"
         )
 
-        # 🔔 Notification: Task Updated
+        # =========================
+        # NOTIFICATION
+        # =========================
+
         if task.assigned_to:
             create_notification(
                 task.assigned_to,
                 f"Task updated: {task.title}"
             )
 
-        return redirect("task_detail", task.id)
+        return redirect(
+            "task_detail",
+            task.id
+        )
 
+    # =========================
     # GET REQUEST
-    projects = Project.objects.filter(organization=user.organization)
-    users = task.project.members.all()    
+    # =========================
+
+    projects = Project.objects.filter(
+        organization=user.organization
+    )
+
+    # All users belonging to the same organization
+    users = User.objects.filter(
+        organization=user.organization
+    ).select_related("role")
 
     tasks = Task.objects.filter(
         project__organization=user.organization
-    ).exclude(id=task.id)
+    ).exclude(
+        id=task.id
+    )
 
     return render(
         request,
@@ -653,23 +800,65 @@ def delete_task(request, task_id):
     })
 
 from django.http import JsonResponse
-
 @login_required(login_url='/accounts/login/')
-def get_project_members(request, project_id):
+def get_project_team_members(request, project_id):
+
     project = get_object_or_404(
         Project,
         id=project_id,
         organization=request.user.organization
     )
 
-    members = project.members.all()
+    # Check whether this project has any team
+    teams = Team.objects.filter(
+        project=project
+    )
 
-    data = [
-        {"id": m.id, "username": m.username}
-        for m in members
-    ]
+    if not teams.exists():
 
-    return JsonResponse(data, safe=False)
+        return JsonResponse({
+            "has_team": False,
+            "message": (
+                "No team has been created for this project. "
+                "Please create a team first."
+            ),
+            "members": []
+        })
+
+    # Get members belonging to teams of this project
+    users = User.objects.filter(
+        organization=request.user.organization,
+        is_active=True,
+        project_memberships__team__project=project
+    ).distinct()
+
+    members = []
+
+    for user in users:
+
+        membership = ProjectMember.objects.filter(
+            team__project=project,
+            user=user
+        ).select_related("team").first()
+
+        if user.first_name or user.last_name:
+            name = f"{user.first_name} {user.last_name}".strip()
+        else:
+            name = user.username
+
+        members.append({
+            "id": user.id,
+            "name": name,
+            "email": user.email,
+            "team": membership.team.name if membership else "",
+            "team_role": membership.team_role if membership else "Member",
+        })
+
+    return JsonResponse({
+        "has_team": True,
+        "message": "",
+        "members": members
+    })
 
 
 # ================= NOTIFICATIONS =================
@@ -763,3 +952,292 @@ def mark_notification_read(request, notification_id):
         "status": "success"
 
     })
+
+
+
+@login_required(login_url='/accounts/login/')
+def team_members(request):
+
+    organization = request.user.organization
+
+    projects = Project.objects.filter(
+        organization=organization
+    ).order_by("name")
+
+    teams = Team.objects.filter(
+        project__organization=organization
+    ).select_related(
+        "project",
+        "created_by"
+    ).prefetch_related(
+        "members__user"
+    ).order_by(
+        "project__name",
+        "name"
+    )
+
+    context = {
+        "projects": projects,
+        "teams": teams,
+    }
+
+    return render(
+        request,
+        "projects/team_members.html",
+        context
+    )
+
+@login_required(login_url='/accounts/login/')
+def create_team(request):
+
+    organization = request.user.organization
+
+    projects = Project.objects.filter(
+        organization=organization
+    ).order_by("name")
+
+    organization_users = User.objects.filter(
+        organization=organization,
+        is_active=True
+    ).select_related("role")
+
+    if request.method == "POST":
+
+        project_id = request.POST.get("project")
+        team_name = request.POST.get("team_name", "").strip()
+
+        member_ids = request.POST.getlist("members")
+
+        if not project_id:
+            messages.error(
+                request,
+                "Please select a project."
+            )
+            return redirect("create_team")
+
+        if not team_name:
+            messages.error(
+                request,
+                "Please enter a team name."
+            )
+            return redirect("create_team")
+
+        if not member_ids:
+            messages.error(
+                request,
+                "Please select at least one team member."
+            )
+            return redirect("create_team")
+
+        project = get_object_or_404(
+            Project,
+            id=project_id,
+            organization=organization
+        )
+
+        if Team.objects.filter(
+            project=project,
+            name__iexact=team_name
+        ).exists():
+
+            messages.error(
+                request,
+                "A team with this name already exists in this project."
+            )
+
+            return redirect("create_team")
+
+        # =====================================================
+        # CREATE TEAM
+        # =====================================================
+
+        team = Team.objects.create(
+            project=project,
+            name=team_name,
+            created_by=request.user
+        )
+
+
+        # =====================================================
+        # AUTOMATICALLY ADD ORGANIZATION ADMIN
+        # =====================================================
+
+        organization_admins = User.objects.filter(
+            organization=organization,
+            is_active=True,
+            role__name__in=["Owner", "Admin"]
+        )
+
+        for user in organization_admins:
+            ProjectMember.objects.get_or_create(
+                team=team,
+                user=user,
+                defaults={
+                    "team_role": "Member"
+                }
+            )
+
+
+        # =====================================================
+        # ADD SELECTED TEAM MEMBERS
+        # =====================================================
+
+        valid_users = User.objects.filter(
+            id__in=member_ids,
+            organization=organization,
+            is_active=True
+        ).select_related("role")
+
+
+        for user in valid_users:
+
+            # Don't create duplicate membership
+            # if Admin was already selected manually.
+
+            if ProjectMember.objects.filter(
+                team=team,
+                user=user
+            ).exists():
+
+                continue
+
+            team_role = request.POST.get(
+                f"team_role_{user.id}",
+                "Member"
+            )
+
+            ProjectMember.objects.create(
+                team=team,
+                user=user,
+                team_role=team_role
+            )
+
+
+        messages.success(
+            request,
+            f'Team "{team.name}" created successfully.'
+        )
+
+        return redirect("team_members")
+
+
+    return render(
+        request,
+        "projects/create_team.html",
+        {
+            "projects": projects,
+            "organization_users": organization_users,
+        }
+    )
+
+@login_required(login_url="/accounts/login/")
+def add_team_members(request, team_id):
+
+    organization = request.user.organization
+
+    team = get_object_or_404(
+        Team,
+        id=team_id,
+        project__organization=organization
+    )
+
+    existing_member_ids = ProjectMember.objects.filter(
+        team=team
+    ).values_list(
+        "user_id",
+        flat=True
+    )
+
+    available_users = User.objects.filter(
+        organization=organization,
+        is_active=True
+    ).exclude(
+        id__in=existing_member_ids
+    ).select_related("role")
+
+    if request.method == "POST":
+
+        member_ids = request.POST.getlist("members")
+
+        if not member_ids:
+            messages.error(
+                request,
+                "Please select at least one member."
+            )
+            return redirect(
+                "add_team_members",
+                team_id=team.id
+            )
+
+        valid_users = User.objects.filter(
+            id__in=member_ids,
+            organization=organization,
+            is_active=True
+        ).exclude(
+            id__in=existing_member_ids
+        )
+
+        for user in valid_users:
+
+            team_role = request.POST.get(
+                f"team_role_{user.id}",
+                "Member"
+            )
+
+            ProjectMember.objects.create(
+                team=team,
+                user=user,
+                team_role=team_role
+            )
+
+        messages.success(
+            request,
+            "New team members added successfully."
+        )
+
+        return redirect(
+            "team_members"
+        )
+
+    return render(
+        request,
+        "projects/add_team_members.html",
+        {
+            "team": team,
+            "available_users": available_users,
+        }
+    )
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, render
+
+from .models import Team
+
+
+@login_required(login_url="/accounts/login/")
+def team_detail(request, team_id):
+
+    organization = request.user.organization
+
+    team = get_object_or_404(
+        Team.objects.select_related(
+            "project",
+            "created_by"
+        ),
+        id=team_id,
+        project__organization=organization
+    )
+
+    members = team.members.select_related(
+        "user",
+        "user__role"
+    ).all()
+
+    return render(
+        request,
+        "projects/team_detail.html",
+        {
+            "team": team,
+            "members": members,
+        }
+    )

@@ -12,3 +12,9 @@ class TaskAdmin(admin.ModelAdmin):
 
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(Task, TaskAdmin)
+
+from django.contrib import admin
+from .models import Team, ProjectMember
+
+admin.site.register(Team)
+admin.site.register(ProjectMember)

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
 
     "reports",
+    "user_settings",
 
 ]
 
@@ -63,7 +64,8 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [BASE_DIR / 'templates',
             BASE_DIR / 'projects' / 'templates',
-            BASE_DIR / 'corepages' / 'templates',],
+            BASE_DIR / 'corepages' / 'templates',
+            BASE_DIR / 'user_settings' / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -73,6 +75,7 @@ TEMPLATES = [
                 'projects.context_processors.reminders',
             ],
         },
+            
     },
 ]
 
@@ -101,6 +104,8 @@ AUTH_PASSWORD_VALIDATORS = [
         },
     },
 ]
+
+
 
 
 # Internationalization
@@ -272,4 +277,5 @@ SECURE_REFERRER_POLICY = (
 
 
 SECURE_BROWSER_XSS_FILTER = True
+
 
