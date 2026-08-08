@@ -1,0 +1,1231 @@
+```html
+{% extends 'base.html' %}
+
+{% block title %}
+Settings
+{% endblock %}
+
+{% block content %}
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+
+    /* =========================================================
+       SETTINGS NAVIGATION
+    ========================================================= */
+
+    .settings-tab {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 14px;
+        border-radius: 14px;
+        color: #536B68;
+        font-size: 14px;
+        font-weight: 700;
+        text-align: left;
+        transition: all 0.25s ease;
+    }
+
+    .settings-tab:hover {
+        background: #E7F1EF;
+        color: #087F7B;
+    }
+
+    .active-tab {
+        background: #D4E9E6;
+        color: #087F7B;
+        box-shadow: inset 3px 0 0 #069494;
+    }
+
+    .tab-icon {
+        width: 34px;
+        height: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        background: #F4F8F7;
+        color: #718581;
+        flex-shrink: 0;
+        transition: all 0.25s ease;
+    }
+
+    .active-tab .tab-icon {
+        background: #B9D9D5;
+        color: #087F7B;
+    }
+
+
+    /* =========================================================
+       SECTION HEADINGS
+    ========================================================= */
+
+    .section-heading {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .section-heading-icon {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 14px;
+        flex-shrink: 0;
+    }
+
+    .section-heading h2 {
+        font-size: 21px;
+        font-weight: 900;
+        color: #183B3A;
+    }
+
+    .section-heading p {
+        margin-top: 3px;
+        font-size: 14px;
+        color: #708481;
+    }
+
+
+    /* =========================================================
+       INFORMATION CARDS
+    ========================================================= */
+
+    .info-item {
+        padding: 18px;
+        border: 1px solid #D8E5E2;
+        background: #F5F9F8;
+        border-radius: 17px;
+        transition: all 0.25s ease;
+    }
+
+    .info-item:hover {
+        border-color: #B8D5D1;
+        background: #FAFCFC;
+        transform: translateY(-1px);
+    }
+
+    .info-label {
+        font-size: 11px;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #829591;
+    }
+
+    .info-value {
+        margin-top: 8px;
+        font-size: 15px;
+        font-weight: 800;
+        color: #263D3B;
+    }
+
+
+    /* =========================================================
+       SETTING ROWS
+    ========================================================= */
+
+    .setting-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 18px;
+        border: 1px solid #D8E5E2;
+        border-radius: 17px;
+        background: #F7FAF9;
+        cursor: pointer;
+        transition: all 0.25s ease;
+    }
+
+    .setting-row:hover {
+        background: #FFFFFF;
+        border-color: #BBD7D3;
+        box-shadow: 0 8px 22px rgba(15, 80, 76, 0.06);
+    }
+
+    .setting-title {
+        font-size: 14px;
+        font-weight: 800;
+        color: #294542;
+    }
+
+    .setting-description {
+        margin-top: 4px;
+        font-size: 12px;
+        line-height: 1.5;
+        color: #7A8D89;
+    }
+
+
+    /* =========================================================
+       SECURITY
+    ========================================================= */
+
+    .security-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        padding: 17px;
+        border: 1px solid #E2D0D5;
+        border-radius: 17px;
+        background: #FAF7F8;
+        transition: all 0.25s ease;
+    }
+
+    .security-row:hover {
+        background: #FFFFFF;
+        border-color: #D4B5BE;
+        transform: translateY(-1px);
+    }
+
+    .security-icon {
+        width: 42px;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        background: #EFDDE2;
+        color: #9A4055;
+        flex-shrink: 0;
+    }
+
+
+    /* =========================================================
+       MOBILE
+    ========================================================= */
+
+    @media (max-width: 700px) {
+
+        .setting-row {
+            align-items: flex-start;
+        }
+
+        .settings-tab {
+            padding: 11px 12px;
+        }
+
+    }
+
+</style>
+
+
+<div class="mx-auto max-w-7xl">
+
+
+    <!-- =========================================================
+         PAGE HEADER
+    ========================================================= -->
+
+    <div class="mb-8">
+
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+
+            <div class="flex items-center gap-3">
+
+                <div
+                    class="flex h-11 w-11 items-center justify-center
+                           rounded-xl bg-[#D5EAE7] text-[#087F7B]"
+                >
+                    <i class="fa-solid fa-gear"></i>
+                </div>
+
+                <div>
+
+                    <h1 class="text-3xl font-black text-[#183B3A]">
+                        Settings
+                    </h1>
+
+                    <p class="mt-1 text-sm text-[#718481]">
+                        Manage your account and workspace preferences.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="hidden rounded-xl border border-[#D7E4E1]
+                       bg-[#F6FAF9] px-4 py-2.5 sm:block"
+            >
+
+                <p class="text-xs font-bold text-[#849491]">
+                    Signed in as
+                </p>
+
+                <p class="mt-0.5 text-sm font-black text-[#294542]">
+                    {{ request.user.username }}
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
+         SETTINGS CONTAINER
+    ========================================================= -->
+
+    <div
+        class="grid overflow-hidden rounded-[28px]
+               border border-[#D9E4E2]
+               bg-white
+               shadow-[0_18px_50px_rgba(15,23,42,0.07)]
+               lg:grid-cols-[250px_1fr]"
+    >
+
+
+        <!-- =====================================================
+             SIDEBAR
+        ===================================================== -->
+
+
+<aside
+    class="border-b border-[#BFD5D1]
+           bg-[#DCEBE8]
+           p-4
+           lg:border-b-0
+           lg:border-r
+           lg:border-r-[#C4D9D5]"
+>
+
+
+
+            <p
+                class="px-3 pb-3 pt-2 text-[11px]
+                       font-black uppercase tracking-[0.16em]
+                       text-[#8A9A97]"
+            >
+                Settings
+            </p>
+
+
+            <nav class="space-y-1">
+
+
+                <!-- ACCOUNT -->
+
+                <button
+                    type="button"
+                    onclick="showSection('account', this)"
+                    class="settings-tab active-tab"
+                >
+
+                    <span class="tab-icon">
+                        <i class="fa-solid fa-user"></i>
+                    </span>
+
+                    <span>
+                        Account
+                    </span>
+
+                </button>
+
+
+                <!-- ORGANIZATION -->
+
+                <button
+                    type="button"
+                    onclick="showSection('organization', this)"
+                    class="settings-tab"
+                >
+
+                    <span class="tab-icon">
+                        <i class="fa-solid fa-building"></i>
+                    </span>
+
+                    <span>
+                        Organization
+                    </span>
+
+                </button>
+
+
+                <!-- NOTIFICATIONS -->
+
+                <button
+                    type="button"
+                    onclick="showSection('notifications', this)"
+                    class="settings-tab"
+                >
+
+                    <span class="tab-icon">
+                        <i class="fa-solid fa-bell"></i>
+                    </span>
+
+                    <span>
+                        Notifications
+                    </span>
+
+                </button>
+
+
+                <!-- PREFERENCES -->
+
+                <button
+                    type="button"
+                    onclick="showSection('preferences', this)"
+                    class="settings-tab"
+                >
+
+                    <span class="tab-icon">
+                        <i class="fa-solid fa-sliders"></i>
+                    </span>
+
+                    <span>
+                        Preferences
+                    </span>
+
+                </button>
+
+
+                <!-- SECURITY -->
+
+                <button
+                    type="button"
+                    onclick="showSection('security', this)"
+                    class="settings-tab"
+                >
+
+                    <span class="tab-icon">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </span>
+
+                    <span>
+                        Security
+                    </span>
+
+                </button>
+
+            </nav>
+
+
+            <!-- USER -->
+
+            <div
+                class="mt-8 rounded-2xl
+                       border border-[#D5E3E0]
+                       bg-white
+                       p-4
+                       shadow-sm"
+            >
+
+                <div class="flex items-center gap-3">
+
+                    <div
+                        class="flex h-10 w-10 shrink-0
+                               items-center justify-center
+                               rounded-xl
+                               bg-[#D5EAE7]
+                               font-black
+                               text-[#087F7B]"
+                    >
+
+                        {% if request.user.first_name %}
+                            {{ request.user.first_name|first|upper }}
+                        {% else %}
+                            {{ request.user.username|first|upper }}
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="min-w-0">
+
+                        <p
+                            class="truncate text-sm
+                                   font-bold text-[#263D3B]"
+                        >
+                            {{ request.user.username }}
+                        </p>
+
+                        <p
+                            class="truncate text-xs
+                                   text-[#849491]"
+                        >
+                            {{ request.user.email }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+
+        <!-- =====================================================
+             MAIN CONTENT
+        ===================================================== -->
+
+        <main class="min-w-0">
+
+
+            <!-- =================================================
+                 ACCOUNT
+            ================================================= -->
+
+            <section
+                id="account"
+                class="settings-section p-7 lg:p-9"
+            >
+
+                <div class="section-heading">
+
+                    <div
+                        class="section-heading-icon
+                               bg-[#DCECEF]
+                               text-[#327184]"
+                    >
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Account
+                        </h2>
+
+                        <p>
+                            View your personal account information.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="mt-8 grid gap-4
+                           sm:grid-cols-2"
+                >
+
+
+                    <div class="info-item">
+
+                        <p class="info-label">
+                            Username
+                        </p>
+
+                        <p class="info-value">
+                            {{ request.user.username }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <p class="info-label">
+                            Email Address
+                        </p>
+
+                        <p class="info-value break-all">
+                            {{ request.user.email }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <p class="info-label">
+                            Role
+                        </p>
+
+                        <p class="mt-2 font-black text-[#087F7B]">
+                            {{ request.user.role.name }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <p class="info-label">
+                            Account Status
+                        </p>
+
+                        <div class="mt-2">
+
+                            <span
+                                class="inline-flex items-center gap-2
+                                       rounded-full
+                                       bg-[#DDF0E8]
+                                       px-3 py-1.5
+                                       text-xs font-black
+                                       text-[#26734D]"
+                            >
+
+                                <span
+                                    class="h-2 w-2 rounded-full
+                                           bg-[#3C9B6B]"
+                                ></span>
+
+                                Active
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="mt-8 rounded-2xl
+                           border border-[#D6E5E2]
+                           bg-[#F2F8F7]
+                           p-5"
+                >
+
+                    <div class="flex gap-4">
+
+                        <div
+                            class="flex h-10 w-10 shrink-0
+                                   items-center justify-center
+                                   rounded-xl
+                                   bg-[#DDEDEA]
+                                   text-[#087F7B]"
+                        >
+                            <i class="fa-solid fa-circle-info"></i>
+                        </div>
+
+                        <div>
+
+                            <p class="font-bold text-[#304845]">
+                                Account information
+                            </p>
+
+                            <p
+                                class="mt-1 text-sm leading-6
+                                       text-[#71817E]"
+                            >
+                                Your account details are managed by
+                                your organization administrator.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 ORGANIZATION
+            ================================================= -->
+
+            <section
+                id="organization"
+                class="settings-section hidden
+                       border-t border-[#E4EBEA]
+                       p-7 lg:p-9"
+            >
+
+                <div class="section-heading">
+
+                    <div
+                        class="section-heading-icon
+                               bg-[#E7DEF0]
+                               text-[#76558E]"
+                    >
+                        <i class="fa-solid fa-building"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Organization
+                        </h2>
+
+                        <p>
+                            Information about your current workspace.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ORGANIZATION PROFILE -->
+
+                <div
+                    class="mt-8 rounded-[24px]
+                           border border-[#D2C2E0]
+                           bg-[#EEE6F4]
+                           p-6"
+                >
+
+                    <div
+                        class="flex flex-col gap-5
+                               sm:flex-row
+                               sm:items-center"
+                    >
+
+                        <div
+                            class="flex h-16 w-16 shrink-0
+                                   items-center justify-center
+                                   rounded-2xl
+                                   bg-[#D8C7E4]
+                                   text-2xl
+                                   text-[#76558E]"
+                        >
+                            <i class="fa-solid fa-building"></i>
+                        </div>
+
+                        <div>
+
+                            <p
+                                class="text-xs font-black
+                                       uppercase tracking-wider
+                                       text-[#857392]"
+                            >
+                                Current workspace
+                            </p>
+
+                            <h3
+                                class="mt-1 text-2xl font-black
+                                       text-[#403451]"
+                            >
+                                {{ request.user.organization }}
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PLAN -->
+
+                <div class="mt-5 grid gap-4 sm:grid-cols-2">
+
+                    <div class="info-item">
+
+                        <p class="info-label">
+                            Current Plan
+                        </p>
+
+                        <p
+                            class="mt-2 font-black
+                                   text-[#76558E]"
+                        >
+                            {{ request.user.organization.plan }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <p class="info-label">
+                            Workspace Status
+                        </p>
+
+                        <span
+                            class="mt-2 inline-flex
+                                   rounded-full
+                                   bg-[#E7DFF0]
+                                   px-3 py-1.5
+                                   text-xs font-black
+                                   text-[#76558E]"
+                        >
+                            Active
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                {% if request.user.role.name == "Owner" or request.user.role.name == "Admin" %}
+
+                <div
+                    class="mt-6 flex flex-col
+                           gap-4 rounded-2xl
+                           border border-[#D4C8DF]
+                           bg-[#F5F0F8]
+                           p-5
+                           sm:flex-row
+                           sm:items-center
+                           sm:justify-between"
+                >
+
+                    <div>
+
+                        <p class="font-bold text-[#403451]">
+                            Organization management
+                        </p>
+
+                        <p
+                            class="mt-1 text-sm
+                                   text-[#796D82]"
+                        >
+                            Manage organization details and members.
+                        </p>
+
+                    </div>
+
+                    <a
+                        href="{% url 'my_organization' %}"
+                        class="shrink-0 rounded-xl
+                               bg-[#76558E]
+                               px-5 py-2.5
+                               text-sm font-bold
+                               text-white
+                               transition
+                               hover:bg-[#624574]"
+                    >
+                        Manage
+                    </a>
+
+                </div>
+
+                {% endif %}
+
+            </section>
+
+
+            <!-- =================================================
+                 NOTIFICATIONS
+            ================================================= -->
+
+            <section
+                id="notifications"
+                class="settings-section hidden
+                       border-t border-[#E4EBEA]
+                       p-7 lg:p-9"
+            >
+
+                <div class="section-heading">
+
+                    <div
+                        class="section-heading-icon
+                               bg-[#F1E4C9]
+                               text-[#9A7138]"
+                    >
+                        <i class="fa-solid fa-bell"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Notifications
+                        </h2>
+
+                        <p>
+                            Choose which updates you want to receive.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+                    <div class="mt-8 space-y-3">
+
+                        {% for field in form %}
+
+                            {% if "notification" in field.name %}
+
+                            <label
+                                class="setting-row
+                                       border-[#E6DCC8]
+                                       bg-[#FBF8F1]
+                                       hover:border-[#D6C6A5]"
+                            >
+
+                                <div>
+
+                                    <p class="setting-title">
+                                        {{ field.label }}
+                                    </p>
+
+                                    <p class="setting-description">
+                                        Receive updates related to this activity.
+                                    </p>
+
+                                </div>
+
+                                {{ field }}
+
+                            </label>
+
+                            {% endif %}
+
+                        {% endfor %}
+
+                    </div>
+
+
+                    <div
+                        class="mt-7 flex justify-end
+                               border-t border-[#E9E1D3]
+                               pt-6"
+                    >
+
+                        <button
+                            type="submit"
+                            class="rounded-xl
+                                   bg-[#9A7138]
+                                   px-6 py-3
+                                   font-bold text-white
+                                   shadow-[0_8px_20px_rgba(154,113,56,0.18)]
+                                   transition
+                                   hover:bg-[#805C2D]"
+                        >
+
+                            <i class="fa-solid fa-check mr-2"></i>
+
+                            Save Changes
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+
+            <!-- =================================================
+                 PREFERENCES
+            ================================================= -->
+
+            <section
+                id="preferences"
+                class="settings-section hidden
+                       border-t border-[#E4EBEA]
+                       p-7 lg:p-9"
+            >
+
+                <div class="section-heading">
+
+                    <div
+                        class="section-heading-icon
+                               bg-[#DCE3EB]
+                               text-[#527397]"
+                    >
+                        <i class="fa-solid fa-sliders"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Preferences
+                        </h2>
+
+                        <p>
+                            Customize how your workspace behaves.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+                    <div class="mt-8 space-y-3">
+
+                        {% for field in form %}
+
+                            {% if "notification" not in field.name %}
+
+                            <label
+                                class="setting-row
+                                       border-[#D5DDE5]
+                                       bg-[#F5F7FA]
+                                       hover:border-[#B9C6D2]"
+                            >
+
+                                <div>
+
+                                    <p class="setting-title">
+                                        {{ field.label }}
+                                    </p>
+
+                                    <p class="setting-description">
+                                        Control this workspace preference.
+                                    </p>
+
+                                </div>
+
+                                {{ field }}
+
+                            </label>
+
+                            {% endif %}
+
+                        {% endfor %}
+
+                    </div>
+
+
+                    <div
+                        class="mt-7 flex justify-end
+                               border-t border-[#E2E7EC]
+                               pt-6"
+                    >
+
+                        <button
+                            type="submit"
+                            class="rounded-xl
+                                   bg-[#527397]
+                                   px-6 py-3
+                                   font-bold text-white
+                                   shadow-[0_8px_20px_rgba(82,115,151,0.16)]
+                                   transition
+                                   hover:bg-[#415F7D]"
+                        >
+
+                            <i class="fa-solid fa-check mr-2"></i>
+
+                            Save Changes
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+
+            <!-- =================================================
+                 SECURITY
+            ================================================= -->
+
+            <section
+                id="security"
+                class="settings-section hidden
+                       border-t border-[#E4EBEA]
+                       p-7 lg:p-9"
+            >
+
+                <div class="section-heading">
+
+                    <div
+                        class="section-heading-icon
+                               bg-[#F0DDE2]
+                               text-[#A05262]"
+                    >
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Security
+                        </h2>
+
+                        <p>
+                            Protect your account and manage access.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="mt-8 space-y-3">
+
+
+                    <!-- CHANGE PASSWORD -->
+
+                    <a
+                        href="{% url 'password_change' %}"
+                        class="security-row"
+                    >
+
+                        <div class="flex items-center gap-4">
+
+                            <div class="security-icon">
+                                <i class="fa-solid fa-key"></i>
+                            </div>
+
+                            <div>
+
+                                <p class="setting-title">
+                                    Change Password
+                                </p>
+
+                                <p class="setting-description">
+                                    Update your account password.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <i
+                            class="fa-solid fa-chevron-right
+                                   text-xs text-[#A05262]"
+                        ></i>
+
+                    </a>
+
+
+                    <!-- PROFILE -->
+
+                    <a
+                        href="{% url 'profile' %}"
+                        class="security-row"
+                    >
+
+                        <div class="flex items-center gap-4">
+
+                            <div class="security-icon">
+                                <i class="fa-solid fa-user-gear"></i>
+                            </div>
+
+                            <div>
+
+                                <p class="setting-title">
+                                    Profile Settings
+                                </p>
+
+                                <p class="setting-description">
+                                    Manage your personal profile.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <i
+                            class="fa-solid fa-chevron-right
+                                   text-xs text-[#A05262]"
+                        ></i>
+
+                    </a>
+
+
+                    <!-- SECURITY INFO -->
+
+                    <div
+                        class="rounded-2xl
+                               border border-[#DCE5E3]
+                               bg-[#F5F8F7]
+                               p-5"
+                    >
+
+                        <div class="flex gap-4">
+
+                            <div
+                                class="flex h-10 w-10 shrink-0
+                                       items-center justify-center
+                                       rounded-xl
+                                       bg-[#E3EBE9]
+                                       text-[#607873]"
+                            >
+                                <i class="fa-solid fa-lock"></i>
+                            </div>
+
+                            <div>
+
+                                <p
+                                    class="font-bold
+                                           text-[#304845]"
+                                >
+                                    Account protection
+                                </p>
+
+                                <p
+                                    class="mt-1 text-sm
+                                           leading-6
+                                           text-[#778783]"
+                                >
+                                    Keep your password private and use
+                                    a strong password for your account.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     SETTINGS JAVASCRIPT
+========================================================= -->
+
+<script>
+
+function showSection(sectionId, clickedTab) {
+
+    const sections =
+        document.querySelectorAll(".settings-section");
+
+    sections.forEach(function(section) {
+
+        section.classList.add("hidden");
+
+    });
+
+
+    const selectedSection =
+        document.getElementById(sectionId);
+
+    if (selectedSection) {
+
+        selectedSection.classList.remove("hidden");
+
+    }
+
+
+    const tabs =
+        document.querySelectorAll(".settings-tab");
+
+    tabs.forEach(function(tab) {
+
+        tab.classList.remove("active-tab");
+
+    });
+
+
+    if (clickedTab) {
+
+        clickedTab.classList.add("active-tab");
+
+    }
+
+}
+
+</script>
+
+{% endblock %}
+```

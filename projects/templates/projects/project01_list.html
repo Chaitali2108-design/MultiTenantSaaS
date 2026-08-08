@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
 
-{% block content %}
+{% block title %}
+Projects
+{% endblock %}
 
+{% block content %}
 <!-- Tailwind + Flowbite -->
 <script>
   tailwind.config = {
@@ -11,7 +14,6 @@
   }
 </script>
 
-<script src="https://cdn.tailwindcss.com"></script>
 
 <link href="https://cdn.jsdelivr.net/npm/flowbite/dist/flowbite.min.css" rel="stylesheet" />
 
@@ -19,557 +21,461 @@
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
+<div class="min-h-screen bg-[#F7F9FC] px-4 py-8 sm:px-6 lg:px-8">
 
-<div class="min-h-screen bg-[#F8FAFC] p-8">
+<div class="mx-auto max-w-7xl">
+
+    <!-- ================= HEADER ================= -->
+
+    <div class="mb-8 overflow-hidden rounded-[30px] border-2 border-[#C7B9E8] bg-gradient-to-br from-[#EEE8FA] via-[#D8CBEF] to-[#BCA8DF] p-7 shadow-[0_18px_45px_rgba(113,82,155,0.14)] sm:p-8">
+
+        <div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+
+            <div>
+
+                <div class="mb-4 inline-flex items-center gap-2 rounded-full border border-[#B7A4D8] bg-[#E3D9F2] px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-[#684F8C]">
+
+                    <i class="bi bi-kanban-fill text-sm"></i>
+
+                    Project Management
+
+                </div>
+
+                <h1 class="text-3xl font-black tracking-tight text-[#30243F] sm:text-4xl">
+                    Projects
+                </h1>
+
+                <p class="mt-2 max-w-xl text-sm font-medium leading-6 text-[#675C70]">
+                    Manage projects, monitor progress and organize your team's workflow.
+                </p>
+
+            </div>
 
 
-<div class="max-w-7xl mx-auto">
+            <a
+                href="{% url 'create_project' %}"
+                class="inline-flex items-center justify-center gap-2 rounded-2xl border border-[#7D5BA6] bg-[#76529F] px-6 py-3.5 text-sm font-black text-white shadow-lg shadow-[#76529F]/25 transition duration-200 hover:-translate-y-0.5 hover:bg-[#64448B] hover:shadow-xl"
+            >
+
+                <i class="bi bi-plus-lg text-base"></i>
+
+                New Project
+
+            </a>
+
+        </div>
+
+    </div>
 
 
+    <!-- ================= PROJECT COUNT / LEGEND ================= -->
 
-<!-- HEADER -->
+<!-- LEGEND / FILTERS -->
 
-<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-5 mb-10">
+<div class="flex flex-wrap items-center gap-2 text-xs font-bold">
+
+  <button
+    type="button"
+    onclick="filterProjects('all')"
+    class="project-filter active-filter inline-flex items-center gap-1.5 rounded-full border border-[#C7B9E8] bg-[#E3D9F2] px-3 py-1.5 text-[#684F8C] transition hover:-translate-y-0.5 hover:bg-[#C8B7DF]"
+>
+    All
+</button>
 
 
-<div>
+<button
+    type="button"
+    onclick="filterProjects('0-25')"
+    class="project-filter inline-flex items-center gap-1.5 rounded-full border border-[#E8B7BF] bg-[#F7DDE1] px-3 py-1.5 text-[#A33F4D] transition hover:-translate-y-0.5 hover:bg-[#E9B8C0]"
+>
+    <span class="h-2 w-2 rounded-full bg-[#D95B69]"></span>
+    0–25%
+</button>
 
 
-<div class="
-inline-flex
-items-center
-gap-2
-px-4
-py-2
-rounded-full
-bg-[#EDE9FE]
-text-[#6D28D9]
-font-bold
-text-sm
-">
+<button
+    type="button"
+    onclick="filterProjects('26-50')"
+    class="project-filter inline-flex items-center gap-1.5 rounded-full border border-[#E6C88F] bg-[#F7E8C7] px-3 py-1.5 text-[#93651F] transition hover:-translate-y-0.5 hover:bg-[#E8D39F]"
+>
+    <span class="h-2 w-2 rounded-full bg-[#D99A32]"></span>
+    26–50%
+</button>
 
-<i class="bi bi-kanban"></i>
 
-Project Management
+<button
+    type="button"
+    onclick="filterProjects('51-75')"
+    class="project-filter inline-flex items-center gap-1.5 rounded-full border border-[#B8CEE4] bg-[#DDEAF6] px-3 py-1.5 text-[#35688F] transition hover:-translate-y-0.5 hover:bg-[#BFD5E8]"
+>
+    <span class="h-2 w-2 rounded-full bg-[#568BB5]"></span>
+    51–75%
+</button>
+
+
+<button
+    type="button"
+    onclick="filterProjects('76-100')"
+    class="project-filter inline-flex items-center gap-1.5 rounded-full border border-[#B4D6C2] bg-[#DCEEE3] px-3 py-1.5 text-[#397650] transition hover:-translate-y-0.5 hover:bg-[#B8D8C6]"
+>
+    <span class="h-2 w-2 rounded-full bg-[#48A574]"></span>
+    76–100%
+</button>
 
 </div>
 
 
+    <!-- ================= PROJECT GRID ================= -->
 
-<h1 class="
-mt-4
-text-4xl
-font-extrabold
-text-[#172033]
-">
+    <div class="grid gap-6 mt-7 md:grid-cols-2 xl:grid-cols-3">
 
-Projects
+        {% for project in projects %}
 
-</h1>
+        <!-- ================= PROJECT CARD ================= -->
 
+        <div
+            
+            data-project-card
+            data-progress="{{ project.progress }}"
+            class="
+            group relative overflow-hidden rounded-[26px] border p-6
+            transition duration-300 hover:-translate-y-1.5
 
+            {% if project.progress <= 25 %}
 
-<p class="
-mt-2
-text-[#64748B]
-">
+                bg-[#FFF1F3]
+                border-[#F0AAB3]
+                shadow-[0_15px_40px_rgba(228,93,104,0.12)]
+                hover:shadow-[0_22px_50px_rgba(228,93,104,0.20)]
 
-Manage projects, track progress and organize workflow.
+            {% elif project.progress <= 50 %}
 
-</p>
+                bg-[#FFF7E9]
+                border-[#EAC98E]
+                shadow-[0_15px_40px_rgba(230,163,61,0.12)]
+                hover:shadow-[0_22px_50px_rgba(230,163,61,0.20)]
 
+            {% elif project.progress <= 75 %}
 
-</div>
+              bg-[#E3F9FA]
+border-[#a6dee0]
+shadow-[0_15px_40px_rgba(76,170,174,0.10)]
+hover:shadow-[0_22px_50px_rgba(76,170,174,0.17)]
 
+            {% else %}
 
+                bg-[#EAF8F0]
+                border-[#A9D8BD]
+                shadow-[0_15px_40px_rgba(66,168,121,0.13)]
+                hover:shadow-[0_22px_50px_rgba(66,168,121,0.20)]
 
+            {% endif %}
+            "
+        >
 
+            <!-- TOP ACCENT -->
 
-<a href="{% url 'create_project' %}"
+            
 
-class="
-px-6
-py-3
-rounded-xl
-bg-[#2563EB]
-text-white
-font-bold
-shadow-[0_12px_25px_rgba(37,99,235,0.25)]
-hover:bg-[#1D4ED8]
-hover:-translate-y-0.5
-transition
-">
 
-<i class="bi bi-plus-lg"></i>
+            <!-- CARD HEADER -->
 
-New Project
+            <div class="flex items-start justify-between gap-4">
 
-</a>
+                <div class="min-w-0">
 
+                    <a
+                        href="{% url 'project_detail' project.id %}"
+                        class="
+                        block truncate text-xl font-black text-[#263746]
+                        transition
 
-</div>
+                        {% if project.progress <= 25 %}
+                            hover:text-[#B23C4B]
+                        {% elif project.progress <= 50 %}
+                            hover:text-[#A46C20]
+                        {% elif project.progress <= 75 %}
+                            hover:text-[#316B98]
+                        {% else %}
+                            hover:text-[#337B52]
+                        {% endif %}
+                        "
+                    >
+                        {{ project.name }}
+                    </a>
 
+                    <p class="mt-1 text-xs font-semibold text-[#788792]">
+                        Project #{{ project.id }}
+                    </p>
 
+                </div>
 
 
+                <!-- STATUS -->
 
+                {% if project.status == "todo" %}
 
+                <span class="shrink-0 rounded-full border border-[#C9D0D7] bg-[#E9EDF0] px-3 py-1.5 text-[11px] font-black text-[#596672]">
+                    To Do
+                </span>
 
-<!-- PROJECT GRID -->
+                {% elif project.status == "progress" %}
 
+                <span class="shrink-0 rounded-full border border-[#B5D3EA] bg-[#DDECF8] px-3 py-1.5 text-[11px] font-black text-[#316B98]">
+                    In Progress
+                </span>
 
-<div class="grid md:grid-cols-2 xl:grid-cols-3 gap-7">
+                {% elif project.status == "done" %}
 
+                <span class="shrink-0 rounded-full border border-[#AAD5BC] bg-[#D8F0E1] px-3 py-1.5 text-[11px] font-black text-[#337B52]">
+                    Done
+                </span>
 
-{% for project in projects %}
+                {% endif %}
 
+            </div>
 
 
-<div class="
+            <!-- DESCRIPTION -->
 
-rounded-[32px]
-p-6
-border
-transition
-duration-300
-hover:-translate-y-1
+            <p class="mt-5 min-h-[48px] text-sm font-medium leading-6 text-[#61717C]">
+                {{ project.description|default:"No description available."|truncatechars:90 }}
+            </p>
 
-shadow-[0_20px_45px_rgba(15,23,42,0.10)]
-hover:shadow-[0_30px_70px_rgba(15,23,42,0.18)]
 
+            <!-- PROGRESS -->
 
-{% if project.progress <= 25 %}
+            <div class="mt-6">
 
-bg-[#FFF1F2]
-border-[#FDA4AF]
-shadow-[0_20px_45px_rgba(244,63,94,0.15)]
+                <div class="mb-2 flex items-center justify-between">
 
-{% elif project.progress <= 50 %}
+                    <span class="text-xs font-black uppercase tracking-wider text-[#687984]">
+                        Progress
+                    </span>
 
-bg-[#FFF7ED]
-border-[#FDBA74]
-shadow-[0_20px_45px_rgba(249,115,22,0.15)]
+                    <span
+                        class="
+                        text-sm font-black
 
-{% elif project.progress <= 75 %}
+                        {% if project.progress <= 25 %}
+                            text-[#B23C4B]
+                        {% elif project.progress <= 50 %}
+                            text-[#A46C20]
+                        {% elif project.progress <= 75 %}
+                            text-[#316B98]
+                        {% else %}
+                            text-[#337B52]
+                        {% endif %}
+                        "
+                    >
+                        {{ project.progress }}%
+                    </span>
 
-bg-[#EFF6FF]
-border-[#93C5FD]
-shadow-[0_20px_45px_rgba(59,130,246,0.15)]
+                </div>
 
-{% else %}
 
-bg-[#ECFDF5]
-border-[#86EFAC]
-shadow-[0_20px_45px_rgba(16,185,129,0.18)]
+                <div class="h-3 overflow-hidden rounded-full border border-white/80 bg-white/80 shadow-inner">
 
-{% endif %}
+                    <div
+                        class="
+                        h-full rounded-full transition-all duration-500
 
-">
+                        {% if project.progress <= 25 %}
+                            bg-[#E45D68]
+                        {% elif project.progress <= 50 %}
+                            bg-[#E6A33D]
+                        {% elif project.progress <= 75 %}
+                            bg-[#5A91C0]
+                        {% else %}
+                            bg-[#42A879]
+                        {% endif %}
+                        "
+                        style="width: {{ project.progress }}%;"
+                    ></div>
 
+                </div>
 
+                <p class="mt-2 text-xs font-semibold text-[#71808A]">
+                    {{ project.progress }}% completed
+                </p>
 
+            </div>
 
 
+            <!-- FOOTER -->
 
+            <div class="mt-6 flex items-center justify-between border-t border-black/5 pt-5">
 
-<!-- TOP -->
+                <!-- PRIORITY -->
 
+                <div>
 
-<div class="flex justify-between items-start gap-4">
+                    {% if project.priority == "high" %}
 
+                    <span class="inline-flex items-center gap-1.5 rounded-xl border border-[#E9B5BB] bg-[#F8DDE1] px-3 py-1.5 text-xs font-black text-[#B23C4B]">
+                        <span class="h-2 w-2 rounded-full bg-[#E45D68]"></span>
+                        High
+                    </span>
 
-<a href="{% url 'project_detail' project.id %}"
+                    {% elif project.priority == "medium" %}
 
-class="
-text-xl
-font-extrabold
-text-[#172033]
-hover:text-[#2563EB]
-transition
-">
+                    <span class="inline-flex items-center gap-1.5 rounded-xl border border-[#E9CA8C] bg-[#F7E8C5] px-3 py-1.5 text-xs font-black text-[#99671E]">
+                        <span class="h-2 w-2 rounded-full bg-[#E6A33D]"></span>
+                        Medium
+                    </span>
 
-{{ project.name }}
+                    {% elif project.priority == "low" %}
 
-</a>
+                    <span class="inline-flex items-center gap-1.5 rounded-xl border border-[#A8D4BB] bg-[#D8EFDF] px-3 py-1.5 text-xs font-black text-[#337B52]">
+                        <span class="h-2 w-2 rounded-full bg-[#42A879]"></span>
+                        Low
+                    </span>
 
+                    {% endif %}
 
+                </div>
 
 
-{% if project.status == "todo" %}
+                <!-- ACTIONS -->
 
-<span class="
-px-3
-py-1
-rounded-full
-bg-[#F1F5F9]
-text-[#475569]
-text-xs
-font-bold
-">
+                <div class="flex items-center gap-1.5">
 
-To Do
+                    <a
+                        href="{% url 'project_detail' project.id %}"
+                        title="View Project"
+                        class="flex h-9 w-9 items-center justify-center rounded-xl bg-white/70 text-[#397394] transition hover:bg-white hover:text-[#245E82] hover:shadow-sm"
+                    >
+                        <i class="bi bi-eye-fill"></i>
+                    </a>
 
-</span>
 
+                    <a
+                        href="{% url 'update_project' project.id %}"
+                        title="Edit Project"
+                        class="flex h-9 w-9 items-center justify-center rounded-xl bg-white/70 text-[#A06A21] transition hover:bg-white hover:text-[#7E5116] hover:shadow-sm"
+                    >
+                        <i class="bi bi-pencil-fill"></i>
+                    </a>
 
-{% elif project.status == "progress" %}
 
-<span class="
-px-3
-py-1
-rounded-full
-bg-[#DBEAFE]
-text-[#1D4ED8]
-text-xs
-font-bold
-">
+                    <a
+                        href="{% url 'delete_project' project.id %}"
+                        title="Delete Project"
+                        class="flex h-9 w-9 items-center justify-center rounded-xl bg-white/70 text-[#B23C4B] transition hover:bg-white hover:text-[#8F2E3B] hover:shadow-sm"
+                    >
+                        <i class="bi bi-trash3-fill"></i>
+                    </a>
 
-In Progress
+                </div>
 
-</span>
+            </div>
 
+        </div>
 
-{% elif project.status == "done" %}
 
-<span class="
-px-3
-py-1
-rounded-full
-bg-[#DCFCE7]
-text-[#15803D]
-text-xs
-font-bold
-">
+        {% empty %}
 
-Done
+        <!-- EMPTY STATE -->
 
-</span>
+        <div class="col-span-full rounded-[26px] border border-dashed border-[#C9D5DD] bg-white px-6 py-16 text-center shadow-sm">
 
+            <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#DDE7F5] text-2xl text-[#466B9C]">
+                <i class="bi bi-folder2-open"></i>
+            </div>
 
-{% endif %}
+            <h2 class="mt-5 text-xl font-black text-[#303846]">
+                No Projects Available
+            </h2>
 
+            <p class="mt-2 text-sm text-[#78818F]">
+                Create your first project to start organizing your workflow.
+            </p>
 
-</div>
+            <a
+                href="{% url 'create_project' %}"
+                class="mt-6 inline-flex items-center gap-2 rounded-xl border border-[#7D5BA6] bg-[#76529F] px-5 py-2.5 text-sm font-black text-white transition hover:bg-[#64448B]"
+            >
+                <i class="bi bi-plus-lg"></i>
+                Create Project
+            </a>
 
+        </div>
 
+        {% endfor %}
 
-
-
-
-
-<!-- DESCRIPTION -->
-
-
-<p class="
-mt-5
-text-sm
-text-[#64748B]
-leading-relaxed
-">
-
-{{ project.description|default:"No description"|truncatechars:90 }}
-
-</p>
-
-
-
-
-
-
-
-
-<!-- PROGRESS -->
-
-
-<div class="mt-6">
-
-
-<div class="flex justify-between mb-2">
-
-
-<span class="
-text-xs
-font-semibold
-text-[#64748B]
-">
-
-Progress
-
-</span>
-
-
-<span class="
-text-xs
-font-bold
-text-[#2563EB]
-">
-
-{{ project.progress }}%
-
-</span>
-
-
-</div>
-
-
-
-
-
-<div class="
-w-full
-h-3
-rounded-full
-bg-white
-overflow-hidden
-border
-border-[#E2E8F0]
-">
-
-
-<div
-
-class="
-h-full
-rounded-full
-
-{% if project.progress <= 25 %}
-
-bg-[#F43F5E]
-
-{% elif project.progress <= 50 %}
-
-bg-[#F97316]
-
-{% elif project.progress <= 75 %}
-
-bg-[#3B82F6]
-
-{% else %}
-
-bg-[#10B981]
-
-{% endif %}
-
-"
-
-style="width: {{ project.progress }}%">
-
-</div>
-
-
-</div>
-
-
-<p class="
-text-xs
-text-[#64748B]
-mt-2
-">
-
-{{ project.progress }}% completed
-
-</p>
-
-
-</div>
-
-
-
-
-
-
-
-
-<!-- FOOTER -->
-
-
-<div class="
-mt-7
-flex
-justify-between
-items-center
-">
-
-
-
-
-
-<!-- PRIORITY -->
-
-
-<div>
-
-
-{% if project.priority == "high" %}
-
-<span class="
-px-3
-py-1
-rounded-lg
-bg-[#FEE2E2]
-text-[#B91C1C]
-text-xs
-font-bold
-border
-border-[#FECACA]
-">
-
-High
-
-</span>
-
-
-{% elif project.priority == "medium" %}
-
-<span class="
-px-3
-py-1
-rounded-lg
-bg-[#FEF3C7]
-text-[#B45309]
-text-xs
-font-bold
-border
-border-[#FCD34D]
-">
-
-Medium
-
-</span>
-
-
-{% elif project.priority == "low" %}
-
-<span class="
-px-3
-py-1
-rounded-lg
-bg-[#CCFBF1]
-text-[#0F766E]
-text-xs
-font-bold
-border
-border-[#99F6E4]
-">
-
-Low
-
-</span>
-
-
-{% endif %}
-
-
-</div>
-
-
-
-
-
-
-
-<!-- ACTIONS -->
-
-
-<div class="
-flex
-gap-4
-text-lg
-">
-
-
-
-<a href="{% url 'project_detail' project.id %}"
-
-class="
-text-[#2563EB]
-hover:text-[#1D4ED8]
-hover:scale-110
-transition
-"
-
-title="View">
-
-<i class="bi bi-eye"></i>
-
-</a>
-
-
-
-
-
-<a href="{% url 'update_project' project.id %}"
-
-class="
-text-[#D97706]
-hover:text-[#B45309]
-hover:scale-110
-transition
-"
-
-title="Edit">
-
-<i class="bi bi-pencil-square"></i>
-
-</a>
-
-
-
-
-
-<a href="{% url 'delete_project' project.id %}"
-
-class="
-text-[#E11D48]
-hover:text-[#BE123C]
-hover:scale-110
-transition
-"
-
-title="Delete">
-
-<i class="bi bi-trash"></i>
-
-</a>
-
-
-
-</div>
-
-
-
-</div>
-
-
-
-
-
-</div>
-
-
-
-
-{% empty %}
-
-
-<div class="col-span-3 text-center py-16 text-[#64748B] font-semibold">
-
-No Projects Available
-
-</div>
-
-
-{% endfor %}
-
-
+    </div>
 
 </div>
 
 
 </div>
 
+<script>
 
-</div>
+function filterProjects(filter) {
 
+    const cards = document.querySelectorAll("[data-project-card]");
+    const buttons = document.querySelectorAll(".project-filter");
+
+    cards.forEach(card => {
+
+        const progress = Number(card.dataset.progress);
+
+        let show = false;
+
+        if (filter === "all") {
+            show = true;
+        }
+
+        else if (filter === "0-25") {
+            show = progress >= 0 && progress <= 25;
+        }
+
+        else if (filter === "26-50") {
+            show = progress >= 26 && progress <= 50;
+        }
+
+        else if (filter === "51-75") {
+            show = progress >= 51 && progress <= 75;
+        }
+
+        else if (filter === "76-100") {
+            show = progress >= 76 && progress <= 100;
+        }
+
+        if (show) {
+            card.classList.remove("hidden");
+        } else {
+            card.classList.add("hidden");
+        }
+
+    });
+
+
+    // Active filter styling
+
+    buttons.forEach(button => {
+        button.classList.remove(
+            "ring-2",
+            "ring-offset-2",
+            "ring-[#76529F]"
+        );
+    });
+
+    const clickedButton = Array.from(buttons).find(
+        button => button.getAttribute("onclick") === `filterProjects('${filter}')`
+    );
+
+    if (clickedButton) {
+        clickedButton.classList.add(
+            "ring-2",
+            "ring-offset-2",
+            "ring-[#76529F]"
+        );
+    }
+
+}
+
+</script>
 
 {% endblock %}

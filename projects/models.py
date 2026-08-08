@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from organizations.models import Organization
 from django.utils import timezone
+from accounts.models import User
 
 
 STATUS_CHOICES = [
@@ -29,11 +30,7 @@ class Project(models.Model):
 
     due_date = models.DateField(null=True, blank=True)
 
-    members = models.ManyToManyField(
-        settings.AUTH_USER_MODEL,
-        related_name='project_members',
-        blank=True
-    )
+    
 
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -135,3 +132,68 @@ class Notification(models.Model):
 
     def __str__(self):
         return f"Notification for {self.user}"
+
+class Team(models.Model):
+
+    project = models.ForeignKey(
+        Project,
+        on_delete=models.CASCADE,
+        related_name="teams"
+    )
+
+    name = models.CharField(max_length=150)
+
+    created_by = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="created_teams"
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["project", "name"],
+                name="unique_team_name_per_project"
+            )
+        ]
+
+    def __str__(self):
+        return f"{self.name} - {self.project.name}"
+
+class ProjectMember(models.Model):
+
+    team = models.ForeignKey(
+        Team,
+        on_delete=models.CASCADE,
+        related_name="members"
+    )
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="project_memberships"
+    )
+
+    team_role = models.CharField(
+        max_length=50,
+        default="Member"
+    )
+
+    joined_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["team", "user"],
+                name="unique_user_per_team"
+            )
+        ]
+
+    def __str__(self):
+        return f"{self.user.username} - {self.team.name}"
+    

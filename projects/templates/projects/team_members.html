@@ -1,0 +1,841 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Team Members
+{% endblock %}
+
+{% block content %}
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<div class="min-h-screen bg-[#F4F8F8] px-6 py-10">
+
+    <div class="mx-auto max-w-7xl">
+
+        <!-- ================= HEADER ================= -->
+
+        <div class="mb-8 overflow-hidden rounded-[32px]
+                    bg-gradient-to-r from-[#087F7B] via-[#069494] to-[#2A8F9D]
+                    p-8 text-white
+                    shadow-[0_25px_70px_rgba(6,148,148,0.18)]">
+
+            <div class="flex flex-col justify-between gap-6 lg:flex-row lg:items-center">
+
+                <div>
+
+                    <p class="text-sm font-bold uppercase tracking-[0.2em] text-[#CFF8F3]">
+                        Team Management
+                    </p>
+
+                    <h1 class="mt-3 text-4xl font-black">
+                        Project Teams
+                    </h1>
+
+                    <p class="mt-3 max-w-2xl text-[#E0F7F5]">
+                        Create teams for your projects, manage members,
+                        and organize responsibilities efficiently.
+                    </p>
+
+                </div>
+
+                {% if request.user.role.name == "Owner" or request.user.role.name == "Admin" %}
+
+                <a
+                    href="{% url 'create_team' %}"
+                    class="rounded-2xl bg-white px-7 py-4 text-center
+                           font-black text-[#087F7B]
+                           shadow-lg transition
+                           hover:-translate-y-1 hover:shadow-xl"
+                >
+                    <i class="fa-solid fa-plus mr-2"></i>
+                    Create Team
+                </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= SUMMARY ================= -->
+
+        <div class="mb-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+
+
+            <!-- TOTAL TEAMS -->
+
+            <div class="rounded-[28px]
+                        border border-[#BFE8E4]
+                        bg-[#E8F8F7]
+                        p-6
+                        shadow-[0_15px_35px_rgba(6,148,148,0.08)]
+                        transition duration-300
+                        hover:-translate-y-1
+                        hover:shadow-[0_20px_45px_rgba(6,148,148,0.13)]">
+
+                <div class="flex items-start justify-between">
+
+                    <div>
+
+                        <p class="text-sm font-bold uppercase tracking-wide text-[#477875]">
+                            Total Teams
+                        </p>
+
+                        <p class="mt-3 text-4xl font-black text-[#087F7B]">
+                            {{ teams|length }}
+                        </p>
+
+                    </div>
+
+                    <div class="flex h-12 w-12 items-center justify-center
+                                rounded-2xl bg-white text-[#069494] shadow-sm">
+
+                        <i class="fa-solid fa-users-rectangle text-xl"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PROJECTS -->
+
+            <div class="rounded-[28px]
+                        border border-[#C7E3F4]
+                        bg-[#EDF7FC]
+                        p-6
+                        shadow-[0_15px_35px_rgba(14,116,144,0.07)]
+                        transition duration-300
+                        hover:-translate-y-1">
+
+                <div class="flex items-start justify-between">
+
+                    <div>
+
+                        <p class="text-sm font-bold uppercase tracking-wide text-[#52758A]">
+                            Projects
+                        </p>
+
+                        <p class="mt-3 text-4xl font-black text-[#16779A]">
+                            {{ projects|length }}
+                        </p>
+
+                    </div>
+
+                    <div class="flex h-12 w-12 items-center justify-center
+                                rounded-2xl bg-white text-[#1685A7] shadow-sm">
+
+                        <i class="fa-solid fa-folder-tree text-xl"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- MEMBERS -->
+
+            <div class="rounded-[28px]
+                        border border-[#CDEBD9]
+                        bg-[#EFFAF3]
+                        p-6
+                        shadow-[0_15px_35px_rgba(22,163,74,0.07)]
+                        transition duration-300
+                        hover:-translate-y-1">
+
+                <div class="flex items-start justify-between">
+
+                    <div>
+
+                        <p class="text-sm font-bold uppercase tracking-wide text-[#578069]">
+                            Team Members
+                        </p>
+
+                        <p
+                            id="memberTotal"
+                            class="mt-3 text-4xl font-black text-[#25824E]"
+                        >
+                            0
+                        </p>
+
+                    </div>
+
+                    <div class="flex h-12 w-12 items-center justify-center
+                                rounded-2xl bg-white text-[#29965A] shadow-sm">
+
+                        <i class="fa-solid fa-user-group text-xl"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ORGANIZATION -->
+
+            <div class="rounded-[28px]
+                        border border-[#E8D0A0]
+                        bg-[#FFF4DD]
+                        p-6
+                        shadow-[0_15px_35px_rgba(217,119,6,0.07)]
+                        transition duration-300
+                        hover:-translate-y-1">
+
+                <div class="flex items-start justify-between gap-3">
+
+                    <div class="min-w-0">
+
+                        <p class="text-sm font-bold uppercase tracking-wide text-[#927344]">
+                            Organization
+                        </p>
+
+                        <p class="mt-3 truncate text-xl font-black text-[#A56A16]">
+                            {{ request.user.organization.name }}
+                        </p>
+
+                    </div>
+
+                    <div class="flex h-12 w-12 shrink-0 items-center justify-center
+                                rounded-2xl bg-white text-[#D28A1D] shadow-sm">
+
+                        <i class="fa-solid fa-building text-xl"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= TOOLBAR ================= -->
+
+        <div class="mb-8 rounded-[28px]
+                    border border-[#DCE7E7]
+                    bg-white
+                    p-6
+                    shadow-[0_15px_40px_rgba(15,23,42,0.06)]">
+
+            <div class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+
+                <div>
+
+                    <p class="text-sm font-bold uppercase tracking-[0.18em] text-[#069494]">
+                        Your Teams
+                    </p>
+
+                    <h2 class="mt-1 text-2xl font-black text-[#173333]">
+                        Team Directory
+                    </h2>
+
+                    <p class="mt-1 text-sm text-[#718282]">
+                        Browse and manage the teams connected to your projects.
+                    </p>
+
+                </div>
+
+
+                <div class="flex w-full flex-col gap-3 sm:flex-row md:w-auto">
+
+                    <div class="relative">
+
+                        <i class="fa-solid fa-magnifying-glass
+                                  absolute left-4 top-1/2
+                                  -translate-y-1/2
+                                  text-[#8AA1A1]"></i>
+
+                        <input
+                            type="text"
+                            id="teamSearch"
+                            placeholder="Search teams..."
+                            class="w-full rounded-2xl
+                                   border border-[#D8E5E5]
+                                   bg-[#F7FAFA]
+                                   py-3 pl-11 pr-5
+                                   text-sm text-[#243B3B]
+                                   outline-none transition
+                                   placeholder:text-[#94A5A5]
+                                   focus:border-[#069494]
+                                   focus:bg-white
+                                   focus:ring-4
+                                   focus:ring-[#069494]/10
+                                   sm:w-64"
+                        >
+
+                    </div>
+
+
+                    <select
+                        id="projectFilter"
+                        class="rounded-2xl
+                               border border-[#D8E5E5]
+                               bg-[#F7FAFA]
+                               px-5 py-3
+                               text-sm font-semibold
+                               text-[#496060]
+                               outline-none
+                               focus:border-[#069494]
+                               focus:ring-4
+                               focus:ring-[#069494]/10"
+                    >
+
+                        <option value="">
+                            All Projects
+                        </option>
+
+                        {% for project in projects %}
+
+                            <option value="{{ project.name|lower }}">
+                                {{ project.name }}
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= TEAM GRID ================= -->
+
+<!-- ================= TEAM GRID ================= -->
+
+<div
+    id="teamGrid"
+    class="grid gap-6 md:grid-cols-2 xl:grid-cols-3"
+>
+
+    {% for team in teams %}
+
+<div
+    class="team-card flex flex-col overflow-hidden rounded-[30px]
+           shadow-[0_18px_45px_rgba(15,23,42,0.10)]
+           transition duration-300 hover:-translate-y-1
+           hover:shadow-[0_25px_55px_rgba(15,23,42,0.16)]
+
+           {% if forloop.counter|divisibleby:4 %}
+               bg-[#CBE9E5] border border-[#9BCFC8]
+
+           {% elif forloop.counter|divisibleby:3 %}
+               bg-[#F5DEC4] border border-[#E3BD91]
+
+           {% elif forloop.counter|divisibleby:2 %}
+               bg-[#C9DDED] border border-[#9ABDD6]
+
+           {% else %}
+               bg-[#DCCCE8] border border-[#BDA4D1]
+
+           {% endif %}
+    "
+    data-team="{{ team.name|lower }}"
+    data-project="{{ team.project.name|lower }}"
+>
+
+        <!-- ================= TEAM TOP ================= -->
+
+        <div class="p-6">
+
+            <div class="flex items-start justify-between gap-4">
+
+                <div
+                    class="flex h-14 w-14 items-center justify-center
+                           rounded-2xl
+                           bg-white/50
+                           text-2xl
+                           text-[#087F7B]
+                           shadow-sm
+                           backdrop-blur-sm"
+                >
+                    <i class="fa-solid fa-users"></i>
+                </div>
+
+                <span
+                    class="rounded-full
+                           bg-white/50
+                           px-3 py-1
+                           text-xs font-bold
+                           text-[#087F7B]
+                           shadow-sm"
+                >
+                    Team
+                </span>
+
+            </div>
+
+            <h3 class="mt-5 text-2xl font-black text-[#183535]">
+                {{ team.name }}
+            </h3>
+
+            <div class="mt-2 flex items-center gap-2 text-sm text-[#526969]">
+
+                <i class="fa-solid fa-folder-open text-[#B87316]"></i>
+
+                <span class="font-semibold">
+                    {{ team.project.name }}
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= MEMBERS ================= -->
+
+        <div class="flex-1 px-6 pb-6">
+
+            <div class="mb-4 flex items-center justify-between">
+
+                <p class="text-sm font-black uppercase tracking-wide text-[#526969]">
+                    Members
+                </p>
+
+                <span
+                    class="member-count
+                           rounded-full
+                           bg-white/55
+                           px-3 py-1
+                           text-xs font-black
+                           text-[#087F7B]
+                           shadow-sm"
+                >
+                    {{ team.members.count }}
+                </span>
+
+            </div>
+
+
+            <div class="space-y-3">
+
+                {% for membership in team.members.all %}
+
+                <div
+                    class="flex items-center gap-3
+                           rounded-2xl
+                           border border-white/50
+                           bg-white/40
+                           p-3
+                           shadow-sm
+                           transition
+                           hover:bg-white/60
+                           hover:shadow-md"
+                >
+
+                    <div
+                        class="flex h-10 w-10 shrink-0
+                               items-center justify-center
+                               rounded-xl
+                               bg-white/65
+                               font-black
+                               text-[#B87316]
+                               shadow-sm"
+                    >
+
+                        {% if membership.user.first_name %}
+
+                            {{ membership.user.first_name|first|upper }}
+
+                        {% else %}
+
+                            {{ membership.user.username|first|upper }}
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="min-w-0 flex-1">
+
+                        <p class="truncate text-sm font-bold text-[#263B3B]">
+
+                            {% if membership.user.first_name or membership.user.last_name %}
+
+                                {{ membership.user.first_name }}
+                                {{ membership.user.last_name }}
+
+                            {% else %}
+
+                                {{ membership.user.username }}
+
+                            {% endif %}
+
+                        </p>
+
+                        <p class="truncate text-xs text-[#687D7D]">
+                            {{ membership.user.email }}
+                        </p>
+
+                    </div>
+
+
+                    <span
+                        class="shrink-0
+                               rounded-full
+                               bg-white/55
+                               px-2.5 py-1
+                               text-[10px]
+                               font-black
+                               text-[#187A9C]"
+                    >
+                        {{ membership.team_role }}
+                    </span>
+
+                </div>
+
+                {% empty %}
+
+                <div
+                    class="rounded-2xl
+                           border border-dashed
+                           border-white/60
+                           bg-white/30
+                           p-5
+                           text-center"
+                >
+
+                    <i class="fa-solid fa-user-slash text-[#718282]"></i>
+
+                    <p class="mt-2 text-sm font-semibold text-[#718282]">
+                        No members assigned
+                    </p>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= TEAM FOOTER ================= -->
+
+        <div
+            class="border-t border-white/50
+                   bg-black/[0.04]
+                   p-5"
+        >
+
+            <div class="flex items-center justify-between">
+
+                <div>
+
+                    <p class="text-xs font-semibold text-[#718282]">
+                        Created by
+                    </p>
+
+                    <p class="mt-1 text-sm font-bold text-[#405858]">
+
+                        {% if team.created_by.first_name or team.created_by.last_name %}
+
+                            {{ team.created_by.first_name }}
+                            {{ team.created_by.last_name }}
+
+                        {% else %}
+
+                            {{ team.created_by.username }}
+
+                        {% endif %}
+
+                    </p>
+
+                </div>
+
+
+                <div class="text-right">
+
+                    <p class="text-xs font-semibold text-[#718282]">
+                        Project
+                    </p>
+
+                    <p
+                        class="mt-1 max-w-[120px]
+                               truncate
+                               text-sm font-bold
+                               text-[#087F7B]"
+                    >
+                        {{ team.project.name }}
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div class="mt-4 grid grid-cols-2 gap-3">
+
+                <a
+                    href="{% url 'team_detail' team.id %}"
+                    class="rounded-xl
+                           border border-white/60
+                           bg-white/45
+                           py-2.5
+                           text-center
+                           text-sm font-bold
+                           text-[#526666]
+                           transition
+                           hover:bg-white/70
+                           hover:text-[#087F7B]
+                           hover:shadow-sm"
+                >
+                    <i class="fa-solid fa-eye mr-1"></i>
+                    View Team
+                </a>
+
+
+                {% if request.user.role.name == "Owner" or request.user.role.name == "Admin" %}
+
+                <a
+                    href="{% url 'add_team_members' team.id %}"
+                    class="rounded-xl
+                           bg-[#069494]
+                           py-2.5
+                           text-center
+                           text-sm font-bold
+                           text-white
+                           shadow-sm
+                           transition
+                           hover:bg-[#087F7B]
+                           hover:-translate-y-0.5"
+                >
+                    <i class="fa-solid fa-user-plus mr-1"></i>
+                    Add Members
+                </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% empty %}
+
+    <!-- ================= EMPTY STATE ================= -->
+
+    <div
+        class="col-span-full
+               rounded-[32px]
+               border border-dashed
+               border-[#A9D9D5]
+               bg-[#E8F5F3]
+               p-16
+               text-center
+               shadow-sm"
+    >
+
+        <div
+            class="mx-auto flex h-20 w-20
+                   items-center justify-center
+                   rounded-3xl
+                   bg-white/70
+                   text-[#069494]
+                   shadow-sm"
+        >
+            <i class="fa-solid fa-users text-3xl"></i>
+        </div>
+
+        <h2 class="mt-6 text-2xl font-black text-[#183535]">
+            No Teams Yet
+        </h2>
+
+        <p class="mx-auto mt-2 max-w-md text-[#607777]">
+            Create your first project team and start organizing
+            members around specific responsibilities.
+        </p>
+
+
+        {% if request.user.role.name == "Owner" or request.user.role.name == "Admin" %}
+
+        <a
+            href="{% url 'create_team' %}"
+            class="mt-6 inline-flex
+                   rounded-2xl
+                   bg-[#069494]
+                   px-7 py-3
+                   font-black
+                   text-white
+                   shadow-lg
+                   shadow-[#069494]/15
+                   transition
+                   hover:bg-[#087F7B]
+                   hover:-translate-y-0.5"
+        >
+            <i class="fa-solid fa-plus mr-2"></i>
+            Create First Team
+        </a>
+
+        {% endif %}
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+
+        <!-- ================= NO SEARCH RESULTS ================= -->
+
+        <div
+            id="noResults"
+            class="mt-8 hidden
+                   rounded-3xl
+                   border border-dashed
+                   border-[#C9DADA]
+                   bg-white
+                   p-12
+                   text-center"
+        >
+
+            <div
+                class="mx-auto flex h-16 w-16
+                       items-center justify-center
+                       rounded-2xl
+                       bg-[#FFF4DE]
+                       text-[#C88720]"
+            >
+
+                <i class="fa-solid fa-magnifying-glass text-xl"></i>
+
+            </div>
+
+
+            <h3 class="mt-4 text-xl font-black text-[#253939]">
+                No Teams Found
+            </h3>
+
+
+            <p class="mt-2 text-sm text-[#829292]">
+                Try a different team name or project.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+const teamSearch = document.getElementById("teamSearch");
+const projectFilter = document.getElementById("projectFilter");
+
+const teamCards = document.querySelectorAll(".team-card");
+const noResults = document.getElementById("noResults");
+
+
+function filterTeams() {
+
+    const searchValue =
+        teamSearch.value.toLowerCase().trim();
+
+    const projectValue =
+        projectFilter.value.toLowerCase();
+
+    let visibleCount = 0;
+
+
+    teamCards.forEach(function(card) {
+
+        const teamName =
+            card.dataset.team;
+
+        const projectName =
+            card.dataset.project;
+
+
+        const matchesSearch =
+            teamName.includes(searchValue);
+
+
+        const matchesProject =
+            !projectValue ||
+            projectName === projectValue;
+
+
+        if (matchesSearch && matchesProject) {
+
+            card.classList.remove("hidden");
+
+            visibleCount++;
+
+        } else {
+
+            card.classList.add("hidden");
+
+        }
+
+    });
+
+
+    if (
+        visibleCount === 0 &&
+        teamCards.length > 0
+    ) {
+
+        noResults.classList.remove("hidden");
+
+    } else {
+
+        noResults.classList.add("hidden");
+
+    }
+
+}
+
+
+teamSearch.addEventListener(
+    "input",
+    filterTeams
+);
+
+
+projectFilter.addEventListener(
+    "change",
+    filterTeams
+);
+
+
+// ================= MEMBER TOTAL =================
+
+let totalMembers = 0;
+
+
+document
+    .querySelectorAll(".member-count")
+    .forEach(function(element) {
+
+        totalMembers +=
+            parseInt(element.textContent.trim()) || 0;
+
+    });
+
+
+const memberTotal =
+    document.getElementById("memberTotal");
+
+
+if (memberTotal) {
+
+    memberTotal.textContent =
+        totalMembers;
+
+}
+
+</script>
+
+{% endblock %}
