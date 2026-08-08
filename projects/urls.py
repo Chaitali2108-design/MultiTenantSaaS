@@ -107,7 +107,7 @@ path(
     views.mark_notification_read,
     name='mark_notification_read'
 ),
-<<<<<<< HEAD
+
 =======
 
 path(
@@ -132,5 +132,4 @@ path(
         views.team_detail,
         name="team_detail"
     ),
->>>>>>> main
 ]
