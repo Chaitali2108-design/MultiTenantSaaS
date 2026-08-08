@@ -93,22 +93,36 @@ Organization :
 
 
 
-<a href="#"
-class="
-flex
-items-center
-gap-2
-text-[#425466]
-hover:text-[#069494]
-transition
-font-medium
-">
+<div class="relative">
 
-<i class="fa-solid fa-bell"></i>
+    <!-- Bell Button -->
+    <button id="notificationBtn"
+        class="flex items-center gap-2 text-[#425466] hover:text-[#069494] transition font-medium relative">
 
-Notifications
+        <i class="fa-solid fa-bell text-lg"></i>
 
-</a>
+        <!-- Count Badge -->
+        <span id="notificationCount"
+            class="absolute -top-2 -right-3 bg-red-500 text-white text-xs px-2 py-0.5 rounded-full hidden">
+            0
+        </span>
+
+        Notifications
+    </button>
+
+    <!-- Dropdown -->
+    <div id="notificationDropdown"
+        class="hidden absolute right-0 mt-3 w-80 bg-white border border-gray-200 rounded-xl shadow-lg z-50">
+
+        <div class="p-3 font-semibold border-b">Notifications</div>
+
+        <div id="notificationList" class="max-h-80 overflow-y-auto text-sm">
+            <p class="p-3 text-gray-500">No notifications</p>
+        </div>
+
+    </div>
+
+</div>
 
 
 

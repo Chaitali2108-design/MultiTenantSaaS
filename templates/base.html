@@ -55,4 +55,80 @@
     
 
 </body>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const btn = document.getElementById("notificationBtn");
+    const dropdown = document.getElementById("notificationDropdown");
+    const list = document.getElementById("notificationList");
+    const countBadge = document.getElementById("notificationCount");
+
+    // Toggle dropdown
+    btn.addEventListener("click", () => {
+        dropdown.classList.toggle("hidden");
+        loadNotifications();
+    });
+
+    // Load notifications
+    function loadNotifications() {
+        fetch("/projects/notifications/")
+            .then(res => res.json())
+            .then(data => {
+
+                list.innerHTML = "";
+
+                if (data.notifications.length === 0) {
+                    list.innerHTML = "<p class='p-3 text-gray-500'>No notifications</p>";
+                    return;
+                }
+
+                data.notifications.forEach(n => {
+
+                    const item = document.createElement("div");
+                    item.className = "p-3 border-b hover:bg-gray-50 cursor-pointer";
+
+                    item.innerHTML = `
+                        <div class="flex justify-between items-center">
+                            <span>${n.message}</span>
+                            ${!n.is_read ? '<span class="text-xs text-red-500">New</span>' : ''}
+                        </div>
+                    `;
+
+                    // Mark as read
+                    item.addEventListener("click", () => {
+                        fetch(`/projects/notifications/read/${n.id}/`)
+                            .then(() => {
+                                item.remove();
+                                updateCount();
+                            });
+                    });
+
+                    list.appendChild(item);
+                });
+
+            });
+    }
+
+    // Load count
+    function updateCount() {
+        fetch("/projects/notifications/count/")
+            .then(res => res.json())
+            .then(data => {
+                if (data.count > 0) {
+                    countBadge.innerText = data.count;
+                    countBadge.classList.remove("hidden");
+                } else {
+                    countBadge.classList.add("hidden");
+                }
+            });
+    }
+
+    // Initial count load
+    updateCount();
+
+    // Auto refresh count every 10s
+    setInterval(updateCount, 10000);
+
+});
+</script>
 </html>

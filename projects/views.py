@@ -720,10 +720,9 @@ def get_notifications(request):
         })
 
 
-    return JsonResponse(
-        data,
-        safe=False
-    )
+    return JsonResponse({
+    "notifications": data
+})
 
 
 
