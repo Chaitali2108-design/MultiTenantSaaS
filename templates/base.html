@@ -17,10 +17,12 @@
     <link rel="stylesheet" href="{% static 'css/kanban.css' %}">
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
     <link rel="stylesheet" href="{% static 'css/reports.css' %}">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <link rel="icon" href="{% static 'images/favicon.ico' %}">
 
+    
     <style>
         /* Hide scrollbar but keep scrolling */
 
@@ -37,7 +39,7 @@
     </style>
 </head>
 
-<body>
+<>
 
     {% include 'components/navbar.html' %}
 
@@ -53,6 +55,10 @@
     </div>
 <!-- {% include 'components/footer.html' %}  -->
     
+
+{% block scripts %}
+
+{% endblock %}
 
 </body>
 </html>
