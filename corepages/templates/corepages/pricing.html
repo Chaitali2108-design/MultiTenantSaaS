@@ -1,0 +1,429 @@
+{% extends "public_base.html" %}
+
+{% block title %}Pricing | MultiTenant SaaS{% endblock %}
+
+{% block content %}
+
+<!-- ================= PRICING HERO ================= -->
+<section class="relative pt-28 pb-8 overflow-hidden">
+
+<div class="absolute top-0 left-0 w-[30rem] h-[30rem] bg-[#069494]/10 blur-3xl rounded-full -z-10"></div>
+
+<div class="max-w-7xl mx-auto px-6">
+
+<section data-aos-section>
+
+<div class="reveal from-bottom text-center max-w-3xl mx-auto">
+
+<span class="px-4 py-2 rounded-full bg-[#E8F8F7] text-[#0F766E] text-sm font-semibold">
+Simple Pricing
+</span>
+
+<h1 class="mt-5 text-5xl lg:text-6xl font-extrabold text-[#102A2A]">
+Plans that grow with your organization.
+</h1>
+
+<p class="mt-5 text-lg leading-8 text-[#425466]">
+Choose a plan based on your organization size and the way your teams work.
+</p>
+
+</div>
+
+</section>
+
+</div>
+
+</section>
+
+
+<!-- ================= PRICING CARDS ================= -->
+<section class="pb-12 overflow-hidden">
+
+<div class="max-w-6xl mx-auto px-6">
+
+<section data-aos-section>
+
+<div class="grid lg:grid-cols-3 gap-6 items-stretch">
+
+<!-- STARTER -->
+<div class="reveal from-left bg-white border border-[#E5E7EB] rounded-[30px] p-7 premium-card">
+
+<p class="text-sm font-semibold text-[#718096]">
+Starter
+</p>
+
+<h2 class="mt-3 text-4xl font-extrabold text-[#102A2A]">
+₹499
+<span class="text-sm font-medium text-[#718096]">/month</span>
+</h2>
+
+<p class="mt-3 text-sm leading-6 text-[#718096]">
+For small teams starting their digital workspace.
+</p>
+
+<a href="{% url 'signup' %}"
+class="mt-6 block text-center px-5 py-3 rounded-xl border border-[#D5E8E7] text-[#0F766E] font-semibold hover:bg-[#E8F8F7] transition">
+Choose Starter
+</a>
+
+<div class="mt-7 pt-6 border-t border-[#E5E7EB] space-y-3 text-sm text-[#425466]">
+
+<p>✓ Up to 10 users</p>
+<p>✓ 5 projects</p>
+<p>✓ Basic task management</p>
+<p>✓ Role-based access</p>
+<p>✓ Organization workspace</p>
+
+</div>
+
+</div>
+
+
+<!-- PROFESSIONAL -->
+<div class="reveal from-bottom relative bg-[#102A2A] rounded-[30px] p-7 text-white shadow-xl lg:-translate-y-3">
+
+<div class="absolute top-5 right-5 px-3 py-1 rounded-full bg-[#069494] text-white text-xs font-bold">
+POPULAR
+</div>
+
+<p class="text-sm font-semibold text-[#9FE7E2]">
+Professional
+</p>
+
+<h2 class="mt-3 text-4xl font-extrabold">
+₹999
+<span class="text-sm font-medium text-slate-400">/month</span>
+</h2>
+
+<p class="mt-3 text-sm leading-6 text-slate-300">
+For growing teams that need more control and capacity.
+</p>
+
+<a href="{% url 'signup' %}"
+class="mt-6 block text-center px-5 py-3 rounded-xl bg-[#0F766E] text-white font-semibold hover:bg-[#115E59] transition">
+Choose Professional
+</a>
+
+<div class="mt-7 pt-6 border-t border-white/10 space-y-3 text-sm text-slate-300">
+
+<p>✓ Up to 50 users</p>
+<p>✓ 25 projects</p>
+<p>✓ Advanced task management</p>
+<p>✓ Custom roles & permissions</p>
+<p>✓ Reports & analytics</p>
+
+</div>
+
+</div>
+
+
+<!-- BUSINESS -->
+<div class="reveal from-right bg-white border border-[#E5E7EB] rounded-[30px] p-7 premium-card">
+
+<p class="text-sm font-semibold text-[#718096]">
+Business
+</p>
+
+<h2 class="mt-3 text-4xl font-extrabold text-[#102A2A]">
+₹1,999
+<span class="text-sm font-medium text-[#718096]">/month</span>
+</h2>
+
+<p class="mt-3 text-sm leading-6 text-[#718096]">
+For larger organizations managing complex workflows.
+</p>
+
+<a href="{% url 'signup' %}"
+class="mt-6 block text-center px-5 py-3 rounded-xl border border-[#D5E8E7] text-[#0F766E] font-semibold hover:bg-[#E8F8F7] transition">
+Choose Business
+</a>
+
+<div class="mt-7 pt-6 border-t border-[#E5E7EB] space-y-3 text-sm text-[#425466]">
+
+<p>✓ Up to 150 users</p>
+<p>✓ Unlimited projects</p>
+<p>✓ Advanced permissions</p>
+<p>✓ Reports & analytics</p>
+<p>✓ Priority support</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+</div>
+
+</section>
+
+
+<!-- ================= COMPARISON ================= -->
+<section class="py-12 bg-white border-y border-[#E5E7EB] overflow-hidden">
+
+<div class="max-w-6xl mx-auto px-6">
+
+<section data-aos-section>
+
+<div class="reveal from-bottom text-center">
+
+<span class="text-sm font-semibold text-[#0F766E]">
+COMPARE PLANS
+</span>
+
+<h2 class="mt-3 text-4xl font-extrabold text-[#102A2A]">
+Choose what fits your team.
+</h2>
+
+</div>
+
+<div class="reveal from-bottom mt-8 overflow-x-auto">
+
+<table class="w-full min-w-[700px] border-collapse">
+
+<thead>
+
+<tr class="border-b border-[#E5E7EB]">
+
+<th class="text-left p-4 text-sm text-[#718096]">
+Feature
+</th>
+
+<th class="p-4 text-sm text-[#102A2A]">
+Starter
+</th>
+
+<th class="p-4 text-sm text-[#0F766E]">
+Professional
+</th>
+
+<th class="p-4 text-sm text-[#102A2A]">
+Business
+</th>
+
+</tr>
+
+</thead>
+
+<tbody class="text-sm text-[#425466]">
+
+<tr class="border-b border-[#E5E7EB]">
+<td class="p-4 font-medium">Users</td>
+<td class="text-center">10</td>
+<td class="text-center">50</td>
+<td class="text-center">150</td>
+</tr>
+
+<tr class="border-b border-[#E5E7EB]">
+<td class="p-4 font-medium">Projects</td>
+<td class="text-center">5</td>
+<td class="text-center">25</td>
+<td class="text-center">Unlimited</td>
+</tr>
+
+<tr class="border-b border-[#E5E7EB]">
+<td class="p-4 font-medium">Role Management</td>
+<td class="text-center">✓</td>
+<td class="text-center">✓</td>
+<td class="text-center">✓</td>
+</tr>
+
+<tr class="border-b border-[#E5E7EB]">
+<td class="p-4 font-medium">Reports</td>
+<td class="text-center">—</td>
+<td class="text-center">✓</td>
+<td class="text-center">✓</td>
+</tr>
+
+<tr>
+<td class="p-4 font-medium">Priority Support</td>
+<td class="text-center">—</td>
+<td class="text-center">—</td>
+<td class="text-center">✓</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+</div>
+
+</section>
+
+
+<!-- ================= WHY PRICING ================= -->
+<section class="py-12 overflow-hidden">
+
+<div class="max-w-7xl mx-auto px-6">
+
+<section data-aos-section>
+
+<div class="grid lg:grid-cols-2 gap-8 items-center">
+
+<div class="reveal from-left">
+
+<span class="px-4 py-2 rounded-full bg-[#ECFEFF] text-cyan-700 text-sm font-semibold">
+Built for Growth
+</span>
+
+<h2 class="mt-5 text-4xl font-extrabold text-[#102A2A]">
+Start small. Upgrade when you need more.
+</h2>
+
+<p class="mt-4 text-[#425466] leading-7">
+Your organization can move between plans as its users, projects and requirements change.
+</p>
+
+</div>
+
+<div class="reveal from-right grid sm:grid-cols-2 gap-5">
+
+<div class="p-6 bg-white border border-[#E5E7EB] rounded-[26px] premium-card">
+<h3 class="font-bold text-[#102A2A]">Flexible Capacity</h3>
+<p class="mt-2 text-sm text-[#718096] leading-6">
+Choose limits that match your current team size.
+</p>
+</div>
+
+<div class="p-6 bg-white border border-[#E5E7EB] rounded-[26px] premium-card">
+<h3 class="font-bold text-[#102A2A]">Clear Limits</h3>
+<p class="mt-2 text-sm text-[#718096] leading-6">
+Know exactly what each plan provides.
+</p>
+</div>
+
+<div class="p-6 bg-white border border-[#E5E7EB] rounded-[26px] premium-card">
+<h3 class="font-bold text-[#102A2A]">Secure Access</h3>
+<p class="mt-2 text-sm text-[#718096] leading-6">
+Role-based access remains part of the platform.
+</p>
+</div>
+
+<div class="p-6 bg-white border border-[#E5E7EB] rounded-[26px] premium-card">
+<h3 class="font-bold text-[#102A2A]">Scalable</h3>
+<p class="mt-2 text-sm text-[#718096] leading-6">
+Move to a larger plan as your organization grows.
+</p>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+</div>
+
+</section>
+
+
+<!-- ================= FAQ ================= -->
+<section class="py-12 bg-white border-y border-[#E5E7EB] overflow-hidden">
+
+<div class="max-w-4xl mx-auto px-6">
+
+<section data-aos-section>
+
+<div class="reveal from-bottom text-center">
+
+<span class="text-sm font-semibold text-[#0F766E]">
+FAQ
+</span>
+
+<h2 class="mt-3 text-4xl font-extrabold text-[#102A2A]">
+Pricing questions, answered.
+</h2>
+
+</div>
+
+<div class="mt-8 space-y-3">
+
+<details class="reveal from-left group border border-[#E5E7EB] rounded-2xl p-5 bg-[#FAFBF9]">
+<summary class="cursor-pointer font-semibold text-[#102A2A]">
+Can I change my plan later?
+</summary>
+<p class="mt-3 text-sm leading-6 text-[#718096]">
+Yes. Your organization can move to a different plan as its requirements change.
+</p>
+</details>
+
+<details class="reveal from-right group border border-[#E5E7EB] rounded-2xl p-5 bg-[#FAFBF9]">
+<summary class="cursor-pointer font-semibold text-[#102A2A]">
+Which plan is best for a growing team?
+</summary>
+<p class="mt-3 text-sm leading-6 text-[#718096]">
+The Professional plan is designed for teams that need additional users, projects and reporting capabilities.
+</p>
+</details>
+
+<details class="reveal from-left group border border-[#E5E7EB] rounded-2xl p-5 bg-[#FAFBF9]">
+<summary class="cursor-pointer font-semibold text-[#102A2A]">
+Are users and projects limited?
+</summary>
+<p class="mt-3 text-sm leading-6 text-[#718096]">
+Yes. Each plan provides different user and project limits.
+</p>
+</details>
+
+<details class="reveal from-right group border border-[#E5E7EB] rounded-2xl p-5 bg-[#FAFBF9]">
+<summary class="cursor-pointer font-semibold text-[#102A2A]">
+Is role-based access included?
+</summary>
+<p class="mt-3 text-sm leading-6 text-[#718096]">
+Yes. Role-based access is available across the plans.
+</p>
+</details>
+
+</div>
+
+</section>
+
+</div>
+
+</section>
+
+
+<!-- ================= CTA ================= -->
+<section class="py-10">
+
+<div class="max-w-7xl mx-auto px-6">
+
+<section data-aos-section>
+
+<div class="reveal from-bottom rounded-[32px] bg-[#102A2A] px-8 py-10 lg:px-14">
+
+<div class="flex flex-col lg:flex-row items-center justify-between gap-7">
+
+<div>
+
+<h2 class="text-3xl lg:text-4xl font-extrabold text-white">
+Ready to build your workspace?
+</h2>
+
+<p class="mt-3 text-slate-300">
+Choose a plan and start managing your organization.
+</p>
+
+</div>
+
+<a href="{% url 'signup' %}"
+class="shrink-0 px-7 py-3 rounded-xl bg-[#0F766E] text-white font-semibold hover:bg-[#115E59] transition">
+Get Started
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+</div>
+
+</section>
+
+{% endblock %}

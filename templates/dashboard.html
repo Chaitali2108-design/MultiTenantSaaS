@@ -6,7 +6,7 @@ Dashboard
 {% endblock %}
 
 {% block content %}
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <!-- ================= DASHBOARD HERO ================= -->
 <section data-aos-section>
@@ -193,7 +193,7 @@ Current Time
 </p>
 
 <h4 class="mt-1 text-xl font-extrabold text-[#102A2A]">
-{{ now|time:"H:i" }}
+{{ now|date:"g:i A" }}
 </h4>
 
 </div>
@@ -1321,173 +1321,727 @@ No tasks found.
 
 </section>
 
-<section data-aos-section class="mt-8 mb-10">
+```html
+<!-- =========================================================
+     ANALYTICS OVERVIEW
+========================================================= -->
+
+<section data-aos-section class="mt-7 mb-8">
+
+    <div
+        class="reveal from-bottom
+               rounded-[24px]
+               bg-gradient-to-br
+               from-[#102A2A]
+               to-[#0F766E]
+               p-5
+               shadow-[0_16px_40px_rgba(15,118,110,0.14)]"
+    >
+
+        <!-- HEADER -->
+
+        <div class="mb-5 flex items-center justify-between">
+
+            <div>
+
+                <h2 class="text-xl font-black text-white">
+                    Analytics Overview
+                </h2>
+
+                <p class="mt-1 text-xs text-white/65">
+                    Visual insights about your organization activity
+                </p>
+
+            </div>
+
+            <div
+                class="flex h-10 w-10 items-center justify-center
+                       rounded-xl
+                       bg-white/10
+                       text-white"
+            >
+                <i class="fa-solid fa-chart-pie"></i>
+            </div>
+
+        </div>
 
 
-<div class="reveal from-bottom rounded-[32px] bg-gradient-to-br from-[#102A2A] to-[#0F766E] p-7 shadow-xl">
+        <!-- =====================================================
+             CHART GRID
+        ====================================================== -->
+
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
 
 
-<div class="flex items-center justify-between mb-8">
+            <!-- =================================================
+                 1. PROJECT STATUS - BAR CHART
+            ================================================== -->
+
+            <div
+                class="rounded-[20px]
+                       bg-white
+                       p-4
+                       shadow-sm"
+            >
+
+                <div class="mb-3 flex items-center justify-between">
+
+                    <div>
+
+                        <h3
+                            class="text-sm font-black
+                                   text-[#183B3A]"
+                        >
+                            Project Status
+                        </h3>
+
+                        <p
+                            class="mt-0.5 text-[11px]
+                                   text-[#82918E]"
+                        >
+                            Current project distribution
+                        </p>
+
+                    </div>
+
+                    <span
+                        class="flex h-8 w-8 items-center
+                               justify-center rounded-lg
+                               bg-[#DCEFED]
+                               text-[#069494]"
+                    >
+                        <i class="fa-solid fa-folder text-xs"></i>
+                    </span>
+
+                </div>
 
 
-<div>
+                <div class="h-[190px]">
+                    <canvas id="projectChart"></canvas>
+                </div>
 
-<h2 class="text-2xl font-extrabold text-white">
-Analytics Overview
-</h2>
+            </div>
 
 
-<p class="text-sm text-white/70 mt-1">
-Visual insights about your organization activity
-</p>
 
+            <!-- =================================================
+                 2. MONTHLY TASKS - LINE CHART
+            ================================================== -->
+
+<div class="rounded-2xl bg-white p-5 shadow-sm">
+
+    <div class="mb-4 flex items-center justify-between">
+
+        <h3 class="font-bold text-[#183B3A]">
+            Task Activity
+        </h3>
+
+        <i class="fa-solid fa-chart-line text-[#069494]"></i>
+
+    </div>
+
+    <div class="h-48">
+        <canvas id="taskActivityChart"></canvas>
+    </div>
 
 </div>
 
+{{ monthly_task_labels|json_script:"taskLabels" }}
+{{ monthly_task_values|json_script:"taskValues" }}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const taskLabels = JSON.parse(
+    document.getElementById("taskLabels").textContent
+);
+
+const taskValues = JSON.parse(
+    document.getElementById("taskValues").textContent
+);
+
+new Chart(document.getElementById("taskActivityChart"), {
 
-<div class="w-12 h-12 rounded-2xl bg-white/15 flex items-center justify-center text-white text-xl">
+    type: "line",
 
-<i class="fa-solid fa-chart-pie"></i>
+    data: {
+        labels: taskLabels,
 
-</div>
+        datasets: [{
+            data: taskValues,
+            borderColor: "#069494",
+            backgroundColor: "rgba(6,148,148,0.10)",
+            borderWidth: 3,
+            tension: 0.4,
+            fill: true,
+            pointRadius: 4,
+            pointBackgroundColor: "#069494"
+        }]
+    },
 
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
 
-</div>
+        plugins: {
+            legend: {
+                display: false
+            }
+        },
 
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    precision: 0
+                }
+            },
 
+            x: {
+                grid: {
+                    display: false
+                }
+            }
+        }
+    }
 
+});
 
+</script>
 
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
 
+            <!-- =================================================
+                 3. TASK PRIORITY - DOUGHNUT
+            ================================================== -->
 
+            <div
+                class="rounded-[20px]
+                       bg-white
+                       p-4
+                       shadow-sm"
+            >
 
+                <div class="mb-3 flex items-center justify-between">
 
-<div class="bg-white rounded-3xl p-6 shadow-sm">
+                    <div>
 
-<div class="flex items-center justify-between mb-5">
+                        <h3
+                            class="text-sm font-black
+                                   text-[#183B3A]"
+                        >
+                            Task Priority
+                        </h3>
 
-<h3 class="font-bold text-[#102A2A]">
-Projects Status
-</h3>
+                        <p
+                            class="mt-0.5 text-[11px]
+                                   text-[#82918E]"
+                        >
+                            Distribution by priority
+                        </p>
 
-<span class="text-[#069494]">
-<i class="fa-solid fa-folder"></i>
-</span>
+                    </div>
 
-</div>
+                    <span
+                        class="flex h-8 w-8 items-center
+                               justify-center rounded-lg
+                               bg-[#F5E8CF]
+                               text-[#A87320]"
+                    >
+                        <i class="fa-solid fa-list-check text-xs"></i>
+                    </span>
 
+                </div>
 
-<canvas id="projectChart"></canvas>
 
+                <div class="h-[190px]">
+                    <canvas id="priorityChart"></canvas>
+                </div>
 
-</div>
+            </div>
 
 
 
+            <!-- =================================================
+                 4. COMPLETION - POLAR AREA
+            ================================================== -->
 
+            <div
+                class="rounded-[20px]
+                       bg-white
+                       p-4
+                       shadow-sm"
+            >
 
+                <div class="mb-3 flex items-center justify-between">
 
-<div class="bg-white rounded-3xl p-6 shadow-sm">
+                    <div>
 
+                        <h3
+                            class="text-sm font-black
+                                   text-[#183B3A]"
+                        >
+                            Task Progress
+                        </h3>
 
-<div class="flex items-center justify-between mb-5">
+                        <p
+                            class="mt-0.5 text-[11px]
+                                   text-[#82918E]"
+                        >
+                            Completed, pending and overdue tasks
+                        </p>
 
-<h3 class="font-bold text-[#102A2A]">
-Tasks Priority
-</h3>
+                    </div>
 
+                    <span
+                        class="flex h-8 w-8 items-center
+                               justify-center rounded-lg
+                               bg-[#F1DDE2]
+                               text-[#A05262]"
+                    >
+                        <i class="fa-solid fa-chart-column text-xs"></i>
+                    </span>
 
-<span class="text-[#F59E0B]">
-<i class="fa-solid fa-list-check"></i>
-</span>
+                </div>
 
 
-</div>
+                <div class="h-[190px]">
+                    <canvas id="progressChart"></canvas>
+                </div>
 
+            </div>
 
-<canvas id="priorityChart"></canvas>
 
+        </div>
 
-</div>
-
-
-
-
-
-
-<div class="bg-white rounded-3xl p-6 shadow-sm">
-
-
-<div class="flex items-center justify-between mb-5">
-
-
-<h3 class="font-bold text-[#102A2A]">
-Monthly Tasks
-</h3>
-
-
-<span class="text-[#4F46E5]">
-
-<i class="fa-solid fa-chart-line"></i>
-
-</span>
-
-
-</div>
-
-
-<canvas id="lineChart"></canvas>
-
-
-</div>
-
-
-
-
-
-
-<div class="bg-white rounded-3xl p-6 shadow-sm">
-
-
-<div class="flex items-center justify-between mb-5">
-
-
-<h3 class="font-bold text-[#102A2A]">
-Completed vs Pending
-</h3>
-
-
-<span class="text-[#DC2626]">
-
-<i class="fa-solid fa-chart-column"></i>
-
-</span>
-
-
-</div>
-
-
-<canvas id="progressChart"></canvas>
-
-
-</div>
-
-
-
-
-
-</div>
-
-
-</div>
-
-
-<script src="{% static 'js/dashboard_charts.js' %}"></script>
-
+    </div>
 
 </section>
+
+
+<!-- =========================================================
+     CHART.JS
+========================================================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+
+    /* =========================================================
+       PROJECT STATUS - BAR
+    ========================================================= */
+
+    const projectChart =
+        document.getElementById("projectChart");
+
+    if (projectChart) {
+
+        new Chart(projectChart, {
+
+            type: "bar",
+
+            data: {
+
+                labels: [
+                    "To Do",
+                    "In Progress",
+                    "Completed"
+                ],
+
+                datasets: [{
+
+                    data: [
+                        {{ project_status.todo|default:0 }},
+                        {{ project_status.progress|default:0 }},
+                        {{ project_status.done|default:0 }}
+                    ],
+
+                    backgroundColor: [
+                        "#8AA6A3",
+                        "#069494",
+                        "#3C9B6B"
+                    ],
+
+                    borderRadius: 7,
+
+                    borderSkipped: false,
+
+                    barThickness: 28
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                plugins: {
+
+                    legend: {
+                        display: false
+                    }
+
+                },
+
+                scales: {
+
+                    y: {
+
+                        beginAtZero: true,
+
+                        ticks: {
+                            precision: 0,
+                            font: {
+                                size: 10
+                            },
+                            color: "#718481"
+                        },
+
+                        grid: {
+                            color: "#E8EFED"
+                        }
+
+                    },
+
+                    x: {
+
+                        ticks: {
+                            font: {
+                                size: 10,
+                                weight: "600"
+                            },
+                            color: "#536B68"
+                        },
+
+                        grid: {
+                            display: false
+                        }
+
+                    }
+
+                }
+
+            }
+
+        });
+
+    }
+
+
+
+    /* =========================================================
+       MONTHLY TASKS - LINE
+    ========================================================= */
+
+    const lineChart =
+        document.getElementById("lineChart");
+
+    if (lineChart) {
+
+        new Chart(lineChart, {
+
+            type: "line",
+
+            data: {
+
+                labels: [
+                    {% for item in monthly_tasks %}
+                        "{{ item.month }}"{% if not forloop.last %},{% endif %}
+                    {% endfor %}
+                ],
+
+                datasets: [{
+
+                    label: "Tasks",
+
+                    data: [
+                        {% for item in monthly_tasks %}
+                            {{ item.count }}{% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    ],
+
+                    borderColor: "#6258A8",
+
+                    backgroundColor: "rgba(98,88,168,0.10)",
+
+                    fill: true,
+
+                    tension: 0.4,
+
+                    borderWidth: 2.5,
+
+                    pointRadius: 3,
+
+                    pointHoverRadius: 5,
+
+                    pointBackgroundColor: "#6258A8"
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                plugins: {
+
+                    legend: {
+                        display: false
+                    }
+
+                },
+
+                scales: {
+
+                    y: {
+
+                        beginAtZero: true,
+
+                        ticks: {
+                            precision: 0,
+                            font: {
+                                size: 10
+                            },
+                            color: "#718481"
+                        },
+
+                        grid: {
+                            color: "#E8EFED"
+                        }
+
+                    },
+
+                    x: {
+
+                        ticks: {
+                            font: {
+                                size: 10
+                            },
+                            color: "#536B68"
+                        },
+
+                        grid: {
+                            display: false
+                        }
+
+                    }
+
+                }
+
+            }
+
+        });
+
+    }
+
+
+
+    /* =========================================================
+       TASK PRIORITY - DOUGHNUT
+    ========================================================= */
+
+    const priorityChart =
+        document.getElementById("priorityChart");
+
+    if (priorityChart) {
+
+        new Chart(priorityChart, {
+
+            type: "doughnut",
+
+            data: {
+
+                labels: [
+                    "High",
+                    "Medium",
+                    "Low"
+                ],
+
+                datasets: [{
+
+                    data: [
+                        {{ task_priority.high|default:0 }},
+                        {{ task_priority.medium|default:0 }},
+                        {{ task_priority.low|default:0 }}
+                    ],
+
+                    backgroundColor: [
+                        "#A05262",
+                        "#A87320",
+                        "#069494"
+                    ],
+
+                    borderWidth: 3,
+
+                    borderColor: "#FFFFFF"
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                cutout: "68%",
+
+                plugins: {
+
+                    legend: {
+
+                        position: "bottom",
+
+                        labels: {
+
+                            usePointStyle: true,
+
+                            pointStyle: "circle",
+
+                            padding: 15,
+
+                            font: {
+                                size: 10,
+                                weight: "600"
+                            },
+
+                            color: "#536B68"
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        });
+
+    }
+
+
+
+    /* =========================================================
+       TASK PROGRESS - POLAR AREA
+    ========================================================= */
+
+    const progressChart =
+        document.getElementById("progressChart");
+
+    if (progressChart) {
+
+        new Chart(progressChart, {
+
+            type: "polarArea",
+
+            data: {
+
+                labels: [
+                    "Completed",
+                    "Pending",
+                    "Overdue"
+                ],
+
+                datasets: [{
+
+                    data: [
+                        {{ progress_data.completed|default:0 }},
+                        {{ progress_data.pending|default:0 }},
+                        {{ progress_data.overdue|default:0 }}
+                    ],
+
+                    backgroundColor: [
+                        "rgba(60,155,107,0.78)",
+                        "rgba(6,148,148,0.72)",
+                        "rgba(160,82,98,0.72)"
+                    ],
+
+                    borderColor: "#FFFFFF",
+
+                    borderWidth: 3
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                scales: {
+
+                    r: {
+
+                        beginAtZero: true,
+
+                        ticks: {
+
+                            display: false
+
+                        },
+
+                        grid: {
+
+                            color: "#E5ECEA"
+
+                        }
+
+                    }
+
+                },
+
+                plugins: {
+
+                    legend: {
+
+                        position: "bottom",
+
+                        labels: {
+
+                            usePointStyle: true,
+
+                            pointStyle: "circle",
+
+                            padding: 15,
+
+                            font: {
+                                size: 10,
+                                weight: "600"
+                            },
+
+                            color: "#536B68"
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        });
+
+    }
+
+});
+
+</script>
+```
+
 
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

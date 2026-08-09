@@ -1,0 +1,206 @@
+{% extends "public_base.html" %}
+
+{% block title %}Startup Solutions | MultiTenant SaaS{% endblock %}
+
+{% block content %}
+
+<!-- ================= STARTUP HERO ================= -->
+<section class="relative pt-28 pb-12 overflow-hidden">
+
+<div class="absolute bottom-0 left-0 w-[30rem] h-[30rem] bg-[#069494]/10 blur-3xl rounded-full -z-10"></div>
+
+<div class="max-w-7xl mx-auto px-6">
+
+<section data-aos-section>
+
+<div class="text-center max-w-4xl mx-auto reveal from-bottom">
+
+<span class="px-4 py-2 rounded-full bg-[#ECFEFF] text-cyan-700 text-sm font-semibold">
+For Startups
+</span>
+
+<h1 class="mt-5 text-5xl lg:text-7xl font-extrabold text-[#102A2A] leading-[1.05]">
+Move fast.<br>
+Stay organized.<br>
+<span class="text-[#069494]">Scale confidently.</span>
+</h1>
+
+<p class="mt-6 text-lg leading-8 text-[#425466] max-w-2xl mx-auto">
+Give your growing team the tools to manage people, projects and workflows without unnecessary complexity.
+</p>
+
+<div class="mt-7 flex justify-center gap-4">
+
+<a href="{% url 'signup' %}"
+class="px-7 py-3 rounded-xl bg-[#0F766E] text-white font-semibold hover:bg-[#115E59] transition">
+Start Free
+</a>
+
+<a href="{% url 'contact' %}"
+class="px-7 py-3 rounded-xl border border-[#D5E8E7] text-[#0F766E] font-semibold hover:bg-[#E8F8F7] transition">
+Talk to Us
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+</div>
+
+</section>
+
+<!-- ================= GROWTH VISUAL ================= -->
+<section class="pb-12 overflow-hidden">
+
+<div class="max-w-7xl mx-auto px-6">
+
+<section data-aos-section>
+
+<div class="grid lg:grid-cols-[.8fr_1.2fr] gap-8 items-center">
+
+<div class="reveal from-left">
+
+<p class="text-sm font-semibold text-[#0F766E]">
+BUILT FOR MOMENTUM
+</p>
+
+<h2 class="mt-3 text-3xl lg:text-4xl font-extrabold text-[#102A2A]">
+Everything stays connected as your team grows.
+</h2>
+
+<p class="mt-4 text-[#425466] leading-7">
+Start with what you need today and keep your organization structured as your team and workload expand.
+</p>
+
+</div>
+
+<div class="reveal from-right">
+
+<div class="bg-white border border-[#E5E7EB] rounded-[32px] shadow-lg p-7">
+
+<div class="flex items-end justify-between h-48">
+
+<div class="w-[18%] h-[30%] bg-[#D5E8E7] rounded-t-2xl"></div>
+
+<div class="w-[18%] h-[45%] bg-[#B7DFDB] rounded-t-2xl"></div>
+
+<div class="w-[18%] h-[62%] bg-[#8FD0CA] rounded-t-2xl"></div>
+
+<div class="w-[18%] h-[78%] bg-[#4DB6AE] rounded-t-2xl"></div>
+
+<div class="w-[18%] h-[94%] bg-[#069494] rounded-t-2xl"></div>
+
+</div>
+
+<div class="mt-5 flex justify-between text-xs text-[#718096]">
+<span>Start</span>
+<span>Team</span>
+<span>Projects</span>
+<span>Growth</span>
+<span>Scale</span>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+</div>
+
+</section>
+
+<!-- ================= STARTUP BENEFITS ================= -->
+<section class="py-12 overflow-hidden">
+
+<div class="max-w-7xl mx-auto px-6">
+
+<section data-aos-section>
+
+<div class="grid md:grid-cols-3 gap-6">
+
+<div class="reveal from-left p-7 rounded-[28px] bg-white border border-[#E5E7EB] premium-card">
+
+<span class="text-sm font-bold text-[#0F766E]">01</span>
+
+<h3 class="mt-5 text-xl font-bold text-[#102A2A]">
+Simple Team Management
+</h3>
+
+<p class="mt-3 text-sm leading-6 text-[#718096]">
+Bring your growing team into one organized workspace.
+</p>
+
+</div>
+
+<div class="reveal from-bottom p-7 rounded-[28px] bg-[#E8F8F7] border border-[#CDEAE7] premium-card">
+
+<span class="text-sm font-bold text-[#0F766E]">02</span>
+
+<h3 class="mt-5 text-xl font-bold text-[#102A2A]">
+Focused Workflows
+</h3>
+
+<p class="mt-3 text-sm leading-6 text-[#718096]">
+Keep projects and tasks moving without scattered tools.
+</p>
+
+</div>
+
+<div class="reveal from-right p-7 rounded-[28px] bg-white border border-[#E5E7EB] premium-card">
+
+<span class="text-sm font-bold text-[#0F766E]">03</span>
+
+<h3 class="mt-5 text-xl font-bold text-[#102A2A]">
+Ready to Scale
+</h3>
+
+<p class="mt-3 text-sm leading-6 text-[#718096]">
+Maintain structure as your organization becomes larger.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+</div>
+
+</section>
+
+<!-- ================= STARTUP CTA ================= -->
+<section class="py-10">
+
+<div class="max-w-7xl mx-auto px-6">
+
+<section data-aos-section>
+
+<div class="reveal from-bottom text-center bg-white border border-[#E5E7EB] rounded-[32px] shadow-sm px-8 py-10">
+
+<h2 class="text-3xl lg:text-4xl font-extrabold text-[#102A2A]">
+Build your startup on a stronger foundation.
+</h2>
+
+<p class="mt-3 text-[#425466]">
+Give your team one place to organize, collaborate and grow.
+</p>
+
+<a href="{% url 'signup' %}"
+class="inline-flex mt-6 px-7 py-3 rounded-xl bg-[#0F766E] text-white font-semibold hover:bg-[#115E59] transition">
+Create Your Workspace
+</a>
+
+</div>
+
+</section>
+
+</div>
+
+</section>
+
+{% endblock %}

@@ -66,3 +66,27 @@ def reports_analytics(request):
         request,
         "corepages/reports_analytics.html"
     )
+
+def solutions(request):
+    return render(request, "corepages/solutions.html")
+
+
+def enterprise_solution(request):
+    return render(request, "corepages/enterprise.html")
+
+
+def startup_solution(request):
+    return render(request, "corepages/startups.html")
+
+
+def education_solution(request):
+    return render(request, "corepages/education.html")
+
+def pricing(request):
+    return render(request, "corepages/pricing.html")
+
+def about(request):
+    return render(request, "corepages/about.html")
+
+def contact(request):
+    return render(request, "corepages/contact.html")
