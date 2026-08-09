@@ -91,7 +91,7 @@ urlpatterns = [
 # ================= NOTIFICATIONS =================
 
 path(
-    'notifications/api/',
+    'notifications/',
     views.get_notifications,
     name='get_notifications'
 ),
@@ -107,6 +107,8 @@ path(
     views.mark_notification_read,
     name='mark_notification_read'
 ),
+<<<<<<< HEAD
+=======
 
 path(
     "team-members/",
@@ -130,4 +132,5 @@ path(
         views.team_detail,
         name="team_detail"
     ),
+>>>>>>> main
 ]
