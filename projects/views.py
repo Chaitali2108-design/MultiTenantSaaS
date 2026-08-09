@@ -119,6 +119,7 @@ def create_project(request):
 
 @login_required(login_url='/accounts/login/')
 def update_project(request, project_id):
+
     user = request.user
 
     project = get_object_or_404(
@@ -128,6 +129,7 @@ def update_project(request, project_id):
     )
 
     if request.method == "POST":
+
         project.name = request.POST.get("name")
         project.description = request.POST.get("description")
         project.status = request.POST.get("status")
@@ -137,17 +139,34 @@ def update_project(request, project_id):
         project.save()
 
         # 🔔 Notification: Project Updated
-        for member in project.members.all():
+        team_members = ProjectMember.objects.filter(
+            team__project=project
+        ).select_related("user")
+
+        # Avoid notifying the same user twice
+        notified_users = set()
+
+        for member in team_members:
+
+            if member.user_id in notified_users:
+                continue
+
+            notified_users.add(member.user_id)
+
             create_notification(
-                 member,
-                 f"Project updated: {project.name}"
+                member.user,
+                f"Project updated: {project.name}"
             )
 
-        return redirect('project_list')
+        return redirect("project_list")
 
-    return render(request, 'projects/update_project.html', {
-        'project': project
-    })
+    return render(
+        request,
+        "projects/update_project.html",
+        {
+            "project": project
+        }
+    )
 
 
 @login_required(login_url='/accounts/login/')
@@ -215,7 +234,7 @@ def create_task(request):
 
         title = request.POST.get("title")
         status = request.POST.get("status") or "todo"
-        priority = request.POST.get("priority") or "medium"
+        priority = request.POST.get("priority")
         due_date = request.POST.get("due_date") or None
 
         reminder_raw = request.POST.get("reminder_date")
@@ -225,6 +244,15 @@ def create_task(request):
             reminder_date = timezone.make_aware(
                 datetime.fromisoformat(reminder_raw)
             )
+
+        if not priority:
+        
+            messages.error(
+                request,
+                "Please select a priority."
+                )
+        
+            return redirect("create_task")
 
         # -----------------------------------------------------
         # DUE DATE
@@ -249,7 +277,8 @@ def create_task(request):
         # -----------------------------------------------------
         # REMINDER
         # -----------------------------------------------------
-
+        
+        
         if reminder_date:
 
             if reminder_date < timezone.now():
@@ -288,6 +317,8 @@ def create_task(request):
             organization=user.organization
         )
 
+        
+
         # -----------------------------------------------------
         # VERIFY ASSIGNED USER IS A TEAM MEMBER
         # -----------------------------------------------------
@@ -313,6 +344,7 @@ def create_task(request):
                 return redirect(
                     f"/projects/tasks/create/?project={project.id}"
                 )
+        
 
         # -----------------------------------------------------
         # DEPENDENCY
@@ -370,7 +402,7 @@ def create_task(request):
     # =========================================================
     # GET
     # =========================================================
-
+    title = request.GET.get("title", "")
     return render(
         request,
         "projects/create_task.html",
@@ -379,6 +411,7 @@ def create_task(request):
             "users": users,
             "tasks": tasks,
             "selected_project": selected_project,
+            "entered_title": title,
         }
     )
 

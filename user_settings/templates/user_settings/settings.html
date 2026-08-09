@@ -1,4 +1,4 @@
-```html
+
 {% extends 'base.html' %}
 
 {% block title %}
@@ -754,7 +754,7 @@ Settings
                 </div>
 
 
-                {% if request.user.role.name == "Owner" or request.user.role.name == "Admin" %}
+                {% if request.user.role.name == "Owner" %}
 
                 <div
                     class="mt-6 flex flex-col

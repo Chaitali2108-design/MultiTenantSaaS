@@ -360,6 +360,7 @@ hover:shadow-[0_22px_50px_rgba(76,170,174,0.17)]
 
                     <a
                         href="{% url 'delete_project' project.id %}"
+                        onclick="return confirm('Are you sure you want to delete this project? This action cannot be undone.');"
                         title="Delete Project"
                         class="flex h-9 w-9 items-center justify-center rounded-xl bg-white/70 text-[#B23C4B] transition hover:bg-white hover:text-[#8F2E3B] hover:shadow-sm"
                     >
