@@ -1,0 +1,793 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Team Details
+{% endblock %}
+
+{% block content %}
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<div class="mx-auto max-w-7xl">
+
+```
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<div class="mb-8">
+
+    <div class="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+
+        <div class="flex items-center gap-4">
+
+            <a
+                href="{% url 'team_members' %}"
+                class="flex h-11 w-11 shrink-0
+                       items-center justify-center
+                       rounded-xl
+                       border border-[#D6E1DF]
+                       bg-white
+                       text-[#536B68]
+                       shadow-sm
+                       transition
+                       hover:bg-[#F1F6F5]
+                       hover:text-[#069494]"
+            >
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+
+
+            <div
+                class="flex h-14 w-14 shrink-0
+                       items-center justify-center
+                       rounded-2xl
+                       bg-[#E6F4F2]
+                       text-[#069494]
+                       border border-[#B9DDD8]"
+            >
+                <i class="fa-solid fa-users text-xl"></i>
+            </div>
+
+
+            <div>
+
+                <div class="flex flex-wrap items-center gap-2">
+
+                    <h1
+                        class="text-3xl font-black
+                               tracking-tight
+                               text-[#183B3A]"
+                    >
+                        {{ team.name }}
+                    </h1>
+
+                    <span
+                        class="inline-flex items-center gap-1.5
+                               rounded-full
+                               bg-[#E1F2E8]
+                               px-3 py-1
+                               text-[10px]
+                               font-black
+                               text-[#28734E]"
+                    >
+                        <span
+                            class="h-1.5 w-1.5
+                                   rounded-full
+                                   bg-[#3C9B6B]"
+                        ></span>
+                        Active
+                    </span>
+
+                </div>
+
+
+                <p class="mt-1 text-sm text-[#718481]">
+
+                    <i class="fa-solid fa-folder mr-1 text-xs"></i>
+
+                    {{ team.project.name }}
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- ADD MEMBERS -->
+
+        <a
+            href="{% url 'add_team_members' team.id %}"
+            class="inline-flex items-center
+                   justify-center gap-2
+                   rounded-xl
+                   bg-[#069494]
+                   px-5 py-3
+                   text-sm font-black
+                   text-white
+                   shadow-[0_9px_22px_rgba(6,148,148,0.18)]
+                   transition-all duration-200
+                   hover:-translate-y-0.5
+                   hover:bg-[#057D7D]"
+        >
+
+            <i class="fa-solid fa-user-plus"></i>
+
+            Add Members
+
+        </a>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     TEAM OVERVIEW
+========================================================= -->
+
+<div
+    class="mb-6 grid gap-4
+           sm:grid-cols-2
+           lg:grid-cols-4"
+>
+
+
+    <!-- PROJECT -->
+
+    <div
+        class="rounded-2xl
+               border border-[#C9D9EA]
+               bg-[#EDF3FA]
+               p-5"
+    >
+
+        <div
+            class="flex h-10 w-10
+                   items-center justify-center
+                   rounded-xl
+                   bg-[#D9E5F3]
+                   text-[#496A91]"
+        >
+            <i class="fa-solid fa-folder"></i>
+        </div>
+
+        <p
+            class="mt-4 text-[10px]
+                   font-black uppercase
+                   tracking-wider
+                   text-[#7186A1]"
+        >
+            Project
+        </p>
+
+        <p
+            class="mt-1 truncate
+                   text-sm font-black
+                   text-[#354A63]"
+        >
+            {{ team.project.name }}
+        </p>
+
+    </div>
+
+
+
+    <!-- MEMBERS -->
+
+    <div
+        class="rounded-2xl
+               border border-[#C7DDD9]
+               bg-[#EAF5F3]
+               p-5"
+    >
+
+        <div
+            class="flex h-10 w-10
+                   items-center justify-center
+                   rounded-xl
+                   bg-[#D4E9E5]
+                   text-[#087F7B]"
+        >
+            <i class="fa-solid fa-users"></i>
+        </div>
+
+        <p
+            class="mt-4 text-[10px]
+                   font-black uppercase
+                   tracking-wider
+                   text-[#66827E]"
+        >
+            Members
+        </p>
+
+        <p
+            class="mt-1 text-2xl
+                   font-black
+                   text-[#294542]"
+        >
+            {{ members|length }}
+        </p>
+
+    </div>
+
+
+
+    <!-- CREATED BY -->
+
+    <div
+        class="rounded-2xl
+               border border-[#D7CBE2]
+               bg-[#F2ECF7]
+               p-5"
+    >
+
+        <div
+            class="flex h-10 w-10
+                   items-center justify-center
+                   rounded-xl
+                   bg-[#E4D9ED]
+                   text-[#76558E]"
+        >
+            <i class="fa-solid fa-user-shield"></i>
+        </div>
+
+        <p
+            class="mt-4 text-[10px]
+                   font-black uppercase
+                   tracking-wider
+                   text-[#857392]"
+        >
+            Created By
+        </p>
+
+        <p
+            class="mt-1 truncate
+                   text-sm font-black
+                   text-[#403451]"
+        >
+
+            {% if team.created_by.first_name %}
+                {{ team.created_by.first_name }}
+                {{ team.created_by.last_name }}
+            {% else %}
+                {{ team.created_by.username }}
+            {% endif %}
+
+        </p>
+
+    </div>
+
+
+
+    <!-- CREATED -->
+
+    <div
+        class="rounded-2xl
+               border border-[#E3D5B9]
+               bg-[#FBF5E8]
+               p-5"
+    >
+
+        <div
+            class="flex h-10 w-10
+                   items-center justify-center
+                   rounded-xl
+                   bg-[#F0E2C5]
+                   text-[#9A7138]"
+        >
+            <i class="fa-solid fa-calendar"></i>
+        </div>
+
+        <p
+            class="mt-4 text-[10px]
+                   font-black uppercase
+                   tracking-wider
+                   text-[#8B7A5E]"
+        >
+            Created
+        </p>
+
+        <p
+            class="mt-1 text-sm
+                   font-black
+                   text-[#57452F]"
+        >
+            {{ team.created_at|date:"d M Y" }}
+        </p>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     MAIN CONTENT
+========================================================= -->
+
+<div
+    class="overflow-hidden
+           rounded-[28px]
+           border border-[#D9E4E2]
+           bg-white
+           shadow-[0_18px_50px_rgba(15,23,42,0.07)]"
+>
+
+
+    <!-- =====================================================
+         MEMBERS HEADER
+    ===================================================== -->
+
+    <div
+        class="flex flex-col gap-4
+               border-b border-[#D9E4E2]
+               bg-[#F6FAF9]
+               px-7 py-6
+               sm:flex-row
+               sm:items-center
+               sm:justify-between"
+    >
+
+        <div>
+
+            <h2
+                class="text-xl font-black
+                       text-[#183B3A]"
+            >
+                Team Members
+            </h2>
+
+            <p
+                class="mt-1 text-sm
+                       text-[#718481]"
+            >
+                People currently assigned to this team.
+            </p>
+
+        </div>
+
+
+        <div
+            class="rounded-full
+                   border border-[#C7DDD9]
+                   bg-[#EAF5F3]
+                   px-4 py-2
+                   text-xs font-black
+                   text-[#087F7B]"
+        >
+
+            {{ members|length }} Member{{ members|length|pluralize }}
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         MEMBERS LIST
+    ===================================================== -->
+
+    <div class="p-7">
+
+
+        {% if members %}
+
+
+            <div class="grid gap-4 lg:grid-cols-2">
+
+
+                {% for membership in members %}
+
+
+                <div
+                    class="group
+                           rounded-2xl
+                           border border-[#D8E5E2]
+                           bg-[#F8FAF9]
+                           p-5
+                           transition-all duration-200
+                           hover:-translate-y-0.5
+                           hover:border-[#B8D5D1]
+                           hover:bg-white
+                           hover:shadow-[0_10px_28px_rgba(15,80,76,0.08)]"
+                >
+
+                    <div class="flex items-center justify-between gap-4">
+
+
+                        <!-- USER -->
+
+                        <div class="flex min-w-0 items-center gap-4">
+
+
+                            <!-- AVATAR -->
+
+                            <div
+                                class="flex h-12 w-12 shrink-0
+                                       items-center justify-center
+                                       rounded-[14px]
+                                       border border-[#DFC4A8]
+                                       bg-[#F2E4D7]
+                                       font-black
+                                       text-[#9A6638]"
+                            >
+
+                                {% if membership.user.first_name %}
+
+                                    {{ membership.user.first_name|first|upper }}
+
+                                {% else %}
+
+                                    {{ membership.user.username|first|upper }}
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- DETAILS -->
+
+                            <div class="min-w-0">
+
+                                <p
+                                    class="truncate
+                                           font-black
+                                           text-[#294542]"
+                                >
+                                    {{ membership.user.username }}
+                                </p>
+
+
+                                <p
+                                    class="mt-1 truncate
+                                           text-xs
+                                           text-[#7A8D89]"
+                                >
+                                    {{ membership.user.email }}
+                                </p>
+
+
+                                {% if membership.user.role %}
+
+                                <p
+                                    class="mt-2 text-[10px]
+                                           font-bold
+                                           text-[#76558E]"
+                                >
+
+                                    <i
+                                        class="fa-solid
+                                               fa-user-shield
+                                               mr-1"
+                                    ></i>
+
+                                    {{ membership.user.role.name }}
+
+                                </p>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- TEAM ROLE -->
+
+                        <div class="shrink-0 text-right">
+
+                            <p
+                                class="text-[9px]
+                                       font-black uppercase
+                                       tracking-wider
+                                       text-[#8A9A97]"
+                            >
+                                Team Role
+                            </p>
+
+
+                            <span
+                                class="mt-1 inline-flex
+                                       rounded-full
+                                       bg-[#DCECEF]
+                                       px-3 py-1.5
+                                       text-[10px]
+                                       font-black
+                                       text-[#327184]"
+                            >
+
+                                {{ membership.team_role }}
+
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+                {% endfor %}
+
+
+            </div>
+
+
+        {% else %}
+
+
+            <!-- =================================================
+                 EMPTY STATE
+            ================================================= -->
+
+            <div
+                class="rounded-[24px]
+                       border border-[#D9E4E2]
+                       bg-[#F6FAF9]
+                       px-6 py-12
+                       text-center"
+            >
+
+                <div
+                    class="mx-auto flex h-16 w-16
+                           items-center justify-center
+                           rounded-2xl
+                           bg-[#E6F4F2]
+                           text-[#069494]"
+                >
+
+                    <i class="fa-solid fa-user-group text-xl"></i>
+
+                </div>
+
+
+                <h3
+                    class="mt-5 text-lg
+                           font-black
+                           text-[#294542]"
+                >
+                    No team members yet
+                </h3>
+
+
+                <p
+                    class="mx-auto mt-2 max-w-md
+                           text-sm leading-6
+                           text-[#718481]"
+                >
+                    Add members to start building this team.
+                </p>
+
+
+                <a
+                    href="{% url 'add_team_members' team.id %}"
+                    class="mt-5 inline-flex
+                           items-center gap-2
+                           rounded-xl
+                           bg-[#069494]
+                           px-5 py-2.5
+                           text-sm font-black
+                           text-white
+                           transition
+                           hover:bg-[#057D7D]"
+                >
+
+                    <i class="fa-solid fa-user-plus"></i>
+
+                    Add Members
+
+                </a>
+
+            </div>
+
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     TEAM INFORMATION
+========================================================= -->
+
+<div
+    class="mt-6 grid gap-4
+           lg:grid-cols-2"
+>
+
+
+    <!-- TEAM DETAILS -->
+
+    <div
+        class="rounded-2xl
+               border border-[#D9E4E2]
+               bg-white
+               p-6
+               shadow-sm"
+    >
+
+        <div class="flex items-center gap-3">
+
+            <div
+                class="flex h-10 w-10
+                       items-center justify-center
+                       rounded-xl
+                       bg-[#E7DEF0]
+                       text-[#76558E]"
+            >
+                <i class="fa-solid fa-circle-info"></i>
+            </div>
+
+            <h3
+                class="font-black
+                       text-[#294542]"
+            >
+                Team Information
+            </h3>
+
+        </div>
+
+
+        <div class="mt-5 space-y-4">
+
+
+            <div
+                class="flex items-center
+                       justify-between gap-4
+                       border-b border-[#E8EEEC]
+                       pb-3"
+            >
+
+                <span class="text-sm text-[#7A8D89]">
+                    Team Name
+                </span>
+
+                <span
+                    class="text-sm font-black
+                           text-[#294542]"
+                >
+                    {{ team.name }}
+                </span>
+
+            </div>
+
+
+            <div
+                class="flex items-center
+                       justify-between gap-4
+                       border-b border-[#E8EEEC]
+                       pb-3"
+            >
+
+                <span class="text-sm text-[#7A8D89]">
+                    Project
+                </span>
+
+                <span
+                    class="text-sm font-black
+                           text-[#496A91]"
+                >
+                    {{ team.project.name }}
+                </span>
+
+            </div>
+
+
+            <div
+                class="flex items-center
+                       justify-between gap-4"
+            >
+
+                <span class="text-sm text-[#7A8D89]">
+                    Created On
+                </span>
+
+                <span
+                    class="text-sm font-black
+                           text-[#294542]"
+                >
+                    {{ team.created_at|date:"d M Y" }}
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- QUICK ACTIONS -->
+
+    <div
+        class="rounded-2xl
+               border border-[#C7DDD9]
+               bg-[#EAF5F3]
+               p-6"
+    >
+
+        <div class="flex items-center gap-3">
+
+            <div
+                class="flex h-10 w-10
+                       items-center justify-center
+                       rounded-xl
+                       bg-[#D4E9E5]
+                       text-[#087F7B]"
+            >
+                <i class="fa-solid fa-bolt"></i>
+            </div>
+
+            <h3
+                class="font-black
+                       text-[#294542]"
+            >
+                Quick Actions
+            </h3>
+
+        </div>
+
+
+        <div class="mt-5 grid gap-3 sm:grid-cols-2">
+
+
+            <a
+                href="{% url 'add_team_members' team.id %}"
+                class="flex items-center gap-3
+                       rounded-xl
+                       border border-[#BBD7D3]
+                       bg-white
+                       p-4
+                       text-sm font-black
+                       text-[#087F7B]
+                       transition
+                       hover:-translate-y-0.5
+                       hover:bg-[#F4FAF9]"
+            >
+
+                <i class="fa-solid fa-user-plus"></i>
+
+                Add Members
+
+            </a>
+
+
+            <a
+                href="{% url 'team_members' %}"
+                class="flex items-center gap-3
+                       rounded-xl
+                       border border-[#C8D5E6]
+                       bg-white
+                       p-4
+                       text-sm font-black
+                       text-[#496A91]
+                       transition
+                       hover:-translate-y-0.5
+                       hover:bg-[#F6F8FC]"
+            >
+
+                <i class="fa-solid fa-list"></i>
+
+                All Teams
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+```
+
+</div>
+
+{% endblock %}

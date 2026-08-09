@@ -1,360 +1,300 @@
 {% extends 'base.html' %}
 
+{% block title %}
+Create Project
+{% endblock %}
+
 {% block content %}
 
+<div class="min-h-screen px-5 py-10">
 
-<style>
+```
+<div class="mx-auto max-w-4xl">
 
+    <!-- ================= HEADER ================= -->
 
-.create-page{
+    <div class="mb-8 overflow-hidden rounded-[30px] border-2 border-[#8FB8D8] bg-gradient-to-br from-[#DCEEFF] via-[#B9D8F0] to-[#8FB8D8] p-8 shadow-[0_20px_50px_rgba(79,125,160,0.16)]">
 
-    padding:25px;
+        <div class="flex items-center gap-5">
 
-}
+            <div class="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl border border-[#739FC3] bg-[#D7EAF8] text-3xl shadow-sm">
+                📁
+            </div>
 
+            <div>
 
+                <p class="text-sm font-black uppercase tracking-[0.2em] text-[#386581]">
+                    Project Management
+                </p>
 
-.form-card{
+                <h1 class="mt-1 text-3xl font-black text-[#243F52] sm:text-4xl">
+                    Create Project
+                </h1>
 
-    max-width:650px;
-    margin:auto;
-    background:white;
-    border:1px solid #e2e8f0;
-    border-radius:12px;
-    padding:30px;
-    box-shadow:0 4px 15px rgba(0,0,0,0.05);
+                <p class="mt-2 text-sm font-medium text-[#486A7D]">
+                    Create a new project and define its basic information.
+                </p>
 
-}
+            </div>
 
+        </div>
 
+    </div>
 
-.form-title{
 
-    font-size:26px;
-    font-weight:700;
-    color:#1e293b;
-    margin-bottom:25px;
-    text-align:center;
+    <!-- ================= FORM CARD ================= -->
 
-}
+    <div class="overflow-hidden rounded-[30px] border-2 border-[#C7D7E5] bg-[#F8FBFF] shadow-[0_20px_55px_rgba(55,90,120,0.12)]">
 
+        <form method="POST">
 
+            {% csrf_token %}
 
-.form-group{
+            <div class="p-7 sm:p-9 lg:p-10">
 
-    margin-bottom:18px;
+                <!-- ================= PROJECT INFORMATION ================= -->
 
-}
+                <div class="mb-9">
 
+                    <div class="mb-6 flex items-center gap-3">
 
+                        <div class="flex h-11 w-11 items-center justify-center rounded-xl border border-[#A8C9E2] bg-[#DCEEFF] text-xl text-[#39729A]">
+                            📋
+                        </div>
 
-.form-group label{
+                        <div>
 
-    display:block;
-    font-size:14px;
-    font-weight:600;
-    color:#334155;
-    margin-bottom:8px;
+                            <h2 class="text-xl font-black text-[#263D4D]">
+                                Project Information
+                            </h2>
 
-}
+                            <p class="text-sm text-[#6B7F8C]">
+                                Enter the basic details of your project.
+                            </p>
 
+                        </div>
 
+                    </div>
 
-.form-control{
 
-    width:100%;
-    padding:12px;
-    border:1px solid #cbd5e1;
-    border-radius:8px;
-    outline:none;
-    font-size:14px;
+                    <!-- PROJECT NAME -->
 
-}
+                    <div class="mb-6">
 
+                        <label
+                            for="project-name"
+                            class="mb-2 block text-sm font-bold text-[#405665]"
+                        >
+                            Project Name
+                        </label>
 
+                        <input
+                            type="text"
+                            id="project-name"
+                            name="name"
+                            placeholder="Enter project name"
+                            required
+                            class="w-full rounded-2xl border-2 border-[#C7DCEB] bg-white px-5 py-3.5 text-sm font-medium text-[#263D4D] outline-none transition placeholder:text-[#91A3AF] hover:border-[#9EC2DD] focus:border-[#5E9BC4] focus:ring-4 focus:ring-[#DCEEFF]"
+                        >
 
-.form-control:focus{
+                    </div>
 
-    border-color:#2563eb;
 
-}
+                    <!-- DESCRIPTION -->
 
+                    <div>
 
+                        <label
+                            for="project-description"
+                            class="mb-2 block text-sm font-bold text-[#405665]"
+                        >
+                            Description
+                        </label>
 
+                        <textarea
+                            id="project-description"
+                            name="description"
+                            rows="5"
+                            placeholder="Enter project description"
+                            class="w-full resize-none rounded-2xl border-2 border-[#C7DCEB] bg-white px-5 py-3.5 text-sm font-medium text-[#263D4D] outline-none transition placeholder:text-[#91A3AF] hover:border-[#9EC2DD] focus:border-[#5E9BC4] focus:ring-4 focus:ring-[#DCEEFF]"
+                        ></textarea>
 
-.form-row{
+                    </div>
 
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:15px;
+                </div>
 
-}
 
+                <!-- ================= STATUS & PRIORITY ================= -->
 
+                <div class="mb-9 border-t-2 border-[#D9E6EF] pt-8">
 
+                    <div class="mb-6 flex items-center gap-3">
 
-.create-btn{
+                        <div class="flex h-11 w-11 items-center justify-center rounded-xl border border-[#B8DCCF] bg-[#DDF4EA] text-xl text-[#3D856D]">
+                            ⚙️
+                        </div>
 
-    width:100%;
-    background:#2563eb;
-    color:white;
-    padding:12px;
-    border:none;
-    border-radius:8px;
-    font-weight:600;
-    cursor:pointer;
-    font-size:15px;
+                        <div>
 
-}
+                            <h2 class="text-xl font-black text-[#263D4D]">
+                                Project Settings
+                            </h2>
 
+                            <p class="text-sm text-[#6B7F8C]">
+                                Set the current status and priority.
+                            </p>
 
+                        </div>
 
-.create-btn:hover{
+                    </div>
 
-    background:#1d4ed8;
 
-}
+                    <div class="grid gap-6 md:grid-cols-2">
 
+                        <!-- STATUS -->
 
+                        <div>
 
+                            <label
+                                for="status"
+                                class="mb-2 block text-sm font-bold text-[#405665]"
+                            >
+                                Status
+                            </label>
 
-@media(max-width:700px){
+                            <select
+                                id="status"
+                                name="status"
+                                class="w-full rounded-2xl border-2 border-[#BFDCD3] bg-[#F8FFFC] px-5 py-3.5 text-sm font-semibold text-[#365B50] outline-none transition hover:border-[#8EC2B1] focus:border-[#4D9A81] focus:ring-4 focus:ring-[#DDF4EA]"
+                            >
 
-.form-row{
+                                <option value="todo">
+                                    ⏳ To Do
+                                </option>
 
-    grid-template-columns:1fr;
+                                <option value="progress">
+                                    🔄 In Progress
+                                </option>
 
-}
+                                <option value="done">
+                                    ✓ Done
+                                </option>
 
-}
+                            </select>
 
+                        </div>
 
-</style>
 
+                        <!-- PRIORITY -->
 
+                        <div>
 
+                            <label
+                                for="priority"
+                                class="mb-2 block text-sm font-bold text-[#405665]"
+                            >
+                                Priority
+                            </label>
 
+                            <select
+                                id="priority"
+                                name="priority"
+                                class="w-full rounded-2xl border-2 border-[#E2C9A4] bg-[#FFFDF7] px-5 py-3.5 text-sm font-semibold text-[#725B38] outline-none transition hover:border-[#D3AD72] focus:border-[#C58A36] focus:ring-4 focus:ring-[#F8EBCF]"
+                            >
 
-<div class="create-page">
+                                <option value="low">
+                                    🟢 Low
+                                </option>
 
+                                <option value="medium">
+                                    🟠 Medium
+                                </option>
 
+                                <option value="high">
+                                    🔴 High
+                                </option>
 
-<div class="form-card">
+                            </select>
 
+                        </div>
 
+                    </div>
 
-<h2 class="form-title">
+                </div>
 
-Create Project
 
-</h2>
+                <!-- ================= DEADLINE ================= -->
 
+                <div class="border-t-2 border-[#D9E6EF] pt-8">
 
+                    <div class="mb-6 flex items-center gap-3">
 
+                        <div class="flex h-11 w-11 items-center justify-center rounded-xl border border-[#D3B7DF] bg-[#EDE0F4] text-xl text-[#78518C]">
+                            📅
+                        </div>
 
+                        <div>
 
-<form method="POST">
+                            <h2 class="text-xl font-black text-[#263D4D]">
+                                Deadline
+                            </h2>
 
+                            <p class="text-sm text-[#6B7F8C]">
+                                Set an optional due date for the project.
+                            </p>
 
-{% csrf_token %}
+                        </div>
 
+                    </div>
 
 
+                    <label
+                        for="due-date"
+                        class="mb-2 block text-sm font-bold text-[#405665]"
+                    >
+                        Due Date
+                    </label>
 
+                    <input
+                        type="date"
+                        id="due-date"
+                        name="due_date"
+                        class="w-full rounded-2xl border-2 border-[#D3B7DF] bg-[#FCF9FF] px-5 py-3.5 text-sm font-medium text-[#4D4055] outline-none transition hover:border-[#B991CB] focus:border-[#9360A8] focus:ring-4 focus:ring-[#EDE0F4]"
+                    >
 
+                </div>
 
-<div class="form-group">
+            </div>
 
 
-<label>
-Project Name
-</label>
+            <!-- ================= FOOTER ================= -->
 
+            <div class="flex flex-col gap-3 border-t-2 border-[#C8D9E5] bg-gradient-to-r from-[#EEF6FB] via-[#E8F3F8] to-[#EDF8F4] px-7 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-10">
 
-<input
+                <a
+                    href="{% url 'project_list' %}"
+                    class="rounded-2xl border-2 border-[#C5D5E0] bg-white px-7 py-3 text-center text-sm font-bold text-[#5C7180] transition hover:border-[#91B4CB] hover:bg-[#F2F8FC] hover:text-[#386581]"
+                >
+                    Cancel
+                </a>
 
-type="text"
 
-name="name"
+                <button
+                    type="submit"
+                    class="rounded-2xl border-2 border-[#3E718C] bg-[#4F8EAD] px-8 py-3.5 text-sm font-black text-white shadow-lg shadow-[#6DABC4]/25 transition hover:-translate-y-0.5 hover:border-[#315F78] hover:bg-[#3F7E9D] hover:shadow-xl"
+                >
+                    ＋ Create Project
+                </button>
 
-placeholder="Enter project name"
+            </div>
 
-class="form-control"
+        </form>
 
-required>
-
+    </div>
 
 </div>
-
-
-
-
-
-
-
-<div class="form-group">
-
-
-<label>
-Description
-</label>
-
-
-<textarea
-
-name="description"
-
-placeholder="Enter project description"
-
-rows="4"
-
-class="form-control"></textarea>
-
+```
 
 </div>
-
-
-
-
-
-
-
-
-<div class="form-row">
-
-
-
-<div class="form-group">
-
-
-<label>
-Status
-</label>
-
-
-<select name="status" class="form-control">
-
-
-<option value="todo">
-To Do
-</option>
-
-
-<option value="progress">
-In Progress
-</option>
-
-
-<option value="done">
-Done
-</option>
-
-
-
-</select>
-
-
-</div>
-
-
-
-
-
-
-
-<div class="form-group">
-
-
-<label>
-Priority
-</label>
-
-
-<select name="priority" class="form-control">
-
-
-<option value="low">
-Low
-</option>
-
-
-<option value="medium">
-Medium
-</option>
-
-
-<option value="high">
-High
-</option>
-
-
-
-</select>
-
-
-</div>
-
-
-
-</div>
-
-
-
-
-
-
-
-
-
-<div class="form-group">
-
-
-<label>
-Due Date
-</label>
-
-
-<input
-
-type="date"
-
-name="due_date"
-
-class="form-control">
-
-
-</div>
-
-
-
-
-
-
-
-
-<button type="submit" class="create-btn">
-
-
-Create Project
-
-
-</button>
-
-
-
-
-
-</form>
-
-
-
-
-</div>
-
-
-
-</div>
-
-
 
 {% endblock %}

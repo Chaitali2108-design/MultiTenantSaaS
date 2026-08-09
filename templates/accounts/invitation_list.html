@@ -1,505 +1,370 @@
 {% extends "base.html" %}
 
+{% block title %}
+Invitations
+{% endblock %}
+
 {% block content %}
 
-<script src="https://cdn.tailwindcss.com"></script>
+<div class="mx-auto max-w-7xl">
+
+```
+<!-- ================= HEADER ================= -->
+
+<div class="mb-8 overflow-hidden rounded-[30px] border-2 border-[#6B4A5A] bg-gradient-to-br from-[#DDF5F1] via-[#7BCDC3] to-[#249D8F] p-8 shadow-[0_18px_45px_rgba(76,52,65,0.14)]">
+
+    <div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+
+        <div>
+
+            <div class="mb-3 flex items-center gap-3">
+
+                <!-- HEADER ICON -->
+
+                <div class="flex h-12 w-12 items-center justify-center rounded-2xl border border-[#C9A5B5] bg-[#F2D6C7] text-2xl text-[#7B4550] shadow-sm">
+                    ✉️
+                </div>
+
+                <p class="text-sm font-black uppercase tracking-[0.18em] text-[#5D3C4D]">
+                    Organization Management
+                </p>
+
+            </div>
+
+            <h1 class="text-3xl font-black text-[#4B3540] sm:text-4xl">
+                Invitations
+            </h1>
+
+            <p class="mt-3 max-w-2xl text-sm leading-6 text-[#4F625E]">
+                Manage organization invitations and track their current status.
+            </p>
+
+        </div>
 
 
-<div class="min-h-screen bg-slate-50 py-10 px-6">
+        <!-- INVITE USER -->
 
+        <a
+            href="#"
+            class="inline-flex items-center justify-center gap-2 rounded-2xl border-2 border-[#573647] bg-[#6B4358] px-7 py-3.5 text-sm font-black text-white shadow-lg shadow-[#573647]/20 transition duration-200 hover:-translate-y-0.5 hover:border-[#482B3A] hover:bg-[#59364A] hover:shadow-xl"
+        >
 
-<div class="max-w-7xl mx-auto">
+            <span class="text-xl">
+                ＋
+            </span>
 
+            Invite User
 
+        </a>
 
-<div class="
-bg-white
-rounded-3xl
-border
-border-slate-200
-shadow-xl
-overflow-hidden
-">
-
-
-
-<!-- Header -->
-
-<div class="
-px-8
-py-6
-border-b
-border-slate-200
-flex
-justify-between
-items-center
-">
-
-
-<div>
-
-<h1 class="
-text-3xl
-font-extrabold
-text-slate-900
-">
-
-Invitations
-
-</h1>
-
-
-<p class="
-text-slate-500
-mt-2
-">
-
-Manage organization invitations.
-
-</p>
-
+    </div>
 
 </div>
 
 
+<!-- ================= TABLE ================= -->
 
-<a
-href="{% url 'create_invitation' %}"
-class="
-px-5
-py-3
-rounded-xl
-bg-indigo-600
-hover:bg-indigo-700
-text-white
-font-semibold
-shadow-lg
-transition
-">
+<div class="overflow-hidden rounded-[30px] border-2 border-[#BFA7B2] bg-white shadow-[0_15px_45px_rgba(76,52,65,0.10)]">
 
-+ Invite User
+    <!-- ================= TABLE HEADER ================= -->
 
-</a>
+    <div class="hidden border-b-2 border-[#9A7183] bg-gradient-to-br from-[#FCE8E8] via-[#F3A6A6] to-[#EA7B7B] px-6 py-5 lg:grid lg:grid-cols-[2fr_1fr_1fr_1.2fr_1.4fr] lg:items-center lg:gap-5">
+
+        <p class="text-xs font-black uppercase tracking-wider text-[#563C4A]">
+            Email
+        </p>
+
+        <p class="text-xs font-black uppercase tracking-wider text-[#563C4A]">
+            Role
+        </p>
+
+        <p class="text-xs font-black uppercase tracking-wider text-[#563C4A]">
+            Created
+        </p>
+
+        <p class="text-xs font-black uppercase tracking-wider text-[#563C4A]">
+            Status
+        </p>
+
+        <p class="text-right text-xs font-black uppercase tracking-wider text-[#563C4A]">
+            Actions
+        </p>
+
+    </div>
 
 
+    <!-- ================= INVITATION ROWS ================= -->
+
+    {% for invitation in invitations %}
+
+    <div
+        class="
+        invitation-row border-b px-6 py-5 transition duration-200
+
+        {% if forloop.counter|divisibleby:4 %}
+            border-[#C8DED0] bg-[#DCEFE4] hover:bg-[#D3E8DC]
+        {% elif forloop.counter|divisibleby:3 %}
+            border-[#E8CBB9] bg-[#F9E1D2] hover:bg-[#F3D6C4]
+        {% elif forloop.counter|divisibleby:2 %}
+            border-[#C9DCEB] bg-[#DDEBF5] hover:bg-[#D3E4F0]
+        {% else %}
+            border-[#DCCDE5] bg-[#E9DDF0] hover:bg-[#E1D3E9]
+        {% endif %}
+
+        {% if forloop.counter > 7 %}
+            hidden
+        {% endif %}
+        "
+    >
+
+        <div class="grid gap-5 lg:grid-cols-[2fr_1fr_1fr_1.2fr_1.4fr] lg:items-center lg:gap-5">
+
+            <!-- ================= EMAIL ================= -->
+
+            <div class="flex items-center gap-3">
+
+                <div
+                    class="
+                    flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-lg shadow-sm ring-1
+
+                    {% if forloop.counter|divisibleby:4 %}
+                        bg-[#BBDAC8] text-[#477A5D] ring-[#9FC9AF]
+                    {% elif forloop.counter|divisibleby:3 %}
+                        bg-[#F0C5AE] text-[#A45F43] ring-[#DFA98F]
+                    {% elif forloop.counter|divisibleby:2 %}
+                        bg-[#BDD5E6] text-[#527B99] ring-[#9FBFD5]
+                    {% else %}
+                        bg-[#D2C0DE] text-[#765C88] ring-[#BDA6CE]
+                    {% endif %}
+                    "
+                >
+                    ✉
+                </div>
+
+                <div class="min-w-0">
+
+                    <p class="truncate text-sm font-bold text-[#403A36]">
+                        {{ invitation.email }}
+                    </p>
+
+                    <p class="mt-1 text-xs text-[#81756E]">
+                        Invitation #{{ invitation.id }}
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= ROLE ================= -->
+
+            <div>
+
+                <p class="mb-1 text-[10px] font-black uppercase tracking-wider text-[#7B6270] lg:hidden">
+                    Role
+                </p>
+
+                {% if invitation.role %}
+
+                <span class="inline-flex rounded-full border border-[#C9AAB9] bg-[#E8D9E1] px-3 py-1 text-xs font-bold text-[#68495A]">
+                    {{ invitation.role.name }}
+                </span>
+
+                {% else %}
+
+                <span class="text-sm font-semibold text-[#94877F]">
+                    No Role
+                </span>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- ================= CREATED ================= -->
+
+            <div>
+
+                <p class="mb-1 text-[10px] font-black uppercase tracking-wider text-[#7B6270] lg:hidden">
+                    Created
+                </p>
+
+                <p class="text-sm font-semibold text-[#625851]">
+                    {{ invitation.created_at|date:"d M Y" }}
+                </p>
+
+            </div>
+
+
+            <!-- ================= STATUS ================= -->
+
+            <div>
+
+                <p class="mb-1 text-[10px] font-black uppercase tracking-wider text-[#7B6270] lg:hidden">
+                    Status
+                </p>
+
+                {% if invitation.status == "Pending" %}
+
+                <span class="inline-flex items-center gap-1.5 rounded-full border border-[#E2B96F] bg-[#F8E9C8] px-3 py-1.5 text-xs font-black text-[#9A6C22]">
+                    🟡 Pending
+                </span>
+
+                {% elif invitation.status == "Accepted" %}
+
+                <span class="inline-flex items-center gap-1.5 rounded-full border border-[#91C5A2] bg-[#DDF0E3] px-3 py-1.5 text-xs font-black text-[#477A5B]">
+                    🟢 Accepted
+                </span>
+
+                {% else %}
+
+                <span class="inline-flex items-center gap-1.5 rounded-full border border-[#D99A96] bg-[#F6DAD8] px-3 py-1.5 text-xs font-black text-[#A6534F]">
+                    🔴 Expired
+                </span>
+
+                {% endif %}
+
+                {% if not invitation.is_accepted %}
+
+                <p class="mt-2 text-xs text-[#85766D]">
+                    Expires {{ invitation.expires_at|date:"d M Y" }}
+                </p>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- ================= ACTIONS ================= -->
+
+            <div class="flex flex-wrap gap-2 lg:justify-end">
+
+                {% if invitation.status == "Pending" %}
+
+                <a
+                    href="#"
+                    class="rounded-xl border border-[#D6B37C] bg-[#F4E1BD] px-3 py-2 text-xs font-black text-[#805C25] transition hover:border-[#BC9558] hover:bg-[#EACF9F]"
+                >
+                    ↻ Resend
+                </a>
+
+                {% elif invitation.status == "Accepted" %}
+
+                <a
+                    href="#"
+                    class="rounded-xl border border-[#8FBFA0] bg-[#DCEEE2] px-3 py-2 text-xs font-black text-[#4D7D5D] transition hover:border-[#6FA685] hover:bg-[#CDE5D5]"
+                >
+                    👁 View
+                </a>
+
+                {% else %}
+
+                <a
+                    href="#"
+                    class="rounded-xl border border-[#C7A9D1] bg-[#E9DDF0] px-3 py-2 text-xs font-black text-[#735B82] transition hover:border-[#AF8FBA] hover:bg-[#DDCCE6]"
+                >
+                    ↻ Regenerate
+                </a>
+
+                {% endif %}
+
+
+                {% if not invitation.is_accepted %}
+
+                <a
+                    href="{% url 'delete_invitation' invitation.id %}"
+                    class="rounded-xl border border-[#D99A96] bg-[#F5D9D6] px-3 py-2 text-xs font-black text-[#A4514B] transition hover:border-[#C77C77] hover:bg-[#EEC9C5]"
+                >
+                    🗑 Delete
+                </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    {% empty %}
+
+    <!-- ================= EMPTY STATE ================= -->
+
+    <div class="px-6 py-16 text-center">
+
+        <div class="mx-auto flex h-20 w-20 items-center justify-center rounded-3xl border-2 border-[#C9A5B5] bg-[#F2D6C7] text-4xl text-[#7B4550]">
+            ✉️
+        </div>
+
+        <h2 class="mt-6 text-2xl font-black text-[#4B3540]">
+            No Invitations Found
+        </h2>
+
+        <p class="mx-auto mt-2 max-w-md text-sm text-[#81756E]">
+            There are currently no organization invitations.
+        </p>
+
+    </div>
+
+    {% endfor %}
 
 </div>
 
 
-
-
-
-<div class="overflow-x-auto">
-
-
-<table class="w-full text-left">
-
-
-
-<thead class="bg-slate-50">
-
-
-<tr class="text-slate-500 text-sm">
-
-
-<th class="px-6 py-4">
-Email
-</th>
-
-
-<th class="px-6 py-4">
-Role
-</th>
-
-
-<th class="px-6 py-4">
-Created
-</th>
-
-
-<th class="px-6 py-4">
-Status
-</th>
-
-<th class="px-6 py-4">
-Expiry Date
-</th>
-
-
-<th class="px-6 py-4">
-Action
-</th>
-
-
-</tr>
-
-
-</thead>
-
-
-
-
-
-<tbody>
-
-
-{% for invitation in invitations %}
-
-<tr
-class="
-border-t
-border-slate-200
-hover:bg-slate-50
-transition
-{% if forloop.counter > 7 %}extra-row hidden{% endif %}
-">
-
-
-
-<td class="px-6 py-5 font-semibold text-slate-800">
-
-{{ invitation.email }}
-
-</td>
-
-
-
-
-
-<td class="px-6 py-5">
-
-
-{% if invitation.role %}
-
-<span class="
-px-3
-py-1
-rounded-full
-bg-indigo-100
-text-indigo-700
-text-sm
-font-semibold
-">
-
-{{ invitation.role.name }}
-
-</span>
-
-
-{% else %}
-
-<span class="
-text-slate-400
-">
-
-No Role
-
-</span>
-
-{% endif %}
-
-
-</td>
-
-
-
-
-
-
-<td class="px-6 py-5 text-slate-600">
-
-{{ invitation.created_at|date:"d M Y" }}
-
-</td>
-
-
-
-
-
-
-
-<td class="px-6 py-5">
-
-
-
-{% if invitation.status == "Pending" %}
-
-
-<span class="
-px-3
-py-1
-rounded-full
-bg-amber-100
-text-amber-700
-border
-border-amber-200
-text-sm
-font-semibold
-">
-
-🟡 Pending
-
-</span>
-
-
-
-
-{% elif invitation.status == "Accepted" %}
-
-
-
-<span class="
-px-3
-py-1
-rounded-full
-bg-emerald-100
-text-emerald-700
-border
-border-emerald-200
-text-sm
-font-semibold
-">
-
-🟢 Accepted
-
-</span>
-
-
-
-
-{% else %}
-
-
-
-<span class="
-px-3
-py-1
-rounded-full
-bg-red-100
-text-red-700
-border
-border-red-200
-text-sm
-font-semibold
-">
-
-🔴 Expired
-
-</span>
-
-
-
-{% endif %}
-
-
-</td>
-
-
-<td class="px-6 py-4 text-sm text-slate-600">
-
-{% if invitation.is_accepted %}
-
-<span class="text-green-600 font-semibold">
-Accepted
-</span>
-
-{% else %}
-
-{{ invitation.expires_at|date:"d M Y" }}
-
-{% endif %}
-
-</td>
-
-
-
-<td class="px-6 py-5">
-
-
-
-{% if invitation.status == "Pending" %}
-
-
-<a
-href="{% url 'resend_invitation' invitation.id %}"
-class="
-px-4 py-2 rounded-lg
-bg-cyan-600
-hover:bg-cyan-700
-text-white
-text-sm
-font-semibold
-">
-Resend
-</a>
-
-
-
-{% elif invitation.status == "Accepted" %}
-
-
-
-<a
-href="{% url 'view_invited_user' invitation.id %}"
-class="
-px-4 py-2 rounded-lg
-bg-emerald-600
-hover:bg-emerald-700
-text-white
-text-sm
-font-semibold
-">
-View
-</a>
-
-
-
-
-{% else %}
-
-
-
-<a
-href="{% url 'regenerate_invitation' invitation.id %}"
-class="
-px-4 py-2 rounded-lg
-bg-orange-600
-hover:bg-orange-700
-text-white
-text-sm
-font-semibold
-">
-Regenerate
-</a>
-
-
-
-{% endif %}
-
-{% if not invitation.is_accepted %}
-
-<a
-href="{% url 'delete_invitation' invitation.id %}"
-class="px-3 py-2 rounded-lg bg-red-100 text-red-700 hover:bg-red-200"
->
-Delete
-</a>
-
-{% endif %}
-
-
-</td>
-
-
-
-
-
-
-</tr>
-
-
-</tr>
-
-{% empty %}
-
-
-
-<tr>
-
-<td colspan="5"
-class="
-px-6
-py-10
-text-center
-text-slate-500
-">
-
-No invitations found.
-
-</td>
-
-
-</tr>
-
-
-{% endfor %}
-
-
-
-</tbody>
-
-
-</table>
+<!-- ================= SHOW ALL ================= -->
 
 {% if total_invitations > 7 %}
 
-<div class="flex justify-center mt-8">
+<div class="mt-6 flex justify-center">
 
-<button
-id="toggleButton"
-onclick="toggleRows()"
-class="
-px-6
-py-3
-rounded-xl
-bg-violet-100
-text-violet-700
-font-semibold
-hover:bg-violet-200
-transition
-"
->
-
-▼ Show All Invitations
-
-</button>
+    <button
+        id="toggleButton"
+        onclick="toggleRows()"
+        class="rounded-xl border-2 border-[#8B5A70] bg-[#249D8F] px-7 py-3 font-bold text-white transition duration-200 hover:-translate-y-0.5 hover:border-[#70465A] hover:bg-[#C99EB3] hover:text-[#452C39] hover:shadow-lg"
+    >
+        ▼ Show All Invitations
+    </button>
 
 </div>
 
 {% endif %}
-
-
-</div>
-
-
-
-
-</div>
-
-
-</div>
-
+```
 
 </div>
 
 <script>
 
-let expanded = false;
+function toggleRows() {
 
-function toggleRows(){
+    const rows = document.querySelectorAll(".invitation-row");
+    const button = document.getElementById("toggleButton");
 
-const rows = document.querySelectorAll(".extra-row");
+    const hiddenRows = Array.from(rows).filter(function(row) {
+        return row.classList.contains("hidden");
+    });
 
-const button = document.getElementById("toggleButton");
+    if (hiddenRows.length > 0) {
 
-expanded = !expanded;
+        hiddenRows.forEach(function(row) {
+            row.classList.remove("hidden");
+        });
 
-rows.forEach(row => {
+        button.innerHTML = "▲ Show Less Invitations";
 
-    row.classList.toggle("hidden");
+    } else {
 
-});
+        rows.forEach(function(row, index) {
 
-if(expanded){
+            if (index >= 7) {
+                row.classList.add("hidden");
+            }
 
-    button.innerHTML = "▲ Show Less";
+        });
 
-}
-else{
+        button.innerHTML = "▼ Show All Invitations";
 
-    button.innerHTML = "▼ Show All Invitations";
-
-}
+    }
 
 }
 

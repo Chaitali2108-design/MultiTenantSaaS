@@ -1,0 +1,622 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Add Team Members
+{% endblock %}
+
+{% block content %}
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+
+<div class="mx-auto max-w-6xl">
+
+
+    <!-- =========================================================
+         HEADER
+    ========================================================= -->
+
+    <div class="mb-8">
+
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+
+            <div class="flex items-center gap-4">
+
+                <div
+                    class="flex h-14 w-14 shrink-0 items-center justify-center
+                           rounded-2xl
+                           border border-[#B9DDD8]
+                           bg-[#E6F4F2]
+                           text-[#069494]
+                           shadow-[0_8px_20px_rgba(6,148,148,0.08)]"
+                >
+                    <i class="fa-solid fa-user-plus text-xl"></i>
+                </div>
+
+                <div>
+
+                    <h1 class="text-3xl font-black tracking-tight text-[#183B3A]">
+                        Add Team Members
+                    </h1>
+
+                    <p class="mt-1 text-sm text-[#718481]">
+                        Add new members to
+                        <span class="font-black text-[#294542]">
+                            {{ team.name }}
+                        </span>
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Team status -->
+
+            <div
+                class="inline-flex w-fit items-center gap-2
+                       rounded-full
+                       border border-[#BBDCC8]
+                       bg-[#E1F2E8]
+                       px-4 py-2
+                       text-xs font-black
+                       text-[#28734E]"
+            >
+
+                <span class="h-2 w-2 rounded-full bg-[#3C9B6B]"></span>
+
+                Active Team
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================================
+         TEAM INFORMATION
+    ========================================================= -->
+
+    <div
+        class="relative mb-6 overflow-hidden
+               rounded-[26px]
+               border border-[#C5D3E8]
+               bg-[#E8EEF9]
+               p-6
+               shadow-[0_12px_32px_rgba(73,106,145,0.08)]"
+    >
+
+        <!-- Decorative shape -->
+
+        <div
+            class="absolute -right-12 -top-12
+                   h-32 w-32 rounded-full
+                   bg-[#D2DFF0]/70"
+        ></div>
+
+
+        <div
+            class="relative flex flex-col gap-5
+                   sm:flex-row sm:items-center sm:justify-between"
+        >
+
+            <div class="flex items-center gap-4">
+
+                <div
+                    class="flex h-14 w-14 shrink-0
+                           items-center justify-center
+                           rounded-2xl
+                           bg-[#D2DFF0]
+                           text-[#496A91]"
+                >
+                    <i class="fa-solid fa-users text-lg"></i>
+                </div>
+
+
+                <div>
+
+                    <p
+                        class="text-[11px] font-black uppercase
+                               tracking-[0.14em]
+                               text-[#7186A1]"
+                    >
+                        Team
+                    </p>
+
+                    <p
+                        class="mt-1 text-xl font-black
+                               text-[#354A63]"
+                    >
+                        {{ team.name }}
+                    </p>
+
+                    <div
+                        class="mt-1 flex items-center gap-2
+                               text-sm text-[#71809A]"
+                    >
+
+                        <i class="fa-solid fa-folder text-xs"></i>
+
+                        {{ team.project.name }}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Team creator -->
+
+            <div
+                class="rounded-xl
+                       border border-[#C8D5E6]
+                       bg-white/70
+                       px-4 py-3"
+            >
+
+                <p
+                    class="text-[10px] font-black uppercase
+                           tracking-wider text-[#8797AA]"
+                >
+                    Created by
+                </p>
+
+                <p class="mt-1 text-sm font-black text-[#435A73]">
+
+                    {% if team.created_by.first_name %}
+                        {{ team.created_by.first_name }}
+                        {{ team.created_by.last_name }}
+                    {% else %}
+                        {{ team.created_by.username }}
+                    {% endif %}
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================================
+         FORM
+    ========================================================= -->
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+
+        <div
+            class="overflow-hidden
+                   rounded-[28px]
+                   border border-[#D9E4E2]
+                   bg-white
+                   shadow-[0_18px_50px_rgba(15,23,42,0.07)]"
+        >
+
+
+            <!-- =================================================
+                 MEMBERS HEADER
+            ================================================= -->
+
+            <div
+                class="border-b border-[#D9C8E4]
+                       bg-[#F3EAF8]
+                       px-7 py-6"
+            >
+
+                <div class="flex items-center gap-4">
+
+                    <div
+                        class="flex h-11 w-11 shrink-0
+                               items-center justify-center
+                               rounded-xl
+                               bg-[#E5D7ED]
+                               text-[#76558E]"
+                    >
+                        <i class="fa-solid fa-user-group"></i>
+                    </div>
+
+
+                    <div>
+
+                        <h2
+                            class="text-xl font-black
+                                   text-[#403451]"
+                        >
+                            Available Members
+                        </h2>
+
+                        <p
+                            class="mt-1 text-sm
+                                   text-[#796D82]"
+                        >
+                            Select the organization users
+                            you want to add to this team.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 USERS
+            ================================================= -->
+
+            <div class="p-7">
+
+
+                {% if available_users %}
+
+
+                    <div class="space-y-3">
+
+
+                        {% for user in available_users %}
+
+
+                        <label
+                            class="group flex cursor-pointer
+                                   items-center justify-between
+                                   gap-5
+                                   rounded-2xl
+                                   border border-[#DDD4E5]
+                                   bg-[#F8F6FB]
+                                   p-4
+                                   transition-all duration-200
+
+                                   hover:-translate-y-0.5
+                                   hover:border-[#C8B5D5]
+                                   hover:bg-[#F1EBF6]
+                                   hover:shadow-[0_10px_26px_rgba(118,85,142,0.10)]
+
+                                   has-[:checked]:border-[#069494]
+                                   has-[:checked]:bg-[#E3F4EF]
+                                   has-[:checked]:shadow-[0_8px_24px_rgba(6,148,148,0.12)]"
+                        >
+
+
+                            <!-- USER -->
+
+                            <div class="flex min-w-0 items-center gap-4">
+
+
+                                <!-- Avatar -->
+
+                                <div
+                                    class="flex h-12 w-12 shrink-0
+                                           items-center justify-center
+                                           rounded-[14px]
+                                           border border-[#DFC4A8]
+                                           bg-[#F2E4D7]
+                                           font-black
+                                           text-[#9A6638]
+                                           transition-all duration-200
+
+                                           group-has-[:checked]:border-[#9BCFC7]
+                                           group-has-[:checked]:bg-[#D7EEE9]
+                                           group-has-[:checked]:text-[#087F7B]"
+                                >
+
+                                    {% if user.first_name %}
+
+                                        {{ user.first_name|first|upper }}
+
+                                    {% else %}
+
+                                        {{ user.username|first|upper }}
+
+                                    {% endif %}
+
+                                </div>
+
+
+
+                                <!-- USER DETAILS -->
+
+                                <div class="min-w-0">
+
+                                    <div class="flex flex-wrap items-center gap-2">
+
+                                        <p
+                                            class="truncate
+                                                   font-black
+                                                   text-[#403451]"
+                                        >
+                                            {{ user.username }}
+                                        </p>
+
+
+                                        <!-- Active badge -->
+
+                                        <span
+                                            class="inline-flex items-center gap-1
+                                                   rounded-full
+                                                   bg-[#E1F2E8]
+                                                   px-2 py-1
+                                                   text-[9px] font-black
+                                                   text-[#28734E]"
+                                        >
+
+                                            <span
+                                                class="h-1.5 w-1.5
+                                                       rounded-full
+                                                       bg-[#3C9B6B]"
+                                            ></span>
+
+                                            Active
+
+                                        </span>
+
+                                    </div>
+
+
+                                    <p
+                                        class="mt-1 truncate
+                                               text-xs
+                                               text-[#7A7480]"
+                                    >
+                                        {{ user.email }}
+                                    </p>
+
+
+                                    {% if user.role %}
+
+                                    <span
+                                        class="mt-2 inline-flex
+                                               items-center
+                                               rounded-full
+                                               border border-[#D5C6E2]
+                                               bg-[#E9E1F3]
+                                               px-2.5 py-1
+                                               text-[10px]
+                                               font-black
+                                               text-[#76558E]"
+                                    >
+
+                                        <i class="fa-solid fa-user-shield mr-1.5"></i>
+
+                                        {{ user.role.name }}
+
+                                    </span>
+
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- CHECKBOX -->
+
+                            <input
+                                type="checkbox"
+                                name="members"
+                                value="{{ user.id }}"
+                                class="h-5 w-5 shrink-0
+                                       cursor-pointer
+                                       rounded-md
+                                       border-2
+                                       border-[#B9C8D8]
+                                       bg-white
+                                       text-[#069494]
+                                       accent-[#069494]
+                                       focus:ring-2
+                                       focus:ring-[#069494]/20"
+                            >
+
+
+                        </label>
+
+
+                        {% endfor %}
+
+
+                    </div>
+
+
+                {% else %}
+
+
+                    <!-- =================================================
+                         NO USERS
+                    ================================================= -->
+
+                    <div
+                        class="rounded-[22px]
+                               border border-[#E9D5A8]
+                               bg-[#FFF4DF]
+                               p-10
+                               text-center"
+                    >
+
+                        <div
+                            class="mx-auto flex h-14 w-14
+                                   items-center justify-center
+                                   rounded-2xl
+                                   bg-[#F4E5C4]
+                                   text-[#9A7138]"
+                        >
+
+                            <i class="fa-solid fa-user-check text-xl"></i>
+
+                        </div>
+
+
+                        <h3
+                            class="mt-5 text-lg font-black
+                                   text-[#57452F]"
+                        >
+                            No additional members available
+                        </h3>
+
+
+                        <p
+                            class="mx-auto mt-2 max-w-md
+                                   text-sm leading-6
+                                   text-[#806F58]"
+                        >
+                            All active organization users are already
+                            members of this team.
+                        </p>
+
+                    </div>
+
+
+                {% endif %}
+
+
+
+                <!-- =================================================
+                     INFORMATION
+                ================================================= -->
+
+                <div
+                    class="mt-6 flex gap-4
+                           rounded-2xl
+                           border border-[#E9D5A8]
+                           bg-[#FFF4DF]
+                           p-5"
+                >
+
+                    <div
+                        class="flex h-10 w-10 shrink-0
+                               items-center justify-center
+                               rounded-xl
+                               bg-[#F4E5C4]
+                               text-[#9A7138]"
+                    >
+
+                        <i class="fa-solid fa-circle-info"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <p
+                            class="font-black
+                                   text-[#57452F]"
+                        >
+                            Team membership
+                        </p>
+
+                        <p
+                            class="mt-1 text-xs leading-5
+                                   text-[#806F58]"
+                        >
+                            Adding a member gives them access to
+                            this team. Their organization account
+                            and existing project permissions remain
+                            unchanged.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     ACTIONS
+                ================================================= -->
+
+                <div
+                    class="mt-7 flex flex-col-reverse
+                           gap-3
+                           border-t border-[#E5ECEA]
+                           pt-6
+                           sm:flex-row
+                           sm:justify-end"
+                >
+
+
+                    <!-- CANCEL -->
+
+                    <a
+                        href="{% url 'team_members' %}"
+                        class="inline-flex items-center
+                               justify-center
+                               gap-2
+                               rounded-xl
+                               border border-[#CDD8D7]
+                               bg-[#F3F5F6]
+                               px-5 py-3
+                               text-sm font-black
+                               text-[#536B68]
+                               transition-all duration-200
+
+                               hover:border-[#B8C6C4]
+                               hover:bg-[#E9EEED]
+                               hover:text-[#294542]"
+                    >
+
+                        <i class="fa-solid fa-arrow-left text-xs"></i>
+
+                        Cancel
+
+                    </a>
+
+
+
+                    {% if available_users %}
+
+
+                    <!-- ADD -->
+
+                    <button
+                        type="submit"
+                        class="inline-flex items-center
+                               justify-center
+                               gap-2
+                               rounded-xl
+                               bg-[#069494]
+                               px-6 py-3
+                               text-sm font-black
+                               text-white
+
+                               shadow-[0_9px_22px_rgba(6,148,148,0.20)]
+
+                               transition-all duration-200
+
+                               hover:-translate-y-0.5
+                               hover:bg-[#057D7D]
+                               hover:shadow-[0_13px_28px_rgba(6,148,148,0.27)]
+
+                               active:translate-y-0"
+                    >
+
+                        <i class="fa-solid fa-user-plus"></i>
+
+                        Add Selected Members
+
+                    </button>
+
+
+                    {% endif %}
+
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </form>
+
+
+</div>
+
+{% endblock %}

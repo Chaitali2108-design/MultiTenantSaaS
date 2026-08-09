@@ -4,776 +4,928 @@
 
 <style>
 
-.task-detail-page{
+.task-detail-page {
+    min-height: 100vh;
+    padding: 35px 25px 60px;
+    background: #F8FAFC;
+}
 
-    padding:25px;
-    background:#f8fafc;
+/* ================= HEADER ================= */
 
+.detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+    padding: 26px 30px;
+    border-radius: 28px;
+    background: #EAF3F1;
+    border: 1px solid #C9DEDA;
+    box-shadow: 0 18px 45px rgba(15, 118, 110, .10);
+}
+
+.heading-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.heading-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 17px;
+    background: #087F7B;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 10px 25px rgba(8, 127, 123, .22);
+}
+
+.page-heading {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 800;
+    color: #193B3A;
+}
+
+.heading-subtitle {
+    margin-top: 4px;
+    color: #647873;
+    font-size: 14px;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 18px;
+    border-radius: 13px;
+    background: white;
+    border: 1px solid #C9DEDA;
+    color: #35605D;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    transition: .3s;
+}
+
+.back-link:hover {
+    background: #F5FBFA;
+    transform: translateY(-2px);
 }
 
 
-/* HEADER */
+/* ================= MAIN CARD ================= */
 
-.detail-header{
+.detail-card {
+    background: white;
+    border-radius: 28px;
+    padding: 28px;
+    margin-bottom: 25px;
+    border: 1px solid #E2E8F0;
+    box-shadow: 0 18px 45px rgba(15, 23, 42, .07);
+}
 
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:25px;
+.task-title-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
 
+.task-title-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 15px;
+    background: #FFF3D6;
+    color: #C27A05;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.task-name {
+    font-size: 24px;
+    font-weight: 800;
+    color: #172033;
+    margin: 0;
 }
 
 
-.page-heading{
+/* ================= GRID ================= */
 
-    font-size:28px;
-    font-weight:700;
-    color:#0f172a;
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
 
+.info-box {
+    padding: 20px;
+    border-radius: 20px;
+    border: 1px solid;
+    transition: .3s;
+}
+
+.info-box:hover {
+    transform: translateY(-3px);
+}
+
+.info-box:nth-child(1) {
+    background: #EEF8F7;
+    border-color: #C7E5E1;
+}
+
+.info-box:nth-child(2) {
+    background: #FFF7ED;
+    border-color: #FED7AA;
+}
+
+.info-box:nth-child(3) {
+    background: #F4F1FF;
+    border-color: #DDD6FE;
+}
+
+.info-box:nth-child(4) {
+    background: #F0F7FF;
+    border-color: #C7DDF5;
+}
+
+.label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #64748B;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.value {
+    margin-top: 10px;
+    color: #172033;
+    font-weight: 700;
 }
 
 
+/* ================= BADGES ================= */
 
-.back-link{
+.badge,
+.priority {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
+}
 
-    background:#334155;
-    color:white;
+.todo {
+    background: #E9EEF3;
+    color: #475569;
+}
 
-    padding:10px 18px;
+.progress-status {
+    background: #DDF3F2;
+    color: #087F7B;
+}
 
-    border-radius:8px;
-
-    text-decoration:none;
-
-    font-size:14px;
-
+.done {
+    background: #DCF7E7;
+    color: #16803C;
 }
 
 
+/* ================= PROGRESS ================= */
 
-
-
-/* CARD */
-
-.detail-card{
-
-    background:white;
-
-    border-radius:18px;
-
-    padding:25px;
-
-    margin-bottom:25px;
-
-    box-shadow:
-    0 8px 25px rgba(15,23,42,.06);
-
+.progress {
+    width: 100%;
+    height: 9px;
+    background: #E2E8F0;
+    border-radius: 999px;
+    overflow: hidden;
+    margin-top: 12px;
 }
 
-
-
-
-.task-name{
-
-    font-size:24px;
-
-    font-weight:700;
-
-    color:#0f172a;
-
-    margin-bottom:20px;
-
-}
-
-
-
-
-/* GRID */
-
-
-.info-grid{
-
-    display:grid;
-
-    grid-template-columns:repeat(2,1fr);
-
-    gap:18px;
-
-}
-
-
-
-
-.info-box{
-
-    padding:18px;
-
-    border-radius:14px;
-
-    background:linear-gradient(
-        135deg,
-        #ffffff,
-        #f1f5f9
-    );
-
-    border:1px solid #e2e8f0;
-
-}
-
-
-
-.label{
-
-    color:#64748b;
-
-    font-size:12px;
-
-    font-weight:700;
-
-    text-transform:uppercase;
-
-}
-
-
-
-.value{
-
-    margin-top:8px;
-
-    color:#0f172a;
-
-    font-weight:600;
-
-}
-
-
-
-
-
-
-/* BADGES */
-
-
-.badge{
-
-    padding:6px 14px;
-
-    border-radius:20px;
-
-    font-size:12px;
-
-    font-weight:700;
-
-}
-
-
-
-.todo{
-
-    background:#f1f5f9;
-
-    color:#475569;
-
-}
-
-
-
-.progress-status{
-
-    background:#dbeafe;
-
-    color:#1d4ed8;
-
-}
-
-
-
-.done{
-
-    background:#dcfce7;
-
-    color:#15803d;
-
-}
-
-
-
-
-/* PROGRESS */
-
-
-.progress{
-
-    width:100%;
-
-    height:10px;
-
-    background:#e2e8f0;
-
-    border-radius:20px;
-
-    overflow:hidden;
-
-    margin-top:10px;
-
-}
-
-
-
-.progress-bar{
-
-    height:100%;
-
-    background:linear-gradient(
+.progress-bar {
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(
         90deg,
-        #2563eb,
-        #60a5fa
+        #069494,
+        #42B8B0
     );
-
 }
 
 
+/* ================= DEADLINE CARD ================= */
 
+.deadline-card {
+    background: #FFF8EA;
+    border-color: #F4D99A;
+}
 
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin-bottom: 24px;
+}
 
-/* PRIORITY */
+.section-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
+.deadline-icon {
+    background: #FFE9B8;
+    color: #B77908;
+}
 
-.priority{
+.section-title h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 800;
+    color: #382D19;
+}
 
-    padding:6px 14px;
+.section-title p {
+    margin: 3px 0 0;
+    font-size: 13px;
+    color: #8A744A;
+}
 
-    border-radius:20px;
+.deadline-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
 
-    font-size:12px;
+.deadline-item {
+    background: rgba(255,255,255,.75);
+    border: 1px solid #F3DDAA;
+    border-radius: 18px;
+    padding: 18px;
+}
 
-    font-weight:700;
+.deadline-label {
+    color: #9A7B35;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .8px;
+}
 
+.deadline-value {
+    margin-top: 8px;
+    color: #49391C;
+    font-weight: 700;
 }
 
 
+/* ================= PRIORITY ================= */
 
-.high{
+.high {
+    background: #FFE4E7;
+    color: #C62846;
+}
 
-    background:#fee2e2;
+.medium {
+    background: #FFF0C7;
+    color: #A86B05;
+}
 
-    color:#b91c1c;
-
+.low {
+    background: #DDF5E8;
+    color: #167548;
 }
 
 
+/* ================= OVERDUE ================= */
 
-.medium{
-
-    background:#fef3c7;
-
-    color:#92400e;
-
+.overdue {
+    margin-top: 18px;
+    padding: 14px 17px;
+    border-radius: 15px;
+    background: #FFF0F2;
+    border: 1px solid #FBC8D0;
+    color: #B4233F;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 
+/* ================= REMINDER ================= */
 
-.low{
-
-    background:#dcfce7;
-
-    color:#166534;
-
+.reminder {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: 8px;
+    color: #C2415A;
+    font-weight: 800;
 }
 
 
+/* ================= ACTIVITY ================= */
 
+.activity-heading {
+    margin: 35px 0 18px;
+}
 
+.activity-heading .section-icon {
+    background: #E8F1FF;
+    color: #4974A8;
+}
 
-/* OVERDUE */
+.activity-heading h2 {
+    margin: 0;
+    font-size: 23px;
+    font-weight: 800;
+    color: #24364D;
+}
 
+.activity-heading p {
+    margin-top: 4px;
+    font-size: 13px;
+    color: #718096;
+}
 
-.overdue{
+.activity {
+    position: relative;
+    background: #F7FAFC;
+    border: 1px solid #E2E8F0;
+    border-left: 4px solid #069494;
+    border-radius: 18px;
+    padding: 18px 20px;
+    margin-bottom: 14px;
+    box-shadow: 0 8px 22px rgba(15,23,42,.05);
+}
 
-    margin-top:15px;
+.activity-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
 
-    background:#fee2e2;
+.activity-user {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-weight: 800;
+    color: #24364D;
+}
 
-    color:#b91c1c;
+.activity-user i {
+    color: #069494;
+}
 
-    padding:12px;
+.activity-time {
+    font-size: 12px;
+    color: #94A3B8;
+}
 
-    border-radius:10px;
+.activity-change {
+    margin-top: 10px;
+    color: #526173;
+    font-size: 14px;
+}
 
-    font-weight:700;
-
+.status-change {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 5px 10px;
+    border-radius: 8px;
+    background: white;
+    border: 1px solid #E2E8F0;
+    font-weight: 700;
 }
 
 
+/* ================= EMPTY ================= */
 
+.empty-activity {
+    text-align: center;
+    padding: 45px 20px;
+}
 
+.empty-icon {
+    width: 58px;
+    height: 58px;
+    margin: 0 auto 15px;
+    border-radius: 18px;
+    background: #EEF8F7;
+    color: #069494;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+}
 
-.reminder{
-
-    color:#dc2626;
-
-    font-weight:700;
-
+.empty-activity p {
+    color: #64748B;
+    font-weight: 600;
 }
 
 
+/* ================= RESPONSIVE ================= */
 
+@media(max-width: 800px) {
 
+    .detail-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
 
-/* ACTIVITY */
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
 
-
-.activity{
-
-    background:white;
-
-    border-radius:14px;
-
-    padding:18px;
-
-    margin-bottom:15px;
-
-    border-left:5px solid #2563eb;
-
-    box-shadow:
-    0 5px 15px rgba(0,0,0,.05);
+    .deadline-grid {
+        grid-template-columns: 1fr;
+    }
 
 }
 
+@media(max-width: 500px) {
 
+    .task-detail-page {
+        padding: 20px 14px 40px;
+    }
 
-.activity-user{
+    .detail-card {
+        padding: 20px;
+    }
 
-    font-weight:700;
+    .page-heading {
+        font-size: 23px;
+    }
 
-    color:#0f172a;
-
-}
-
-
-
-.activity-time{
-
-    font-size:12px;
-
-    color:#64748b;
-
-}
-
-
-
-
-@media(max-width:700px){
-
-.info-grid{
-
-grid-template-columns:1fr;
+    .task-name {
+        font-size: 20px;
+    }
 
 }
-
-}
-
-
 
 </style>
-
-
-
 
 
 <div class="task-detail-page">
 
 
+    <!-- ================= HEADER ================= -->
+
+    <div class="detail-header">
+
+        <div class="heading-wrapper">
+
+            <div class="heading-icon">
+                <i class="fa-solid fa-list-check"></i>
+            </div>
+
+            <div>
+
+                <h2 class="page-heading">
+                    Task Details
+                </h2>
+
+                <p class="heading-subtitle">
+                    Review task progress, assignment, deadline and activity.
+                </p>
+
+            </div>
+
+        </div>
 
 
+        <a href="/projects/kanban/" class="back-link">
 
-<div class="detail-header">
+            <i class="fa-solid fa-arrow-left"></i>
+
+            Back to Kanban
+
+        </a>
+
+    </div>
 
 
-<h2 class="page-heading">
-Task Details
-</h2>
+    <!-- ================= TASK OVERVIEW ================= -->
+
+    <div class="detail-card">
+
+        <div class="task-title-row">
+
+            <div class="task-title-icon">
+                <i class="fa-solid fa-clipboard-check"></i>
+            </div>
+
+            <h3 class="task-name">
+                {{ task.title }}
+            </h3>
+
+        </div>
 
 
-<a href="/projects/kanban/" class="back-link">
+        <div class="info-grid">
 
-← Back to Kanban
 
-</a>
+            <!-- STATUS -->
+
+            <div class="info-box">
+
+                <div class="label">
+
+                    <i class="fa-solid fa-circle-half-stroke"></i>
+
+                    Status
+
+                </div>
+
+                <div class="value">
+
+                    {% if task.status == "done" %}
+
+                        <span class="badge done">
+                            <i class="fa-solid fa-check"></i>
+                            Done
+                        </span>
+
+                    {% elif task.status == "progress" %}
+
+                        <span class="badge progress-status">
+                            <i class="fa-solid fa-spinner"></i>
+                            In Progress
+                        </span>
+
+                    {% else %}
+
+                        <span class="badge todo">
+                            <i class="fa-regular fa-circle"></i>
+                            To Do
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <!-- PROJECT -->
+
+            <div class="info-box">
+
+                <div class="label">
+
+                    <i class="fa-solid fa-folder-open"></i>
+
+                    Project
+
+                </div>
+
+                <div class="value">
+                    {{ task.project.name }}
+                </div>
+
+            </div>
+
+
+            <!-- ASSIGNED USER -->
+
+            <div class="info-box">
+
+                <div class="label">
+
+                    <i class="fa-solid fa-user"></i>
+
+                    Assigned To
+
+                </div>
+
+                <div class="value">
+
+                    {% if task.assigned_to %}
+
+                        {{ task.assigned_to.username }}
+
+                    {% else %}
+
+                        <span class="text-slate-400">
+                            Not Assigned
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <!-- PROGRESS -->
+
+            <div class="info-box">
+
+                <div class="label">
+
+                    <i class="fa-solid fa-chart-line"></i>
+
+                    Progress
+
+                </div>
+
+                <div class="value">
+
+                    {{ task.progress }}%
+
+                </div>
+
+                <div class="progress">
+
+                    <div
+                        class="progress-bar"
+                        style="width:{{ task.progress }}%;">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= DEADLINE ================= -->
+
+    <div class="detail-card deadline-card">
+
+        <div class="section-title">
+
+            <div class="section-icon deadline-icon">
+
+                <i class="fa-regular fa-calendar-days"></i>
+
+            </div>
+
+            <div>
+
+                <h3>
+                    Deadline & Priority
+                </h3>
+
+                <p>
+                    Important scheduling information for this task.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="deadline-grid">
+
+
+            <!-- DUE DATE -->
+
+            <div class="deadline-item">
+
+                <div class="deadline-label">
+                    <i class="fa-regular fa-calendar mr-1"></i>
+                    Due Date
+                </div>
+
+                <div class="deadline-value">
+
+                    {% if task.due_date %}
+
+                        {{ task.due_date }}
+
+                    {% else %}
+
+                        No deadline set
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <!-- PRIORITY -->
+
+            <div class="deadline-item">
+
+                <div class="deadline-label">
+
+                    <i class="fa-solid fa-flag mr-1"></i>
+
+                    Priority
+
+                </div>
+
+                <div class="deadline-value">
+
+                    {% if task.priority == "high" %}
+
+                        <span class="priority high">
+                            <i class="fa-solid fa-arrow-up"></i>
+                            High
+                        </span>
+
+                    {% elif task.priority == "medium" %}
+
+                        <span class="priority medium">
+                            <i class="fa-solid fa-minus"></i>
+                            Medium
+                        </span>
+
+                    {% else %}
+
+                        <span class="priority low">
+                            <i class="fa-solid fa-arrow-down"></i>
+                            Low
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <!-- REMINDER -->
+
+            <div class="deadline-item">
+
+                <div class="deadline-label">
+
+                    <i class="fa-regular fa-bell mr-1"></i>
+
+                    Reminder
+
+                </div>
+
+                <div class="deadline-value">
+
+                    {% if task.reminder_date %}
+
+                        {{ task.reminder_date }}
+
+                        {% if task.is_reminder_due %}
+
+                            <span class="reminder">
+
+                                <i class="fa-solid fa-bell"></i>
+
+                                Due
+
+                            </span>
+
+                        {% endif %}
+
+                    {% else %}
+
+                        No reminder set
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        {% if task.is_overdue %}
+
+            <div class="overdue">
+
+                <i class="fa-solid fa-triangle-exclamation"></i>
+
+                This task is overdue.
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- ================= ACTIVITY HISTORY ================= -->
+
+    <div class="activity-heading">
+
+        <div class="section-title">
+
+            <div class="section-icon">
+
+                <i class="fa-solid fa-clock-rotate-left"></i>
+
+            </div>
+
+            <div>
+
+                <h2>
+                    Activity History
+                </h2>
+
+                <p>
+                    Track changes and updates made to this task.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    {% for activity in activities %}
+
+        <div class="activity">
+
+            <div class="activity-top">
+
+                <div class="activity-user">
+
+                    <i class="fa-solid fa-user-circle"></i>
+
+                    {{ activity.user.username }}
+
+                </div>
+
+                <div class="activity-time">
+
+                    <i class="fa-regular fa-clock mr-1"></i>
+
+                    {{ activity.created_at }}
+
+                </div>
+
+            </div>
+
+
+            <div class="activity-change">
+
+                {% if activity.old_status and activity.new_status %}
+
+                    <span class="status-change">
+
+                        <i class="fa-solid fa-arrow-right text-[#069494]"></i>
+
+                        {{ activity.old_status }}
+
+                        <span class="text-slate-400">
+                            →
+                        </span>
+
+                        {{ activity.new_status }}
+
+                    </span>
+
+                {% else %}
+
+                    Task activity recorded.
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    {% empty %}
+
+        <div class="detail-card empty-activity">
+
+            <div class="empty-icon">
+
+                <i class="fa-regular fa-clock"></i>
+
+            </div>
+
+            <p>
+                No activity has been recorded for this task yet.
+            </p>
+
+        </div>
+
+    {% endfor %}
 
 
 </div>
-
-
-
-
-
-
-
-<div class="detail-card">
-
-
-
-<h3 class="task-name">
-
-{{ task.title }}
-
-</h3>
-
-
-
-
-
-<div class="info-grid">
-
-
-
-<div class="info-box">
-
-<div class="label">
-Status
-</div>
-
-
-<div class="value">
-
-
-{% if task.status == "done" %}
-
-<span class="badge done">
-Done
-</span>
-
-
-{% elif task.status == "progress" %}
-
-<span class="badge progress-status">
-In Progress
-</span>
-
-
-{% else %}
-
-<span class="badge todo">
-To Do
-</span>
-
-
-{% endif %}
-
-
-
-</div>
-
-</div>
-
-
-
-
-
-
-<div class="info-box">
-
-<div class="label">
-Project
-</div>
-
-
-<div class="value">
-
-{{ task.project.name }}
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-
-<div class="info-box">
-
-<div class="label">
-Assigned To
-</div>
-
-
-<div class="value">
-
-{{ task.assigned_to.username }}
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-
-<div class="info-box">
-
-<div class="label">
-Progress
-</div>
-
-
-<div class="value">
-
-{{ task.progress }}%
-
-</div>
-
-
-<div class="progress">
-
-<div class="progress-bar"
-
-style="width:{{ task.progress }}%;">
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-
-
-
-<div class="detail-card">
-
-
-<h3>
-Deadline Information
-</h3>
-
-
-<br>
-
-
-
-<p>
-
-<b>Due Date:</b>
-
-{% if task.due_date %}
-
-{{ task.due_date }}
-
-{% else %}
-
-No deadline set
-
-{% endif %}
-
-
-</p>
-
-
-
-
-
-
-{% if task.is_overdue %}
-
-<div class="overdue">
-
-⚠ This task is overdue
-
-</div>
-
-{% endif %}
-
-
-
-
-
-
-<p style="margin-top:15px;">
-
-<b>Priority:</b>
-
-
-{% if task.priority == "high" %}
-
-
-<span class="priority high">
-
-High
-
-</span>
-
-
-
-{% elif task.priority == "medium" %}
-
-
-<span class="priority medium">
-
-Medium
-
-</span>
-
-
-
-{% else %}
-
-
-<span class="priority low">
-
-Low
-
-</span>
-
-
-
-{% endif %}
-
-
-</p>
-
-
-
-
-
-
-
-<p>
-
-<b>Reminder:</b>
-
-
-{% if task.reminder_date %}
-
-
-{{ task.reminder_date }}
-
-
-
-{% if task.is_reminder_due %}
-
-
-<span class="reminder">
-
-🔔 Reminder Due
-
-</span>
-
-
-{% endif %}
-
-
-
-{% else %}
-
-No reminder set
-
-
-{% endif %}
-
-
-
-</p>
-
-
-
-</div>
-
-
-
-
-
-
-
-
-
-<h2 class="page-heading">
-
-Activity History
-
-</h2>
-
-
-
-
-
-
-
-{% for activity in activities %}
-
-
-
-<div class="activity">
-
-
-<div class="activity-user">
-
-{{ activity.user.username }}
-
-</div>
-
-
-
-<p>
-
-{{ activity.old_status }} → {{ activity.new_status }}
-
-</p>
-
-
-
-<div class="activity-time">
-
-{{ activity.created_at }}
-
-</div>
-
-
-
-</div>
-
-
-
-
-
-{% empty %}
-
-
-<div class="detail-card">
-
-No activity yet
-
-</div>
-
-
-
-{% endfor %}
-
-
-
-
-
-</div>
-
-
 
 {% endblock %}

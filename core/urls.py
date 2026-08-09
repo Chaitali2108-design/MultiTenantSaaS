@@ -46,6 +46,11 @@ path(
     include("reports.urls"),
 ),
 
+path(
+        "settings/",
+        include("user_settings.urls")
+    ),
+
 
 ]
 

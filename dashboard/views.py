@@ -6,6 +6,8 @@ from accounts.models import User, Role
 from django.utils import timezone
 from django.db.models import Q
 from audit.models import AuditLog
+from projects.models import Team
+
 @login_required
 def dashboard(request):
 
@@ -24,6 +26,10 @@ def dashboard(request):
     pending_tasks = Task.objects.filter(
         organization=organization,
         status="todo"
+    ).count()
+
+    total_team_count = Team.objects.filter(
+        project__organization=organization
     ).count()
 
     active_projects = Project.objects.filter(
@@ -118,6 +124,7 @@ def dashboard(request):
         "now": timezone.now(),
         "search": search,
         "notification_count": recent_activities.count(),
+        "total_team_count": total_team_count,
     }
 
     return render(request, "dashboard.html", context)
@@ -139,36 +146,14 @@ def reports(request):
 
 
 
-@login_required
-def team_members(request):
 
-    users = User.objects.filter(
-        organization=request.user.organization
-    )
-
-    roles = Role.objects.filter(
-        organization=request.user.organization
-    )
-
-    context = {
-        "users": users,
-        "roles": roles,
-        "admin_count": users.filter(role__name="Admin").count(),
-        "manager_count": users.filter(role__name="Manager").count(),
-        "member_count": users.filter(role__name="Member").count(),
-    }
-
-    return render(
-        request,
-        "team_members/team_members.html",
-        context,
-    )
 
 def profile(request):
     return render(request, 'profile/profile.html')
 
+@login_required(login_url="/accounts/login/")
 def settings(request):
-    return render(request, 'settings/settings.html')
+    return render(request, "user_settings/settings.html")
 
 def organization(request):
     return render(request, "organizations/organization.html")

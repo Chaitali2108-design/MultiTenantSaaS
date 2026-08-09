@@ -2,6 +2,7 @@ from django.db.models.signals import (
     post_save,
     post_delete,
     pre_save,
+    pre_delete
 )
 
 from django.dispatch import receiver
@@ -75,18 +76,15 @@ def project_audit(sender, instance, created, **kwargs):
         project=instance,
     )
 
-
-@receiver(post_delete, sender=Project)
+@receiver(pre_delete, sender=Project)
 def project_delete_audit(sender, instance, **kwargs):
-
     create_audit_log(
         action="delete",
         model_name="Project",
         object_id=instance.id,
         description=f"Deleted project: {instance.name}",
-        project=instance,
+        project=None,
     )
-
 
 # -----------------------------
 # Task Audit
@@ -107,7 +105,7 @@ def task_audit(sender, instance, created, **kwargs):
     )
 
 
-@receiver(post_delete, sender=Task)
+@receiver(pre_delete, sender=Task)
 def task_delete_audit(sender, instance, **kwargs):
 
     create_audit_log(
@@ -115,10 +113,9 @@ def task_delete_audit(sender, instance, **kwargs):
         model_name="Task",
         object_id=instance.id,
         description=f"Deleted task: {instance.title}",
-        project=instance.project,
-        task=instance,
+        project=None,
+        task=None,
     )
-
 
 # -----------------------------
 # User Audit

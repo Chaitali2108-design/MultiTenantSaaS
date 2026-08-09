@@ -179,9 +179,14 @@ def role_list(request):
         role__name="Owner"
     ).first()
 
+    system_roles_count = roles.filter(is_system=True).count()
+    custom_roles_count = roles.filter(is_system=False).count()
+
     context = {
         "roles": roles,
         "owner": owner,
+        "system_roles_count": system_roles_count,
+        "custom_roles_count": custom_roles_count,
     }
 
     return render(

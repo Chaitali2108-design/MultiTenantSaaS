@@ -2,188 +2,344 @@
 
 {% block content %}
 
-
 <script src="https://cdn.tailwindcss.com"></script>
 
 <link
-href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-rel="stylesheet">
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+<link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    rel="stylesheet">
 
 <style>
-
-body{
-    font-family:'Plus Jakarta Sans',sans-serif;
-}
-
+    body{
+        font-family:'Plus Jakarta Sans',sans-serif;
+    }
 </style>
-
 
 <div class="min-h-screen relative overflow-hidden bg-[#F8FAFC]">
 
-    <!-- Decorative Background -->
-    <div class="absolute inset-0 -z-10 overflow-hidden">
+```
+<!-- Decorative Background -->
+<div class="absolute inset-0 -z-10 overflow-hidden">
+    <div class="absolute -top-44 -right-44 w-[520px] h-[520px] rounded-full bg-[#069494]/10 blur-3xl"></div>
+    <div class="absolute bottom-[-180px] left-[-150px] w-[520px] h-[520px] rounded-full bg-[#F59E0B]/10 blur-3xl"></div>
+</div>
 
-        <div class="absolute -top-44 -right-44 w-[520px] h-[520px] rounded-full bg-[#069494]/10 blur-3xl"></div>
 
-        <div class="absolute bottom-[-180px] left-[-150px] w-[520px] h-[520px] rounded-full bg-[#F6D27A]/15 blur-3xl"></div>
+<div class="max-w-7xl mx-auto px-6 py-10">
 
-    </div>
+    <!-- ================= HERO ================= -->
 
+    <section class="reveal from-bottom">
 
-    <div class="max-w-7xl mx-auto px-6 py-10">
+        <div class="relative overflow-hidden rounded-[34px] bg-[#FFFDFC] border border-[#ECECEC] shadow-[0_35px_90px_rgba(15,23,42,0.16)]">
 
+            <div class="absolute right-[-100px] top-[-100px] w-72 h-72 rounded-full bg-[#069494]/10 blur-3xl"></div>
 
+            <div class="absolute left-[-120px] bottom-[-120px] w-80 h-80 rounded-full bg-[#F6D27A]/15 blur-3xl"></div>
 
-        <!-- ================= HERO ================= -->
+            <div class="relative p-10">
 
-        <section class="reveal from-bottom">
+                <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-10">
 
-            <div class="relative overflow-hidden rounded-[34px] bg-[#FFFDFC] border border-[#ECECEC] shadow-[0_35px_90px_rgba(15,23,42,0.16)]">
+                    <!-- Left -->
 
-                <!-- top decoration -->
+                    <div class="flex items-center gap-7">
 
-                <div class="absolute right-[-100px] top-[-100px] w-72 h-72 rounded-full bg-[#069494]/10 blur-3xl"></div>
+                        {% if organization.logo %}
 
-                <div class="absolute left-[-120px] bottom-[-120px] w-80 h-80 rounded-full bg-[#F6D27A]/15 blur-3xl"></div>
+                        <img
+                            src="{{ organization.logo.url }}"
+                            class="w-28 h-28 rounded-[30px] object-cover border-4 border-white shadow-[0_18px_45px_rgba(15,23,42,0.18)]">
 
+                        {% else %}
 
+                        <div class="w-28 h-28 rounded-[30px] bg-[#E8F8F7] text-[#0F766E] flex items-center justify-center text-5xl font-extrabold shadow-[0_18px_45px_rgba(15,23,42,0.15)]">
 
-                <div class="relative p-10">
-
-                    <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-10">
-
-
-
-
-                        <!-- Left -->
-
-                        <div class="flex items-center gap-7">
-
-                            {% if organization.logo %}
-
-                            <img
-                                src="{{ organization.logo.url }}"
-                                class="w-28 h-28 rounded-[30px] object-cover border-4 border-white shadow-[0_18px_45px_rgba(15,23,42,0.18)]">
-
-                            {% else %}
-
-                            <div class="w-28 h-28 rounded-[30px] bg-[#E8F8F7] text-[#0F766E] flex items-center justify-center text-5xl font-extrabold shadow-[0_18px_45px_rgba(15,23,42,0.15)]">
-
-                                {{ organization.name|first }}
-
-                            </div>
-
-                            {% endif %}
-
-
-
-                            <div>
-
-                                <p class="uppercase tracking-[4px] text-sm font-semibold text-[#069494]">
-
-                                    Organization Workspace
-
-                                </p>
-
-                                <h1 class="mt-2 text-5xl font-extrabold text-[#102A2A]">
-
-                                    {{ organization.name }}
-
-                                </h1>
-
-                                <p class="mt-3 text-lg text-[#64748B]">
-
-                                    {{ organization.domain }}
-
-                                </p>
-
-
-
-                                <div class="flex flex-wrap gap-3 mt-6">
-
-                                    <span class="px-5 py-2 rounded-full bg-[#E8F8F7] text-[#0F766E] font-semibold shadow-sm">
-
-                                        {{ organization.plan }}
-
-                                    </span>
-
-
-
-                                    {% if organization.status == "ACTIVE" %}
-
-                                    <span class="px-5 py-2 rounded-full bg-[#DDF7E8] text-[#0F766E] font-semibold shadow-sm">
-
-                                        ● Active
-
-                                    </span>
-
-                                    {% else %}
-
-                                    <span class="px-5 py-2 rounded-full bg-[#FFE3E3] text-[#D62828] font-semibold shadow-sm">
-
-                                        ● Inactive
-
-                                    </span>
-
-                                    {% endif %}
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-
-
-
-
-                        <!-- Right -->
-
-                        {% if request.user.role.name == "Owner" or request.user.role.name == "Admin" %}
-
-                        <div class="flex flex-wrap gap-4">
-
-                            <a href="{% url 'organization_update' organization.id %}"
-                               class="px-6 py-3 rounded-2xl bg-[#069494] hover:bg-[#0F766E] text-white font-semibold shadow-lg hover:-translate-y-1 transition-all duration-300">
-
-                                <i class="fa-solid fa-pen mr-2"></i>
-
-                                Edit
-
-                            </a>
-
-
-
-                            <a href="{% url 'organization_toggle_status' organization.id %}"
-                               class="px-6 py-3 rounded-2xl bg-[#F4B942] hover:bg-[#E0A72D] text-white font-semibold shadow-lg hover:-translate-y-1 transition-all duration-300">
-
-                                <i class="fa-solid fa-power-off mr-2"></i>
-
-                                {% if organization.status == "ACTIVE" %}
-                                    Deactivate
-                                {% else %}
-                                    Activate
-                                {% endif %}
-
-                            </a>
-
-
-
-                            <a href="{% url 'organization_delete' organization.id %}"
-                               class="px-6 py-3 rounded-2xl bg-[#E63946] hover:bg-[#C92A36] text-white font-semibold shadow-lg hover:-translate-y-1 transition-all duration-300">
-
-                                <i class="fa-solid fa-trash mr-2"></i>
-
-                                Delete
-
-                            </a>
+                            {{ organization.name|first }}
 
                         </div>
 
                         {% endif %}
 
+                        <div>
 
+                            <p class="uppercase tracking-[4px] text-sm font-semibold text-[#069494]">
+                                Organization Workspace
+                            </p>
+
+                            <h1 class="mt-2 text-5xl font-extrabold text-[#102A2A]">
+                                {{ organization.name }}
+                            </h1>
+
+                            <p class="mt-3 text-lg text-[#64748B]">
+                                {{ organization.domain }}
+                            </p>
+
+                            <div class="flex flex-wrap gap-3 mt-6">
+
+                                <span class="px-5 py-2 rounded-full bg-[#E8F8F7] text-[#0F766E] font-semibold shadow-sm">
+                                    {{ organization.plan }}
+                                </span>
+
+                                {% if organization.status == "ACTIVE" %}
+
+                                <span class="px-5 py-2 rounded-full bg-[#DDF7E8] text-[#0F766E] font-semibold shadow-sm">
+                                    ● Active
+                                </span>
+
+                                {% else %}
+
+                                <span class="px-5 py-2 rounded-full bg-[#FFE3E3] text-[#D62828] font-semibold shadow-sm">
+                                    ● Inactive
+                                </span>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Right -->
+
+                    {% if request.user.role.name == "Owner" or request.user.role.name == "Admin" %}
+
+                    <div class="flex flex-wrap gap-4">
+
+                        <a href="{% url 'organization_update' organization.id %}"
+                           class="px-6 py-3 rounded-2xl bg-[#069494] hover:bg-[#0F766E] text-white font-semibold shadow-lg hover:-translate-y-1 transition-all duration-300">
+
+                            <i class="fa-solid fa-pen mr-2"></i>
+                            Edit
+
+                        </a>
+
+                        <a href="{% url 'organization_toggle_status' organization.id %}"
+                           class="px-6 py-3 rounded-2xl bg-[#F4B942] hover:bg-[#E0A72D] text-white font-semibold shadow-lg hover:-translate-y-1 transition-all duration-300">
+
+                            <i class="fa-solid fa-power-off mr-2"></i>
+
+                            {% if organization.status == "ACTIVE" %}
+                                Deactivate
+                            {% else %}
+                                Activate
+                            {% endif %}
+
+                        </a>
+
+                        <a href="{% url 'organization_delete' organization.id %}"
+                           class="px-6 py-3 rounded-2xl bg-[#E63946] hover:bg-[#C92A36] text-white font-semibold shadow-lg hover:-translate-y-1 transition-all duration-300">
+
+                            <i class="fa-solid fa-trash mr-2"></i>
+                            Delete
+
+                        </a>
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= CAPACITY ================= -->
+
+    <section class="mt-10 reveal from-bottom">
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+            <!-- USERS -->
+
+            <div class="rounded-[26px] bg-[#FFF0E8] border border-[#FDBA9A] p-6 shadow-[0_18px_45px_rgba(234,88,12,0.10)] hover:-translate-y-1 hover:shadow-[0_25px_55px_rgba(234,88,12,0.16)] transition">
+
+                <div class="flex justify-between items-start">
+
+                    <div>
+
+                        <p class="text-sm font-bold text-[#C2410C]">
+                            User Capacity
+                        </p>
+
+                        <h2 class="mt-3 text-4xl font-extrabold text-[#7C2D12]">
+                            {{ organization.max_users }}
+                        </h2>
+
+                        <p class="mt-1 text-sm text-[#C2410C]">
+                            Maximum users
+                        </p>
+
+                    </div>
+
+                    <div class="w-12 h-12 rounded-2xl bg-[#FFE0D2] text-[#EA580C] flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PROJECTS -->
+
+            <div class="rounded-[26px] bg-[#EAF4FF] border border-[#93C5FD] p-6 shadow-[0_18px_45px_rgba(37,99,235,0.10)] hover:-translate-y-1 hover:shadow-[0_25px_55px_rgba(37,99,235,0.16)] transition">
+
+                <div class="flex justify-between items-start">
+
+                    <div>
+
+                        <p class="text-sm font-bold text-[#1D4ED8]">
+                            Project Capacity
+                        </p>
+
+                        <h2 class="mt-3 text-4xl font-extrabold text-[#1E3A8A]">
+                            {{ organization.max_projects }}
+                        </h2>
+
+                        <p class="mt-1 text-sm text-[#1D4ED8]">
+                            Maximum projects
+                        </p>
+
+                    </div>
+
+                    <div class="w-12 h-12 rounded-2xl bg-[#D7E9FF] text-[#2563EB] flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-folder-tree"></i>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- STORAGE -->
+
+            <div class="rounded-[26px] bg-[#F3EEFF] border border-[#C4B5FD] p-6 shadow-[0_18px_45px_rgba(109,40,217,0.10)] hover:-translate-y-1 hover:shadow-[0_25px_55px_rgba(109,40,217,0.16)] transition">
+
+                <div class="flex justify-between items-start">
+
+                    <div>
+
+                        <p class="text-sm font-bold text-[#6D28D9]">
+                            Storage Capacity
+                        </p>
+
+                        <h2 class="mt-3 text-4xl font-extrabold text-[#4C1D95]">
+                            {{ organization.storage_limit_gb }}
+                            <span class="text-lg">GB</span>
+                        </h2>
+
+                        <p class="mt-1 text-sm text-[#6D28D9]">
+                            Workspace storage limit
+                        </p>
+
+                    </div>
+
+                    <div class="w-12 h-12 rounded-2xl bg-[#E8DEFF] text-[#7C3AED] flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-database"></i>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= PROFILE + CONTACT ================= -->
+
+    <section class="mt-10 reveal from-bottom">
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-7">
+
+
+            <!-- COMPANY PROFILE -->
+
+            <div class="lg:col-span-2 rounded-[30px] bg-[#EAF2F8] border border-[#B8CBD9] p-7 shadow-[0_22px_60px_rgba(30,64,80,0.12)]">
+
+                <div class="flex items-center gap-4 mb-7">
+
+                    <div class="w-12 h-12 rounded-2xl bg-[#D3E4EF] text-[#155E75] flex items-center justify-center shadow-sm">
+                        <i class="fa-solid fa-building text-lg"></i>
+                    </div>
+
+                    <div>
+
+                        <h2 class="text-xl font-extrabold text-[#163447]">
+                            Company Profile
+                        </h2>
+
+                        <p class="text-sm text-[#527080]">
+                            Core identity of this organization.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+
+                    <div class="rounded-2xl bg-[#FFFFFF] border border-[#C7D8E3] p-5">
+
+                        <p class="text-xs font-bold uppercase tracking-wider text-[#64748B]">
+                            Legal / Display Name
+                        </p>
+
+                        <p class="mt-2 font-bold text-[#172F3D]">
+                            {{ organization.name }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="rounded-2xl bg-[#FFF0E8] border border-[#FDBA9A] p-5">
+
+                        <p class="text-xs font-bold uppercase tracking-wider text-[#C2410C]">
+                            Workspace Domain
+                        </p>
+
+                        <p class="mt-2 font-bold text-[#7C2D12] break-all">
+                            {{ organization.domain|default:"Not Provided" }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="rounded-2xl bg-[#E8F8F7] border border-[#9ADBD7] p-5">
+
+                        <p class="text-xs font-bold uppercase tracking-wider text-[#0F766E]">
+                            Account Plan
+                        </p>
+
+                        <p class="mt-2 font-bold text-[#134E4A]">
+                            {{ organization.plan }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="rounded-2xl bg-[#F3EEFF] border border-[#C4B5FD] p-5">
+
+                        <p class="text-xs font-bold uppercase tracking-wider text-[#6D28D9]">
+                            Account State
+                        </p>
+
+                        <p class="mt-2 font-bold text-[#4C1D95]">
+                            {{ organization.status|title }}
+                        </p>
 
                     </div>
 
@@ -191,321 +347,156 @@ body{
 
             </div>
 
-        </section>
 
+            <!-- CONTACT INFO — UNCHANGED -->
 
+            <div class="rounded-[28px] p-7 bg-gradient-to-br from-[#0A9F9A]/95 via-[#069494]/95 to-[#056B73]/95 backdrop-blur-xl border border-white/20 shadow-[0_15px_40px_rgba(6,148,148,0.28)] hover:shadow-[0_22px_55px_rgba(6,148,148,0.40)] text-white">
 
+                <div class="w-12 h-12 rounded-2xl bg-[#F59E0B] text-white flex items-center justify-center">
+                    <i class="fa-solid fa-address-card"></i>
+                </div>
 
+                <h2 class="mt-5 text-xl font-extrabold text-white">
+                    Contact Point
+                </h2>
 
-<!-- ================= STATISTICS ================= -->
-
-<section class="mt-10 reveal from-bottom">
-
-
-<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
-
-
-
-    <!-- Users -->
-
-    <div class="group rounded-[30px] bg-[#EEF8FF] border border-white p-6 shadow-[0_25px_60px_rgba(15,23,42,0.12)] hover:-translate-y-2 hover:shadow-[0_35px_80px_rgba(15,23,42,0.18)] transition-all duration-300">
-
-
-        <div class="flex justify-between items-start">
-
-
-            <div>
-
-                <p class="text-sm font-semibold text-[#64748B]">
-                    Maximum Users
+                <p class="mt-1 text-sm text-white/50">
+                    Official communication details.
                 </p>
 
 
-                <h2 class="mt-3 text-4xl font-extrabold text-[#102A2A]">
-                    {{ organization.max_users }}
-                </h2>
+                <div class="mt-7 space-y-5">
 
+                    <div>
+
+                        <p class="text-xs uppercase tracking-wider font-bold text-white/40">
+                            Email
+                        </p>
+
+                        <p class="mt-2 text-sm font-bold text-white break-all">
+                            {{ organization.contact_email }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="h-px bg-white/10"></div>
+
+
+                    <div>
+
+                        <p class="text-xs uppercase tracking-wider font-bold text-white/40">
+                            Phone
+                        </p>
+
+                        <p class="mt-2 text-sm font-bold text-white">
+                            {{ organization.contact_phone|default:"Not Provided" }}
+                        </p>
+
+                    </div>
+
+                </div>
 
             </div>
-
-
-            <div class="w-14 h-14 rounded-2xl bg-white shadow-md flex items-center justify-center text-2xl text-[#2563EB] group-hover:scale-110 transition">
-
-                <i class="fa-solid fa-users"></i>
-
-            </div>
-
 
         </div>
 
-
-    </div>
-
+    </section>
 
 
+    <!-- ================= TIMELINE ================= -->
 
+    <section class="mt-10 reveal from-bottom">
 
+        <div class="rounded-[30px] bg-[#FFF0F3] border border-[#F9A8B8] p-7 shadow-[0_22px_60px_rgba(190,24,93,0.10)]">
 
-    <!-- Projects -->
+            <div class="flex items-center gap-4">
 
+                <div class="w-12 h-12 rounded-2xl bg-[#FFD9E2] text-[#BE185D] flex items-center justify-center">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                </div>
 
-    <div class="group rounded-[30px] bg-[#F4EEFF] border border-white p-6 shadow-[0_25px_60px_rgba(15,23,42,0.12)] hover:-translate-y-2 hover:shadow-[0_35px_80px_rgba(15,23,42,0.18)] transition-all duration-300">
+                <div>
 
+                    <h2 class="text-xl font-extrabold text-[#831843]">
+                        Organization Timeline
+                    </h2>
 
-        <div class="flex justify-between items-start">
+                    <p class="text-sm text-[#9D174D]">
+                        Important account lifecycle information.
+                    </p>
 
-
-            <div>
-
-                <p class="text-sm font-semibold text-[#64748B]">
-                    Maximum Projects
-                </p>
-
-
-                <h2 class="mt-3 text-4xl font-extrabold text-[#102A2A]">
-                    {{ organization.max_projects }}
-                </h2>
-
+                </div>
 
             </div>
 
 
-            <div class="w-14 h-14 rounded-2xl bg-white shadow-md flex items-center justify-center text-2xl text-[#7C3AED] group-hover:scale-110 transition">
+            <div class="mt-7 grid grid-cols-1 md:grid-cols-2 gap-5">
 
-                <i class="fa-solid fa-folder-open"></i>
+
+                <div class="rounded-2xl bg-white border border-[#F9A8B8] p-5">
+
+                    <div class="flex items-center gap-3">
+
+                        <div class="w-10 h-10 rounded-xl bg-[#FFE4EA] text-[#DB2777] flex items-center justify-center">
+                            <i class="fa-solid fa-calendar-plus"></i>
+                        </div>
+
+                        <div>
+
+                            <p class="text-xs font-bold uppercase tracking-wider text-[#BE185D]">
+                                Workspace Created
+                            </p>
+
+                            <p class="mt-1 text-lg font-extrabold text-[#4A1230]">
+                                {{ organization.created_at|date:"d F Y" }}
+                            </p>
+
+                            <p class="text-sm text-[#9D174D]">
+                                {{ organization.created_at|date:"h:i A" }}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="rounded-2xl bg-white border border-[#F9A8B8] p-5">
+
+                    <div class="flex items-center gap-3">
+
+                        <div class="w-10 h-10 rounded-xl bg-[#FFE4EA] text-[#DB2777] flex items-center justify-center">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </div>
+
+                        <div>
+
+                            <p class="text-xs font-bold uppercase tracking-wider text-[#BE185D]">
+                                Last Profile Update
+                            </p>
+
+                            <p class="mt-1 text-lg font-extrabold text-[#4A1230]">
+                                {{ organization.updated_at|date:"d F Y" }}
+                            </p>
+
+                            <p class="text-sm text-[#9D174D]">
+                                {{ organization.updated_at|date:"h:i A" }}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
 
             </div>
-
 
         </div>
 
+    </section>
 
-    </div>
-
-
-
-
-
-
-
-    <!-- Storage -->
-
-
-    <div class="group rounded-[30px] bg-[#EDFFF6] border border-white p-6 shadow-[0_25px_60px_rgba(15,23,42,0.12)] hover:-translate-y-2 hover:shadow-[0_35px_80px_rgba(15,23,42,0.18)] transition-all duration-300">
-
-
-        <div class="flex justify-between items-start">
-
-
-            <div>
-
-                <p class="text-sm font-semibold text-[#64748B]">
-                    Storage Limit
-                </p>
-
-
-                <h2 class="mt-3 text-4xl font-extrabold text-[#102A2A]">
-                    {{ organization.storage_limit_gb }}
-                    <span class="text-xl">
-                        GB
-                    </span>
-                </h2>
-
-
-            </div>
-
-
-            <div class="w-14 h-14 rounded-2xl bg-white shadow-md flex items-center justify-center text-2xl text-[#059669] group-hover:scale-110 transition">
-
-                <i class="fa-solid fa-database"></i>
-
-            </div>
-
-
-        </div>
-
-
-    </div>
-
-
-
-
-
-
-
-    <!-- Created -->
-
-
-    <div class="group rounded-[30px] bg-[#FFF6E5] border border-white p-6 shadow-[0_25px_60px_rgba(15,23,42,0.12)] hover:-translate-y-2 hover:shadow-[0_35px_80px_rgba(15,23,42,0.18)] transition-all duration-300">
-
-
-        <div class="flex justify-between items-start">
-
-
-            <div>
-
-                <p class="text-sm font-semibold text-[#64748B]">
-                    Created
-                </p>
-
-
-                <h2 class="mt-3 text-xl font-extrabold text-[#102A2A]">
-                    {{ organization.created_at|date:"d M Y" }}
-                </h2>
-
-
-            </div>
-
-
-            <div class="w-14 h-14 rounded-2xl bg-white shadow-md flex items-center justify-center text-2xl text-[#D97706] group-hover:scale-110 transition">
-
-                <i class="fa-solid fa-calendar-days"></i>
-
-            </div>
-
-
-        </div>
-
-
-    </div>
-
-
-
-</div>
-
-
-</section>
-
-<!-- ================= INFORMATION SECTION ================= -->
-
-<section class="mt-10 reveal from-bottom">
-
-
-<div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
-
-
-
-<!-- Organization Information -->
-
-<div class="rounded-[34px] bg-[#FFB6A6] border border-[#F1E2C8] shadow-[0_25px_70px_rgba(15,23,42,0.18)] overflow-hidden">
-
-
-<div class="px-8 py-6 bg-[#D25353] border-b border-[#E8D7B8]">
-
-<div class="flex items-center gap-3">
-
-
-<div class="w-11 h-11 rounded-2xl bg-[#DDF5F2] text-[#087F7B] flex items-center justify-center shadow-sm">
-
-<i class="fa-solid fa-building"></i>
-
-</div>
-
-
-<div>
-
-<h2 class="text-xl font-extrabold text-white">
-Organization Information
-</h2>
-
-<p class="text-sm text-white mt-1">
-Basic workspace information.
-</p>
-
-</div>
-
-
-</div>
-
-</div>
-
-
-
-
-
-<div class="p-8 space-y-4">
-
-
-
-<div class="flex justify-between items-center bg-[#FFFDF8] rounded-2xl px-5 py-4">
-
-<span class="text-[#7C6650]">
-Organization Name
-</span>
-
-<span class="font-bold text-[#3B2A1A]">
-{{ organization.name }}
-</span>
-
-</div>
-
-
-
-
-<div class="flex justify-between items-center bg-[#F4F8FF] rounded-2xl px-5 py-4">
-
-<span class="text-[#64748B]">
-Domain
-</span>
-
-<span class="font-bold text-[#1E293B]">
-{{ organization.domain|default:"Not Provided" }}
-</span>
-
-</div>
-
-
-
-
-<div class="flex justify-between items-center bg-[#F8F1FF] rounded-2xl px-5 py-4">
-
-
-<span class="text-[#6B5B7A]">
-Subscription Plan
-</span>
-
-
-<span class="px-4 py-1.5 rounded-full bg-[#E9D8FD] text-[#7C3AED] text-sm font-bold">
-
-{{ organization.plan }}
-
-</span>
-
-
-</div>
-
-
-
-
-<div class="flex justify-between items-center bg-[#ECFDF5] rounded-2xl px-5 py-4">
-
-
-<span class="text-[#52705F]">
-Status
-</span>
-
-
-{% if organization.status == "ACTIVE" %}
-
-<span class="px-4 py-1.5 rounded-full bg-[#CFF7DD] text-[#047857] text-sm font-bold">
-
-Active
-
-</span>
-
-
-{% else %}
-
-<span class="px-4 py-1.5 rounded-full bg-[#FFE0E0] text-[#DC2626] text-sm font-bold">
-
-Inactive
-
-</span>
-
-{% endif %}
-
-
-</div>
 
 
 
@@ -513,138 +504,5 @@ Inactive
 
 
 </div>
-
-
-
-
-
-
-
-
-
-<!-- Contact Information -->
-
-
-<div class="rounded-[34px] bg-[#A4B885] border border-[#F1E2C8] shadow-[0_25px_70px_rgba(15,23,42,0.18)] overflow-hidden">
-
-
-<div class="px-8 py-6 bg-[#677E61] border-b border-[#E8D7B8]">
-
-
-<div class="flex items-center gap-3">
-
-
-<div class="w-11 h-11 rounded-2xl bg-[#FFE8C7] text-[#C2410C] flex items-center justify-center shadow-sm">
-
-<i class="fa-solid fa-address-book"></i>
-
-</div>
-
-
-<div>
-
-<h2 class="text-xl font-extrabold text-white">
-Contact Information
-</h2>
-
-<p class="text-sm text-white mt-1">
-Communication details.
-</p>
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-<div class="p-8 space-y-4">
-
-
-
-<div class="flex justify-between items-center bg-[#FFFDF8] rounded-2xl px-5 py-4">
-
-<span class="text-[#7C6650]">
-Email
-</span>
-
-<span class="font-bold text-[#3B2A1A]">
-{{ organization.contact_email }}
-</span>
-
-</div>
-
-
-
-
-
-<div class="flex justify-between items-center bg-[#F4F8FF] rounded-2xl px-5 py-4">
-
-<span class="text-[#64748B]">
-Phone
-</span>
-
-<span class="font-bold text-[#1E293B]">
-
-{{ organization.contact_phone|default:"Not Provided" }}
-
-</span>
-
-</div>
-
-
-
-
-
-<div class="flex justify-between items-center bg-[#F8F1FF] rounded-2xl px-5 py-4">
-
-<span class="text-[#6B5B7A]">
-Created
-</span>
-
-<span class="font-bold text-[#4C1D95]">
-
-{{ organization.created_at|date:"d M Y, h:i A" }}
-
-</span>
-
-</div>
-
-
-
-
-
-<div class="flex justify-between items-center bg-[#ECFEFF] rounded-2xl px-5 py-4">
-
-<span class="text-[#155E75]">
-Storage Limit
-</span>
-
-<span class="font-bold text-[#0E7490]">
-
-{{ organization.storage_limit_gb }} GB
-
-</span>
-
-</div>
-
-
-
-</div>
-
-
-</div>
-
-
-
-</div>
-
-
-</section>
 
 {% endblock %}
