@@ -66,11 +66,21 @@ urlpatterns = [
         name='notification_count'
     ),
 
+<<<<<<< HEAD
     path(
         'notifications/read/<int:notification_id>/',
         views.mark_notification_read,
         name='mark_notification_read'
     ),
+=======
+path(
+    'notifications/read/<int:notification_id>/',
+    views.mark_notification_read,
+    name='mark_notification_read'
+),
+
+
+>>>>>>> main
 
     # ================= TEAM =================
 
@@ -97,4 +107,8 @@ urlpatterns = [
         views.team_detail,
         name="team_detail"
     ),
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 ]

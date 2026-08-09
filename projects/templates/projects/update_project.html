@@ -1,234 +1,391 @@
 {% extends 'base.html' %}
 
+{% block title %}
+Edit Project
+{% endblock %}
+
 {% block content %}
 
-<style>
+<script src="https://cdn.tailwindcss.com"></script>
 
-.edit-page{
+<div class="min-h-screen bg-[#F3F7F6] px-4 py-10">
 
-    padding:25px;
-    background:#f8fafc;
+    <div class="mx-auto max-w-2xl">
 
-}
+        <!-- HEADER -->
+        <div
+            class="relative mb-6 overflow-hidden rounded-[26px]
+                   bg-[#075E63]
+                   px-7 py-7
+                   shadow-[0_18px_45px_rgba(7,94,99,0.18)]"
+        >
 
-/* CARD */
+            <!-- Decorative shapes -->
+            <div
+                class="absolute -right-12 -top-12 h-36 w-36
+                       rounded-full bg-[#0B7C7F]/40"
+            ></div>
 
-.edit-card{
+            <div
+                class="absolute -bottom-16 left-1/2 h-32 w-32
+                       rounded-full bg-[#064B50]/50"
+            ></div>
 
-    max-width:600px;
-    margin:auto;
-    background:white;
-    border-radius:16px;
-    padding:30px;
-    border:1px solid #e2e8f0;
-    box-shadow:0 10px 25px rgba(15,23,42,0.08);
+            <div class="relative flex items-center gap-4">
 
-}
+                <div
+                    class="flex h-14 w-14 shrink-0
+                           items-center justify-center
+                           rounded-2xl
+                           bg-[#0A7478]
+                           text-[#D9FFFC]
+                           shadow-inner"
+                >
+                    <i class="fa-solid fa-pen-to-square text-xl"></i>
+                </div>
 
-/* TITLE */
+                <div>
 
-.edit-title{
+                    <p
+                        class="text-[11px] font-black uppercase
+                               tracking-[0.18em] text-[#9FE5E1]"
+                    >
+                        Project Management
+                    </p>
 
-    font-size:24px;
-    font-weight:700;
-    color:#0f172a;
-    margin-bottom:25px;
-    text-align:center;
+                    <h1
+                        class="mt-1 text-3xl font-black
+                               tracking-tight text-white"
+                    >
+                        Edit Project
+                    </h1>
 
-}
+                    <p
+                        class="mt-1 text-sm text-[#C4E9E6]"
+                    >
+                        Update your project information and settings.
+                    </p>
 
-/* INPUT */
+                </div>
 
-.input-group{
+            </div>
 
-    margin-bottom:18px;
-
-}
-
-.input-label{
-
-    display:block;
-    font-size:13px;
-    color:#64748b;
-    margin-bottom:6px;
-
-}
-
-.input-field{
-
-    width:100%;
-    padding:11px 12px;
-    border-radius:8px;
-    border:1px solid #e2e8f0;
-    outline:none;
-    font-size:14px;
-    transition:.2s;
-
-}
-
-.input-field:focus{
-
-    border-color:#2563eb;
-    box-shadow:0 0 0 2px rgba(37,99,235,0.1);
-
-}
-
-/* BUTTON */
-
-.update-btn{
-
-    width:100%;
-    background:#2563eb;
-    color:white;
-    padding:12px;
-    border:none;
-    border-radius:10px;
-    font-size:15px;
-    font-weight:600;
-    cursor:pointer;
-    margin-top:10px;
-
-}
-
-.update-btn:hover{
-
-    background:#1d4ed8;
-
-}
-
-/* BACK LINK */
-
-.back-link{
-
-    display:block;
-    text-align:center;
-    margin-top:15px;
-    color:#64748b;
-    text-decoration:none;
-    font-size:14px;
-
-}
-
-.back-link:hover{
-
-    color:#2563eb;
-
-}
-
-</style>
+        </div>
 
 
+        <!-- FORM CARD -->
+        <div
+            class="overflow-hidden rounded-[26px]
+                   border border-[#D3E2E0]
+                   bg-white
+                   shadow-[0_20px_55px_rgba(15,55,52,0.09)]"
+        >
 
-<div class="edit-page">
-
-
-<div class="edit-card">
-
-
-<div class="edit-title">
-✏ Edit Project
-</div>
-
-
-<form method="POST">
-
-{% csrf_token %}
-
-
-<div class="input-group">
-
-<label class="input-label">Project Name</label>
-
-<input 
-type="text"
-name="name"
-value="{{ project.name }}"
-class="input-field"
+            <!-- FORM HEADER -->
+            <div
+    class="border-b border-[#155B5B]
+           bg-[#164F50]
+           px-6 py-5"
 >
 
-</div>
+    <div class="flex items-center gap-3">
 
+        <div
+            class="flex h-10 w-10 items-center justify-center
+                   rounded-xl
+                   bg-[#2A7372]
+                   text-[#E9FFFC]
+                   shadow-[0_6px_16px_rgba(0,0,0,0.14)]"
+        >
+            <i class="fa-solid fa-sliders"></i>
+        </div>
 
+        <div>
 
-<div class="input-group">
+            <h2
+                class="text-lg font-black text-white"
+            >
+                Project Details
+            </h2>
 
-<label class="input-label">Description</label>
+            <p
+                class="mt-0.5 text-xs text-[#C5E4E1]"
+            >
+                Make the required changes below.
+            </p>
 
-<textarea 
-name="description"
-class="input-field"
-rows="4"
->{{ project.description }}</textarea>
+        </div>
 
-</div>
-
-
-
-<div class="input-group">
-
-<label class="input-label">Status</label>
-
-<select name="status" class="input-field">
-
-<option value="todo" {% if project.status == "todo" %}selected{% endif %}>
-To Do
-</option>
-
-<option value="progress" {% if project.status == "progress" %}selected{% endif %}>
-In Progress
-</option>
-
-<option value="done" {% if project.status == "done" %}selected{% endif %}>
-Done
-</option>
-
-</select>
+    </div>
 
 </div>
 
 
+            <!-- FORM -->
+            <form method="POST" class="space-y-6 p-7">
 
-<div class="input-group">
+                {% csrf_token %}
 
-<label class="input-label">Priority</label>
 
-<select name="priority" class="input-field">
+                <!-- PROJECT NAME -->
+                <div>
 
-<option value="High" {% if project.priority == "High" %}selected{% endif %}>
-High
-</option>
+                    <label
+                        class="mb-2 flex items-center gap-2
+                               text-sm font-black text-[#244744]"
+                    >
+                        <span
+                            class="flex h-7 w-7 items-center justify-center
+                                   rounded-lg bg-[#E0F0EE]
+                                   text-[#087F7B]"
+                        >
+                            <i class="fa-solid fa-folder text-xs"></i>
+                        </span>
 
-<option value="Medium" {% if project.priority == "Medium" %}selected{% endif %}>
-Medium
-</option>
+                        Project Name
+                    </label>
 
-<option value="Low" {% if project.priority == "Low" %}selected{% endif %}>
-Low
-</option>
+                    <input
+                        type="text"
+                        name="name"
+                        value="{{ project.name }}"
+                        class="w-full rounded-xl
+                               border border-[#C9DEDA]
+                               bg-[#F7FBFA]
+                               px-4 py-3
+                               text-sm font-semibold
+                               text-[#203E3B]
+                               outline-none
+                               transition
+                               placeholder:text-[#8BA19D]
+                               focus:border-[#069494]
+                               focus:bg-white
+                               focus:ring-4
+                               focus:ring-[#069494]/10"
+                    >
 
-</select>
+                </div>
+
+
+                <!-- DESCRIPTION -->
+                <div>
+
+                    <label
+                        class="mb-2 flex items-center gap-2
+                               text-sm font-black text-[#244744]"
+                    >
+                        <span
+                            class="flex h-7 w-7 items-center justify-center
+                                   rounded-lg bg-[#E8E1F0]
+                                   text-[#76558E]"
+                        >
+                            <i class="fa-solid fa-align-left text-xs"></i>
+                        </span>
+
+                        Description
+                    </label>
+
+                    <textarea
+                        name="description"
+                        rows="5"
+                        class="w-full resize-none rounded-xl
+                               border border-[#D8CDE2]
+                               bg-[#FAF8FC]
+                               px-4 py-3
+                               text-sm font-medium
+                               leading-6
+                               text-[#3F3448]
+                               outline-none
+                               transition
+                               focus:border-[#76558E]
+                               focus:bg-white
+                               focus:ring-4
+                               focus:ring-[#76558E]/10"
+                    >{{ project.description }}</textarea>
+
+                </div>
+
+
+                <!-- STATUS + PRIORITY -->
+                <div class="grid gap-5 sm:grid-cols-2">
+
+
+                    <!-- STATUS -->
+                    <div>
+
+                        <label
+                            class="mb-2 flex items-center gap-2
+                                   text-sm font-black text-[#244744]"
+                        >
+                            <span
+                                class="flex h-7 w-7 items-center justify-center
+                                       rounded-lg bg-[#E2F0E6]
+                                       text-[#39734C]"
+                            >
+                                <i class="fa-solid fa-circle-check text-xs"></i>
+                            </span>
+
+                            Status
+                        </label>
+
+                        <select
+                            name="status"
+                            class="w-full appearance-none rounded-xl
+                                   border border-[#CDE0D3]
+                                   bg-[#F7FBF8]
+                                   px-4 py-3
+                                   text-sm font-bold
+                                   text-[#315B42]
+                                   outline-none
+                                   transition
+                                   focus:border-[#39734C]
+                                   focus:bg-white
+                                   focus:ring-4
+                                   focus:ring-[#39734C]/10"
+                        >
+
+                            <option
+                                value="todo"
+                                {% if project.status == "todo" %}selected{% endif %}
+                            >
+                                To Do
+                            </option>
+
+                            <option
+                                value="progress"
+                                {% if project.status == "progress" %}selected{% endif %}
+                            >
+                                In Progress
+                            </option>
+
+                            <option
+                                value="done"
+                                {% if project.status == "done" %}selected{% endif %}
+                            >
+                                Done
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- PRIORITY -->
+                    <div>
+
+                        <label
+                            class="mb-2 flex items-center gap-2
+                                   text-sm font-black text-[#244744]"
+                        >
+                            <span
+                                class="flex h-7 w-7 items-center justify-center
+                                       rounded-lg bg-[#F4E7D8]
+                                       text-[#A16632]"
+                            >
+                                <i class="fa-solid fa-flag text-xs"></i>
+                            </span>
+
+                            Priority
+                        </label>
+
+                        <select
+                            name="priority"
+                            class="w-full appearance-none rounded-xl
+                                   border border-[#E3D4C4]
+                                   bg-[#FCF9F5]
+                                   px-4 py-3
+                                   text-sm font-bold
+                                   text-[#765337]
+                                   outline-none
+                                   transition
+                                   focus:border-[#A16632]
+                                   focus:bg-white
+                                   focus:ring-4
+                                   focus:ring-[#A16632]/10"
+                        >
+
+                            <option
+                                value="High"
+                                {% if project.priority == "High" %}selected{% endif %}
+                            >
+                                High
+                            </option>
+
+                            <option
+                                value="Medium"
+                                {% if project.priority == "Medium" %}selected{% endif %}
+                            >
+                                Medium
+                            </option>
+
+                            <option
+                                value="Low"
+                                {% if project.priority == "Low" %}selected{% endif %}
+                            >
+                                Low
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DIVIDER -->
+                <div class="border-t border-[#E3ECEA]"></div>
+
+
+                <!-- ACTIONS -->
+                <div
+                    class="flex flex-col-reverse gap-3
+                           sm:flex-row sm:justify-end"
+                >
+
+                    <a
+                        href="{% url 'project_list' %}"
+                        class="rounded-xl
+                               border border-[#D3E1DF]
+                               bg-[#F7FAF9]
+                               px-6 py-3
+                               text-center
+                               text-sm font-black
+                               text-[#536B68]
+                               transition
+                               hover:border-[#B9CFCC]
+                               hover:bg-[#EEF5F3]
+                               hover:text-[#244744]"
+                    >
+                        <i class="fa-solid fa-arrow-left mr-2"></i>
+                        Cancel
+                    </a>
+
+
+                    <button
+                        type="submit"
+                        class="rounded-xl
+                               bg-[#069494]
+                               px-7 py-3
+                               text-sm font-black
+                               text-white
+                               shadow-[0_10px_24px_rgba(6,148,148,0.20)]
+                               transition
+                               hover:-translate-y-0.5
+                               hover:bg-[#057D7D]
+                               hover:shadow-[0_14px_28px_rgba(6,148,148,0.25)]"
+                    >
+                        <i class="fa-solid fa-check mr-2"></i>
+                        Update Project
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
 
 </div>
-
-
-
-<button class="update-btn">
-Update Project
-</button>
-
-
-</form>
-
-
-<a href="{% url 'project_list' %}" class="back-link">
-← Back to Projects
-</a>
-
-
-</div>
-
-
-</div>
-
 
 {% endblock %}

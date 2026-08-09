@@ -1,0 +1,202 @@
+{% extends "public_base.html" %}
+
+{% block title %}Enterprise Teams | MultiTenant SaaS{% endblock %}
+
+{% block content %}
+
+<!-- ================= ENTERPRISE HERO ================= -->
+<section class="relative pt-28 pb-12 overflow-hidden">
+
+<div class="absolute top-0 right-0 w-[32rem] h-[32rem] bg-[#069494]/10 blur-3xl rounded-full -z-10"></div>
+
+<div class="max-w-7xl mx-auto px-6">
+
+<div data-aos-section>
+
+<div class="grid lg:grid-cols-[1.05fr_.95fr] gap-10 items-center">
+
+<div class="reveal from-left">
+
+<span class="px-4 py-2 rounded-full bg-[#E8F8F7] text-[#0F766E] text-sm font-semibold">
+Enterprise Teams
+</span>
+
+<h1 class="mt-5 text-5xl lg:text-6xl font-extrabold text-[#102A2A] leading-tight">
+Give every team the control to work better.
+</h1>
+
+<p class="mt-5 text-lg leading-8 text-[#425466] max-w-xl">
+Bring departments, users, projects and permissions together in one secure organizational workspace.
+</p>
+
+<div class="mt-7">
+<a href="{% url 'signup' %}"
+class="inline-flex px-7 py-3 rounded-xl bg-[#0F766E] text-white font-semibold hover:bg-[#115E59] transition shadow-md">
+Create Organization
+</a>
+</div>
+
+</div>
+
+<div class="reveal from-right">
+
+<div class="relative bg-white border border-[#E5E7EB] rounded-[32px] shadow-xl p-6">
+
+<div class="flex items-center justify-between border-b border-[#E5E7EB] pb-5">
+
+<div>
+<p class="text-xs text-[#718096]">Organization</p>
+<h3 class="mt-1 font-bold text-[#102A2A]">Enterprise Workspace</h3>
+</div>
+
+<span class="px-3 py-1 rounded-full bg-[#E8F8F7] text-[#0F766E] text-xs font-semibold">
+Secure
+</span>
+
+</div>
+
+<div class="mt-6 grid grid-cols-2 gap-4">
+
+<div class="p-5 rounded-2xl bg-[#FAFBF9] border border-[#E5E7EB]">
+<p class="text-xs text-[#718096]">Teams</p>
+<p class="mt-2 text-3xl font-bold text-[#102A2A]">12</p>
+</div>
+
+<div class="p-5 rounded-2xl bg-[#FAFBF9] border border-[#E5E7EB]">
+<p class="text-xs text-[#718096]">Members</p>
+<p class="mt-2 text-3xl font-bold text-[#102A2A]">148</p>
+</div>
+
+</div>
+
+<div class="mt-4 p-5 rounded-2xl border border-[#E5E7EB]">
+
+<div class="flex justify-between text-sm">
+<span class="font-semibold text-[#102A2A]">Team productivity</span>
+<span class="font-semibold text-[#0F766E]">92%</span>
+</div>
+
+<div class="mt-3 h-2 rounded-full bg-[#E5E7EB]">
+<div class="h-2 w-[92%] rounded-full bg-[#069494]"></div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= ENTERPRISE CAPABILITIES ================= -->
+<section class="py-12 overflow-hidden">
+
+<div class="max-w-7xl mx-auto px-6">
+
+<section data-aos-section>
+
+<div class="max-w-2xl reveal from-bottom">
+
+<span class="px-4 py-2 rounded-full bg-[#EEF2FF] text-indigo-600 text-sm font-semibold">
+Built for Scale
+</span>
+
+<h2 class="mt-5 text-4xl font-extrabold text-[#102A2A]">
+Control without slowing your teams down.
+</h2>
+
+</div>
+
+<div class="mt-9 grid md:grid-cols-3 gap-6">
+
+<div class="reveal from-left bg-white border border-[#E5E7EB] rounded-[28px] p-6 premium-card">
+
+<div class="w-11 h-11 rounded-xl bg-[#E8F8F7] flex items-center justify-center">
+01
+</div>
+
+<h3 class="mt-5 font-bold text-[#102A2A]">Centralized Management</h3>
+
+<p class="mt-2 text-sm leading-6 text-[#718096]">
+Manage multiple teams and organizational resources from one workspace.
+</p>
+
+</div>
+
+<div class="reveal from-bottom bg-white border border-[#E5E7EB] rounded-[28px] p-6 premium-card">
+
+<div class="w-11 h-11 rounded-xl bg-[#ECFEFF] flex items-center justify-center">
+02
+</div>
+
+<h3 class="mt-5 font-bold text-[#102A2A]">Controlled Access</h3>
+
+<p class="mt-2 text-sm leading-6 text-[#718096]">
+Give people access according to their responsibilities and roles.
+</p>
+
+</div>
+
+<div class="reveal from-right bg-white border border-[#E5E7EB] rounded-[28px] p-6 premium-card">
+
+<div class="w-11 h-11 rounded-xl bg-[#EEF2FF] flex items-center justify-center">
+03
+</div>
+
+<h3 class="mt-5 font-bold text-[#102A2A]">Team Visibility</h3>
+
+<p class="mt-2 text-sm leading-6 text-[#718096]">
+Keep projects, tasks and organizational activity visible to the right people.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+</div>
+
+</section>
+
+<!-- ================= ENTERPRISE CTA ================= -->
+<section class="py-10">
+
+<div class="max-w-7xl mx-auto px-6">
+
+<section data-aos-section>
+
+<div class="reveal from-bottom rounded-[30px] bg-[#102A2A] px-8 py-9 lg:px-12">
+
+<div class="flex flex-col lg:flex-row items-center justify-between gap-6">
+
+<div>
+<h2 class="text-3xl font-extrabold text-white">
+Ready to organize your enterprise?
+</h2>
+
+<p class="mt-2 text-slate-300">
+Build a secure workspace for every team.
+</p>
+</div>
+
+<a href="{% url 'signup' %}"
+class="shrink-0 px-7 py-3 rounded-xl bg-[#0F766E] text-white font-semibold hover:bg-[#115E59] transition">
+Get Started
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+</div>
+
+</section>
+
+{% endblock %}
