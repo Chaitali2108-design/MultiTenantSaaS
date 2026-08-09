@@ -6,302 +6,373 @@ Reports
 
 {% block content %}
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-
 <div class="dashboard-container">
 
     <!-- Report Header -->
     <div class="report-header">
 
-        <div class="report-title">
-            <h2>📊 Reports & Analytics</h2>
+    <div class="report-title">
+
+        <div class="title-icon">
+            <i class="fa-solid fa-chart-simple"></i>
+        </div>
+
+        <div>
+
+            <h2>Reports & Analytics</h2>
+
             <p>
-                Monitor project performance, visualize trends and generate professional reports.
+                Monitor projects, analyze productivity and generate professional reports.
             </p>
-        </div>
-
-        <div class="report-actions">
-
-            <select class="report-select">
-                <option>All Projects</option>
-            </select>
-
-            <select class="report-select">
-                <option>This Month</option>
-            </select>
-
-            <button class="btn btn-success">
-                ⬇ Export Report
-            </button>
 
         </div>
 
     </div>
 
+    <div class="report-actions">
 
-    <!-- Summary Cards -->
+    <!-- Project Filter -->
+    <select class="report-select" id="projectFilter">
+        <option value="">All Projects</option>
 
-    <div class="report-summary">
+        {% for project in all_projects %}
+            <option value="{{ project.id }}"
+                {% if selected_project == project.id|stringformat:"s" %}
+                    selected
+                {% endif %}
+            >
+                {{ project.name }}
+            </option>
+        {% endfor %}
+    </select>
 
-        <div class="summary-card teal">
 
-            <div class="summary-icon">
-                📁
-            </div>
+    <!-- Month Filter -->
+    <select class="report-select" id="monthFilter">
+        <option value="">All Months</option>
 
-            <div>
+        <option value="1" {% if selected_month == "1" %}selected{% endif %}>January</option>
+        <option value="2" {% if selected_month == "2" %}selected{% endif %}>February</option>
+        <option value="3" {% if selected_month == "3" %}selected{% endif %}>March</option>
+        <option value="4" {% if selected_month == "4" %}selected{% endif %}>April</option>
+        <option value="5" {% if selected_month == "5" %}selected{% endif %}>May</option>
+        <option value="6" {% if selected_month == "6" %}selected{% endif %}>June</option>
+        <option value="7" {% if selected_month == "7" %}selected{% endif %}>July</option>
+        <option value="8" {% if selected_month == "8" %}selected{% endif %}>August</option>
+        <option value="9" {% if selected_month == "9" %}selected{% endif %}>September</option>
+        <option value="10" {% if selected_month == "10" %}selected{% endif %}>October</option>
+        <option value="11" {% if selected_month == "11" %}selected{% endif %}>November</option>
+        <option value="12" {% if selected_month == "12" %}selected{% endif %}>December</option>
+    </select>
 
-                <h4>Total Projects</h4>
 
-                <h2>{{ total_projects }}</h2>
+    <!-- From Date -->
+<div class="date-filter">
+    <label for="fromDate">
+        <i class="fa-solid fa-calendar-days"></i>
+        From Date
+    </label>
 
-            </div>
+    <input
+        type="date"
+        class="report-select"
+        id="fromDate"
+        value="{{ from_date }}"
+    >
+</div>
 
+
+<!-- To Date -->
+<div class="date-filter">
+    <label for="toDate">
+        <i class="fa-solid fa-calendar-check"></i>
+        To Date
+    </label>
+
+    <input
+        type="date"
+        class="report-select"
+        id="toDate"
+        value="{{ to_date }}"
+    >
+</div>
+
+
+    <!-- Apply Filter -->
+    <button class="export-btn" onclick="applyFilters()">
+        <i class="fa-solid fa-filter"></i>
+        <span>Apply Filter</span>
+    </button>
+
+</div>
+
+</div>
+
+<!-- =========================================
+     SUMMARY CARDS
+========================================= -->
+
+<div class="report-summary">
+
+    <div class="summary-card report-card">
+
+        <div class="card-icon teal">
+            📁
         </div>
 
-        <div class="summary-card blue">
-
-            <div class="summary-icon">
-                ✅
-            </div>
-
-            <div>
-
-                <h4>Total Tasks</h4>
-
-                <h2>{{ total_tasks }}</h2>
-
-            </div>
-
-        </div>
-
-        <div class="summary-card green">
-
-            <div class="summary-icon">
-                ✔
-            </div>
-
-            <div>
-
-                <h4>Completed</h4>
-
-                <h2>{{ completed_tasks }}</h2>
-
-            </div>
-
-        </div>
-
-        <div class="summary-card orange">
-
-            <div class="summary-icon">
-                ⏳
-            </div>
-
-            <div>
-
-                <h4>Pending</h4>
-
-                <h2>{{ pending_tasks }}</h2>
-
-            </div>
-
+        <div class="card-info">
+            <span class="card-title">Total Projects</span>
+            <h2>{{ total_projects }}</h2>
+            <small class="trend {% if project_change >= 0 %}positive{% else %}negative{% endif %}">
+                {% if project_change >= 0 %}+{% endif %}{{ project_change }}% from last month
+            </small>
         </div>
 
     </div>
+
+
+    <div class="summary-card report-card">
+
+        <div class="card-icon blue">
+            📋
+        </div>
+
+        <div class="card-info">
+            <span class="card-title">Total Tasks</span>
+            <h2>{{ total_tasks }}</h2>
+            <small class="trend {% if task_change >= 0 %}positive{% else %}negative{% endif %}">
+                {% if task_change >= 0 %}+{% endif %}{{ task_change }}% from last month
+            </small>
+        </div>
+
+    </div>
+
+
+    <div class="summary-card report-card">
+
+        <div class="card-icon green">
+            ✔
+        </div>
+
+        <div class="card-info">
+            <span class="card-title">Completed</span>
+            <h2>{{ completed_tasks }}</h2>
+            <small>
+                {{ completion_percentage }}% of total tasks
+            </small>
+        </div>
+
+    </div>
+
+
+    <div class="summary-card report-card">
+
+        <div class="card-icon orange">
+            ⏳
+        </div>
+
+        <div class="card-info">
+            <span class="card-title">Pending</span>
+            <h2>{{ pending_tasks }}</h2>
+            <small>
+                {{ pending_percentage }}% of total tasks
+            </small>
+        </div>
+
+    </div>
+
+</div>
 
     <br>
 
 
     <!-- Charts -->
 
-    <div class="charts">
+<div class="charts">
 
-        <div class="chart-card modern-card">
+    <!-- Row 1 -->
 
-            <div class="modern-header">
-
+    <div class="chart-card">
+        <div class="chart-header">
+            <div>
                 <h3>Monthly Projects</h3>
-
-                <span>📈</span>
-
             </div>
-
-            <div class="chart-box large-chart">
-
-                <canvas id="monthlyProjectsChart"></canvas>
-
-            </div>
-
+            <span class="chart-icon">
+                <i class="fa-solid fa-chart-line"></i>
+            </span>
         </div>
 
-
-        <div class="chart-card modern-card">
-
-            <div class="modern-header">
-
-                <h3>Monthly Tasks</h3>
-
-                <span>📊</span>
-
-            </div>
-
-            <div class="chart-box large-chart">
-
-                <canvas id="monthlyTasksChart"></canvas>
-
-            </div>
-
+        <div class="chart-body">
+            <canvas id="monthlyProjectsChart"></canvas>
         </div>
-
-
-        <div class="chart-card modern-card">
-
-            <div class="modern-header">
-
-                <h3>Projects vs Tasks</h3>
-
-                <span>📈</span>
-
-            </div>
-
-            <div class="chart-box small-chart">
-
-                <canvas id="projectsTasksChart"></canvas>
-
-            </div>
-
-        </div>
-
-
-        <div class="chart-card modern-card">
-
-            <div class="modern-header">
-
-                <h3>Priority Distribution</h3>
-
-                <span>🔥</span>
-
-            </div>
-
-            <div class="chart-box small-chart">
-
-                <canvas id="priorityChart"></canvas>
-
-            </div>
-
-        </div>
-
-
-        <div class="chart-card modern-card">
-
-            <div class="modern-header">
-
-                <h3>Tasks Per User</h3>
-
-                <span>👤</span>
-
-            </div>
-
-            <div class="chart-box large-chart">
-
-                <canvas id="userChart"></canvas>
-
-            </div>
-
-        </div>
-
-
-        <div class="chart-card modern-card">
-
-            <div class="modern-header">
-
-                <h3>Tasks Per Project</h3>
-
-                <span>📂</span>
-
-            </div>
-
-            <div class="chart-box large-chart">
-
-                <canvas id="projectChart"></canvas>
-
-            </div>
-
-        </div>
-
-
-        <div class="chart-card modern-card">
-
-            <div class="modern-header">
-
-                <h3>Due vs Completed</h3>
-
-                <span>🎯</span>
-
-            </div>
-
-            <div class="chart-box small-chart">
-
-                <canvas id="dueChart"></canvas>
-
-            </div>
-
-        </div>
-
-
-        <div class="chart-card modern-card">
-
-            <div class="modern-header">
-
-                <h3>Completion Trend</h3>
-
-                <span>📉</span>
-
-            </div>
-
-            <div class="chart-box large-chart">
-
-                <canvas id="completionChart"></canvas>
-
-            </div>
-
-        </div>
-
-
-        <div class="chart-card modern-card">
-
-            <div class="modern-header">
-
-                <h3>Task Status</h3>
-
-                <span>📋</span>
-
-            </div>
-
-            <div class="chart-box small-chart">
-
-                <canvas id="statusChart"></canvas>
-
-            </div>
-
-        </div>
-
     </div>
 
-    <br>
+    <div class="chart-card">
+        <div class="chart-header">
+            <div>
+                <h3>Monthly Tasks</h3>
+            </div>
+            <span class="chart-icon">
+                <i class="fa-solid fa-chart-line"></i>
+            </span>
+        </div>
+
+        <div class="chart-body">
+            <canvas id="monthlyTasksChart"></canvas>
+        </div>
+    </div>
+
+    <div class="chart-card">
+        <div class="chart-header">
+            <div>
+                <h3>Projects vs Tasks</h3>
+            </div>
+            <span class="chart-icon">
+                <i class="fa-solid fa-chart-pie"></i>
+            </span>
+        </div>
+
+        <div class="chart-body">
+            <canvas id="projectsTasksChart"></canvas>
+        </div>
+    </div>
+
+
+    <!-- Row 2 -->
+
+    <div class="chart-card">
+        <div class="chart-header">
+            <div>
+                <h3>Priority Distribution</h3>
+            </div>
+            <span class="chart-icon">
+                🔥
+            </span>
+        </div>
+
+        <div class="chart-body">
+            <canvas id="priorityChart"></canvas>
+        </div>
+    </div>
+
+    <div class="chart-card">
+        <div class="chart-header">
+            <div>
+                <h3>Tasks Per User</h3>
+            </div>
+            <span class="chart-icon">
+                <i class="fa-solid fa-user"></i>
+            </span>
+        </div>
+
+        <div class="chart-body">
+            <canvas id="userChart"></canvas>
+        </div>
+    </div>
+
+    <div class="chart-card">
+        <div class="chart-header">
+            <div>
+                <h3>Tasks Per Project</h3>
+            </div>
+            <span class="chart-icon">
+                📁
+            </span>
+        </div>
+
+        <div class="chart-body">
+            <canvas id="projectChart"></canvas>
+        </div>
+    </div>
+
+
+    <!-- Row 3 -->
+
+    <div class="chart-card">
+        <div class="chart-header">
+            <div>
+                <h3>Due vs Completed</h3>
+            </div>
+            <span class="chart-icon">
+                🎯
+            </span>
+        </div>
+
+        <div class="chart-body">
+            <canvas id="dueChart"></canvas>
+        </div>
+    </div>
+
+    <div class="chart-card">
+        <div class="chart-header">
+            <div>
+                <h3>Completion Trend</h3>
+            </div>
+            <span class="chart-icon">
+                <i class="fa-solid fa-chart-line"></i>
+            </span>
+        </div>
+
+        <div class="chart-body">
+            <canvas id="completionChart"></canvas>
+        </div>
+    </div>
+
+    <div class="chart-card">
+        <div class="chart-header">
+            <div>
+                <h3>Task Status</h3>
+            </div>
+            <span class="chart-icon">
+                <i class="fa-solid fa-clipboard-list"></i>
+            </span>
+        </div>
+
+        <div class="chart-body">
+            <canvas id="statusChart"></canvas>
+        </div>
+    </div>
+
+    <!-- =========================================
+     EXPORT REPORTS
+========================================= -->
+
+<div class="export-card">
+
+    <div class="export-card-header">
+        <i class="fa-solid fa-file-export"></i>
+        <h3>Export Reports</h3>
+    </div>
 
     <div class="export-buttons">
 
-        <button class="btn btn-primary">
+        <!-- PDF -->
+        <button
+            type="button"
+            class="btn-primary"
+            onclick="exportReport('pdf')"
+        >
+            <i class="fa-solid fa-file-pdf"></i>
             Export PDF
         </button>
 
-        <button class="btn btn-success">
+        <!-- Excel -->
+        <button
+            type="button"
+            class="btn-success"
+            onclick="exportReport('excel')"
+        >
+            <i class="fa-solid fa-file-excel"></i>
             Export Excel
         </button>
 
-        <button class="btn btn-secondary">
+        <!-- CSV -->
+        <button
+            type="button"
+            class="btn-secondary"
+            onclick="exportReport('csv')"
+        >
+            <i class="fa-solid fa-file-csv"></i>
             Export CSV
         </button>
 
@@ -309,8 +380,106 @@ Reports
 
 </div>
 
+</div>
+    
+
+
+{% endblock %}
+{% block scripts %}
+
 <script>
-    Chart.register(ChartDataLabels);
+
+    function applyFilters() {
+
+    const project = document.getElementById("projectFilter").value;
+    const month = document.getElementById("monthFilter").value;
+    const fromDate = document.getElementById("fromDate").value;
+    const toDate = document.getElementById("toDate").value;
+
+    const params = new URLSearchParams();
+
+    if (project) {
+        params.append("project", project);
+    }
+
+    if (month) {
+        params.append("month", month);
+    }
+
+    if (fromDate) {
+        params.append("from_date", fromDate);
+    }
+
+    if (toDate) {
+        params.append("to_date", toDate);
+    }
+
+    window.location.href = "/reports/?" + params.toString();
+}
+    function exportReport(format) {
+
+    const project = document.getElementById("projectFilter").value;
+    const month = document.getElementById("monthFilter").value;
+    const fromDate = document.getElementById("fromDate").value;
+    const toDate = document.getElementById("toDate").value;
+
+    const params = new URLSearchParams();
+
+    if (project) {
+        params.append("project", project);
+    }
+
+    if (month) {
+        params.append("month", month);
+    }
+
+    if (fromDate) {
+        params.append("from_date", fromDate);
+    }
+
+    if (toDate) {
+        params.append("to_date", toDate);
+    }
+
+    params.append("format", format);
+
+    const downloadUrl = "/reports/export/?" + params.toString();
+
+    // Open the download request without replacing the current Reports page
+    const link = document.createElement("a");
+    link.href = downloadUrl;
+    link.download = "";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+
+Chart.register(ChartDataLabels);
+
+    Chart.defaults.font.family = "'Segoe UI', sans-serif";
+    Chart.defaults.font.size = 13;
+    Chart.defaults.color = "#64748b";
+
+    Chart.defaults.plugins.legend.position = "top";
+
+    Chart.defaults.plugins.legend.labels.usePointStyle = true;
+    Chart.defaults.plugins.legend.labels.pointStyle = "circle";
+    Chart.defaults.plugins.legend.labels.padding = 16;
+
+    Chart.defaults.plugins.legend.labels.font = {
+        size: 13,
+        weight: "600"
+    };
+
+    Chart.defaults.plugins.tooltip.backgroundColor = "#0f172a";
+    Chart.defaults.plugins.tooltip.titleColor = "#ffffff";
+    Chart.defaults.plugins.tooltip.bodyColor = "#ffffff";
+    Chart.defaults.plugins.tooltip.cornerRadius = 12;
+    Chart.defaults.plugins.tooltip.padding = 12;
+
+    Chart.defaults.animation.duration = 1800;
+    Chart.defaults.animation.easing = "easeOutQuart";
 
 //======================
 // Monthly Projects
@@ -326,9 +495,9 @@ new Chart(projectCtx,{
     type:"line",
 
     data:{
-        labels:{{ project_months|safe }},
+        labels: {{ project_months|safe }},
         datasets:[{
-            label:"Projects",
+            label:"Projects Created",
             data:{{ project_counts|safe }},
 
             borderColor:"#0f766e",
@@ -337,19 +506,32 @@ new Chart(projectCtx,{
             fill:true,
             borderWidth:4,
 
-            tension:0.35,
+            tension:0.25,
+            cubicInterpolationMode:"monotone",
 
-            pointRadius:5,
-            pointHoverRadius:8,
+            pointRadius:6,
+            pointHoverRadius:10,
+            pointHoverBorderWidth:3,
             pointBackgroundColor:"#0f766e",
             pointBorderColor:"#ffffff",
-            pointBorderWidth:2
+            pointBorderWidth:3,
+            pointHoverBackgroundColor:"#14b8a6"
         }]
     },
 
     options:{
         responsive:true,
         maintainAspectRatio:false,
+
+        interaction:{
+            intersect:false,
+            mode:"index"
+        },
+
+        hover:{
+            mode:"nearest",
+            intersect:true
+        },
 
         plugins:{
             legend:{
@@ -365,19 +547,36 @@ new Chart(projectCtx,{
         },
 
         scales:{
-            x:{
-                grid:{
-                    display:false
-                }
-            },
+    x:{
+        grid:{
+            display:false
+        },
 
-            y:{
-                beginAtZero:true,
-                grid:{
-                    color:"#edf2f7"
-                }
+        ticks:{
+            color:"#64748b",
+            font:{
+                size:12
             }
         }
+    },
+
+    y:{
+        beginAtZero:true,
+
+        grid:{
+            color:"rgba(148,163,184,.18)"
+        },
+
+        ticks:{
+            precision:0,
+            stepSize:1,
+            color:"#64748b",
+            font:{
+                size:12
+            }
+        }
+    }
+}
     }
 });
 
@@ -396,9 +595,9 @@ new Chart(taskCtx,{
     type:"line",
 
     data:{
-        labels:{{ months|safe }},
+        labels: {{ months|safe }},
         datasets:[{
-            label:"Tasks",
+            label:"Tasks Created",
             data:{{ task_counts|safe }},
 
             borderColor:"#2563eb",
@@ -407,20 +606,32 @@ new Chart(taskCtx,{
             fill:true,
             borderWidth:4,
 
-            tension:0.35,
+            tension:0.25,
+            cubicInterpolationMode:"monotone",
 
             pointRadius:5,
             pointHoverRadius:8,
 
             pointBackgroundColor:"#2563eb",
             pointBorderColor:"#ffffff",
-            pointBorderWidth:2
+            pointBorderWidth:3,
+            pointHoverBackgroundColor:"#60a5fa"
         }]
     },
 
     options:{
         responsive:true,
         maintainAspectRatio:false,
+
+        interaction:{
+            intersect:false,
+            mode:"index"
+        },
+
+        hover:{
+            mode:"nearest",
+            intersect:true
+        },
 
         plugins:{
             legend:{
@@ -438,19 +649,36 @@ new Chart(taskCtx,{
         },
 
         scales:{
-            x:{
-                grid:{
-                    display:false
-                }
-            },
+    x:{
+        grid:{
+            display:false
+        },
 
-            y:{
-                beginAtZero:true,
-                grid:{
-                    color:"#edf2f7"
-                }
+        ticks:{
+            color:"#64748b",
+            font:{
+                size:12
             }
         }
+    },
+
+    y:{
+        beginAtZero:true,
+
+        grid:{
+            color:"rgba(148,163,184,.18)"
+        },
+
+        ticks:{
+            precision:0,
+            stepSize:1,
+            color:"#64748b",
+            font:{
+                size:12
+            }
+        }
+    }
+}
     }
 });
 //======================
@@ -485,48 +713,61 @@ new Chart(document.getElementById("projectsTasksChart"),{
         responsive:true,
         maintainAspectRatio:false,
 
-        cutout:"60%",
+        cutout:"68%",
+
+        interaction:{
+            intersect:false,
+            mode:"index"
+        },
+
+        hover:{
+            mode:"nearest",
+            intersect:true
+        },
 
         plugins:{
+    legend:{
+        display:true,
+        position:"bottom",
 
-            legend:{
-                display:true,
-                position:"bottom",
+        labels:{
+            usePointStyle:true,
+            pointStyle:"circle",
+            padding:20,
 
-                labels:{
-                    usePointStyle:true,
-                    pointStyle:"circle",
-                    padding:20,
-                    font:{
-                        size:13,
-                        weight:"bold"
-                    }
-                }
+            font:{
+                size:13,
+                weight:"bold"
             },
 
-            tooltip:{
-                enabled:true
-            },
+            generateLabels:function(chart){
 
-            datalabels:{
+                const data = chart.data.datasets[0].data;
 
-                color:"#ffffff",
+                const total = data.reduce((a,b)=>a+b,0);
 
-                font:{
-                    size:16,
-                    weight:"bold"
-                },
+                return chart.data.labels.map((label,index)=>{
 
+                    const value = data[index];
 
-                formatter:(value, context)=>{
-                    let total = context.dataset.data.reduce((a,b)=>a+b,0);
-                    let percentage = ((value/total)*100).toFixed(1);
-                    return value + " (" + percentage + "%)";
-                }
+                    const percentage = ((value/total)*100).toFixed(1);
+
+                    return {
+                        text:`${label} ${percentage}% (${value})`,
+                        fillStyle:chart.data.datasets[0].backgroundColor[index],
+                        strokeStyle:"#ffffff",
+                        lineWidth:1,
+                        hidden:false,
+                        index:index,
+                        pointStyle:"circle"
+                    };
+
+                });
 
             }
-
         }
+    }
+}
 
     }
 
@@ -543,7 +784,7 @@ new Chart(document.getElementById("priorityChart"),{
     type:"pie",
 
     data:{
-        labels:{{ priority_labels|safe }},
+        labels: {{ priority_labels|safe }},
 
         datasets:[{
 
@@ -569,46 +810,63 @@ new Chart(document.getElementById("priorityChart"),{
         responsive:true,
         maintainAspectRatio:false,
 
+        cutout:"68%",
+
+        interaction:{
+            intersect:false,
+            mode:"index"
+        },
+
+        hover:{
+            mode:"nearest",
+            intersect:true
+        },
+
         plugins:{
+    legend:{
+    display:true,
+    position:"right",
 
-            legend:{
-                display:true,
-                position:"bottom",
+    labels:{
+        usePointStyle:true,
+        pointStyle:"circle",
+        padding:15,
 
-                labels:{
-                    usePointStyle:true,
-                    pointStyle:"circle",
-                    padding:18,
+        font:{
+            size:13,
+            weight:"bold"
+        },
 
-                    font:{
-                        size:13,
-                        weight:"bold"
-                    }
-                }
-            },
+        generateLabels:function(chart){
 
-            tooltip:{
-                enabled:true
-            },
+            const data = chart.data.datasets[0].data;
 
-            datalabels:{
+            const total = data.reduce((a,b)=>a+b,0);
 
-                color:"#ffffff",
+            return chart.data.labels.map((label,index)=>{
 
-                font:{
-                    size:16,
-                    weight:"bold"
-                },
+                const value = data[index];
 
-                formatter:(value, context)=>{
-                    let total = context.dataset.data.reduce((a,b)=>a+b,0);
-                    let percentage = ((value/total)*100).toFixed(1);
-                    return value + " (" + percentage + "%)";
-                }
+                const percentage =
+                    ((value/total)*100).toFixed(1);
 
-            }
+                return {
+                    text:`${label}   ${value} (${percentage}%)`,
+                    fillStyle:
+                        chart.data.datasets[0].backgroundColor[index],
+                    strokeStyle:"#ffffff",
+                    lineWidth:1,
+                    hidden:false,
+                    index:index,
+                    pointStyle:"circle"
+                };
+
+            });
 
         }
+    }
+}
+}
 
     }
 
@@ -631,7 +889,7 @@ new Chart(userCtx,{
 
     data:{
 
-        labels:{{ user_labels|safe }},
+        labels: {{ user_labels|safe }},
 
         datasets:[{
 
@@ -664,6 +922,16 @@ new Chart(userCtx,{
             easing:"easeOutQuart"
         },
 
+        interaction:{
+            intersect:false,
+            mode:"index"
+        },
+
+        hover:{
+            mode:"nearest",
+            intersect:true
+        },
+
         plugins:{
 
             legend:{
@@ -689,8 +957,8 @@ new Chart(userCtx,{
 
                 anchor:"end",
 
-                align:"right",
-
+                align:"end",
+                offset:8,
                 color:"#0f172a",
 
                 font:{
@@ -754,31 +1022,29 @@ new Chart(projectTaskCtx,{
     type:"bar",
 
     data:{
-
-        labels:{{ project_labels|safe }},
+        labels: {{ project_labels|safe }},
 
         datasets:[{
-
             label:"Tasks Per Project",
-            data:{{ project_task_counts|safe }},
-            backgroundColor: projectTaskGradient,
-            borderRadius:15,
-            borderSkipped:false,
-            maxBarThickness:45
-        }]
 
+            data:{{ project_task_counts|safe }},
+
+            backgroundColor:projectTaskGradient,
+
+            borderRadius:10,
+
+            borderSkipped:false,
+
+            barThickness:30
+        }]
     },
 
     options:{
 
         responsive:true,
-
         maintainAspectRatio:false,
 
-        animation:{
-            duration:1800,
-            easing:"easeOutQuart"
-        },
+        indexAxis:"y",
 
         plugins:{
 
@@ -789,10 +1055,11 @@ new Chart(projectTaskCtx,{
                 labels:{
                     usePointStyle:true,
                     pointStyle:"circle",
+                    padding:15,
 
                     font:{
                         size:13,
-                        weight:"bold"
+                        weight:"600"
                     }
                 }
             },
@@ -801,66 +1068,55 @@ new Chart(projectTaskCtx,{
                 enabled:true
             },
 
-            ticks:{
-                autoSkip:false,
-                maxRotation:45,
-                minRotation:45
-            },
-
             datalabels:{
-
                 anchor:"end",
-
-                align:"top",
+                align:"right",
+                offset:8,
 
                 color:"#1e293b",
 
                 font:{
                     size:13,
-                    weight:"bold"
+                    weight:"700"
                 },
 
-                formatter:(value)=>{
+                formatter:function(value){
                     return value;
                 }
-
             }
-
         },
 
         scales:{
 
             x:{
+                beginAtZero:true,
 
+                grid:{
+                    color:"rgba(148,163,184,.18)"
+                },
+
+                ticks:{
+                    precision:0,
+                    stepSize:1
+                }
+            },
+
+            y:{
                 grid:{
                     display:false
                 },
 
                 ticks:{
-                    maxRotation:30,
-                    minRotation:0
+                    color:"#475569",
+
+                    font:{
+                        size:12,
+                        weight:"600"
+                    }
                 }
-
-            },
-
-            y:{
-
-                beginAtZero:true,
-
-                grid:{
-                    color:"#e2e8f0"
-                },
-
-                ticks:{
-                    precision:0
-                }
-
             }
-
         }
-
     }
-
 });
 
 
@@ -875,7 +1131,7 @@ new Chart(document.getElementById("dueChart"),{
 
     data:{
 
-        labels:["Due","Completed"],
+        labels: ["Due","Completed"],
 
         datasets:[{
 
@@ -904,57 +1160,68 @@ new Chart(document.getElementById("dueChart"),{
         responsive:true,
         maintainAspectRatio:false,
 
-        cutout:"65%",
+        cutout:"68%",
 
         animation:{
             duration:1800,
             easing:"easeOutQuart"
         },
 
+        interaction:{
+            intersect:false,
+            mode:"index"
+        },
+
+        hover:{
+            mode:"nearest",
+            intersect:true
+        },
+
         plugins:{
 
             legend:{
+    display:true,
+    position:"right",
 
-                display:true,
-                position:"bottom",
+    labels:{
+        usePointStyle:true,
+        pointStyle:"circle",
+        padding:15,
 
-                labels:{
-                    usePointStyle:true,
-                    pointStyle:"circle",
-                    padding:18,
+        font:{
+            size:13,
+            weight:"bold"
+        },
 
-                    font:{
-                        size:13,
-                        weight:"bold"
-                    }
-                }
+        generateLabels:function(chart){
 
-            },
+            const data = chart.data.datasets[0].data;
 
-            tooltip:{
-                enabled:true
-            },
+            const total = data.reduce((a,b)=>a+b,0);
 
-            datalabels:{
+            return chart.data.labels.map((label,index)=>{
 
-                color:"#ffffff",
+                const value = data[index];
 
-                font:{
-                    size:16,
-                    weight:"bold"
-                },
+                const percentage =
+                    ((value/total)*100).toFixed(1);
 
-                formatter:(value,context)=>{
+                return {
+                    text:`${label}   ${value} (${percentage}%)`,
+                    fillStyle:
+                        chart.data.datasets[0].backgroundColor[index],
+                    strokeStyle:"#ffffff",
+                    lineWidth:1,
+                    hidden:false,
+                    index:index,
+                    pointStyle:"circle"
+                };
 
-                    let total=context.dataset.data.reduce((a,b)=>a+b,0);
+            });
 
-                    let percentage=((value/total)*100).toFixed(1);
-
-                    return value+"\n("+percentage+"%)";
-
-                }
-
-            }
+        }
+    }
+}
 
         }
 
@@ -968,124 +1235,128 @@ new Chart(document.getElementById("dueChart"),{
 // Completion Trend
 //======================
 
-const completionCtx = document.getElementById("completionChart").getContext("2d");
+const completionCtx =
+    document.getElementById("completionChart").getContext("2d");
 
-const completionGradient = completionCtx.createLinearGradient(0,0,0,350);
+const completionGradient =
+    completionCtx.createLinearGradient(0, 0, 0, 350);
 
-completionGradient.addColorStop(0,"rgba(20,184,166,.45)");
-completionGradient.addColorStop(1,"rgba(20,184,166,0)");
+completionGradient.addColorStop(
+    0,
+    "rgba(20,184,166,.45)"
+);
 
-new Chart(completionCtx,{
+completionGradient.addColorStop(
+    1,
+    "rgba(20,184,166,0)"
+);
 
-    type:"line",
+new Chart(completionCtx, {
 
-    data:{
+    type: "line",
 
-        labels:["Pending","Completed"],
+    data: {
 
-        datasets:[{
+        labels: {{ months|safe }},
 
-            label:"Tasks",
+        datasets: [{
 
-            data:[{{ pending_tasks }},{{ completed_tasks }}],
+            label: "Completed Tasks",
 
-            borderColor:"#14b8a6",
+            data: {{ completed_task_counts|safe }},
 
-            backgroundColor:completionGradient,
+            borderColor: "#14b8a6",
 
-            fill:true,
+            backgroundColor: completionGradient,
 
-            borderWidth:4,
+            fill: true,
 
-            tension:.35,
+            borderWidth: 4,
 
-            pointRadius:6,
+            tension: 0.35,
 
-            pointHoverRadius:9,
+            pointRadius: 5,
 
-            pointBackgroundColor:"#14b8a6",
+            pointHoverRadius: 9,
 
-            pointBorderColor:"#ffffff",
+            pointBackgroundColor: "#14b8a6",
 
-            pointBorderWidth:3
+            pointBorderColor: "#ffffff",
+
+            pointBorderWidth: 3,
+
+            pointHoverBackgroundColor: "#2dd4bf"
 
         }]
 
     },
 
-    options:{
+    options: {
 
-        responsive:true,
+        responsive: true,
 
-        maintainAspectRatio:false,
+        maintainAspectRatio: false,
 
-        animation:{
-            duration:1800,
-            easing:"easeOutQuart"
+        interaction: {
+
+            intersect: false,
+
+            mode: "index"
+
         },
 
-        plugins:{
+        plugins: {
 
-            legend:{
-                display:true,
-                position:"top",
+            legend: {
 
-                labels:{
-                    usePointStyle:true,
-                    pointStyle:"circle",
+                display: true,
 
-                    font:{
-                        size:13,
-                        weight:"bold"
-                    }
-                }
+                position: "top"
+
             },
 
-            tooltip:{
-                enabled:true
+            tooltip: {
+
+                enabled: true
+
             },
 
-            datalabels:{
+            datalabels: {
 
-                align:"top",
-
-                anchor:"end",
-
-                color:"#0f172a",
-
-                font:{
-                    size:13,
-                    weight:"bold"
-                },
-
-                formatter:(value)=>{
-                    return value;
-                }
+                display: false
 
             }
 
         },
 
-        scales:{
+        scales: {
 
-            x:{
+            x: {
 
-                grid:{
-                    display:false
+                grid: {
+
+                    display: false
+
                 }
 
             },
 
-            y:{
+            y: {
 
-                beginAtZero:true,
+                beginAtZero: true,
 
-                grid:{
-                    color:"#e2e8f0"
+                grid: {
+
+                    color: "rgba(148,163,184,.18)"
+
                 },
 
-                ticks:{
-                    precision:0
+                ticks: {
+
+                    precision: 0,
+
+                    stepSize: 1
+
                 }
 
             }
@@ -1095,7 +1366,6 @@ new Chart(completionCtx,{
     }
 
 });
-
 
 
 //======================
@@ -1108,7 +1378,7 @@ new Chart(document.getElementById("statusChart"),{
 
     data:{
 
-        labels:{{ status_labels|safe }},
+        labels: {{ status_labels|safe }},
 
         datasets:[{
 
@@ -1140,61 +1410,65 @@ new Chart(document.getElementById("statusChart"),{
 
         maintainAspectRatio:false,
 
-        cutout:"65%",
-
+        cutout:"68%",
         animation:{
             duration:1800,
             easing:"easeOutQuart"
         },
-
+        interaction:{
+            intersect:false,
+            mode:"index"
+        },
+        hover:{
+            mode:"nearest",
+            intersect:true
+        },
         plugins:{
-
             legend:{
-                display:true,
-                position:"bottom",
+    display:true,
+    position:"right",
 
-                labels:{
-                    usePointStyle:true,
-                    pointStyle:"circle",
-                    padding:18,
+    labels:{
+        usePointStyle:true,
+        pointStyle:"circle",
+        padding:15,
 
-                    font:{
-                        size:13,
-                        weight:"bold"
-                    }
-                }
-            },
+        font:{
+            size:13,
+            weight:"bold"
+        },
 
-            tooltip:{
-                enabled:true
-            },
+        generateLabels:function(chart){
 
-            datalabels:{
+            const data = chart.data.datasets[0].data;
 
-                color:"#ffffff",
+            const total = data.reduce((a,b)=>a+b,0);
 
-                font:{
-                    size:15,
-                    weight:"bold"
-                },
+            return chart.data.labels.map((label,index)=>{
 
-                formatter:(value,context)=>{
+                const value = data[index];
 
-                    let total=context.dataset.data.reduce((a,b)=>a+b,0);
+                const percentage =
+                    ((value/total)*100).toFixed(1);
 
-                    let percentage=((value/total)*100).toFixed(1);
+                return {
+                    text:`${label}   ${value} (${percentage}%)`,
+                    fillStyle:
+                        chart.data.datasets[0].backgroundColor[index],
+                    strokeStyle:"#ffffff",
+                    lineWidth:1,
+                    hidden:false,
+                    index:index,
+                    pointStyle:"circle"
+                };
 
-                    return value + "\n(" + percentage + "%)";
-
-                }
-
-            }
+            });
 
         }
-
     }
-
+}
+        }
+    }
 });
 </script>
-
 {% endblock %}
