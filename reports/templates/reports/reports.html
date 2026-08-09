@@ -337,48 +337,196 @@ Reports
      EXPORT REPORTS
 ========================================= -->
 
-<div class="export-card">
 
-    <div class="export-card-header">
-        <i class="fa-solid fa-file-export"></i>
-        <h3>Export Reports</h3>
+
+
+<!-- EXPORT REPORTS CARD -->
+<div class="rounded-2xl bg-white p-5 shadow-sm border border-[#E6EFED]">
+
+    <!-- Header -->
+    <div class="mb-4 flex items-center gap-3">
+
+        <div class="flex h-10 w-10 items-center justify-center
+                    rounded-xl bg-[#D5EAE7] text-[#069494]">
+            <i class="fa-solid fa-file-export"></i>
+        </div>
+
+        <div>
+            <h3 class="text-base font-black text-[#183B3A]">
+                Export Reports
+            </h3>
+
+            <p class="mt-0.5 text-xs text-[#78918E]">
+                Download project and task reports
+            </p>
+        </div>
+
     </div>
 
-    <div class="export-buttons">
 
-        <!-- PDF -->
+    <!-- Quick Information -->
+    <div class="mb-4 grid grid-cols-3 gap-2">
+
+        <div class="rounded-xl bg-[#F5FAF9] p-3 text-center">
+            <i class="fa-solid fa-table-list text-sm text-[#069494]"></i>
+
+            <p class="mt-1 text-[11px] font-bold text-[#526D69]">
+                Structured
+            </p>
+
+            <p class="text-[10px] text-[#78918E]">
+                Organized data
+            </p>
+        </div>
+
+
+        <div class="rounded-xl bg-[#F8F7FC] p-3 text-center">
+            <i class="fa-solid fa-download text-sm text-[#4F46E5]"></i>
+
+            <p class="mt-1 text-[11px] font-bold text-[#526D69]">
+                Download
+            </p>
+
+            <p class="text-[10px] text-[#78918E]">
+                Ready to use
+            </p>
+        </div>
+
+
+        <div class="rounded-xl bg-[#F8FAF5] p-3 text-center">
+            <i class="fa-solid fa-share-nodes text-sm text-[#15803D]"></i>
+
+            <p class="mt-1 text-[11px] font-bold text-[#526D69]">
+                Share
+            </p>
+
+            <p class="text-[10px] text-[#78918E]">
+                Easy to send
+            </p>
+        </div>
+
+    </div>
+
+
+    <!-- Included Data -->
+    <div class="mb-4 rounded-xl
+                border border-[#E2EFED]
+                bg-[#F7FAF9]
+                p-3">
+
+        <div class="mb-2 flex items-center gap-2">
+
+            <i class="fa-solid fa-circle-check text-[#069494]"></i>
+
+            <span class="text-xs font-black text-[#183B3A]">
+                Report data
+            </span>
+
+        </div>
+
+        <div class="grid grid-cols-2 gap-y-2">
+
+            <span class="flex items-center gap-2 text-[11px] text-[#627D79]">
+                <i class="fa-solid fa-folder text-[#069494]"></i>
+                Projects
+            </span>
+
+            <span class="flex items-center gap-2 text-[11px] text-[#627D79]">
+                <i class="fa-solid fa-list-check text-[#069494]"></i>
+                Tasks
+            </span>
+
+            <span class="flex items-center gap-2 text-[11px] text-[#627D79]">
+                <i class="fa-solid fa-user text-[#069494]"></i>
+                Assignees
+            </span>
+
+            <span class="flex items-center gap-2 text-[11px] text-[#627D79]">
+                <i class="fa-solid fa-flag text-[#069494]"></i>
+                Priority
+            </span>
+
+            <span class="flex items-center gap-2 text-[11px] text-[#627D79]">
+                <i class="fa-solid fa-circle-check text-[#069494]"></i>
+                Status
+            </span>
+
+            <span class="flex items-center gap-2 text-[11px] text-[#627D79]">
+                <i class="fa-solid fa-calendar text-[#069494]"></i>
+                Due Dates
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- Format Information -->
+    <div class="mb-4">
+
+        <p class="mb-2 text-xs font-black text-[#526D69]">
+            Choose a format
+        </p>
+
+
+    </div>
+
+
+    <!-- Export Buttons -->
+    <div class="grid grid-cols-3 gap-2.5">
+
         <button
             type="button"
-            class="btn-primary"
             onclick="exportReport('pdf')"
+            class="flex items-center justify-center gap-2
+                   rounded-xl bg-[#FFF1F1]
+                   px-3 py-2.5
+                   text-xs font-bold text-[#DC2626]
+                   transition hover:bg-[#FEE2E2]
+                   hover:shadow-sm focus:outline-none"
         >
             <i class="fa-solid fa-file-pdf"></i>
-            Export PDF
+            PDF
         </button>
 
-        <!-- Excel -->
+
         <button
             type="button"
-            class="btn-success"
             onclick="exportReport('excel')"
+            class="flex items-center justify-center gap-2
+                   rounded-xl bg-[#ECFDF5]
+                   px-3 py-2.5
+                   text-xs font-bold text-[#15803D]
+                   transition hover:bg-[#DCFCE7]
+                   hover:shadow-sm focus:outline-none"
         >
             <i class="fa-solid fa-file-excel"></i>
-            Export Excel
+            Excel
         </button>
 
-        <!-- CSV -->
+
         <button
             type="button"
-            class="btn-secondary"
             onclick="exportReport('csv')"
+            class="flex items-center justify-center gap-2
+                   rounded-xl bg-[#EEF2FF]
+                   px-3 py-2.5
+                   text-xs font-bold text-[#4F46E5]
+                   transition hover:bg-[#E0E7FF]
+                   hover:shadow-sm focus:outline-none"
         >
             <i class="fa-solid fa-file-csv"></i>
-            Export CSV
+            CSV
         </button>
 
     </div>
 
 </div>
+
+
+
+
+
 
 </div>
     

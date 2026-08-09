@@ -67,18 +67,38 @@ class="w-full outline-none border-none text-[#425466]">
 
 <div class="flex gap-3">
 
-<button class="w-12 h-12 rounded-xl bg-[#E8F8F7] text-[#069494]">
-<i class="fa-solid fa-bell">
-</i>
+    <button
+        type="button"
+        class="flex h-12 w-12 items-center justify-center
+               rounded-xl
+               bg-[#E8F8F7] text-[#069494]
+               outline-none
+               transition-all duration-200
+               hover:bg-[#D5F1EE]
+               hover:-translate-y-0.5
+               hover:shadow-md
+               focus:outline-none
+               focus:ring-0"
+    >
+        <i class="fa-solid fa-bell"></i>
+    </button>
 
-
-
-</button>
-
-
-<button class="w-12 h-12 rounded-xl bg-[#EEF2FF] text-[#4F46E5]">
-<i class="fa-solid fa-gear"></i>
-</button>
+    <a
+        href="{% url 'settings' %}"
+        class="flex h-12 w-12 items-center justify-center
+               rounded-xl
+               bg-[#EEF2FF] text-[#4F46E5]
+               no-underline
+               outline-none
+               transition-all duration-200
+               hover:bg-[#E1E7FF]
+               hover:-translate-y-0.5
+               hover:shadow-md
+               focus:outline-none
+               focus:ring-0"
+    >
+        <i class="fa-solid fa-gear"></i>
+    </a>
 
 </div>
 
@@ -1620,6 +1640,7 @@ new Chart(document.getElementById("taskActivityChart"), {
 </section>
 
 
+
 <!-- =========================================================
      CHART.JS
 ========================================================= -->
@@ -2226,6 +2247,8 @@ color:"rgba(148,163,184,0.15)"
 
 
 });
-
 </script>
+
+
+
 {% endblock %}

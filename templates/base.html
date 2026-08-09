@@ -41,7 +41,7 @@
     </style>
 </head>
 
-<>
+
 
     {% include 'components/navbar.html' %}
 
@@ -63,6 +63,22 @@
 {% endblock %}
 
 </body>
+<script>
+document.addEventListener("click", function (event) {
+
+    const button = document.getElementById("notificationBtn");
+    const dropdown = document.getElementById("notificationDropdown");
+
+    if (
+        dropdown &&
+        !dropdown.contains(event.target) &&
+        !button.contains(event.target)
+    ) {
+        dropdown.classList.add("hidden");
+    }
+
+});
+</script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 

@@ -8,7 +8,7 @@ Invitations
 
 <div class="mx-auto max-w-7xl">
 
-```
+
 <!-- ================= HEADER ================= -->
 
 <div class="mb-8 overflow-hidden rounded-[30px] border-2 border-[#6B4A5A] bg-gradient-to-br from-[#DDF5F1] via-[#7BCDC3] to-[#249D8F] p-8 shadow-[0_18px_45px_rgba(76,52,65,0.14)]">
@@ -45,7 +45,7 @@ Invitations
         <!-- INVITE USER -->
 
         <a
-            href="#"
+            href="{% url 'create_invitation' %}"
             class="inline-flex items-center justify-center gap-2 rounded-2xl border-2 border-[#573647] bg-[#6B4358] px-7 py-3.5 text-sm font-black text-white shadow-lg shadow-[#573647]/20 transition duration-200 hover:-translate-y-0.5 hover:border-[#482B3A] hover:bg-[#59364A] hover:shadow-xl"
         >
 
@@ -242,7 +242,7 @@ Invitations
                 {% if invitation.status == "Pending" %}
 
                 <a
-                    href="#"
+                    href="{% url 'resend_invitation_confirm' %}"
                     class="rounded-xl border border-[#D6B37C] bg-[#F4E1BD] px-3 py-2 text-xs font-black text-[#805C25] transition hover:border-[#BC9558] hover:bg-[#EACF9F]"
                 >
                     ↻ Resend
@@ -251,7 +251,7 @@ Invitations
                 {% elif invitation.status == "Accepted" %}
 
                 <a
-                    href="#"
+                    href="{% url 'view_invited_user' invitation.id %}"
                     class="rounded-xl border border-[#8FBFA0] bg-[#DCEEE2] px-3 py-2 text-xs font-black text-[#4D7D5D] transition hover:border-[#6FA685] hover:bg-[#CDE5D5]"
                 >
                     👁 View
@@ -260,7 +260,7 @@ Invitations
                 {% else %}
 
                 <a
-                    href="#"
+                    href="{% url 'regenerate_invitation' %}"
                     class="rounded-xl border border-[#C7A9D1] bg-[#E9DDF0] px-3 py-2 text-xs font-black text-[#735B82] transition hover:border-[#AF8FBA] hover:bg-[#DDCCE6]"
                 >
                     ↻ Regenerate
@@ -329,7 +329,7 @@ Invitations
 </div>
 
 {% endif %}
-```
+
 
 </div>
 

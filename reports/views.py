@@ -6,7 +6,8 @@ from projects.models import Project, Task
 import csv
 from django.http import HttpResponse
 from openpyxl import Workbook
-
+from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 import json
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4, landscape
@@ -19,7 +20,7 @@ from reportlab.platypus import (
     Spacer
 )
 
-
+from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 def reports(request):
 
     # ==================================================
@@ -608,10 +609,11 @@ def export_report(request):
     # CSV EXPORT
     # ==================================================
 
+    
     if export_format == "csv":
 
         response = HttpResponse(
-            content_type="text/csv"
+            content_type="text/csv; charset=utf-8-sig"
         )
 
         response["Content-Disposition"] = (
@@ -636,23 +638,35 @@ def export_report(request):
         ):
 
             writer.writerow([
-                task.project.name if task.project else "No Project",
+                task.project.name
+                if task.project
+                else "No Project",
+
                 task.title,
+
                 task.assigned_to.username
                 if task.assigned_to
                 else "Unassigned",
-                task.priority or "No Priority",
+
+                task.priority
+                or "No Priority",
+
                 task.status,
-                task.due_date or "",
+
+                task.due_date
+                or "",
+
                 task.created_at,
             ])
 
         return response
 
+
     # ==================================================
     # EXCEL EXPORT
     # ==================================================
 
+    
     if export_format == "excel":
 
         workbook = Workbook()
@@ -687,6 +701,71 @@ def export_report(request):
                 str(task.created_at),
             ])
 
+    # Header styling
+        header_fill = PatternFill(
+            fill_type="solid",
+            fgColor="0F766E"
+        )
+
+        header_font = Font(
+            bold=True,
+            color="FFFFFF"
+        )
+
+        thin_border = Border(
+            left=Side(style="thin", color="D9E5E3"),
+            right=Side(style="thin", color="D9E5E3"),
+            top=Side(style="thin", color="D9E5E3"),
+            bottom=Side(style="thin", color="D9E5E3")
+        )
+
+        for cell in worksheet[1]:
+
+            cell.fill = header_fill
+            cell.font = header_font
+            cell.alignment = Alignment(
+                horizontal="center",
+                vertical="center"
+            )
+            cell.border = thin_border
+
+        # Data styling + wrapping
+        for row in worksheet.iter_rows(
+            min_row=2
+        ):
+
+            for cell in row:
+
+                cell.alignment = Alignment(
+                    vertical="top",
+                    wrap_text=True
+                )
+
+            cell.border = thin_border
+
+    # Column widths
+        widths = {
+            "A": 28,
+            "B": 45,
+            "C": 22,
+            "D": 15,
+            "E": 18,
+            "F": 16,
+            "G": 22,
+        }
+
+        for column, width in widths.items():
+
+            worksheet.column_dimensions[
+                column
+            ].width = width
+
+    # Header height
+        worksheet.row_dimensions[1].height = 25
+
+    # Freeze header
+        worksheet.freeze_panes = "A2"
+
         response = HttpResponse(
             content_type=(
                 "application/vnd.openxmlformats-officedocument."
@@ -701,6 +780,8 @@ def export_report(request):
         workbook.save(response)
 
         return response
+
+
         # ==================================================
     # PDF EXPORT
     # ==================================================
@@ -827,13 +908,13 @@ def export_report(request):
             data,
             repeatRows=1,
             colWidths=[
-                90,
+                130,
                 150,
                 90,
                 70,
                 70,
                 80,
-                120,
+                140,
             ]
         )
 

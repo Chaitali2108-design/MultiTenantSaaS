@@ -29,7 +29,7 @@ Have a question about the platform, organization management or getting started? 
 <div class="w-11 h-11 rounded-xl bg-[#E8F8F7] flex items-center justify-center text-[#0F766E]">✉</div>
 <div>
 <p class="text-sm text-[#718096]">Email</p>
-<p class="font-semibold text-[#102A2A]">support@multitenant.com</p>
+<p class="font-semibold text-[#102A2A]">multitenant@gmail.com</p>
 </div>
 </div>
 
@@ -52,6 +52,14 @@ Have a question about the platform, organization management or getting started? 
 How can we help?
 </h2>
 </div>
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="mb-5 rounded-xl border border-[#B8E2DE] bg-[#E8F8F7] px-4 py-3 text-sm font-semibold text-[#0F766E]">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
 
 <form method="post" class="space-y-4">
 {% csrf_token %}
