@@ -87,11 +87,17 @@ def project_list(request):
 
 @login_required(login_url='/accounts/login/')
 def create_project(request):
+
     user = request.user
-    users = User.objects.filter(organization=user.organization)
+
+    users = User.objects.filter(
+        organization=user.organization,
+        is_active=True
+    )
 
     if request.method == "POST":
-        project=Project.objects.create(
+
+        project = Project.objects.create(
             name=request.POST.get("name"),
             description=request.POST.get("description"),
             status=request.POST.get("status"),
@@ -101,15 +107,15 @@ def create_project(request):
             organization=user.organization
         )
 
-        member_ids = request.POST.getlist('members')
-        project.members.set(member_ids)
+        return redirect("project_list")
 
-
-        return redirect('project_list')
-
-    return render(request, 'projects/create_project.html', {
-        'users': users   
-    })
+    return render(
+        request,
+        "projects/create_project.html",
+        {
+            "users": users
+        }
+    )
 
 @login_required(login_url='/accounts/login/')
 def update_project(request, project_id):
