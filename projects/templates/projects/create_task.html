@@ -553,7 +553,6 @@ Create Task
 
             <div class="grid gap-3 sm:grid-cols-3">
 
-                <!-- TODO -->
 
                 <label class="cursor-pointer">
 
@@ -561,7 +560,8 @@ Create Task
                         type="radio"
                         name="status"
                         value="todo"
-                        class="peer sr-only"
+                        
+                        
                         {% if not task or task.status == "todo" %}
                             checked
                         {% endif %}
@@ -582,7 +582,7 @@ Create Task
                         type="radio"
                         name="status"
                         value="progress"
-                        class="peer sr-only"
+                       
                         {% if task and task.status == "progress" %}
                             checked
                         {% endif %}
@@ -603,7 +603,7 @@ Create Task
                         type="radio"
                         name="status"
                         value="done"
-                        class="peer sr-only"
+                      
                         {% if task and task.status == "done" %}
                             checked
                         {% endif %}

@@ -579,13 +579,20 @@ def task_list(request):
         project__organization=user.organization
     )
 
+    # Total and completed counts
+    total_tasks = tasks.count()
+
+    completed_tasks = tasks.filter(
+        status__iexact='done'
+    ).count()
+
     search = request.GET.get('search')
     if search:
-       tasks = tasks.filter(
+        tasks = tasks.filter(
             Q(title__icontains=search) |
             Q(project__name__icontains=search) |
             Q(assigned_to__username__icontains=search)
-      )
+        )
 
     status = request.GET.get('status')
     priority = request.GET.get('priority')
@@ -595,12 +602,16 @@ def task_list(request):
 
     if status:
         tasks = tasks.filter(status=status)
+
     if priority:
         tasks = tasks.filter(priority=priority)
+
     if project_id:
         tasks = tasks.filter(project__id=project_id)
+
     if member:
         tasks = tasks.filter(assigned_to__id=member)
+
     if due:
         tasks = tasks.filter(due_date=due)
 
@@ -626,20 +637,30 @@ def task_list(request):
     elif sort == 'status':
         tasks = tasks.order_by('status')
 
-    projects = Project.objects.filter(organization=user.organization)
-    users = User.objects.filter(organization=user.organization)
+    projects = Project.objects.filter(
+        organization=user.organization
+    )
 
+    users = User.objects.filter(
+        organization=user.organization
+    )
 
-    return render(request, 'projects/project_task.html', {   
-        'tasks': tasks,
-        'projects': projects,
-        'users': users,
-        'overdue_tasks': tasks.filter(
-            due_date__lt=timezone.now().date()
-        ).exclude(status='done')
-    })
+    return render(
+        request,
+        'projects/project_task.html',
+        {
+            'tasks': tasks,
+            'projects': projects,
+            'users': users,
 
+            'total_tasks': total_tasks,
+            'completed_tasks': completed_tasks,
 
+            'overdue_tasks': tasks.filter(
+                due_date__lt=timezone.now().date()
+            ).exclude(status='done')
+        }
+    )
 
 # ================= TASK DETAIL =================
 
