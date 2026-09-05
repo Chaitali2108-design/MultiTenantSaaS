@@ -4,10 +4,6 @@ from organizations.utils import PLAN_LIMITS
 
 
 class Organization(models.Model):
-    """
-    Represents a tenant (organization/company) in the SaaS platform.
-    Every user belongs to one organization.
-    """
 
     PLAN_CHOICES = [
         ("FREE", "Free"),

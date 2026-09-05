@@ -19,9 +19,6 @@ def dashboard(request):
     organization = request.user.organization
     search = request.GET.get("search", "")
 
-    # =========================================================
-    # BASIC COUNTS
-    # =========================================================
 
     total_projects = Project.objects.filter(
         organization=organization
@@ -46,10 +43,8 @@ def dashboard(request):
         status__in=["todo", "progress"]
     ).count()
 
-
-    # =========================================================
     # OVERDUE TASKS
-    # =========================================================
+
 
     organization_tasks = Task.objects.filter(
         organization=organization
@@ -63,9 +58,9 @@ def dashboard(request):
             overdue_tasks += 1
 
 
-    # =========================================================
+
     # RECENT PROJECTS
-    # =========================================================
+
 
     recent_projects = Project.objects.filter(
         organization=organization
